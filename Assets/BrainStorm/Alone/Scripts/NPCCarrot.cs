@@ -4,15 +4,11 @@ using System.Collections;
 public class NPCCarrot : MonoBehaviour {
 	
 	[System.Serializable]
-	public class CharacterStats {
-		public float maxMoveSpeed;	// speed limit
-		[System.NonSerialized]
-		public float moveSpeed;		// speed in use
-		public float rotationSpeed;	
-		public float TVSearchRadius;
-		public float TVSearchTime;
+	public class CarrotStats {
+		public float TVWatchDistance;
 	}
 	public CharacterStats stats = new CharacterStats();
+	public CarrotStats carrot = new CarrotStats();
 	
 	private enum CarrotState {
 		Alone, Discovered, Anchored, Frenzied
@@ -21,20 +17,20 @@ public class NPCCarrot : MonoBehaviour {
 	/// Alone
 	///		Carrot wanders around looking for a TV to stare at
 	///		Once a TV is found, carrot stares at TV closely
-	///		Looks at passerbys periodically
+	///		Looks at passerbys periodically</item>
+	///
 	///	Discovered
 	///		If the TV is on the move then the carrot follows the TV
 	///		The longer the carrot spends following the TV the less
-	///		interested the carrot is in watching the TV
+	///		interested the carrot is in watching the TV</item>
 	///		 
 	///	Anchored
 	///		Carrot is brought to a carrot anchor where it will 
 	///		fly happily around with other carrots until there
-	///		are enough carrots there to make a frenzied swarm
+	///		are enough carrots there to make a frenzied swarm 
 	///
 	///	Frenzied
 	///		Swarm flight with other carrots targetting Virus NPCs
-	
 	/// </summary>
 	private CarrotState state = CarrotState.Alone;
 	
@@ -42,13 +38,13 @@ public class NPCCarrot : MonoBehaviour {
 	/// The TV to watch
 	/// </summary>
 	private Transform TV = null;
-	private bool TVSearching = false;
 	
 	private bool atDestination = false;
 	
 	// Use this for initialization
 	void Start () {
 		stats.moveSpeed = stats.maxMoveSpeed;
+		stats.rotationSpeed = stats.maxRotationSpeed;
 	}
 	
 	void FixedUpdate() {
@@ -76,13 +72,14 @@ public class NPCCarrot : MonoBehaviour {
 	
 	void AloneUpdate() {
 		if (TV == null) {
+			// slow and random wandering
 			stats.moveSpeed = stats.maxMoveSpeed / 2f;
-			if (!TVSearching) StartCoroutine( TVSearch() );
 			FlyTo(Vector3.zero, 1f);
 		}
 		else {
+			// watch TV
 			stats.moveSpeed = stats.maxMoveSpeed;
-			FlyTo(TV.position, 1f);
+			FlyTo(TV.position, carrot.TVWatchDistance);
 		}
 	}
 	
@@ -96,26 +93,14 @@ public class NPCCarrot : MonoBehaviour {
 		atDestination = (Vector3.Distance(transform.position, destination) < minimumDistance);
 	}
 	
-	IEnumerator TVSearch() {
-		TVSearching = true;
-		RaycastHit[] hits;
-		Ray ray = new Ray(transform.position, transform.forward);
-		hits = Physics.SphereCastAll(ray, stats.TVSearchRadius, 0f);
-		foreach(RaycastHit hit in hits) {
-			if (hit.transform.tag == "TV") {
-				if (TV != null) {
-					float TVDist = Vector3.Distance(TV.position, transform.position);
-					float HitDist = Vector3.Distance(hit.point, transform.position);
-					if (HitDist < TVDist) {
-						TV = hit.transform;
-					}
-				}
-				else {
-					TV = hit.transform;
-				}
-			}
+	
+	void OnTriggerEnter(Collider col) {
+		switch (col.tag) {
+		case "TV":
+			TV = col.transform;
+			break;
+		default:
+			break;
 		}
-		yield return new WaitForSeconds(stats.TVSearchTime);
-		TVSearching = false;
 	}
 }
