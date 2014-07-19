@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(NPCFlying))]
 public class NPCCarrot : MonoBehaviour {
 	
 	[System.Serializable]
@@ -38,20 +39,14 @@ public class NPCCarrot : MonoBehaviour {
 	/// The TV to watch
 	/// </summary>
 	private Transform TV = null;
+	private NPCFlying flyer;
+	private float wanderTimer = 0f;
 	
-	private bool atDestination = false;
-	
-	// Use this for initialization
-	void Start () {
-		stats.moveSpeed = stats.maxMoveSpeed;
-		stats.rotationSpeed = stats.maxRotationSpeed;
+	void Awake() {
+		flyer = GetComponent<NPCFlying>();
+		flyer.stopDistance = carrot.TVWatchDistance;
 	}
 	
-	void FixedUpdate() {
-		Vector3 force = transform.forward * stats.moveSpeed;
-		if (atDestination) force = Vector3.zero;
-		rigidbody.AddForce(force);
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -73,13 +68,20 @@ public class NPCCarrot : MonoBehaviour {
 	void AloneUpdate() {
 		if (TV == null) {
 			// slow and random wandering
-			stats.moveSpeed = stats.maxMoveSpeed / 2f;
-			FlyTo(Vector3.zero, 1f);
+			flyer.moveSpeedModifier = 0.3f;
+			wanderTimer -= Time.deltaTime;
+			if (wanderTimer < 0f) {
+				Vector3 destination = transform.position + Random.onUnitSphere * (Random.value * 50f);
+				wanderTimer = Vector3.Distance(transform.position, destination) / flyer.moveSpeed;
+				flyer.destination = destination;
+				flyer.stopDistance = flyer.defaultStopDistance;
+			}
 		}
 		else {
 			// watch TV
-			stats.moveSpeed = stats.maxMoveSpeed;
-			FlyTo(TV.position, carrot.TVWatchDistance);
+			flyer.destination = TV.position;
+			flyer.stopDistance = carrot.TVWatchDistance;
+			flyer.moveSpeedModifier = 1f;
 		}
 	}
 	
@@ -87,12 +89,13 @@ public class NPCCarrot : MonoBehaviour {
 		
 	}
 	
-	void FlyTo(Vector3 destination, float minimumDistance) {
-		Quaternion rotation = Quaternion.LookRotation(destination - transform.position);
-		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, stats.rotationSpeed * Time.deltaTime);
-		atDestination = (Vector3.Distance(transform.position, destination) < minimumDistance);
+	void AnchoredUpdate() {
+		
 	}
 	
+	void FrenzyUpdate() {
+		
+	}
 	
 	void OnTriggerEnter(Collider col) {
 		switch (col.tag) {
