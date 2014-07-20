@@ -19,7 +19,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	private enum FlyingVirusState {
 		Patrol, Camp, Pursue
 	}
-	private FlyingVirusState state = FlyingVirusState.Patrol;
+	private FlyingVirusState _state = FlyingVirusState.Patrol;
 	
 	private NPCFlying flyer;
 	
@@ -40,7 +40,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		switch(state) {
+		switch(_state) {
 		case FlyingVirusState.Patrol:
 			PatrolUpdate();
 			break;
@@ -67,7 +67,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	
 	void PursueUpdate() {
 		if (target == null) {
-			state = FlyingVirusState.Patrol;
+			_state = FlyingVirusState.Patrol;
 			return;
 		}
 		flyer.destination = target.position;
@@ -102,7 +102,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	void OnTriggerEnter(Collider col) {
 		switch(col.tag) {
 		case "Player":
-			state = FlyingVirusState.Pursue;
+			_state = FlyingVirusState.Pursue;
 			target = col.transform;
 			break;
 		}
@@ -111,7 +111,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	void OnTriggerExit(Collider col) {
 		switch(col.tag) {
 		case "Player":
-			state = FlyingVirusState.Patrol;
+			_state = FlyingVirusState.Patrol;
 			target = null;
 			break;
 		}

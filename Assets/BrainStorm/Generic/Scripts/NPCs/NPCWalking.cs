@@ -1,0 +1,102 @@
+﻿using UnityEngine;
+using System.Collections;
+using Pathfinding;
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Seeker))]
+public class NPCWalking : MonoBehaviour {
+	
+	public Vector3 destination {
+		get { return _destination; }
+		set { 
+			_destination = value; 
+			if (_pathUpdateTime + pathUpdateCooldown < Time.time) {
+				_pathUpdateTime = Time.time;
+				_seeker.StartPath(transform.position, _destination, OnPathComplete);
+			}
+		}
+	}
+	public bool atDestination {
+		get { return _atDestination; }
+	}
+	public float stopDistance {
+		get { return _stopDistance; }
+		set { _stopDistance = value; }
+	}
+	public float moveSpeed {
+		get { return maxMoveSpeed * _moveSpeedMod; }
+	}
+	public float moveSpeedModifier {
+		get { return _moveSpeedMod; }
+		set { _moveSpeedMod = value; }
+	}
+	public float rotationSpeed {
+		get { return maxRotationSpeed * _rotSpeedMod; }
+	}
+	public float rotationSpeedModifier {
+		get { return _rotSpeedMod; }
+		set { _rotSpeedMod = value; }
+	}
+	
+	public bool drawDebug = false;
+	public float maxMoveSpeed;
+	public float maxRotationSpeed;
+	public float defaultStopDistance; // don't move if destination is closer than this
+	public float nextWaypointDistance = 2f;
+	public float pathUpdateCooldown = 1f;
+	
+	private Seeker _seeker;
+	private int _currentWaypoint;
+	private Path _path;
+	private float _pathUpdateTime;
+	
+	private float _moveSpeedMod = 1f;
+	private float _rotSpeedMod = 1f;
+	private Vector3 _destination = Vector3.zero;
+	private bool _atDestination = false;
+	private float _stopDistance = 0f;
+
+	void Awake () {
+		rigidbody.useGravity = true;
+		rigidbody.freezeRotation = true;
+		stopDistance = defaultStopDistance; 
+		_seeker = GetComponent<Seeker>();
+	}
+	
+	// _seeker.StartPath() callback
+	public void OnPathComplete(Path p) {
+		if (!p.error) {
+			_path = p;
+			_currentWaypoint = 0;
+		}
+	}
+	
+	void FixedUpdate () {
+		if (_path == null) {
+			return; // we have no path to follow
+		}
+		if (_currentWaypoint >= _path.vectorPath.Count) {
+			return; // we have reach the end of the path
+		}
+		
+		Vector3 waypoint = _path.vectorPath[_currentWaypoint];
+		waypoint.y = transform.position.y;
+		Quaternion rotation = Quaternion.LookRotation(waypoint - transform.position);
+		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+		_atDestination = Vector3.Distance(transform.position, destination) < stopDistance;
+		
+		if (Vector3.Distance(transform.position, waypoint) < nextWaypointDistance) {
+			_currentWaypoint++;
+		}
+		
+		Color lineColor = Color.green;
+		if (!_atDestination) {
+			float force = moveSpeed * rigidbody.mass * rigidbody.drag;
+			rigidbody.AddForce(transform.forward * force);
+			lineColor = Color.red;
+		}
+		if (drawDebug)
+			Debug.DrawLine(transform.position, destination, lineColor);
+	}
+
+}

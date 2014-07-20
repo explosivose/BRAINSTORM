@@ -7,16 +7,16 @@ public class Projectile : MonoBehaviour {
 	
 	public Transform Source {
 		get {
-			return sauce;
+			return _source;
 		}
 	}
 	public string SourceTag {
 		get {
-		 return sauce.tag;
+			return _source.tag;
 		}
 	}
 	
-	private Transform sauce;
+	private Transform _source;
 	
 	void Start() {
 		Initialise();
@@ -27,10 +27,10 @@ public class Projectile : MonoBehaviour {
 	}
 	
 	void Initialise() {
-		sauce = null;
+		_source = null;
 	}
 	
 	void SetSource(Transform source) {
-		sauce = source;
+		_source = source;
 	}
 }

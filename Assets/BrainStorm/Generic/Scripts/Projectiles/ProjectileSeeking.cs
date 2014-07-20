@@ -8,10 +8,10 @@ public class ProjectileSeeking : MonoBehaviour {
 	public float acceleration;
 	public float turnSpeed;
 
-	private Transform target;
+	private Transform _target;
 	
-	void SetTarget(Transform Target) {
-		target = Target;
+	void SetTarget(Transform target) {
+		_target = target;
 	}
 	
 	void Start() {
@@ -33,8 +33,8 @@ public class ProjectileSeeking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (target != null && target != this.transform) {
-			Quaternion rotation = Quaternion.LookRotation(target.position - transform.position);
+		if (_target != null && _target != this.transform) {
+			Quaternion rotation = Quaternion.LookRotation(_target.position - transform.position);
 			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnSpeed * Time.deltaTime);
 		}
 		rigidbody.AddForce(transform.forward * acceleration);
