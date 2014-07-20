@@ -11,6 +11,8 @@ public class CharacterStats {
 	public int health;
 	
 	public bool immune = false;
+	
+	public float attackRange;
 }
 
 [System.Serializable]

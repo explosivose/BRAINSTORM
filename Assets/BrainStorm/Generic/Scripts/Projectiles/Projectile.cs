@@ -2,17 +2,20 @@
 using System.Collections;
 
 public class Projectile : MonoBehaviour {
-
+	
+	public class DamageInstance {
+		public int damage;
+		public Transform source;
+	}
+	
 	public int damage;
 	
-	public Transform Source {
+	public DamageInstance Damage {
 		get {
-			return _source;
-		}
-	}
-	public string SourceTag {
-		get {
-			return _source.tag;
+			DamageInstance me = new DamageInstance();
+			me.damage = damage;
+			me.source = _source;
+			return me;
 		}
 	}
 	
@@ -30,7 +33,7 @@ public class Projectile : MonoBehaviour {
 		_source = null;
 	}
 	
-	void SetSource(Transform source) {
+	void SetDamageSource(Transform source) {
 		_source = source;
 	}
 }

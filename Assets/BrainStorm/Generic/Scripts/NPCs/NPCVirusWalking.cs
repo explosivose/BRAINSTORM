@@ -16,16 +16,15 @@ public class NPCVirusWalking : MonoBehaviour {
 	private Transform _target; 
 	private float _patrolTimer;
 	private bool _attacking = false;
+	private bool _hurt = false;
 	private MeshRenderer _ren;
 	
-	// Use this for initialization
 	void Start () {
 		_walker = GetComponent<NPCWalking>();
 		_ren = GetComponentInChildren<MeshRenderer>();
 		wardrobe.normal = _ren.material;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		switch(_state) {
 		case WalkingVirusState.Patrol:
@@ -88,5 +87,19 @@ public class NPCVirusWalking : MonoBehaviour {
 			_target = null;
 			break;
 		}
+	}
+	
+	public void Damage(Projectile.DamageInstance damage) {
+		stats.health -= damage.damage;
+		if (!_hurt) StartCoroutine(Hurt ());
+	}
+	
+	IEnumerator Hurt() {
+		_hurt = true;
+		_ren.material = wardrobe.hurt;
+		yield return new WaitForSeconds(0.1f);
+		_ren.material = wardrobe.normal;
+		yield return new WaitForSeconds(0.1f);
+		_hurt = false;
 	}
 }

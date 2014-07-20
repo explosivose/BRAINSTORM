@@ -21,7 +21,7 @@ public class ImpactSticky : MonoBehaviour {
 			Transform i = impactPrefab.Spawn(transform.position, transform.rotation);
 			i.parent = col.transform;
 			transform.Recycle();
-			col.transform.BroadcastMessage("Damage", SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
+			col.transform.SendMessage("Damage", SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
 			yield return new WaitForSeconds(10f);
 			i.Recycle();
 		}

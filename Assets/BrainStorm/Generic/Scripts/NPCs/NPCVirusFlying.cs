@@ -11,7 +11,6 @@ public class NPCVirusFlying : MonoBehaviour {
 	[System.Serializable]
 	public class FlyingVirusStats {
 		public Transform projectilePrefab;
-		public float attackDistance = 10f;
 		public float maxHeight = 100f;
 	}
 	public FlyingVirusStats virus = new FlyingVirusStats();
@@ -25,17 +24,18 @@ public class NPCVirusFlying : MonoBehaviour {
 	
 	private float patrolTimer = 0f;
 	
-	private Transform target; 
-	private bool attacking = false;
-	private MeshRenderer ren;
+	private Transform _target; 
+	private bool _attacking = false;
+	private bool _hurt = false;
+	private MeshRenderer _ren;
 	
 	// Use this for initialization
 	void Start () {
 		flyer = GetComponent<NPCFlying>();
 		ObjectPool.CreatePool(virus.projectilePrefab);
-		ren = GetComponentInChildren<MeshRenderer>();
+		_ren = GetComponentInChildren<MeshRenderer>();
 		
-		wardrobe.normal = ren.material;
+		wardrobe.normal = _ren.material;
 	}
 	
 	// Update is called once per frame
@@ -66,25 +66,25 @@ public class NPCVirusFlying : MonoBehaviour {
 	}
 	
 	void PursueUpdate() {
-		if (target == null) {
+		if (_target == null) {
 			_state = FlyingVirusState.Patrol;
 			return;
 		}
-		flyer.destination = target.position;
-		flyer.stopDistance = virus.attackDistance;
-		if (flyer.atDestination && !attacking) {
+		flyer.destination = _target.position;
+		flyer.stopDistance = stats.attackRange;
+		if (flyer.atDestination && !_attacking) {
 			StartCoroutine( Attack() );
 		}
 	}
 	
 	IEnumerator Attack() {
-		attacking = true;
-		ren.material = wardrobe.attacking;
+		_attacking = true;
+		_ren.material = wardrobe.attacking;
 		StartCoroutine( FireProjectile() );
 		yield return new WaitForSeconds(0.05f);
-		ren.material = wardrobe.normal;
+		_ren.material = wardrobe.normal;
 		yield return new WaitForSeconds(0.1f);
-		attacking = false;
+		_attacking = false;
 	}
 	
 	IEnumerator FireProjectile() {
@@ -94,7 +94,7 @@ public class NPCVirusFlying : MonoBehaviour {
 		fireLocation += transform.right * 1.5f * Mathf.Cos(t);
 		Quaternion fireRotation = Quaternion.LookRotation(fireLocation - transform.position);
 		Transform i = virus.projectilePrefab.Spawn(fireLocation, fireRotation);
-		i.BroadcastMessage("SetTarget", target);
+		i.BroadcastMessage("SetTarget", _target);
 		yield return new WaitForSeconds(30f);
 		if (i != null) i.Recycle();
 	}
@@ -103,7 +103,7 @@ public class NPCVirusFlying : MonoBehaviour {
 		switch(col.tag) {
 		case "Player":
 			_state = FlyingVirusState.Pursue;
-			target = col.transform;
+			_target = col.transform;
 			break;
 		}
 	}
@@ -112,9 +112,23 @@ public class NPCVirusFlying : MonoBehaviour {
 		switch(col.tag) {
 		case "Player":
 			_state = FlyingVirusState.Patrol;
-			target = null;
+			_target = null;
 			break;
 		}
+	}
+	
+	public void Damage(Projectile.DamageInstance damage) {
+		stats.health -= damage.damage;
+		if (!_hurt) StartCoroutine(Hurt ());
+	}
+	
+	IEnumerator Hurt() {
+		_hurt = true;
+		_ren.material = wardrobe.hurt;
+		yield return new WaitForSeconds(0.1f);
+		_ren.material = wardrobe.normal;
+		yield return new WaitForSeconds(0.1f);
+		_hurt = false;
 	}
 	
 }
