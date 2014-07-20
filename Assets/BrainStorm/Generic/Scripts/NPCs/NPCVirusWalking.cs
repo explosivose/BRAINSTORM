@@ -8,15 +8,16 @@ public class NPCVirusWalking : MonoBehaviour {
 	public CharacterAudio sounds = new CharacterAudio();
 	public CharacterMaterials wardrobe = new CharacterMaterials();
 
-	private enum WalkingVirusState {
-		Patrol, Camp, Pursue
+	private enum State {
+		Patrol, Camp, Pursue, Dead
 	}
-	private WalkingVirusState _state = WalkingVirusState.Patrol;
+	private State _state = State.Patrol;
 	private NPCWalking _walker;
 	private Transform _target; 
 	private float _patrolTimer;
 	private bool _attacking = false;
 	private bool _hurt = false;
+	
 	private MeshRenderer _ren;
 	
 	void Start () {
@@ -27,14 +28,15 @@ public class NPCVirusWalking : MonoBehaviour {
 	
 	void Update () {
 		switch(_state) {
-		case WalkingVirusState.Patrol:
+		case State.Patrol:
 			PatrolUpdate();
 			break;
-		case WalkingVirusState.Camp:
+		case State.Camp:
 			break;
-		case WalkingVirusState.Pursue:
+		case State.Pursue:
 			PursueUpdate();
 			break;
+		case State.Dead:
 		default:
 			break;
 		}
@@ -52,7 +54,7 @@ public class NPCVirusWalking : MonoBehaviour {
 	
 	void PursueUpdate() {
 		if (_target == null) {
-			_state = WalkingVirusState.Patrol;
+			_state = State.Patrol;
 			return;
 		}
 		_walker.destination = _target.position;
@@ -72,26 +74,38 @@ public class NPCVirusWalking : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider col) {
+		
+		if (_state == State.Dead) return;
+		
 		switch(col.tag) {
 		case "Player":
-			_state = WalkingVirusState.Pursue;
+			_state = State.Pursue;
 			_target = col.transform;
 			break;
 		}
 	}
 	
 	void OnTriggerExit(Collider col) {
+		
+		if (_state == State.Dead) return;
+		
 		switch(col.tag) {
 		case "Player":
-			_state = WalkingVirusState.Patrol;
+			_state = State.Patrol;
 			_target = null;
 			break;
 		}
 	}
 	
 	public void Damage(Projectile.DamageInstance damage) {
+		if (damage.source == this.transform) return;
 		stats.health -= damage.damage;
-		if (!_hurt) StartCoroutine(Hurt ());
+		if (stats.health < 0) {
+			Death();
+		}
+		else if (!_hurt) {
+			StartCoroutine( Hurt() );
+		}
 	}
 	
 	IEnumerator Hurt() {
@@ -101,5 +115,10 @@ public class NPCVirusWalking : MonoBehaviour {
 		_ren.material = wardrobe.normal;
 		yield return new WaitForSeconds(0.1f);
 		_hurt = false;
+	}
+	
+	void Death() {
+		_state = State.Dead;
+		_ren.material = wardrobe.dead;
 	}
 }

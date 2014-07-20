@@ -6,6 +6,7 @@ public class PlayerInventory : MonoBehaviour {
 	public float playerReach = 4f;
 	
 	private Transform carryingObject;
+	private Transform equippedWeapon;
 	// Use this for initialization
 	void Start () {
 	
@@ -13,7 +14,7 @@ public class PlayerInventory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(1)) {
+		if (Input.GetButtonDown("Interact")) {
 			if (carryingObject != null) {
 				Drop();
 			}
@@ -35,6 +36,12 @@ public class PlayerInventory : MonoBehaviour {
 			case "TV":
 				Debug.Log ("Carrying a TV.");
 				Carry (hit.transform);
+				break;
+			case "Weapon":
+				if (equippedWeapon != null)
+					equippedWeapon.SendMessage("Drop");
+				hit.transform.SendMessage("Equip");
+				equippedWeapon = hit.transform;
 				break;
 			default:
 				break;

@@ -15,10 +15,10 @@ public class NPCVirusFlying : MonoBehaviour {
 	}
 	public FlyingVirusStats virus = new FlyingVirusStats();
 	
-	private enum FlyingVirusState {
-		Patrol, Camp, Pursue
+	private enum State {
+		Patrol, Camp, Pursue, Dead
 	}
-	private FlyingVirusState _state = FlyingVirusState.Patrol;
+	private State _state = State.Patrol;
 	
 	private NPCFlying flyer;
 	
@@ -41,12 +41,12 @@ public class NPCVirusFlying : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		switch(_state) {
-		case FlyingVirusState.Patrol:
+		case State.Patrol:
 			PatrolUpdate();
 			break;
-		case FlyingVirusState.Camp:
+		case State.Camp:
 			break;
-		case FlyingVirusState.Pursue:
+		case State.Pursue:
 			PursueUpdate();
 			break;
 		default:
@@ -67,7 +67,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	
 	void PursueUpdate() {
 		if (_target == null) {
-			_state = FlyingVirusState.Patrol;
+			_state = State.Patrol;
 			return;
 		}
 		flyer.destination = _target.position;
@@ -94,32 +94,45 @@ public class NPCVirusFlying : MonoBehaviour {
 		fireLocation += transform.right * 1.5f * Mathf.Cos(t);
 		Quaternion fireRotation = Quaternion.LookRotation(fireLocation - transform.position);
 		Transform i = virus.projectilePrefab.Spawn(fireLocation, fireRotation);
-		i.BroadcastMessage("SetTarget", _target);
+		i.SendMessage("SetTarget", _target);
+		i.SendMessage("SetDamageSource", this.transform);
 		yield return new WaitForSeconds(30f);
 		if (i != null) i.Recycle();
 	}
 	
 	void OnTriggerEnter(Collider col) {
+		
+		if (_state == State.Dead) return;
+		
 		switch(col.tag) {
 		case "Player":
-			_state = FlyingVirusState.Pursue;
+			_state = State.Pursue;
 			_target = col.transform;
 			break;
 		}
 	}
 	
 	void OnTriggerExit(Collider col) {
+		
+		if (_state == State.Dead) return;
+		
 		switch(col.tag) {
 		case "Player":
-			_state = FlyingVirusState.Patrol;
+			_state = State.Patrol;
 			_target = null;
 			break;
 		}
 	}
 	
 	public void Damage(Projectile.DamageInstance damage) {
+		if (damage.source == this.transform) return;
 		stats.health -= damage.damage;
-		if (!_hurt) StartCoroutine(Hurt ());
+		if (stats.health < 0) {
+			Death();
+		}
+		else if (!_hurt) {
+			StartCoroutine( Hurt() );
+		}
 	}
 	
 	IEnumerator Hurt() {
@@ -129,6 +142,12 @@ public class NPCVirusFlying : MonoBehaviour {
 		_ren.material = wardrobe.normal;
 		yield return new WaitForSeconds(0.1f);
 		_hurt = false;
+	}
+	
+	void Death() {
+		_state = State.Dead;
+		_ren.material = wardrobe.dead;
+		rigidbody.useGravity = true;
 	}
 	
 }

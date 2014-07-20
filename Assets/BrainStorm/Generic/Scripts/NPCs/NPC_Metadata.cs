@@ -21,10 +21,12 @@ public class CharacterMaterials {
 	public Material normal;
 	public Material attacking;
 	public Material hurt;
+	public Material dead;
 }
 
 [System.Serializable]
 public class CharacterAudio {
 	public AudioClip[] attack;
 	public AudioClip[] hurt;
+	public AudioClip[] death;
 }
