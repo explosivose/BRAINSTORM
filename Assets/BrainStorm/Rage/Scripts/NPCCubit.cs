@@ -7,10 +7,13 @@ public class NPCCubit : MonoBehaviour {
 
 	public CharacterStats stats = new CharacterStats();
 	public CharacterAudio sounds = new CharacterAudio();
-	public CharacterMaterials wardrobe = new CharacterMaterials();
+	
+	private CharacterMaterials wardrobe = new CharacterMaterials();
 	
 	public Transform rocketPrefab;
 	public float timeBetweenRockets;
+	public float targetSearchRange;
+	public float timeBetweenTargetSearches;
 	
 	public State state {
 		get { return _state; }
@@ -47,13 +50,30 @@ public class NPCCubit : MonoBehaviour {
 		state = State.Advancing;
 	}
 	
+	public void ChangeFaction() {
+		if (_faction.team == NPCFaction.Faction.Pink) 
+			wardrobe = _faction.pinkWardrobe;
+		else 
+			wardrobe = _faction.purpleWardrobe;
+		
+		_ren.material = wardrobe.normal;
+	}
+	
 	void Awake () {
 		ObjectPool.CreatePool(rocketPrefab);
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_faction = GetComponent<NPCFaction>();
 		_ren = GetComponentInChildren<MeshRenderer>();
-		wardrobe.normal = _ren.material;
+		
 		state = State.Idle;
+	}
+	
+	void OnEnable() {
+		tag = "NPC";
+	}
+	
+	void OnDisable() {
+		tag = "Untagged";
 	}
 	
 	void Update () {
@@ -114,6 +134,54 @@ public class NPCCubit : MonoBehaviour {
 		Quaternion fireRotation = Quaternion.LookRotation(transform.forward);
 		Transform i = rocketPrefab.Spawn(fireLocation, fireRotation);
 		i.SendMessage("SetDamageSource", this.transform);
+	}
+	
+	IEnumerator FindTarget() {
+		while(state == State.Advancing) {
+			
+			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange);
+			foreach(Collider c in colliders) {
+				if (c.isTrigger) continue;
+				
+				switch(c.tag) {
+				case "NPC":
+					NPCFaction f = c.GetComponent<NPCFaction>();
+					if (f != null) {
+						if (f.team != _faction.team) {
+							// found opposite faction
+							_target = CompareTargets(_target, c.transform);
+						}
+					}
+					else {
+						// found NPC that doesn't belong to faction
+						_target = CompareTargets(_target, c.transform);
+					}
+					break;
+				case "Player":
+					_target = CompareTargets(_target, c.transform);
+					break;
+				}
+
+			}
+			
+			if (_target != null) {
+				state = State.Attacking;
+			}
+			yield return new WaitForSeconds(timeBetweenTargetSearches);
+		}
+	}
+	
+	Transform CompareTargets(Transform target1, Transform target2) {
+		if (target1 == target2) return target1;
+		if (target1 == null) return target2; // target2 won't be null because of previous line
+		if (target2 == null) return target1;
+			
+		// choose closest target
+		// at a later date could implement LOS priority
+		float d1 = Vector3.Distance(transform.position, target1.position);
+		float d2 = Vector3.Distance(transform.position, target2.position);
+		if (d1 < d2) return target1;
+		else return target2;
 	}
 	
 	void OnTriggerEnter(Collider col) {
@@ -184,13 +252,17 @@ public class NPCCubit : MonoBehaviour {
 	}
 	
 	void Death() {
+		FactionManager.Instance.NPCDeath(_faction.team);
+		transform.Recycle();
+		/*
 		_state = State.Dead;
 		_ren.material = wardrobe.dead;
 		rigidbody.useGravity = true;
-		tag = "Untagged";
-		FactionManager.Instance.NPCDeath(_faction.team);
+		
+		
 		_pathfinder.enabled = false;
 		_faction.enabled = false;
 		this.enabled = false;
+		*/
 	}
 }

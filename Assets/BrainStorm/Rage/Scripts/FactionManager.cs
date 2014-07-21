@@ -13,10 +13,9 @@ public class FactionManager : MonoBehaviour {
 	public int waveSize;
 	public float waveTime;
 	
+	public Transform[] NPCPrefabs;
 	public Transform[] pinkSpawnAreas;
-	public Transform[] pinkNPCPrefabs;
 	public Transform[] purpleSpawnAreas;
-	public Transform[] purpleNPCPrefabs;
 	
 	private float _waveTimer;
 	private bool _spawning;
@@ -38,6 +37,10 @@ public class FactionManager : MonoBehaviour {
 		else {
 			Destroy(this);
 		}
+		for (int i = 0; i < NPCPrefabs.Length; i++) {
+			ObjectPool.CreatePool(NPCPrefabs[i]);
+		}
+		
 	}
 	
 	void OnLevelWasLoaded() {
@@ -57,19 +60,24 @@ public class FactionManager : MonoBehaviour {
 	IEnumerator SpawnWave() {
 		_spawning = true;
 		int pinkSpawnIndex = Random.Range(0, pinkSpawnAreas.Length);
-		int purpleSpawnIndex = Random.Range(0, purpleNPCPrefabs.Length);
+		int purpleSpawnIndex = Random.Range(0, purpleSpawnAreas.Length);
 		
+		int NPCIndex;
+		Transform NPC;
+		NPCFaction f;
 		for (int i = 0; i < waveSize; i++) {
-			int pinkNPCIndex = Random.Range(0, pinkNPCPrefabs.Length);
-			Transform pinkNPC = pinkNPCPrefabs[pinkNPCIndex].Spawn(pinkSpawnAreas[pinkSpawnIndex].position);
-			pinkNPC.GetComponent<NPCFaction>().advancePosition = purpleSpawnAreas[purpleSpawnIndex].position;
+			NPCIndex = Random.Range(0, NPCPrefabs.Length);
+			NPC = NPCPrefabs[NPCIndex].Spawn(pinkSpawnAreas[pinkSpawnIndex].position);
+			f = NPC.GetComponent<NPCFaction>();
+			f.team = NPCFaction.Faction.Pink;
+			f.advancePosition = purpleSpawnAreas[purpleSpawnIndex].position;
 			_pinkCount++;
 			yield return new WaitForSeconds(0.1f);
-			int purpleNPCIndex = Random.Range(0, purpleNPCPrefabs.Length);
-			Transform purpleNPC = purpleNPCPrefabs[purpleNPCIndex].Spawn(purpleSpawnAreas[purpleSpawnIndex].position);
-			purpleNPC.GetComponent<NPCFaction>().advancePosition = pinkSpawnAreas[pinkSpawnIndex].position;
+			NPC = NPCPrefabs[NPCIndex].Spawn(purpleSpawnAreas[purpleSpawnIndex].position);
+			f = NPC.GetComponent<NPCFaction>();
+			f.team = NPCFaction.Faction.Purple;
+			f.advancePosition = pinkSpawnAreas[pinkSpawnIndex].position;
 			_purpleCount++;
-			
 			yield return new WaitForSeconds(1f);
 		}
 		_spawning = false;

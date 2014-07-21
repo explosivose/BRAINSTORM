@@ -37,10 +37,12 @@ public class ImpactExplosion : MonoBehaviour {
 				/* this is crazy laggy
 				if (c.rigidbody != null) {
 					c.rigidbody.AddExplosionForce(explosionForceAtCenter, transform.position, impactRadius, 0f, ForceMode.Impulse);
-					Debug.DrawLine(c.transform.position, transform.position, Color.green, 1f);
+					
 				}
 				*/
 				c.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
+				Debug.DrawLine(c.transform.position, transform.position, Color.green, 1f);
+				
 			}
 			
 			rigidbody.velocity = Vector3.zero;

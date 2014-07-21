@@ -14,8 +14,18 @@ public class NPCFaction : MonoBehaviour {
 	public enum Faction {
 		Pink, Purple
 	}
-	public Faction team = Faction.Pink;
+	public Faction team {
+		get { return _team; }
+		set { 
+			_team = value;
+			SendMessage("ChangeFaction");
+		}
+	}
+	private Faction _team;
+
+	public CharacterMaterials pinkWardrobe = new CharacterMaterials();
+	public CharacterMaterials purpleWardrobe = new CharacterMaterials();
 
 	private Vector3 _advancePosition;
-
+	
 }

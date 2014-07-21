@@ -7,7 +7,8 @@ public class NPCPackedBit : MonoBehaviour {
 
 	public CharacterStats stats = new CharacterStats();
 	public CharacterAudio sounds = new CharacterAudio();
-	public CharacterMaterials wardrobe = new CharacterMaterials();
+	
+	private CharacterMaterials wardrobe = new CharacterMaterials();
 
 	public State state {
 		get { return _state; }
@@ -45,14 +46,30 @@ public class NPCPackedBit : MonoBehaviour {
 		state = State.Advancing;
 	}
 	
+	public void ChangeFaction() {
+		if (_faction.team == NPCFaction.Faction.Pink) 
+			wardrobe = _faction.pinkWardrobe;
+		else 
+			wardrobe = _faction.purpleWardrobe;
+	
+		_ren.material = wardrobe.normal;
+	}
+	
 	void Awake () {
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_faction = GetComponent<NPCFaction>();
 		_ren = GetComponentInChildren<MeshRenderer>();
-		wardrobe.normal = _ren.material;
+		
 		state = State.Advancing;
 	}
 	
+	void OnEnable() {
+		tag = "NPC";
+	}
+	
+	void OnDisable() {
+		tag = "Untagged";
+	}
 
 	void Update () {
 		switch(state) {
@@ -186,6 +203,13 @@ public class NPCPackedBit : MonoBehaviour {
 	}
 	
 	void Death() {
+		FactionManager.Instance.NPCDeath(_faction.team);
+		transform.Recycle();
+		/*  
+		maybe spawn a dead body prefab here instead
+		all this state changing is a lot of work and you might not catch everything... i.e. triggers and stuff
+		also see OnEnable, OnDisable
+		
 		_state = State.Dead;
 		_ren.material = wardrobe.dead;
 		tag = "Untagged";
@@ -193,5 +217,6 @@ public class NPCPackedBit : MonoBehaviour {
 		_pathfinder.enabled = false;
 		_faction.enabled = false;
 		this.enabled = false;
+		*/
 	}
 }
