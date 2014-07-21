@@ -21,15 +21,7 @@ public class Projectile : MonoBehaviour {
 	
 	private Transform _source;
 	
-	void Start() {
-		Initialise();
-	}
-	
-	void OnEnable() {
-		Initialise();
-	}
-	
-	void Initialise() {
+	void OnDisable() {
 		_source = null;
 	}
 	

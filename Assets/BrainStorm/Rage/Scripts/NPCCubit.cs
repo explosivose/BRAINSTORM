@@ -3,12 +3,15 @@ using System.Collections;
 
 [RequireComponent(typeof(NPCPathFinder))]
 [RequireComponent(typeof(NPCFaction))]
-public class NPCPackedBit : MonoBehaviour {
+public class NPCCubit : MonoBehaviour {
 
 	public CharacterStats stats = new CharacterStats();
 	public CharacterAudio sounds = new CharacterAudio();
 	public CharacterMaterials wardrobe = new CharacterMaterials();
-
+	
+	public Transform rocketPrefab;
+	public float timeBetweenRockets;
+	
 	public State state {
 		get { return _state; }
 		set {
@@ -28,7 +31,7 @@ public class NPCPackedBit : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	public enum State {
 		Idle, Advancing, Attacking, Dead, Calm
 	}
@@ -39,32 +42,29 @@ public class NPCPackedBit : MonoBehaviour {
 	private Transform _target;
 	private bool _attacking; 
 	private bool _hurt;
-	private float _calmTimer;
 	
 	public void Advance() {
 		state = State.Advancing;
 	}
 	
 	void Awake () {
+		ObjectPool.CreatePool(rocketPrefab);
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_faction = GetComponent<NPCFaction>();
 		_ren = GetComponentInChildren<MeshRenderer>();
 		wardrobe.normal = _ren.material;
-		state = State.Advancing;
+		state = State.Idle;
 	}
 	
-
 	void Update () {
 		switch(state) {
 		case State.Advancing:
-		 	break;
+			break;
 		case State.Attacking:
 			AttackUpdate();
 			break;
-		case State.Calm:
-			CalmUpdate();
-			break;
 		case State.Idle:
+		case State.Calm:
 		case State.Dead:
 		default:
 			break;
@@ -72,10 +72,10 @@ public class NPCPackedBit : MonoBehaviour {
 	}
 	
 	void AdvancingInit() {
-		_pathfinder.destination = _faction.advancePosition;
+		_pathfinder.destination = _faction.advancePosition + Vector3.up * 10f;
 		_pathfinder.stopDistance = 0f;
 	}
-	
+
 	void AttackInit() {
 		_pathfinder.destination = _target.position;
 		_pathfinder.stopDistance = stats.attackRange;
@@ -93,7 +93,7 @@ public class NPCPackedBit : MonoBehaviour {
 		if (_pathfinder.atDestination && !_attacking) {
 			StartCoroutine( Attack() );
 		}
-		// if target changes position, update destination
+		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
 			AttackInit();
 		}
@@ -102,21 +102,18 @@ public class NPCPackedBit : MonoBehaviour {
 	IEnumerator Attack() {
 		_attacking = true;
 		_ren.material = wardrobe.attacking;
-		yield return new WaitForSeconds(0.1f);
+		FireRocket();
+		yield return new WaitForSeconds(0.3f);
 		_ren.material = wardrobe.normal;
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(timeBetweenRockets);
 		_attacking = false;
 	}
 	
-	void CalmUpdate() {
-		_calmTimer -= Time.deltaTime;
-		if (_calmTimer < 0f) {
-			Vector3 destination = transform.position + Random.onUnitSphere * (Random.value * 50f);
-			_calmTimer = 20f;
-			_pathfinder.destination = destination;
-			_pathfinder.stopDistance = _pathfinder.defaultStopDistance;
-			_pathfinder.moveSpeedModifier = 0.5f;
-		}
+	void FireRocket() {
+		Vector3 fireLocation = transform.position + transform.forward * 3f;
+		Quaternion fireRotation = Quaternion.LookRotation(transform.forward);
+		Transform i = rocketPrefab.Spawn(fireLocation, fireRotation);
+		i.SendMessage("SetDamageSource", this.transform);
 	}
 	
 	void OnTriggerEnter(Collider col) {
@@ -161,7 +158,8 @@ public class NPCPackedBit : MonoBehaviour {
 	}
 	
 	public void Damage(Projectile.DamageInstance damage) {
-		if (damage.source == this.transform) return; // dont shoot yourself
+		if (state == State.Dead) return;
+		if (damage.source == this.transform) return;
 		NPCFaction f = damage.source.GetComponent<NPCFaction>();
 		if (f != null) {
 			if (f.team == _faction.team) return; // no friendly fire
@@ -188,6 +186,7 @@ public class NPCPackedBit : MonoBehaviour {
 	void Death() {
 		_state = State.Dead;
 		_ren.material = wardrobe.dead;
+		rigidbody.useGravity = true;
 		tag = "Untagged";
 		FactionManager.Instance.NPCDeath(_faction.team);
 		_pathfinder.enabled = false;

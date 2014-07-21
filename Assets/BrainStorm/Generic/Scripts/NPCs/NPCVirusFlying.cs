@@ -20,7 +20,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	}
 	private State _state = State.Patrol;
 	
-	private NPCFlying flyer;
+	private NPCFlying _flyer;
 	
 	private float patrolTimer = 0f;
 	
@@ -31,7 +31,7 @@ public class NPCVirusFlying : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		flyer = GetComponent<NPCFlying>();
+		_flyer = GetComponent<NPCFlying>();
 		ObjectPool.CreatePool(virus.projectilePrefab);
 		_ren = GetComponentInChildren<MeshRenderer>();
 		
@@ -59,9 +59,9 @@ public class NPCVirusFlying : MonoBehaviour {
 		if (patrolTimer < 0f) {
 			Vector3 destination = transform.position + Random.onUnitSphere * (Random.value * 50f);
 			destination.y = Mathf.Min(destination.y, virus.maxHeight);
-			patrolTimer = Vector3.Distance(transform.position, destination) / flyer.moveSpeed;
-			flyer.destination = destination;
-			flyer.stopDistance = flyer.defaultStopDistance;
+			patrolTimer = Vector3.Distance(transform.position, destination) / _flyer.moveSpeed;
+			_flyer.destination = destination;
+			_flyer.stopDistance = _flyer.defaultStopDistance;
 		}
 	}
 	
@@ -70,9 +70,9 @@ public class NPCVirusFlying : MonoBehaviour {
 			_state = State.Patrol;
 			return;
 		}
-		flyer.destination = _target.position;
-		flyer.stopDistance = stats.attackRange;
-		if (flyer.atDestination && !_attacking) {
+		_flyer.destination = _target.position;
+		_flyer.stopDistance = stats.attackRange;
+		if (_flyer.atDestination && !_attacking) {
 			StartCoroutine( Attack() );
 		}
 	}
@@ -80,14 +80,14 @@ public class NPCVirusFlying : MonoBehaviour {
 	IEnumerator Attack() {
 		_attacking = true;
 		_ren.material = wardrobe.attacking;
-		StartCoroutine( FireProjectile() );
+		FireProjectile();
 		yield return new WaitForSeconds(0.05f);
 		_ren.material = wardrobe.normal;
 		yield return new WaitForSeconds(0.1f);
 		_attacking = false;
 	}
 	
-	IEnumerator FireProjectile() {
+	void FireProjectile() {
 		float t = Random.value * 2 * Mathf.PI;
 		Vector3 fireLocation = transform.position;
 		fireLocation += transform.up * 1.5f * Mathf.Abs(Mathf.Sin(t));
@@ -96,8 +96,6 @@ public class NPCVirusFlying : MonoBehaviour {
 		Transform i = virus.projectilePrefab.Spawn(fireLocation, fireRotation);
 		i.SendMessage("SetTarget", _target);
 		i.SendMessage("SetDamageSource", this.transform);
-		yield return new WaitForSeconds(30f);
-		if (i != null) i.Recycle();
 	}
 	
 	void OnTriggerEnter(Collider col) {
@@ -148,6 +146,7 @@ public class NPCVirusFlying : MonoBehaviour {
 		_state = State.Dead;
 		_ren.material = wardrobe.dead;
 		rigidbody.useGravity = true;
+		tag = "Untagged";
 	}
 	
 }

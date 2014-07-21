@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(NPCWalking))]
+[RequireComponent(typeof(NPCPathFinder))]
 public class NPCVirusWalking : MonoBehaviour {
 
 	public CharacterStats stats = new CharacterStats();
@@ -12,7 +12,7 @@ public class NPCVirusWalking : MonoBehaviour {
 		Patrol, Camp, Pursue, Dead
 	}
 	private State _state = State.Patrol;
-	private NPCWalking _walker;
+	private NPCPathFinder _pathfinder;
 	private Transform _target; 
 	private float _patrolTimer;
 	private bool _attacking = false;
@@ -21,7 +21,7 @@ public class NPCVirusWalking : MonoBehaviour {
 	private MeshRenderer _ren;
 	
 	void Start () {
-		_walker = GetComponent<NPCWalking>();
+		_pathfinder = GetComponent<NPCPathFinder>();
 		_ren = GetComponentInChildren<MeshRenderer>();
 		wardrobe.normal = _ren.material;
 	}
@@ -47,8 +47,8 @@ public class NPCVirusWalking : MonoBehaviour {
 		if (_patrolTimer < 0f) {
 			Vector3 destination = transform.position + Random.onUnitSphere * (Random.value * 50f);
 			_patrolTimer = 20f;
-			_walker.destination = destination;
-			_walker.stopDistance = _walker.defaultStopDistance;
+			_pathfinder.destination = destination;
+			_pathfinder.stopDistance = _pathfinder.defaultStopDistance;
 		}
 	}
 	
@@ -57,9 +57,9 @@ public class NPCVirusWalking : MonoBehaviour {
 			_state = State.Patrol;
 			return;
 		}
-		_walker.destination = _target.position;
-		_walker.stopDistance = 0f;
-		if (_walker.atDestination && !_attacking) {
+		_pathfinder.destination = _target.position;
+		_pathfinder.stopDistance = 0f;
+		if (_pathfinder.atDestination && !_attacking) {
 			StartCoroutine( Attack() );
 		}
 	}
@@ -120,5 +120,6 @@ public class NPCVirusWalking : MonoBehaviour {
 	void Death() {
 		_state = State.Dead;
 		_ren.material = wardrobe.dead;
+		tag = "Untagged";
 	}
 }

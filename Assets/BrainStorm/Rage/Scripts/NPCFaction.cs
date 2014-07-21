@@ -5,7 +5,10 @@ public class NPCFaction : MonoBehaviour {
 
 	public Vector3 advancePosition {
 		get { return _advancePosition;  }
-		set { _advancePosition = value; }
+		set { 
+			_advancePosition = value;
+			SendMessage("Advance");
+		}
 	}
 
 	public enum Faction {
@@ -15,13 +18,4 @@ public class NPCFaction : MonoBehaviour {
 
 	private Vector3 _advancePosition;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

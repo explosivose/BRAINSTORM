@@ -4,7 +4,7 @@ using Pathfinding;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Seeker))]
-public class NPCWalking : MonoBehaviour {
+public class NPCPathFinder : MonoBehaviour {
 	
 	public Vector3 destination {
 		get { return _destination; }
@@ -12,7 +12,7 @@ public class NPCWalking : MonoBehaviour {
 			_destination = value; 
 			if (_pathUpdateTime + pathUpdateCooldown < Time.time) {
 				_pathUpdateTime = Time.time;
-				_seeker.StartPath(transform.position, _destination, OnPathComplete);
+				_seeker.StartPath(transform.position, _destination);
 			}
 		}
 	}
@@ -41,6 +41,7 @@ public class NPCWalking : MonoBehaviour {
 	public bool drawDebug = false;
 	public float maxMoveSpeed;
 	public float maxRotationSpeed;
+	public float pathHeightOffset;	// for hovering NPCs
 	public float defaultStopDistance; // don't move if destination is closer than this
 	public float nextWaypointDistance = 2f;
 	public float pathUpdateCooldown = 1f;
@@ -48,7 +49,7 @@ public class NPCWalking : MonoBehaviour {
 	private Seeker _seeker;
 	private int _currentWaypoint;
 	private Path _path;
-	private float _pathUpdateTime;
+	private float _pathUpdateTime = -999f;
 	
 	private float _moveSpeedMod = 1f;
 	private float _rotSpeedMod = 1f;
@@ -57,10 +58,11 @@ public class NPCWalking : MonoBehaviour {
 	private float _stopDistance = 0f;
 
 	void Awake () {
-		rigidbody.useGravity = true;
 		rigidbody.freezeRotation = true;
 		stopDistance = defaultStopDistance; 
 		_seeker = GetComponent<Seeker>();
+		_seeker.pathCallback += OnPathComplete;
+		
 	}
 	
 	// _seeker.StartPath() callback
@@ -79,11 +81,15 @@ public class NPCWalking : MonoBehaviour {
 			return; // we have reach the end of the path
 		}
 		
-		Vector3 waypoint = _path.vectorPath[_currentWaypoint];
-		waypoint.y = transform.position.y;
-		Quaternion rotation = Quaternion.LookRotation(waypoint - transform.position);
-		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 		_atDestination = Vector3.Distance(transform.position, destination) < stopDistance;
+		
+		Vector3 waypoint = _path.vectorPath[_currentWaypoint];
+		waypoint.y += pathHeightOffset;
+		Vector3 lookDirection = _destination - transform.position;
+		//lookDirection.y = transform.position.y; // don't rotate up or down. (is this necessary??)
+		Quaternion rotation = Quaternion.LookRotation(lookDirection);
+		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+		
 		
 		if (Vector3.Distance(transform.position, waypoint) < nextWaypointDistance) {
 			_currentWaypoint++;
@@ -92,7 +98,8 @@ public class NPCWalking : MonoBehaviour {
 		Color lineColor = Color.green;
 		if (!_atDestination) {
 			float force = moveSpeed * rigidbody.mass * rigidbody.drag;
-			rigidbody.AddForce(transform.forward * force);
+			Vector3 dir = (waypoint - transform.position).normalized;
+			rigidbody.AddForce(dir * force);
 			lineColor = Color.red;
 		}
 		if (drawDebug)

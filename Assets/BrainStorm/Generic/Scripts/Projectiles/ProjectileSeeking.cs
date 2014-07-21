@@ -7,7 +7,8 @@ public class ProjectileSeeking : MonoBehaviour {
 
 	public float acceleration;
 	public float turnSpeed;
-
+	public float lifeTime;
+	
 	private Transform _target;
 	private TrailRenderer trail;
 	
@@ -25,12 +26,16 @@ public class ProjectileSeeking : MonoBehaviour {
 	
 	void OnDisable() {
 		if (trail != null) trail.enabled = false;
+		rigidbody.velocity = Vector3.zero;
+		rigidbody.angularVelocity = Vector3.zero;
 	}
 	
 	IEnumerator Initialize() {
 		yield return new WaitForSeconds(0.1f);
 		trail = GetComponent<TrailRenderer>();
 		if (trail != null) trail.enabled = true;
+		yield return new WaitForSeconds(lifeTime);
+		transform.Recycle();
 	}
 	
 	// Update is called once per frame

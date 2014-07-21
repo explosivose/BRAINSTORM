@@ -6,6 +6,7 @@ using System.Collections;
 public class ProjectileRocket : MonoBehaviour {
 
 	public float acceleration;
+	public float lifeTime;
 	
 	private TrailRenderer trail;
 
@@ -22,9 +23,12 @@ public class ProjectileRocket : MonoBehaviour {
 	}
 	
 	IEnumerator Initialize() {
+		rigidbody.isKinematic = false;
 		yield return new WaitForSeconds(0.1f);
 		trail = GetComponent<TrailRenderer>();
 		if (trail != null) trail.enabled = true;
+		yield return new WaitForSeconds(lifeTime);
+		transform.Recycle();
 	}
 	
 	void FixedUpdate() {

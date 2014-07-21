@@ -8,6 +8,7 @@ public class ImpactBouncy : MonoBehaviour {
 	public int bounces;
 	public Transform bouncePrefab;
 	public Transform impactPrefab;
+	public bool addVelocityOnBounce;
 	
 	private int b;
 	private Projectile _projectile;
@@ -20,21 +21,26 @@ public class ImpactBouncy : MonoBehaviour {
 	
 	void OnEnable() {
 		b = bounces;
+		rigidbody.isKinematic = false;
 	}
 	
 	IEnumerator OnCollisionEnter(Collision col) {
 		if (b <= 0) {
 			Transform i = impactPrefab.Spawn(transform.position, transform.rotation);
 			i.parent = col.transform;
-			transform.Recycle();
+			rigidbody.velocity = Vector3.zero;
+			rigidbody.angularVelocity = Vector3.zero;
+			rigidbody.isKinematic = true;
 			col.transform.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
 			yield return new WaitForSeconds(10f);
 			i.Recycle();
+			transform.Recycle();
 		}
 		else {
 			b--;
 			ContactPoint contact = col.contacts[0];
-			rigidbody.AddForce(contact.normal * col.relativeVelocity.magnitude, ForceMode.VelocityChange);
+			if (addVelocityOnBounce)
+				rigidbody.AddForce(contact.normal * col.relativeVelocity.magnitude, ForceMode.VelocityChange);
 			transform.rotation = Quaternion.LookRotation(contact.normal);
 			col.transform.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
 			Transform i = bouncePrefab.Spawn(contact.point, Quaternion.LookRotation(contact.normal));

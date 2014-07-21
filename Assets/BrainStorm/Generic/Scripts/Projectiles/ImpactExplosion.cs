@@ -19,6 +19,7 @@ public class ImpactExplosion : MonoBehaviour {
 	
 	void OnEnable() {
 		_impact = false;
+		rigidbody.isKinematic = false;
 	}
 	
 	IEnumerator OnCollisionEnter(Collision col) {
@@ -30,17 +31,24 @@ public class ImpactExplosion : MonoBehaviour {
 			i.particleSystem.Play();
 			
 			// deal damage and physics forces to nearby objects
+			
 			Collider[] cols = Physics.OverlapSphere(transform.position, impactRadius);
 			foreach(Collider c in cols) {
+				/* this is crazy laggy
 				if (c.rigidbody != null) {
-					c.rigidbody.AddExplosionForce(explosionForceAtCenter, transform.position, impactRadius, 1f, ForceMode.Impulse);
+					c.rigidbody.AddExplosionForce(explosionForceAtCenter, transform.position, impactRadius, 0f, ForceMode.Impulse);
+					Debug.DrawLine(c.transform.position, transform.position, Color.green, 1f);
 				}
+				*/
 				c.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
 			}
 			
-			transform.Recycle();
+			rigidbody.velocity = Vector3.zero;
+			rigidbody.angularVelocity = Vector3.zero;
+			rigidbody.isKinematic = true;
 			yield return new WaitForSeconds(i.particleSystem.duration);
 			i.Recycle();
+			transform.Recycle();
 		}
 	}
 }
