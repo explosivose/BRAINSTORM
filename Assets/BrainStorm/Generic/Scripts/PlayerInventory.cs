@@ -60,4 +60,8 @@ public class PlayerInventory : MonoBehaviour {
 		carryingObject.rigidbody.isKinematic = false;
 		carryingObject = null;
 	}
+	
+	public void Killed(Transform victim) {
+		Debug.Log ("Player killed something :O");
+	}
 }

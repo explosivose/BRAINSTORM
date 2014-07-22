@@ -26,9 +26,16 @@ public class NPCCubit : MonoBehaviour {
 			case State.Attacking:
 				AttackInit();
 				break;
+
+			case State.Dead:
+				_ren.material = wardrobe.dead;
+				FactionManager.Instance.NPCDeath(_faction.team);
+				tag = "Untagged";
+				rigidbody.useGravity = true;
+				_target = null;
+				break;
 			case State.Idle:
 			case State.Calm:
-			case State.Dead:
 			default:
 				break;
 			}
@@ -39,6 +46,7 @@ public class NPCCubit : MonoBehaviour {
 		Idle, Advancing, Attacking, Dead, Calm
 	}
 	private State _state;
+	private int _health;
 	private NPCPathFinder _pathfinder;
 	private NPCFaction _faction;
 	private MeshRenderer _ren;
@@ -64,12 +72,17 @@ public class NPCCubit : MonoBehaviour {
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_faction = GetComponent<NPCFaction>();
 		_ren = GetComponentInChildren<MeshRenderer>();
-		
+		_health = stats.health;
 		state = State.Idle;
 	}
 	
 	void OnEnable() {
 		tag = "NPC";
+		_health = stats.health;
+		rigidbody.useGravity = false;
+		_target = null;
+		_attacking = false;
+		_hurt = false;
 	}
 	
 	void OnDisable() {
@@ -94,6 +107,8 @@ public class NPCCubit : MonoBehaviour {
 	void AdvancingInit() {
 		_pathfinder.destination = _faction.advancePosition + Vector3.up * 10f;
 		_pathfinder.stopDistance = 0f;
+		_target = null;
+		StartCoroutine( FindTarget() );
 	}
 
 	void AttackInit() {
@@ -103,10 +118,13 @@ public class NPCCubit : MonoBehaviour {
 	
 	void AttackUpdate() {
 		if (_target == null) {
+			Debug.Log ("target null");
 			state = State.Advancing;
 			return;
 		}
 		if (_target.tag == "Untagged") {
+			Debug.Log ("target untagged");
+			
 			state = State.Advancing;
 			return;
 		}
@@ -219,7 +237,6 @@ public class NPCCubit : MonoBehaviour {
 		
 		if ( _target != null ) {
 			if ( col.gameObject == _target.gameObject ) {
-				_target = null;
 				state = State.Advancing;
 			}
 		}
@@ -233,12 +250,19 @@ public class NPCCubit : MonoBehaviour {
 			if (f.team == _faction.team) return; // no friendly fire
 		}
 		
-		stats.health -= damage.damage;
-		if (stats.health < 0) {
-			Death();
+		_health -= damage.damage;
+		if (_health <= 0) {
+			damage.source.SendMessage("Killed", this.transform);
+			StartCoroutine(Death());
 		}
 		else if (!_hurt) {
 			StartCoroutine( Hurt() );
+		}
+	}
+	
+	public void Killed(Transform victim) {
+		if (victim == _target) {
+			state = State.Advancing;
 		}
 	}
 	
@@ -251,15 +275,15 @@ public class NPCCubit : MonoBehaviour {
 		_hurt = false;
 	}
 	
-	void Death() {
-		FactionManager.Instance.NPCDeath(_faction.team);
+	IEnumerator Death() {
+
+		_state = State.Dead;
+		
+		yield return new WaitForSeconds(2f);
+		
 		transform.Recycle();
 		/*
-		_state = State.Dead;
-		_ren.material = wardrobe.dead;
 		rigidbody.useGravity = true;
-		
-		
 		_pathfinder.enabled = false;
 		_faction.enabled = false;
 		this.enabled = false;

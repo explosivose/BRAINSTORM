@@ -34,6 +34,7 @@ public class NPCPackedBit : MonoBehaviour {
 		Idle, Advancing, Attacking, Dead, Calm
 	}
 	private State _state;
+	private int _health;
 	private NPCPathFinder _pathfinder;
 	private NPCFaction _faction;
 	private MeshRenderer _ren;
@@ -59,12 +60,16 @@ public class NPCPackedBit : MonoBehaviour {
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_faction = GetComponent<NPCFaction>();
 		_ren = GetComponentInChildren<MeshRenderer>();
-		
+		_health = stats.health;
 		state = State.Advancing;
 	}
 	
 	void OnEnable() {
 		tag = "NPC";
+		_health = stats.health;
+		_target = null;
+		_attacking = false;
+		_hurt = false;
 	}
 	
 	void OnDisable() {
@@ -184,12 +189,20 @@ public class NPCPackedBit : MonoBehaviour {
 			if (f.team == _faction.team) return; // no friendly fire
 		}
 		
-		stats.health -= damage.damage;
-		if (stats.health < 0) {
-			Death();
+		_health -= damage.damage;
+		if (_health <= 0) {
+			damage.source.SendMessage("Killed", this.transform);
+			StartCoroutine( Death() );
 		}
 		else if (!_hurt) {
 			StartCoroutine( Hurt() );
+		}
+	}
+	
+	public void Killed(Transform victim) {
+		if (victim == _target) {
+			_target = null;
+			state = State.Advancing;
 		}
 	}
 	
@@ -202,18 +215,18 @@ public class NPCPackedBit : MonoBehaviour {
 		_hurt = false;
 	}
 	
-	void Death() {
+	IEnumerator Death() {
 		FactionManager.Instance.NPCDeath(_faction.team);
+		tag = "Untagged";
+		_state = State.Dead;
+		_ren.material = wardrobe.dead;
+		yield return new WaitForSeconds(2f);
+		
 		transform.Recycle();
 		/*  
 		maybe spawn a dead body prefab here instead
 		all this state changing is a lot of work and you might not catch everything... i.e. triggers and stuff
 		also see OnEnable, OnDisable
-		
-		_state = State.Dead;
-		_ren.material = wardrobe.dead;
-		tag = "Untagged";
-		FactionManager.Instance.NPCDeath(_faction.team);
 		_pathfinder.enabled = false;
 		_faction.enabled = false;
 		this.enabled = false;

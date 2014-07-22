@@ -84,9 +84,8 @@ public class NPCPathFinder : MonoBehaviour {
 		_atDestination = Vector3.Distance(transform.position, destination) < stopDistance;
 		
 		Vector3 waypoint = _path.vectorPath[_currentWaypoint];
-		waypoint.y += pathHeightOffset;
+		waypoint.y += pathHeightOffset + ((Random.value-0.5f) * pathHeightOffset);
 		Vector3 lookDirection = _destination - transform.position;
-		//lookDirection.y = transform.position.y; // don't rotate up or down. (is this necessary??)
 		Quaternion rotation = Quaternion.LookRotation(lookDirection);
 		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 		

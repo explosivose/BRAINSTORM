@@ -28,6 +28,7 @@ public class ImpactBouncy : MonoBehaviour {
 		if (b <= 0) {
 			Transform i = impactPrefab.Spawn(transform.position, transform.rotation);
 			i.parent = col.transform;
+			rigidbody.isKinematic = false;
 			rigidbody.velocity = Vector3.zero;
 			rigidbody.angularVelocity = Vector3.zero;
 			rigidbody.isKinematic = true;
