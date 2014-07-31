@@ -3,11 +3,7 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour {
 	
-	public class DamageInstance {
-		public int damage;
-		public Transform source;
-	}
-	
+
 	public int damage;
 	
 	public DamageInstance Damage {

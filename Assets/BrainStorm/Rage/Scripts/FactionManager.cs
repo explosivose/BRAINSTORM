@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FactionManager : MonoBehaviour {
 
-	public static int NPCCount {
+	public int NPCCount {
 		get { return _pinkCount + _purpleCount; }
 	}
 	
@@ -19,8 +19,8 @@ public class FactionManager : MonoBehaviour {
 	
 	private float _waveTimer;
 	private bool _spawning;
-	private static int _pinkCount;
-	private static int _purpleCount;
+	private int _pinkCount;
+	private int _purpleCount;
 	
 	public void NPCDeath(NPCFaction.Faction faction) {
 		if (faction == NPCFaction.Faction.Pink) 

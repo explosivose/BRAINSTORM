@@ -122,7 +122,7 @@ public class NPCVirusFlying : MonoBehaviour {
 		}
 	}
 	
-	public void Damage(Projectile.DamageInstance damage) {
+	public void Damage(DamageInstance damage) {
 		if (damage.source == this.transform) return;
 		stats.health -= damage.damage;
 		if (stats.health < 0) {
