@@ -57,20 +57,21 @@ public class SpiderLegAnimator : MonoBehaviour {
 		switch (thisLegIs) {
 		default:
 		case Leg.FrontLeft:
-			reachDirection = spiderBody.forward - spiderBody.right;
+			reachDirection = 1f* spiderBody.forward - spiderBody.right;
 			break;
 		case Leg.FrontRight:
-			reachDirection = spiderBody.forward + spiderBody.right;
+			reachDirection = 1f* spiderBody.forward + spiderBody.right;
 			break;
 		case Leg.BackLeft:
-			reachDirection = -spiderBody.forward - spiderBody.right;
+			reachDirection = 1.5f* -spiderBody.forward - spiderBody.right;
 			break;
 		case Leg.BackRight:
-			reachDirection = -spiderBody.forward + spiderBody.right;
+			reachDirection = 1.5f* -spiderBody.forward + spiderBody.right;
 			break;
 		}
 		
 		Ray ray = new Ray(transform.position, reachDirection);
+		Debug.DrawRay(transform.position, reachDirection, Color.cyan, 0.5f);
 		RaycastHit hit;
 		if (Physics.SphereCast(ray, targetSearchRadius, out hit, legLength)) {
 			return hit.point;
