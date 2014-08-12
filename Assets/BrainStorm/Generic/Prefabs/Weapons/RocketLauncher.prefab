@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.01800585, y: 2.07572436, z: 6.5073247}
+  m_LocalPosition: {x: 1.17408323, y: 2.07572436, z: 4.59518528}
   m_LocalScale: {x: .5, y: .5, z: 2}
   m_Children:
   - {fileID: 400000}
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 400000, guid: 2d799f7b25a67b64e89f8c1b076080b2, type: 2}
   timeBetweenShots: .200000003
+  range: 100
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipped: 0
   localPosition: {x: .709764421, y: -.345498294, z: .215618402}
-  localRotation: {x: 0, y: 0, z: 0}
+  defaultRotation: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -7,10 +7,7 @@ public class PlayerInventory : MonoBehaviour {
 	
 	private Transform carryingObject;
 	private Transform equippedWeapon;
-	// Use this for initialization
-	void Start () {
-	
-	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -21,7 +18,6 @@ public class PlayerInventory : MonoBehaviour {
 			else {
 				AttemptPickup();
 			}
-			
 		}
 	}
 	
@@ -48,6 +44,8 @@ public class PlayerInventory : MonoBehaviour {
 			}
 		}
 	}
+	
+
 	
 	void Carry(Transform obj) {
 		carryingObject = obj;

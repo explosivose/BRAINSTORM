@@ -18,7 +18,7 @@ public class NPCCubit : MonoBehaviour {
 
 	}
 
-	public void Attack() {
+	void Attack() {
 		if (!_faction.attacking) StartCoroutine( AttackRoutine() );
 	}
 

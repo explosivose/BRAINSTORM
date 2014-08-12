@@ -16,7 +16,7 @@ public class NPCPackedBit : MonoBehaviour {
 		_dmg.source = this.transform;
 	}
 	
-	public void Attack() {
+	void Attack() {
 		if (!_faction.attacking) StartCoroutine( AttackRoutine() );
 	}
 	

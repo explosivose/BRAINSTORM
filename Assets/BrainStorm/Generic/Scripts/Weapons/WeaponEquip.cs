@@ -6,13 +6,13 @@ public class WeaponEquip : MonoBehaviour {
 
 	public bool equipped = false;
 	public Vector3 localPosition;
-	public Vector3 localRotation;
+	public Vector3 defaultRotation;
 	
 	public void Equip() {
 		equipped = true;
 		transform.parent = Camera.main.transform;
 		transform.localPosition = localPosition;
-		transform.localRotation = Quaternion.Euler(localRotation);
+		transform.localRotation = Quaternion.Euler(defaultRotation);
 		rigidbody.isKinematic = true;
 		collider.enabled = false;
 	}
