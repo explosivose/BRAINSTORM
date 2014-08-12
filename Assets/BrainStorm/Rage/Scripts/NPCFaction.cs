@@ -21,10 +21,7 @@ public class NPCFaction : MonoBehaviour {
 	private Vector3 _advancePosition;
 	public Vector3 advancePosition {
 		get { return _advancePosition;  }
-		set { 
-			_advancePosition = value; 
-			state = State.Advancing;
-		}
+		set { _advancePosition = value; }
 	}
 	
 	private Faction _team;
@@ -61,8 +58,11 @@ public class NPCFaction : MonoBehaviour {
 				rigidbody.useGravity = true;
 				_target = null;
 				break;
-			case State.Idle:
 			case State.Calm:
+				_ren.material = _wardrobe.lingerie;
+				AdvancingInit();
+				break;
+			case State.Idle:
 			default:
 				break;
 			}
@@ -81,6 +81,9 @@ public class NPCFaction : MonoBehaviour {
 			_attacking = value;
 			if (_attacking) {
 				_ren.material = _wardrobe.attacking;
+			}
+			else if (state == State.Dead){
+				_ren.material = _wardrobe.dead;
 			}
 			else {
 				_ren.material = _wardrobe.normal;
@@ -123,8 +126,10 @@ public class NPCFaction : MonoBehaviour {
 		case State.Attacking:
 			AttackUpdate();
 			break;
-		case State.Idle:
 		case State.Calm:
+			CalmUpdate();
+			break;
+		case State.Idle:
 		case State.Dead:
 		default:
 			break;
@@ -132,8 +137,8 @@ public class NPCFaction : MonoBehaviour {
 	}
 	
 	void AdvancingInit() {
-		_pathfinder.destination = advancePosition;/// + Vector3.up * 10f;
-		_pathfinder.stopDistance = 0f;
+		_pathfinder.destination = advancePosition;
+		_pathfinder.stopDistance = 10f;
 		_target = null;
 		StartCoroutine( FindTarget() );
 	}
@@ -160,6 +165,13 @@ public class NPCFaction : MonoBehaviour {
 		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
 			AttackInit();
+		}
+	}
+	
+	
+	void CalmUpdate() {
+		if (_pathfinder.atDestination) {
+			StartCoroutine(Death());
 		}
 	}
 	
@@ -240,13 +252,14 @@ public class NPCFaction : MonoBehaviour {
 		_ren.material = _wardrobe.hurt;
 		yield return new WaitForSeconds(0.1f);
 		_ren.material = _wardrobe.normal;
+		if (state == State.Calm) _ren.material = _wardrobe.lingerie;
 		yield return new WaitForSeconds(0.1f);
 		_hurt = false;
 	}
 	
 	IEnumerator Death() {
 		
-		_state = State.Dead;
+		state = State.Dead;
 		
 		yield return new WaitForSeconds(2f);
 		

@@ -9,6 +9,8 @@ public class FactionManager : MonoBehaviour {
 	
 	public static FactionManager Instance;
 	
+	public NPCFaction.State initialState;
+	
 	public int maxNPCs;
 	public int waveSize;
 	public float waveTime;
@@ -72,6 +74,7 @@ public class FactionManager : MonoBehaviour {
 			f = NPC.GetComponent<NPCFaction>();
 			f.team = NPCFaction.Faction.Pink;
 			f.advancePosition = purpleSpawnAreas[purpleSpawnIndex].position;
+			f.state = initialState;
 			_pinkCount++;
 			
 			yield return new WaitForSeconds(0.1f);
@@ -81,9 +84,10 @@ public class FactionManager : MonoBehaviour {
 			f = NPC.GetComponent<NPCFaction>();
 			f.team = NPCFaction.Faction.Purple;
 			f.advancePosition = pinkSpawnAreas[pinkSpawnIndex].position;
+			f.state = initialState;
 			_purpleCount++;
 			
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(0.4f);
 		}
 		_spawning = false;
 	}

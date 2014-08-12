@@ -19,6 +19,7 @@ public class CharacterMaterials {
 	public Material attacking;
 	public Material hurt;
 	public Material dead;
+	public Material lingerie;
 }
 
 [System.Serializable]

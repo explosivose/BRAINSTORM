@@ -178,11 +178,13 @@ MonoBehaviour:
     attacking: {fileID: 2100000, guid: 2b9eb1dcd56372447b799af60e6b0b0e, type: 2}
     hurt: {fileID: 2100000, guid: 511b59f4ddceb864493496dfe5c0542c, type: 2}
     dead: {fileID: 2100000, guid: 160929a20ea59414fbf52ee045db91d4, type: 2}
+    lingerie: {fileID: 2100000, guid: 431bf50ca2efb8a4fb4144d3d11d56f9, type: 2}
   purpleWardrobe:
     normal: {fileID: 2100000, guid: 213692349a513554ba4e3c024c2bac4b, type: 2}
     attacking: {fileID: 2100000, guid: 2289f821aefe2e8498fea255597f7e86, type: 2}
     hurt: {fileID: 2100000, guid: 30dc2d0236899734da4de4c8f4525703, type: 2}
     dead: {fileID: 2100000, guid: 160929a20ea59414fbf52ee045db91d4, type: 2}
+    lingerie: {fileID: 2100000, guid: 431bf50ca2efb8a4fb4144d3d11d56f9, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
