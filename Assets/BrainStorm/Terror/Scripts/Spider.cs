@@ -24,11 +24,17 @@ public class Spider : MonoBehaviour {
 				break;
 				
 			case State.stalking:
-				StalkInit();
+				_pathfinder.destination = _target.position;
+				_pathfinder.moveSpeedModifier = 1f;
+				_pathfinder.rotationSpeedModifier = 1f;
+				_pathfinder.stopDistance = stalkDistance;
 				break;
 				
 			case State.attacking:
-				AttackInit();
+				_pathfinder.destination = _target.position;
+				_pathfinder.moveSpeedModifier = 3f;
+				_pathfinder.rotationSpeedModifier = 2f;
+				_pathfinder.stopDistance = stats.attackRange;
 				break;
 				
 			case State.dead:
@@ -51,6 +57,11 @@ public class Spider : MonoBehaviour {
 		walkHeight = _pathfinder.pathHeightOffset;
 	}
 	
+	IEnumerator Start() {
+		yield return new WaitForSeconds(2f);
+		state = State.stalking;
+	}
+	
 	// Use this for initialization
 	void OnEnable () {
 		tag = "NPC";
@@ -67,7 +78,6 @@ public class Spider : MonoBehaviour {
 		switch(_state) {
 		default:
 		case State.idle:
-			if (Time.time > 2f) state = State.stalking;
 			break;
 			
 		case State.stalking:
@@ -81,13 +91,6 @@ public class Spider : MonoBehaviour {
 		case State.dead:
 			break;
 		}
-	}
-	
-	void StalkInit() {
-		_pathfinder.destination = _target.position;
-		_pathfinder.moveSpeedModifier = 1f;
-		_pathfinder.stopDistance = stalkDistance;
-		_pathfinder.pathHeightOffset = walkHeight;
 	}
 	
 	void StalkUpdate() {
@@ -106,15 +109,8 @@ public class Spider : MonoBehaviour {
 		}
 		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			StalkInit();
+			state = State.stalking;
 		}
-	}
-	
-	void AttackInit() {
-		_pathfinder.destination = _target.position;
-		_pathfinder.moveSpeedModifier = 3f;
-		_pathfinder.stopDistance = 0f;
-		_pathfinder.pathHeightOffset = walkHeight/4f;
 	}
 	
 	void AttackUpdate() {
@@ -128,16 +124,19 @@ public class Spider : MonoBehaviour {
 			state = State.idle;
 			return;
 		}
+
+		float targetDistance = Vector3.Distance(transform.position, _target.position);
+
 		if (_pathfinder.atDestination) {
-			//ATTACK!
+			BroadcastMessage("Attack", _target.position);
 		}
 		// if we're too far
-		if (Vector3.Distance(transform.position, _target.position) > stalkDistance){
+		if (targetDistance > stalkDistance){
 			state = State.stalking;
 		}
 		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			AttackInit();
+			state = State.attacking;
 		}
 	}
 }

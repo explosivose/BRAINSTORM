@@ -85,22 +85,28 @@ public class NPCPathFinder : MonoBehaviour {
 		
 		Vector3 waypoint = _path.vectorPath[_currentWaypoint];
 		waypoint.y += pathHeightOffset + ((Random.value-0.5f) * pathHeightOffset);
-		Vector3 lookDirection = _destination - transform.position;
-		Quaternion rotation = Quaternion.LookRotation(lookDirection);
-		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-		
 		
 		if (Vector3.Distance(transform.position, waypoint) < nextWaypointDistance) {
 			_currentWaypoint++;
 		}
 		
 		Color lineColor = Color.green;
-		if (!_atDestination) {
-			float force = moveSpeed * rigidbody.mass * rigidbody.drag;
+		
+		if (_atDestination) {
+			Vector3 dir = (_destination - transform.position).normalized;
+			Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up);
+			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+		}
+		else {
 			Vector3 dir = (waypoint - transform.position).normalized;
+			Quaternion rotation = Quaternion.LookRotation(dir);
+			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+			
+			float force = moveSpeed * rigidbody.mass * rigidbody.drag;
 			rigidbody.AddForce(dir * force);
 			lineColor = Color.red;
 		}
+		
 		if (drawDebug)
 			Debug.DrawLine(transform.position, destination, lineColor);
 	}

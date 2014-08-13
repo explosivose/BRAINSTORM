@@ -7,7 +7,7 @@ public class SpiderLegAnimator : MonoBehaviour {
 		FrontLeft, FrontRight, BackLeft, BackRight
 	}
 	public Leg thisLegIs = Leg.FrontLeft;
-	
+	public LayerMask raycastMask;
 	public Transform spiderBody;
 	public Transform target;
 	public Transform elbow;
@@ -16,21 +16,16 @@ public class SpiderLegAnimator : MonoBehaviour {
 	public float targetSearchRadius;
 	public float legLength;
 	
-	
-	private Vector3 previousTarget;
 	private Vector3 updateTarget;
 	private Vector3 updateElbow;
-	
-	private float lastMoveTime;
+
 	
 	void Start () {
 		StartCoroutine( Animate() );
 	}
 	
 	void Update () {
-		float t = Time.time - lastMoveTime;
 		target.position =  Vector3.Lerp(target.position, updateTarget, legMoveSpeed * Time.deltaTime);
-
 		elbow.position = Vector3.Lerp(elbow.position, updateElbow, 1f * Time.deltaTime);
 	}
 	
@@ -40,9 +35,10 @@ public class SpiderLegAnimator : MonoBehaviour {
 		while(this.enabled) {
 			Vector3? t = LegTarget();
 			if (t.HasValue)  {
-				previousTarget = updateTarget;
-				updateTarget = t.Value; 
-				lastMoveTime = Time.time;
+				// if target is far away enough from the body (avoids errors in ik)
+				if (Vector3.Distance(t.Value, transform.position) > 4f) {
+					updateTarget = t.Value; 
+				}
 			}
 			
 			updateElbow = ElbowTarget(transform.position, updateTarget);
@@ -73,7 +69,7 @@ public class SpiderLegAnimator : MonoBehaviour {
 		Ray ray = new Ray(transform.position, reachDirection);
 		Debug.DrawRay(transform.position, reachDirection, Color.cyan, 0.5f);
 		RaycastHit hit;
-		if (Physics.SphereCast(ray, targetSearchRadius, out hit, legLength)) {
+		if (Physics.SphereCast(ray, targetSearchRadius, out hit, legLength, raycastMask.value)) {
 			return hit.point;
 		}
 		else {
@@ -82,6 +78,11 @@ public class SpiderLegAnimator : MonoBehaviour {
 	}
 	
 	Vector3 ElbowTarget(Vector3 body, Vector3 target) {
+		// bring the elbow closer to the body
+		Vector3 dir = (body - target).normalized;
+		body += dir * Vector3.Distance(body, target)/2f;
+		
+		// return midpoint
 		return new Vector3( 
 			(body.x + target.x) / 2,
 			10f + (body.y + target.y) / 2,
