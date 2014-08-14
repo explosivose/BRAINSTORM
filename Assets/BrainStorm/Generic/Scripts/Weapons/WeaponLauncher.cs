@@ -29,10 +29,24 @@ public class WeaponLauncher : MonoBehaviour {
 		);
 		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
 		RaycastHit hit;
+		Transform target = null;
 		if (Physics.Raycast(ray, out hit, range)) {
 			transform.LookAt(hit.point);
 			Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
 			Debug.DrawLine(transform.position, hit.point, Color.yellow);
+			/* hit.transform != hit.collider.transform
+			
+			hit.transform is the parent transform of child colliders.
+			hit.collider.transform is the transform of the collider 
+			we actually hit regardless of position in hierarchy.
+			
+			This next statement is necessary, for example, the spider
+			which has arms that act as shields tagged as "Invulnerable".
+			Without this check, the spider will be damaged when it shouldn't.
+			*/
+			if (hit.collider.transform.tag != "Invulnerable") {
+				target = hit.transform;
+			}
 		}
 		else {
 			Quaternion rotation = Quaternion.Euler(_equip.defaultRotation);
@@ -43,8 +57,7 @@ public class WeaponLauncher : MonoBehaviour {
 		}
 		// Fire the gun
 		if (Input.GetButton("Fire1") && !_firing) {
-			
-			StartCoroutine( Fire(hit.transform, hit.point) );
+			StartCoroutine( Fire(target, hit.point) );
 		}
 	}
 	
@@ -59,8 +72,11 @@ public class WeaponLauncher : MonoBehaviour {
 		
 		i.SendMessage("SetDamageSource", transform.parent.parent); // this is dodgy... assuming t.p.p is player
 		
-		if (target!=null)
+		if (target!=null) {
+			Debug.Log (name + " hit " + target.name);// + " with " + i.name + ".");
 			i.SendMessage("SetTarget", target, SendMessageOptions.DontRequireReceiver);
+		}
+			
 		
 		i.SendMessage("HitPosition", hit, SendMessageOptions.DontRequireReceiver);
 		

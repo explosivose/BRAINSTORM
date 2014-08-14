@@ -38,26 +38,30 @@ public class Spider : MonoBehaviour {
 				break;
 				
 			case State.dead:
+				Debug.Log ("Spider killed!");
 				tag = "Untagged";
+				audio.Stop();
 				rigidbody.useGravity = true;
+				rigidbody.drag = 0.1f;
+				collider.enabled = true;
 				_target = null;
 				break;
 			}
 		}
 	}
 	
-	private int _health;
-	private float walkHeight;
 	private NPCPathFinder _pathfinder;
+	private GameObject _animator;
 	private Transform _target;
 	
 	void Awake() {
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_target = GameObject.FindGameObjectWithTag("Player").transform;
-		walkHeight = _pathfinder.pathHeightOffset;
+		_animator = transform.FindChild("Animator").gameObject;
 	}
 	
 	IEnumerator Start() {
+		state = State.idle;
 		yield return new WaitForSeconds(2f);
 		state = State.stalking;
 	}
@@ -65,8 +69,6 @@ public class Spider : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable () {
 		tag = "NPC";
-		_health = stats.health;
-		state = State.idle;
 	}
 	
 	void OnDisable() {
@@ -138,5 +140,17 @@ public class Spider : MonoBehaviour {
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
 			state = State.attacking;
 		}
+	}
+	
+	void Damage(DamageInstance damage) {
+		if (damage.source.tag == "Player") {
+			if (state != State.dead) StartCoroutine( Death() );
+		}
+	}
+	
+	IEnumerator Death() {
+		state = State.dead;
+		yield return new WaitForSeconds(2f);
+		_animator.SetActive(false);
 	}
 }
