@@ -5,21 +5,25 @@ using System.Collections;
 public class WeaponLauncher : MonoBehaviour {
 
 	public Transform projectile;
+	
 	public float timeBetweenShots;
 	public float range;
 
 	private bool _firing = false;
 	private Transform _weaponNozzle;
 	private WeaponEquip _equip;
-
+	private Transform _crosshair;
+	
 	// Use this for initialization
 	void Start () {
 		ObjectPool.CreatePool(projectile);
 		_weaponNozzle = transform.FindChild("Nozzle");
 		_equip = GetComponent<WeaponEquip>();
+		_crosshair = transform.FindChild("Crosshair");
 	}
 	
 	void Update () {
+		_crosshair.gameObject.SetActive(_equip.equipped);
 		if (!_equip.equipped) return;
 		
 		// Point the weapon
@@ -32,6 +36,7 @@ public class WeaponLauncher : MonoBehaviour {
 		Transform target = null;
 		if (Physics.Raycast(ray, out hit, range)) {
 			transform.LookAt(hit.point);
+			_crosshair.position = hit.point;
 			Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
 			Debug.DrawLine(transform.position, hit.point, Color.yellow);
 			/* hit.transform != hit.collider.transform
@@ -49,19 +54,21 @@ public class WeaponLauncher : MonoBehaviour {
 			}
 		}
 		else {
+			_crosshair.position = Camera.main.transform.position + Camera.main.transform.forward;
 			Quaternion rotation = Quaternion.Euler(_equip.defaultRotation);
 			transform.localRotation = Quaternion.Lerp(transform.localRotation, rotation, Time.deltaTime);
 			// fake a hit.point
 			hit.point = transform.position + _weaponNozzle.forward.normalized * range;
 			Debug.DrawLine(transform.position, hit.point, Color.yellow);
 		}
+		
+		_crosshair.rotation = transform.rotation;
+		
 		// Fire the gun
 		if (Input.GetButton("Fire1") && !_firing) {
 			StartCoroutine( Fire(target, hit.point) );
 		}
 	}
-	
-
 	
 	IEnumerator Fire(Transform target, Vector3 hit) {
 		_firing = true;

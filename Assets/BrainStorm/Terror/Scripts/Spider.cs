@@ -152,5 +152,6 @@ public class Spider : MonoBehaviour {
 		state = State.dead;
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
+		TerrorManager.Instance.StopTerror();
 	}
 }

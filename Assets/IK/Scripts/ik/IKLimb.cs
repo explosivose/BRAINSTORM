@@ -27,6 +27,8 @@ public class IKLimb: MonoBehaviour {
 	//hold last positions so recalculation is only done if needed
 	private Vector3 lastUpperArmPosition, lastTargetPosition, lastElbowTargetPosition;
 	
+	private float upperArmLength, forearmLength, armLength;
+	
 	void Start(){
 		upperArmStartRotation = upperArm.rotation;
 		forearmStartRotation = forearm.rotation;
@@ -46,6 +48,12 @@ public class IKLimb: MonoBehaviour {
 		
 		//guarantee first-frame update
 		lastUpperArmPosition = upperArm.position + 5*Vector3.up;
+		
+		// these calculations have been moved from LateUpdate() to Start() for optimisation
+		// by doing this I'm assuming these numbers wont ever change
+		upperArmLength = Vector3.Distance(upperArm.position, forearm.position);
+		forearmLength = Vector3.Distance(forearm.position, hand.position);
+		armLength = upperArmLength + forearmLength;
 	}
 	
 	void LateUpdate () {
@@ -87,9 +95,6 @@ public class IKLimb: MonoBehaviour {
 		lastElbowTargetPosition = elbowTarget.position;
 	
 		//Calculate ikAngle variable.
-		float upperArmLength = Vector3.Distance(upperArm.position, forearm.position);
-		float forearmLength = Vector3.Distance(forearm.position, hand.position);
-		float armLength = upperArmLength + forearmLength;
 		float hypotenuse = upperArmLength;
 		
 		float targetDistance = Vector3.Distance(upperArm.position, target.position);	
