@@ -12,12 +12,13 @@ GameObject:
   - 23: {fileID: 2300000}
   - 136: {fileID: 13600000}
   - 54: {fileID: 5400000}
-  - 135: {fileID: 13500000}
-  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
+  - 96: {fileID: 9600000}
+  - 135: {fileID: 13500000}
+  - 135: {fileID: 13500002}
   m_Layer: 8
   m_Name: Carrot
-  m_TagString: Untagged
+  m_TagString: Boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +30,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.799722791, y: 4.19178295, z: 64.4410706}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,6 +77,47 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!96 &9600000
+TrailRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Time: .5
+  m_StartWidth: .0500000007
+  m_EndWidth: 0
+  m_Colors:
+    m_Color[0]:
+      serializedVersion: 2
+      rgba: 4278229503
+    m_Color[1]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[2]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[3]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[4]:
+      serializedVersion: 2
+      rgba: 16777215
+  m_MinVertexDistance: .100000001
+  m_Autodestruct: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,31 +126,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1502985609e22a04c85be63d50ef1143, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dd8d1c7cc657734aae668a1db090175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    health: 0
-    immune: 1
-    attackRange: 0
-  carrot:
-    TVWatchDistance: 2.5
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
+  moveSpeed: 5
+  turnSpeed: 2
+  boidSightDistance: 10
+  boidListUpdateTime: 3
+  seperationWeight: 1
+  alignmentWeight: 1
+  cohesionWeight: 1
+  targetWeight: 2
+--- !u!135 &13500000
+SphereCollider:
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842a978fdeae804479ee1f13b7b15d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawDebug: 0
-  maxMoveSpeed: 20
-  maxRotationSpeed: 5
-  defaultStopDistance: 0
---- !u!135 &13500000
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &13500002
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -119,7 +160,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 10
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: .174999997}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

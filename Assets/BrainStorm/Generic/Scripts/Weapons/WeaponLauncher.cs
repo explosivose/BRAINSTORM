@@ -35,23 +35,25 @@ public class WeaponLauncher : MonoBehaviour {
 		RaycastHit hit;
 		Transform target = null;
 		if (Physics.Raycast(ray, out hit, range)) {
-			transform.LookAt(hit.point);
-			_crosshair.position = hit.point;
-			Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
-			Debug.DrawLine(transform.position, hit.point, Color.yellow);
-			/* hit.transform != hit.collider.transform
-			
-			hit.transform is the parent transform of child colliders.
-			hit.collider.transform is the transform of the collider 
-			we actually hit regardless of position in hierarchy.
-			
-			This next statement is necessary, for example, the spider
-			which has arms that act as shields tagged as "Invulnerable".
-			Without this check, the spider will be damaged when it shouldn't.
-			*/
-			if (hit.collider.transform.tag != "Invulnerable") {
-				target = hit.transform;
+			if (!hit.collider.isTrigger) {
+				transform.LookAt(hit.point);
+				_crosshair.position = hit.point;
+				Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
+				Debug.DrawLine(transform.position, hit.point, Color.yellow);
+				/* hit.transform != hit.collider.transform
+					hit.transform is the parent transform of child colliders.
+					hit.collider.transform is the transform of the collider 
+					we actually hit regardless of position in hierarchy.
+					
+					This next statement is necessary, for example, the spider
+					which has arms that act as shields tagged as "Invulnerable".
+					Without this check, the spider will be damaged when it shouldn't.
+				*/
+				if (hit.collider.transform.tag != "Invulnerable") {
+					target = hit.transform;
+				}
 			}
+
 		}
 		else {
 			_crosshair.position = Camera.main.transform.position + Camera.main.transform.forward;
