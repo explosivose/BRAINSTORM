@@ -42,6 +42,7 @@ public class Spider : MonoBehaviour {
 				tag = "Untagged";
 				audio.Stop();
 				rigidbody.useGravity = true;
+				rigidbody.freezeRotation = false;
 				rigidbody.drag = 0.1f;
 				collider.enabled = true;
 				_target = null;
@@ -152,6 +153,8 @@ public class Spider : MonoBehaviour {
 		state = State.dead;
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
+		rigidbody.isKinematic = true;
 		TerrorManager.Instance.StopTerror();
+		
 	}
 }
