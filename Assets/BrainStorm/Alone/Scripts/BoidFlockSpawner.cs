@@ -6,6 +6,7 @@ public class BoidFlockSpawner : MonoBehaviour {
 
 	public int flockSize = 20;
 	public GameObject prefab;
+	public GameObject target;
 	
 	void Start()
 	{
@@ -19,7 +20,7 @@ public class BoidFlockSpawner : MonoBehaviour {
 				) - collider.bounds.extents;
 			
 			GameObject b = Instantiate(prefab, transform.position + position, Random.rotation) as GameObject;
-			b.SendMessage("SetTarget", this.transform);
+			b.SendMessage("SetTarget", target.transform);
 		}
 	}
 

@@ -2,32 +2,54 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// http://www.cs.toronto.edu/~dt/siggraph97-course/cwr87/
 [RequireComponent(typeof(Rigidbody))]
 public class Boid : MonoBehaviour {
 
 	public float moveSpeed;
 	public float turnSpeed;
 
-	public float boidSightDistance = 10f;
-	public float boidListUpdateTime = 2f;
-	
 	public float seperationWeight = 1f;
 	public float alignmentWeight = 1f;
 	public float cohesionWeight = 1f;
 	public float targetWeight = 1f;
 	
+	private static int _boidCount = 0;
+	private static int _updateIndex = 0;
+	private int _myIndex;
+	
 	private List<Transform> _nearbyBoids = new List<Transform>();
 	private Vector3 _separationDir;		// direction away from weighted (more nearby -> more weight) avg pos of nearbies
 	private Vector3 _alignmentDir;		// avg velocity direction of nearbies
 	private Vector3 _cohesionDir;		// direction toward avg pos of nearbies
+	private Vector3 _targetDir;
 	private Transform _target;
 	
 	void Start() {
-		StartCoroutine( FindNearbyBoids() );
+		_myIndex = _boidCount++;
 	}
 	
 	void SetTarget(Transform target ) {
 		_target = target;
+	}
+	
+	void Update() {
+		if (_updateIndex == _myIndex) {
+			if (_nearbyBoids.Count > 2) {
+				Calc();
+			}
+			else {
+				_separationDir = transform.forward;
+				_alignmentDir = transform.forward;
+				_cohesionDir = transform.forward;
+				if (_target!=null)
+					_targetDir = (_target.position - transform.position).normalized;
+			}
+			if(++_updateIndex >= _boidCount) {
+				_updateIndex = 0;
+			}
+			
+		}
 	}
 	
 	void FixedUpdate() {
@@ -39,7 +61,7 @@ public class Boid : MonoBehaviour {
 							_alignmentDir * alignmentWeight +
 							_cohesionDir * cohesionWeight;
 		if (_target!=null)
-			direction += (_target.position - transform.position).normalized * targetWeight;
+			direction += _targetDir * targetWeight;
 		
 		Debug.DrawRay(transform.position, direction, Color.white);
 		
@@ -48,22 +70,6 @@ public class Boid : MonoBehaviour {
 		
 		float force = rigidbody.drag * rigidbody.mass * moveSpeed;
 		rigidbody.AddForce(transform.forward * force);
-	}
-	
-	IEnumerator FindNearbyBoids() {
-		while(true) {
-			
-			if (_nearbyBoids.Count > 2) {
-				Calc();
-			}
-			else {
-				_separationDir = transform.forward;
-				_alignmentDir = transform.forward;
-				_cohesionDir = transform.forward;
-			}
-			float wait = (boidListUpdateTime/2f) + (boidListUpdateTime*Random.value);
-			yield return new WaitForSeconds(wait);
-		}
 	}
 	
 	void Calc() {
@@ -82,22 +88,22 @@ public class Boid : MonoBehaviour {
 		_separationDir = (transform.position - weightedAvgPosition).normalized;
 		_alignmentDir = avgVelocity.normalized;
 		_cohesionDir = (avgPosition - transform.position).normalized;
+		if (_target!=null)
+			_targetDir = (_target.position - transform.position).normalized;
 	}
 	
 	void OnTriggerEnter(Collider c) {
-		if (c.tag == "Boid") {
-			if (!_nearbyBoids.Contains(c.transform)) {
-				_nearbyBoids.Add(c.transform);
-				Debug.DrawLine(transform.position, c.transform.position, Color.green, 0.3f);
-			}
+		if (c.isTrigger) return;
+		if (!_nearbyBoids.Contains(c.transform)) {
+			_nearbyBoids.Add(c.transform);
+			Debug.DrawLine(transform.position, c.transform.position, Color.green);
 		}
 	}
 	
 	void OnTriggerExit(Collider c) {
-		if (c.tag == "Boid") {
-			_nearbyBoids.Remove(c.transform);
-			Debug.DrawLine(transform.position, c.transform.position, Color.red, 0.3f);
-		}
+		if (c.isTrigger) return;
+		_nearbyBoids.Remove(c.transform);
+		Debug.DrawLine(transform.position, c.transform.position, Color.red);
 	}
 
 }
