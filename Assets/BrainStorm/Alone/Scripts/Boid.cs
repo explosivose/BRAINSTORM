@@ -6,10 +6,11 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Boid : MonoBehaviour {
 
+	public bool drawDebug;
 	public float moveSpeed;
 	public float turnSpeed;
 
-	public float seperationWeight = 1f;
+	public float seperation = 1f;
 	public float alignmentWeight = 1f;
 	public float cohesionWeight = 1f;
 	public float targetWeight = 1f;
@@ -19,6 +20,7 @@ public class Boid : MonoBehaviour {
 	private int _myIndex;
 	
 	private List<Transform> _nearbyBoids = new List<Transform>();
+	private Vector3 _boidDir;
 	private Vector3 _separationDir;		// direction away from weighted (more nearby -> more weight) avg pos of nearbies
 	private Vector3 _alignmentDir;		// avg velocity direction of nearbies
 	private Vector3 _cohesionDir;		// direction toward avg pos of nearbies
@@ -34,6 +36,12 @@ public class Boid : MonoBehaviour {
 	}
 	
 	void Update() {
+		if (drawDebug) {
+			Debug.DrawRay(transform.position, _separationDir, Color.yellow);
+			Debug.DrawRay(transform.position, _alignmentDir, Color.blue);
+			Debug.DrawRay(transform.position, _cohesionDir, Color.magenta);
+			Debug.DrawRay(transform.position, _boidDir, Color.white);
+		}
 		if (_updateIndex == _myIndex) {
 			if (_nearbyBoids.Count > 2) {
 				Calc();
@@ -53,19 +61,7 @@ public class Boid : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
-		Debug.DrawRay(transform.position, _separationDir, Color.yellow);
-		Debug.DrawRay(transform.position, _alignmentDir, Color.blue);
-		Debug.DrawRay(transform.position, _cohesionDir, Color.magenta);
-		
-		Vector3 direction = _separationDir * seperationWeight +
-							_alignmentDir * alignmentWeight +
-							_cohesionDir * cohesionWeight;
-		if (_target!=null)
-			direction += _targetDir * targetWeight;
-		
-		Debug.DrawRay(transform.position, direction, Color.white);
-		
-		Quaternion rotation = Quaternion.LookRotation(direction);
+		Quaternion rotation = Quaternion.LookRotation(_boidDir);
 		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnSpeed * Time.deltaTime);
 		
 		float force = rigidbody.drag * rigidbody.mass * moveSpeed;
@@ -75,35 +71,50 @@ public class Boid : MonoBehaviour {
 	void Calc() {
 		Vector3 avgPosition = Vector3.zero;
 		Vector3 avgVelocity = Vector3.zero;
-		Vector3 weightedAvgPosition = Vector3.zero;
+		Vector3 weightedAvgRepulsionDir = Vector3.zero;
 		foreach (Transform b in _nearbyBoids) {
 			avgPosition += b.position;
 			avgVelocity += b.rigidbody.velocity;
-			weightedAvgPosition += b.position * Vector3.Distance(transform.position, b.position);
+			weightedAvgRepulsionDir += (transform.position - b.position).normalized * 
+				seperation/Vector3.Distance(transform.position, b.position);
 		}
 		avgPosition /= _nearbyBoids.Count;
 		avgVelocity /= _nearbyBoids.Count;
-		weightedAvgPosition /= _nearbyBoids.Count;
+		weightedAvgRepulsionDir /= _nearbyBoids.Count;
 		
-		_separationDir = (transform.position - weightedAvgPosition).normalized;
+		//Debug.DrawLine(transform.position, avgPosition, Color.cyan);
+		_separationDir = weightedAvgRepulsionDir;
 		_alignmentDir = avgVelocity.normalized;
 		_cohesionDir = (avgPosition - transform.position).normalized;
-		if (_target!=null)
+			
+		_boidDir = _separationDir +
+				_alignmentDir * alignmentWeight +
+				_cohesionDir * cohesionWeight;
+				
+		if (_target!=null)  {
 			_targetDir = (_target.position - transform.position).normalized;
+			_boidDir += _targetDir * targetWeight;
+		}
+		
 	}
 	
 	void OnTriggerEnter(Collider c) {
 		if (c.isTrigger) return;
 		if (!_nearbyBoids.Contains(c.transform)) {
 			_nearbyBoids.Add(c.transform);
-			Debug.DrawLine(transform.position, c.transform.position, Color.green);
+			
+			if (drawDebug)
+				Debug.DrawLine(transform.position, c.transform.position, Color.green);
 		}
 	}
 	
 	void OnTriggerExit(Collider c) {
 		if (c.isTrigger) return;
+		
 		_nearbyBoids.Remove(c.transform);
-		Debug.DrawLine(transform.position, c.transform.position, Color.red);
+		
+		if (drawDebug)
+			Debug.DrawLine(transform.position, c.transform.position, Color.red);
 	}
 
 }
