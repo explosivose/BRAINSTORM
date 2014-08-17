@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-    health: 0
+    health: 100
     immune: 0
     attackRange: 40
   sounds:
@@ -128,6 +128,7 @@ MonoBehaviour:
     attacking: {fileID: 2100000, guid: 0e7ce5f5a1be37c42bab057960f76918, type: 2}
     hurt: {fileID: 2100000, guid: 0ef22311940229c42afde65f73a30855, type: 2}
     dead: {fileID: 2100000, guid: 91ab70c02150bd645b463ccb062ba0ea, type: 2}
+    lingerie: {fileID: 0}
   virus:
     projectilePrefab: {fileID: 400000, guid: a27b8e23a649598498829de7598c1253, type: 2}
     maxHeight: 100

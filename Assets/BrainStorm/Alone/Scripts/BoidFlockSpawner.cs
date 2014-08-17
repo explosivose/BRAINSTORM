@@ -22,7 +22,7 @@ public class BoidFlockSpawner : MonoBehaviour {
 			
 			GameObject b = Instantiate(prefab, transform.position + position, Random.rotation) as GameObject;
 			if (setTarget)
-				b.SendMessage("SetTarget", target.transform);
+				b.SendMessage("SetTarget2", target.transform);
 		}
 	}
 

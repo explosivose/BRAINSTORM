@@ -1,64 +1,94 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(NPCFlying))]
+[RequireComponent(typeof(Boid))]
 public class NPCCarrot : MonoBehaviour {
 	
-	[System.Serializable]
-	public class CarrotStats {
-		public float TVWatchDistance;
-	}
-	public CharacterStats stats = new CharacterStats();
-	public CarrotStats carrot = new CarrotStats();
+	public float attackRange = 3f;
+	public int attackDamage = 5;
+	public int frenzyTippingPoint = 5;
+	public int attackTippingPoint = 20;
+	public float attackRollRate = 0.5f;
+	public Boid.Profile boidAttackProfile = new Boid.Profile();
+	public float targetSearchRange = 50f;
 	
-	private enum CarrotState {
-		Alone, Discovered, Anchored, Frenzied
+	public enum State {
+		Alone, Frenzied, Attack
 	}
 	/// <summary>
 	/// Alone
 	///		Carrot wanders around looking for a TV to stare at
 	///		Once a TV is found, carrot stares at TV closely
-	///		Looks at passerbys periodically</item>
-	///
-	///	Discovered
-	///		If the TV is on the move then the carrot follows the TV
-	///		The longer the carrot spends following the TV the less
-	///		interested the carrot is in watching the TV</item>
-	///		 
-	///	Anchored
-	///		Carrot is brought to a carrot anchor where it will 
-	///		fly happily around with other carrots until there
-	///		are enough carrots there to make a frenzied swarm 
+	///		Looks at passerbys periodically
 	///
 	///	Frenzied
 	///		Swarm flight with other carrots targetting Virus NPCs
+	///
+	/// Attack
+	///		the larger the frenzy the more likely a boid is to attack
+	///		
 	/// </summary>
-	private CarrotState state = CarrotState.Alone;
-	
-	/// <summary>
-	/// The TV to watch
-	/// </summary>
-	private Transform TV = null;
-	private NPCFlying flyer;
-	private float wanderTimer = 0f;
-	
-	void Awake() {
-		flyer = GetComponent<NPCFlying>();
-		flyer.stopDistance = carrot.TVWatchDistance;
+	private State _state = State.Alone;
+	public State state {
+		get { return _state; }
+		set { 
+			_state = value;
+			switch(value) {
+			case State.Alone:
+				_boid.controlEnabled = false;
+				_boid.SetTarget1(null);
+				break;
+			case State.Frenzied:
+				_boid.controlEnabled = true;
+				_boid.profile = _boid.defaultBehaviour;
+				_boid.SetTarget1(_player);
+				_boid.SetTarget2(null);
+				StartCoroutine(AttackRollRoutine());
+				break;
+			case State.Attack:
+				_boid.profile = boidAttackProfile;
+				_boid.SetTarget2(_attackTarget);
+				break;
+			default:
+				break;
+			}
+			
+		}
 	}
 	
+	public Transform attackTarget {
+		get { return _attackTarget; }
+	}
+
+	private Boid _boid;
+	private DamageInstance _damage;
+	private float _attackRoll;
+	private Transform _player;
+	private Transform _attackTarget;
+	
+	void Awake() {
+		_boid = GetComponent<Boid>();
+		_boid.controlEnabled = false;
+		_damage = new DamageInstance();
+		_damage.source = this.transform;
+		_damage.damage = attackDamage;
+	}
+	
+	void Start() {
+		_player = GameObject.FindGameObjectWithTag("Player").transform;
+	}
 	
 	// Update is called once per frame
-	void Update () {
+	void BoidUpdate () {
 		switch(state) {
-		case CarrotState.Alone:
+		case State.Alone:
 			AloneUpdate();
 			break;
-		case CarrotState.Discovered:
+		case State.Frenzied:
+			FrenzyUpdate();
 			break;
-		case CarrotState.Anchored:
-			break;
-		case CarrotState.Frenzied:
+		case State.Attack:
+			AttackUpdate();
 			break;
 		default:
 			break;
@@ -66,6 +96,13 @@ public class NPCCarrot : MonoBehaviour {
 	}
 	
 	void AloneUpdate() {
+		
+		if (_boid.neighbours.Count >= frenzyTippingPoint) {
+			state = State.Frenzied;
+			return;
+		}
+		
+		/*
 		if (TV == null) {
 			// slow and random wandering
 			flyer.moveSpeedModifier = 0.3f;
@@ -83,27 +120,93 @@ public class NPCCarrot : MonoBehaviour {
 			flyer.stopDistance = carrot.TVWatchDistance;
 			flyer.moveSpeedModifier = 1f;
 		}
-	}
-	
-	void DiscoveredUpdate() {
-		
-	}
-	
-	void AnchoredUpdate() {
-		
+		*/
 	}
 	
 	void FrenzyUpdate() {
+		if (_boid.neighbours.Count < frenzyTippingPoint) {
+			state = State.Alone;
+			return;
+		}
 		
-	}
-	
-	void OnTriggerEnter(Collider col) {
-		switch (col.tag) {
-		case "TV":
-			TV = col.transform;
-			break;
-		default:
-			break;
+		FindTarget();
+		if (_attackTarget == null) return;
+		
+		foreach(Transform b in _boid.neighbours) {
+			NPCCarrot otherCarrot = b.GetComponent<NPCCarrot>();
+			if (otherCarrot.state == State.Attack) {
+				_attackTarget = otherCarrot.attackTarget;
+				state = State.Attack;
+				return;
+			}
+		}
+		
+		
+		float scoreRequired = 1f - ((float)_boid.neighbours.Count / (float)attackTippingPoint);
+		if (_attackRoll > scoreRequired) {
+			state = State.Attack;
+			return;
 		}
 	}
+	
+	/* rather than constantly rolling the dice...
+	in future the carrots should roll a dice to decide what the want to do
+	on the instant they encounter a new potential target
+	using information like: how many enemies are in the vicinity
+							how many other carrots are with me
+	which means that maybe the boids need an avoid target behaviour
+	for when carrots want to retreat from an area
+	*/
+	IEnumerator AttackRollRoutine() {
+		while(state == State.Frenzied) {
+			_attackRoll = Random.value;
+			float scoreRequired = 1f - ((float)_boid.neighbours.Count / (float)attackTippingPoint);
+			Debug.Log ("Roll: " + _attackRoll + " Req: " + scoreRequired);
+			yield return new WaitForSeconds(1f/attackRollRate);
+		}
+	}
+	
+	void AttackUpdate() {
+		FindTarget();
+		if (_attackTarget == null) {
+			state = State.Frenzied;
+			return;
+		}
+		// This should be an attack coroutine with an attack cooldown
+		if (Vector3.Distance(transform.position, _attackTarget.position) < attackRange) {
+			_attackTarget.SendMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		}
+	}
+	
+	void FindTarget() {
+		Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange);
+		foreach(Collider c in colliders) {
+			if ( c.isTrigger ) continue;
+			if ( c.transform == this.transform) continue;
+			if (_attackTarget != null) {
+				if (_attackTarget.tag != "NPC") _attackTarget = null;
+			}
+			switch (c.tag) {
+			case "NPC":
+				_attackTarget = CompareTargets(_attackTarget, c.transform);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	Transform CompareTargets(Transform target1, Transform target2) {
+		if (target1 == target2) return target1;
+		if (target1 == null) return target2; // target2 won't be null because of previous line
+		if (target2 == null) return target1;
+		
+		// choose closest target
+		// at a later date could implement LOS priority
+		float d1 = Vector3.Distance(transform.position, target1.position);
+		float d2 = Vector3.Distance(transform.position, target2.position);
+		if (d1 < d2) return target1;
+		else return target2;
+	}
+	
 }
