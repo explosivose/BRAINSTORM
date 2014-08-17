@@ -39,8 +39,9 @@ public class NPCCarrot : MonoBehaviour {
 			_state = value;
 			switch(value) {
 			case State.Alone:
-				_boid.controlEnabled = false;
 				_boid.SetTarget1(null);
+				_boid.SetTarget2(_TVTarget);
+				_boid.profile = boidAttackProfile;
 				break;
 			case State.Frenzied:
 				_carrotsInFrenzy++;
@@ -78,6 +79,7 @@ public class NPCCarrot : MonoBehaviour {
 	private bool _attacking;
 	private Transform _player;
 	private Transform _attackTarget;
+	private Transform _TVTarget;
 	
 	void Awake() {
 		_boid = GetComponent<Boid>();
@@ -116,25 +118,15 @@ public class NPCCarrot : MonoBehaviour {
 			return;
 		}
 		
-		/*
-		if (TV == null) {
-			// slow and random wandering
-			flyer.moveSpeedModifier = 0.3f;
-			wanderTimer -= Time.deltaTime;
-			if (wanderTimer < 0f) {
-				Vector3 destination = transform.position + Random.onUnitSphere * (Random.value * 50f);
-				wanderTimer = Vector3.Distance(transform.position, destination) / flyer.moveSpeed;
-				flyer.destination = destination;
-				flyer.stopDistance = flyer.defaultStopDistance;
-			}
+		FindTarget();
+		if (_TVTarget == null) return;
+		_boid.SetTarget2(_TVTarget);
+		if (Vector3.Distance(transform.position, _TVTarget.position) < 5f) {
+			_boid.controlEnabled = false;
 		}
 		else {
-			// watch TV
-			flyer.destination = TV.position;
-			flyer.stopDistance = carrot.TVWatchDistance;
-			flyer.moveSpeedModifier = 1f;
+			_boid.controlEnabled = true;
 		}
-		*/
 	}
 	
 	void FrenzyUpdate() {
@@ -217,6 +209,9 @@ public class NPCCarrot : MonoBehaviour {
 				if (_attackTarget.tag != "NPC") _attackTarget = null;
 			}
 			switch (c.tag) {
+			case "TV":
+				_TVTarget = CompareTargets(_TVTarget, c.transform);
+				break;
 			case "NPC":
 				_attackTarget = CompareTargets(_attackTarget, c.transform);
 				break;

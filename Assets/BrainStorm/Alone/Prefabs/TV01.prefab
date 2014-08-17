@@ -12,6 +12,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: TV01
   m_TagString: TV
@@ -26,8 +27,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: .628849924, y: 0, z: 0, w: .777526736}
-  m_LocalPosition: {x: 164.163712, y: 1.13632059, z: -172.776703}
-  m_LocalScale: {x: .5, y: .5, z: .5}
+  m_LocalPosition: {x: 196.426758, y: 1.13632023, z: -191.209076}
+  m_LocalScale: {x: .5, y: .499999762, z: .499999911}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,6 +86,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.46007681, y: .107482001, z: 2}
   m_Center: {x: -.16802448, y: -.0334699973, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68745463daccc644897e2f809638f383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flockSize: 2
+  prefab: {fileID: 100000, guid: f500e129b081542479a5035566b13dbc, type: 2}
+  setTarget: 0
+  target: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
