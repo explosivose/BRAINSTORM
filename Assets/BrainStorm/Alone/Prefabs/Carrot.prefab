@@ -119,13 +119,13 @@ MonoBehaviour:
   drawDebug: 0
   controlEnabled: 1
   defaultBehaviour:
-    moveSpeed: 5
+    moveSpeed: 7.5
     turnSpeed: 2
     separation: 10
-    alignmentWeight: 1
-    cohesionWeight: 2
+    alignmentWeight: 2
+    cohesionWeight: 3
     target1Weight: .75
-    target2Weight: 1.5
+    target2Weight: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,11 +143,11 @@ MonoBehaviour:
   attackTippingPoint: 100
   attackRollRate: .0500000007
   boidAttackProfile:
-    moveSpeed: 10
+    moveSpeed: 15
     turnSpeed: 4
     separation: 5
     alignmentWeight: 1
-    cohesionWeight: 3
+    cohesionWeight: 4
     target1Weight: .75
     target2Weight: 5
   targetSearchRange: 50

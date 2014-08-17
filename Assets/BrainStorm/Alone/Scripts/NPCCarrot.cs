@@ -32,6 +32,10 @@ public class NPCCarrot : MonoBehaviour {
 	public State state {
 		get { return _state; }
 		set { 
+			
+			if (_state == State.Frenzied) 
+				_carrotsInFrenzy--;
+				
 			_state = value;
 			switch(value) {
 			case State.Alone:
@@ -39,6 +43,7 @@ public class NPCCarrot : MonoBehaviour {
 				_boid.SetTarget1(null);
 				break;
 			case State.Frenzied:
+				_carrotsInFrenzy++;
 				_boid.controlEnabled = true;
 				_boid.profile = _boid.defaultBehaviour;
 				_boid.SetTarget1(_player);
@@ -60,9 +65,17 @@ public class NPCCarrot : MonoBehaviour {
 		get { return _attackTarget; }
 	}
 
+	public static float frenzyFactor {
+		get { return (float)_carrotsInFrenzy/(float)_carrotCount; }
+	}
+
+	private static int _carrotCount;
+	private static int _carrotsInFrenzy;
+
 	private Boid _boid;
 	private DamageInstance _damage;
 	private float _attackRoll;
+	private bool _attacking;
 	private Transform _player;
 	private Transform _attackTarget;
 	
@@ -72,13 +85,14 @@ public class NPCCarrot : MonoBehaviour {
 		_damage = new DamageInstance();
 		_damage.source = this.transform;
 		_damage.damage = attackDamage;
+		_carrotCount++;
 	}
 	
 	void Start() {
 		_player = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 	
-	// Update is called once per frame
+	// BoidUpdate() is a message from Boid.cs
 	void BoidUpdate () {
 		switch(state) {
 		case State.Alone:
@@ -161,7 +175,7 @@ public class NPCCarrot : MonoBehaviour {
 		while(state == State.Frenzied) {
 			_attackRoll = Random.value;
 			float scoreRequired = 1f - ((float)_boid.neighbours.Count / (float)attackTippingPoint);
-			Debug.Log ("Roll: " + _attackRoll + " Req: " + scoreRequired);
+			//Debug.Log ("Roll: " + _attackRoll + " Req: " + scoreRequired);
 			yield return new WaitForSeconds(1f/attackRollRate);
 		}
 	}
@@ -172,10 +186,26 @@ public class NPCCarrot : MonoBehaviour {
 			state = State.Frenzied;
 			return;
 		}
+		if (_attackTarget.tag == "Untagged") {
+			state = State.Frenzied;
+			return;
+		}
+		_boid.SetTarget2(_attackTarget);
 		// This should be an attack coroutine with an attack cooldown
 		if (Vector3.Distance(transform.position, _attackTarget.position) < attackRange) {
-			_attackTarget.SendMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
+	}
+	
+	IEnumerator AttackRoutine() {
+		_attacking = true;
+		_attackTarget.SendMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		yield return new WaitForSeconds(0.5f);
+		_attacking = false;
+	}
+	
+	void Killed(Transform victim) {
+
 	}
 	
 	void FindTarget() {

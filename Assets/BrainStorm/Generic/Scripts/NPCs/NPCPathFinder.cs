@@ -84,7 +84,8 @@ public class NPCPathFinder : MonoBehaviour {
 		_atDestination = Vector3.Distance(transform.position, destination) < stopDistance;
 		
 		Vector3 waypoint = _path.vectorPath[_currentWaypoint];
-		waypoint.y += pathHeightOffset + ((Random.value-0.5f) * pathHeightOffset);
+		//waypoint.y += pathHeightOffset + ((Random.value-0.5f) * pathHeightOffset);
+		waypoint.y += pathHeightOffset;
 		
 		if (Vector3.Distance(transform.position, waypoint) < nextWaypointDistance) {
 			_currentWaypoint++;

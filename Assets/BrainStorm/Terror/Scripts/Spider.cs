@@ -13,6 +13,20 @@ public class Spider : MonoBehaviour {
 	
 	public CharacterAudio sounds = new CharacterAudio();
 	
+	private bool _attacking;
+	public bool attacking {
+		get { return _attacking; }
+		set {
+			_attacking = value;
+			if (_attacking) {
+				_pathfinder.moveSpeedModifier = 0f;
+			}
+			else {
+				_pathfinder.moveSpeedModifier = 1f;
+			}
+		}
+	}
+	
 	private State _state;
 	public State state {
 		get { return _state; }
@@ -31,7 +45,7 @@ public class Spider : MonoBehaviour {
 				break;
 				
 			case State.attacking:
-				_pathfinder.destination = _target.position;
+				
 				_pathfinder.moveSpeedModifier = 3f;
 				_pathfinder.rotationSpeedModifier = 2f;
 				_pathfinder.stopDistance = stats.attackRange;
@@ -133,13 +147,16 @@ public class Spider : MonoBehaviour {
 		if (_pathfinder.atDestination) {
 			BroadcastMessage("Attack", _target.position);
 		}
+		else {
+			//if (attacking) BroadcastMessage("CancelAttack");
+		}
 		// if we're too far
 		if (targetDistance > stalkDistance){
 			state = State.stalking;
 		}
 		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			state = State.attacking;
+			_pathfinder.destination = _target.position;
 		}
 	}
 	

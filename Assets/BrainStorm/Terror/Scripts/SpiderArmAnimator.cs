@@ -9,7 +9,7 @@ public class SpiderArmAnimator : MonoBehaviour {
 	public float armMoveSpeed;
 	public float attackSpeed;
 	
-	
+	private Spider _spider;
 	private Vector3 _updateTarget, _updateElbow;
 	private bool _attacking;
 	private bool _cooldown;
@@ -18,6 +18,7 @@ public class SpiderArmAnimator : MonoBehaviour {
 	void Awake() {
 		idleTarget.position = target.position;
 		idleElbow.position = elbow.position;
+		_spider = spiderBody.GetComponent<Spider>();
 	}
 	
 	void Update () {
@@ -38,15 +39,21 @@ public class SpiderArmAnimator : MonoBehaviour {
 		if (!_cooldown) StartCoroutine(AttackRoutine());
 	}
 	
+	void CancelAttack() {
+		_attacking = false;
+	}
+	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
 		_cooldown = true;
+		_spider.attacking = true;
 		_updateTarget = _attackTarget + Vector3.up * 10f;
-		yield return new WaitForSeconds(0.4f);
+		yield return new WaitForSeconds(0.5f);
 		_updateTarget = _attackTarget;
 		yield return new WaitForSeconds(1f);
 		_attacking = false;
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(1.5f);
+		_spider.attacking = false;
 		_cooldown = false;
 	}
 

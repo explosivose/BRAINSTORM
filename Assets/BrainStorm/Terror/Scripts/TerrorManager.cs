@@ -136,6 +136,8 @@ public class TerrorManager : MonoBehaviour {
 
 	void OnDestroy() {
 		_terrainData.SetHeights(0, 0, _originalHeights);
-		_terrainData.detailPrototypes = _terrainDetails;
+		if (_terrainData.detailPrototypes==null) {
+			_terrainData.detailPrototypes = _terrainDetails;
+		}
 	}
 }
