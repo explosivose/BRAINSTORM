@@ -21,6 +21,12 @@ public class SpiderArmAnimator : MonoBehaviour {
 		_spider = spiderBody.GetComponent<Spider>();
 	}
 	
+	void OnEnable() {
+		_attacking = false;
+		_spider.attacking = false;
+		_cooldown = false;
+	}
+	
 	void Update () {
 
 		float t = attackSpeed;

@@ -77,13 +77,17 @@ public class Spider : MonoBehaviour {
 	
 	IEnumerator Start() {
 		state = State.idle;
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForEndOfFrame();
 		state = State.stalking;
 	}
 	
 	// Use this for initialization
 	void OnEnable () {
-		if (GameManager.Instance.levelTeardown) return;
+		if (GameManager.Instance.levelTeardown) {
+			if (state == State.dead) {
+				_animator.SetActive(false);
+			}
+		}
 		tag = "NPC";
 	}
 	
