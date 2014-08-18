@@ -47,6 +47,8 @@ public class Player : MonoBehaviour {
 		_dead = true;
 		ScreenFade.Instance.StartFade(Color.black, 1f);
 		yield return new WaitForSeconds(1.5f);
-		Application.LoadLevel("lobby");
+		GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
+		_health = maxHealth;
+		_dead = false;
 	}
 }
