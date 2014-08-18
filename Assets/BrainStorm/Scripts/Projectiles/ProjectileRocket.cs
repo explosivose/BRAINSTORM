@@ -15,10 +15,12 @@ public class ProjectileRocket : MonoBehaviour {
 	}
 	
 	void OnEnable() {
+		if (GameManager.Instance.levelTeardown) return;
 		StartCoroutine( Initialize() );
 	}
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		if (trail != null) trail.enabled = false;
 	}
 	

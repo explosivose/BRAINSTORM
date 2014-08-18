@@ -78,7 +78,7 @@ public class WeaponLauncher : MonoBehaviour {
 		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
 		
 		Transform i = projectile.Spawn(_weaponNozzle.position, _weaponNozzle.rotation);
-		
+		i.parent = GameManager.Instance.activeScene;
 		i.SendMessage("SetDamageSource", transform.parent.parent); // this is dodgy... assuming t.p.p is player
 		
 		if (target!=null) {

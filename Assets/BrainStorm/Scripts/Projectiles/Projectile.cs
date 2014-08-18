@@ -18,6 +18,7 @@ public class Projectile : MonoBehaviour {
 	private Transform _source;
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		_source = null;
 	}
 	

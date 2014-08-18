@@ -54,7 +54,7 @@ public class PlayerInventory : MonoBehaviour {
 	}
 	
 	void Drop() {
-		carryingObject.parent = null;
+		carryingObject.parent = GameManager.Instance.activeScene;
 		carryingObject.rigidbody.isKinematic = false;
 		carryingObject = null;
 	}

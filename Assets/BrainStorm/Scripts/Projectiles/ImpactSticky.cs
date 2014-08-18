@@ -15,6 +15,7 @@ public class ImpactSticky : MonoBehaviour {
 	}
 	
 	void OnEnable() {
+		if (GameManager.Instance.levelTeardown) return;
 		_impact = false;
 	}
 	

@@ -63,6 +63,7 @@ public class NPCVirusGuard : MonoBehaviour {
 	}
 
 	void OnEnable() {
+		if (GameManager.Instance.levelTeardown) return;
 		tag = "NPC";
 		_health = stats.health;
 		_attackTarget = null;
@@ -72,6 +73,7 @@ public class NPCVirusGuard : MonoBehaviour {
 	}
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		tag = "Untagged";
 	}
 
@@ -185,6 +187,7 @@ public class NPCVirusGuard : MonoBehaviour {
 		fireLocation += transform.right * 1.5f * Mathf.Cos(t);
 		Quaternion fireRotation = Quaternion.LookRotation(fireLocation - transform.position);
 		Transform i = projectilePrefab.Spawn(fireLocation, fireRotation);
+		i.parent = GameManager.Instance.activeScene;
 		i.SendMessage("SetTarget", _attackTarget);
 		i.SendMessage("SetDamageSource", this.transform);
 	}

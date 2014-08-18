@@ -45,10 +45,14 @@ public class NPCFaction : MonoBehaviour {
 			_state = value;
 			switch(_state) {
 			case State.Advancing:
-				AdvancingInit();
+				_pathfinder.destination = advancePosition;
+				_pathfinder.stopDistance = 10f;
+				_target = null;
+				StartCoroutine( FindTarget() );
 				break;
 			case State.Attacking:
-				AttackInit();
+				_pathfinder.destination = _target.position;
+				_pathfinder.stopDistance = stats.attackRange;
 				break;
 				
 			case State.Dead:
@@ -57,10 +61,14 @@ public class NPCFaction : MonoBehaviour {
 				tag = "Untagged";
 				rigidbody.useGravity = true;
 				_target = null;
+				StartCoroutine(Death ());
 				break;
+				
 			case State.Calm:
 				_ren.material = _wardrobe.lingerie;
-				AdvancingInit();
+				_pathfinder.destination = advancePosition;
+				_pathfinder.stopDistance = 10f;
+				_target = null;
 				break;
 			case State.Idle:
 			default:
@@ -108,14 +116,24 @@ public class NPCFaction : MonoBehaviour {
 	}
 	
 	void OnEnable() {
-		tag = "NPC";
-		_health = stats.health;
-		_target = null;
-		_attacking = false;
-		_hurt = false;
+		if (GameManager.Instance.levelTeardown) {
+			_ren.material = _wardrobe.normal;
+			state = state;
+			if (state == State.Dead) {
+				transform.Recycle();
+			}
+		}
+		else {
+			tag = "NPC";
+			_health = stats.health;
+			_target = null;
+			_attacking = false;
+			_hurt = false;
+		}
 	}
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		tag = "Untagged";
 	}
 	
@@ -136,18 +154,6 @@ public class NPCFaction : MonoBehaviour {
 		}
 	}
 	
-	void AdvancingInit() {
-		_pathfinder.destination = advancePosition;
-		_pathfinder.stopDistance = 10f;
-		_target = null;
-		StartCoroutine( FindTarget() );
-	}
-	
-	void AttackInit() {
-		_pathfinder.destination = _target.position;
-		_pathfinder.stopDistance = stats.attackRange;
-	}
-	
 	void AttackUpdate() {
 		if (_target == null) {
 			Debug.Log ("target null");
@@ -164,7 +170,7 @@ public class NPCFaction : MonoBehaviour {
 		}
 		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			AttackInit();
+			_pathfinder.destination = _target.position;
 		}
 	}
 	
@@ -234,7 +240,7 @@ public class NPCFaction : MonoBehaviour {
 		_health -= damage.damage;
 		if (_health <= 0) {
 			damage.source.SendMessage("Killed", this.transform);
-			StartCoroutine(Death());
+			state = State.Dead;
 		}
 		else if (!_hurt) {
 			StartCoroutine( Hurt() );
@@ -259,16 +265,8 @@ public class NPCFaction : MonoBehaviour {
 	
 	IEnumerator Death() {
 		
-		state = State.Dead;
-		
 		yield return new WaitForSeconds(2f);
 		
 		transform.Recycle();
-		/*
-		rigidbody.useGravity = true;
-		_pathfinder.enabled = false;
-		_faction.enabled = false;
-		this.enabled = false;
-		*/
 	}
 }

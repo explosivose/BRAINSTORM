@@ -21,6 +21,7 @@ public class SpireManager : MonoBehaviour {
 			int prefabIndex = Random.Range(0, virusPrefabs.Length);
 			int spawnIndex = Random.Range(0, spawnPoints.Length);
 			Transform v = virusPrefabs[prefabIndex].Spawn(spawnPoints[spawnIndex].position);
+			v.parent = GameManager.Instance.activeScene;
 			v.SendMessage("Defend", this.transform);
 			yield return new WaitForSeconds(0.5f);
 		}

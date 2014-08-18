@@ -70,6 +70,7 @@ public class FactionManager : MonoBehaviour {
 		for (int i = 0; i < waveSize; i++) {
 			NPCIndex = Random.Range(0, NPCPrefabs.Length);
 			NPC = NPCPrefabs[NPCIndex].Spawn(pinkSpawnAreas[pinkSpawnIndex].position);
+			NPC.parent = GameManager.Instance.activeScene;
 			NPC.name = "Pink" + NPCPrefabs[NPCIndex].name;
 			f = NPC.GetComponent<NPCFaction>();
 			f.team = NPCFaction.Faction.Pink;
@@ -80,6 +81,7 @@ public class FactionManager : MonoBehaviour {
 			yield return new WaitForSeconds(0.1f);
 			
 			NPC = NPCPrefabs[NPCIndex].Spawn(purpleSpawnAreas[purpleSpawnIndex].position);
+			NPC.parent = GameManager.Instance.activeScene;
 			NPC.name = "Purple" + NPCPrefabs[NPCIndex].name;
 			f = NPC.GetComponent<NPCFaction>();
 			f.team = NPCFaction.Faction.Purple;

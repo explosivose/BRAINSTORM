@@ -18,6 +18,7 @@ public class ImpactExplosion : MonoBehaviour {
 	}
 	
 	void OnEnable() {
+		if (GameManager.Instance.levelTeardown) return;
 		_impact = false;
 		rigidbody.isKinematic = false;
 	}
@@ -27,6 +28,7 @@ public class ImpactExplosion : MonoBehaviour {
 			_impact = true;
 			// spawn explosion effect
 			Transform i = impactPrefab.Spawn(transform.position, transform.rotation);
+			i.parent = GameManager.Instance.activeScene;
 			i.particleSystem.time = 0f;
 			i.particleSystem.Play();
 			

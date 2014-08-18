@@ -3,27 +3,45 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager Instance;	
+	public bool changeSceneOnAwake;
+	public Scene[] scenes;
 	
+	
+	
+	public static GameManager Instance;	
+		
 	public bool paused {
 		get { return _paused; }
 		set {
 			_paused = value;
 			if (_paused) {
-				Screen.lockCursor = false;
 				Time.timeScale = 0f;
 				AudioListener.volume = 0f;
+				Screen.lockCursor = false;
+				GameMenu.Instance.showMenu = true;
 			}
 
 			else {
-				Screen.lockCursor = true;
 				Time.timeScale = 1f;
 				AudioListener.volume = 1f;
+				Screen.lockCursor = true;
+				GameMenu.Instance.showMenu = false;
 			}
-			
 		}
 	}
+	
+	
+	public bool levelTeardown {
+		get { return _levelTeardown; }
+	}
+	
+	public Transform activeScene {
+		get { return _activeScene; }
+	}
+	
 	private bool _paused;
+	private bool _levelTeardown;
+	private Transform _activeScene;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -32,12 +50,19 @@ public class GameManager : MonoBehaviour {
 		else {
 			Destroy(this);
 		}
+		
+		foreach(Scene s in scenes) {
+			ObjectPool.CreatePool(s.scenePrefab);
+		}
 	}
 	
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad(this);
 		Screen.lockCursor = true;
+		if (changeSceneOnAwake) {
+			ChangeScene(Scene.Tag.Lobby);
+		}
 	}
 	
 	// Update is called once per frame
@@ -50,10 +75,22 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	void OnGUI() {
-		if (!paused) return;
-		if (GUI.Button(new Rect(10, 10, 150, 100), "resume")) {
-			paused = false;
-		}
+	public void ChangeScene(Scene.Tag scene) {
+		StartCoroutine( ChangeSceneRoutine(scene) );
 	}
+	
+	IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
+		yield return new WaitForEndOfFrame();
+		_levelTeardown = true;
+		if (_activeScene)
+			_activeScene.Recycle();
+		foreach(Scene s in scenes) {
+			if (s.tag == scene) {
+				_activeScene = s.scenePrefab.Spawn();
+				break;
+			}
+		}
+		_levelTeardown = false;
+	}
+	
 }

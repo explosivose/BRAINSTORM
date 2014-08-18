@@ -21,10 +21,12 @@ public class ProjectileSeeking : MonoBehaviour {
 	}
 	
 	void OnEnable() {
+		if (GameManager.Instance.levelTeardown) return;
 		StartCoroutine( Initialize() );
 	}
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		if (trail != null) trail.enabled = false;
 		rigidbody.velocity = Vector3.zero;
 		rigidbody.angularVelocity = Vector3.zero;

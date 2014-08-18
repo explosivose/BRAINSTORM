@@ -83,10 +83,12 @@ public class Spider : MonoBehaviour {
 	
 	// Use this for initialization
 	void OnEnable () {
+		if (GameManager.Instance.levelTeardown) return;
 		tag = "NPC";
 	}
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		tag = "Untagged";
 	}
 	

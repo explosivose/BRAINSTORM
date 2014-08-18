@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
+	public static Player Instance;
+	
 	public int maxHealth;
 	
 	public float hurtEffectDuration = 0.15f;
@@ -14,6 +16,12 @@ public class Player : MonoBehaviour {
 	private GUIText _guiHealth; 
 	
 	void Awake() {
+		if (Instance == null) {
+			Instance = this;
+		}
+		else {
+			Destroy(this);
+		}
 		_health = maxHealth;
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
 		_guiHealth = transform.FindChild("Health").guiText;

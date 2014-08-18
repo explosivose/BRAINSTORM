@@ -1,32 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChangeSceneTrigger : MonoBehaviour {
-
-	public enum Scene {
+[System.Serializable]
+public class Scene {
+	public enum Tag {
 		Lobby, Alone, Rage, Terror
 	}
-	public Scene changeTo = Scene.Lobby;
+	
+	public string name {
+		get {
+			return tag.ToString();
+		}
+	}
+	public Tag tag;
+	public Transform scenePrefab;
+	
+}
+
+public class ChangeSceneTrigger : MonoBehaviour {
+
+	public Scene.Tag changeTo = Scene.Tag.Lobby;
 	
 	void OnTriggerEnter(Collider col) {
 		if (col.tag == "Player") {
-			switch (changeTo) {
-			case Scene.Lobby:
-				Application.LoadLevel("lobby");
-				break;
-			case Scene.Alone:
-				Application.LoadLevel("alone");
-				break;
-			case Scene.Rage:
-				Application.LoadLevel("rage");
-				break;
-			case Scene.Terror:
-				Application.LoadLevel("terror");
-				break;
-			default:
-				Debug.LogError("Broken Scene Trigger...");
-				break;
-			}
+			GameManager.Instance.ChangeScene(changeTo);
 		}
 	}
 }

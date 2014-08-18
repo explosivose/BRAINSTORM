@@ -24,6 +24,7 @@ public class ProjectileLaser : MonoBehaviour {
 	}
 	
 	void OnDisable() {
+		if (GameManager.Instance.levelTeardown) return;
 		_target = null;
 	}
 	

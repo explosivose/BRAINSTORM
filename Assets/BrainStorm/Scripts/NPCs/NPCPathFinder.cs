@@ -10,6 +10,7 @@ public class NPCPathFinder : MonoBehaviour {
 		get { return _destination; }
 		set { 
 			_destination = value; 
+			_hasDestination = true;
 			if (_pathUpdateTime + pathUpdateCooldown < Time.time) {
 				_pathUpdateTime = Time.time;
 				_seeker.StartPath(transform.position, _destination);
@@ -54,6 +55,7 @@ public class NPCPathFinder : MonoBehaviour {
 	private float _moveSpeedMod = 1f;
 	private float _rotSpeedMod = 1f;
 	private Vector3 _destination = Vector3.zero;
+	private bool _hasDestination = false;
 	private bool _atDestination = false;
 	private float _stopDistance = 0f;
 
@@ -61,8 +63,25 @@ public class NPCPathFinder : MonoBehaviour {
 		rigidbody.freezeRotation = true;
 		stopDistance = defaultStopDistance; 
 		_seeker = GetComponent<Seeker>();
+	}
+	
+	void OnEnable() {
 		_seeker.pathCallback += OnPathComplete;
+		if (_hasDestination) {
+			destination = _destination;
+		}
+	}
+	
+	void OnDisable() {
+		// Abort calculation of path
+		if (_seeker != null && !_seeker.IsDone()) _seeker.GetCurrentPath().Error();
 		
+		// Release current path
+		//if (_path != null) _path.Release (this);
+		//_path = null;
+		
+		//Make sure we receive callbacks when paths complete
+		_seeker.pathCallback -= OnPathComplete;
 	}
 	
 	// _seeker.StartPath() callback
