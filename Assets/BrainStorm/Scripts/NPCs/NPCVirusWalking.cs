@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Virus/Walking")]
 [RequireComponent(typeof(NPCPathFinder))]
 public class NPCVirusWalking : MonoBehaviour {
 

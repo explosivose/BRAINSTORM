@@ -1,17 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\NPCs\NPCFaction.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Player\Player.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\Environment\SpireManager.cs" Line="30" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Environment\ChangeSceneTrigger.cs" Line="24" Column="37" />
-      <File FileName="Assets\BrainStorm\Scripts\GameManager.cs" Line="54" Column="33" />
-      <File FileName="Assets\BrainStorm\Scripts\Weapons\WeaponLauncher.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="20" Column="20" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\PlayerSpawnPoint.cs" Line="6" Column="1" />
-      <File FileName="Assets\ObjectPool\Scripts\ObjectPool.cs" Line="70" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\MouseLook.cs" Line="35" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\BoidFlockSpawner.cs" Line="24" Column="42" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCFaction.cs" Line="23" Column="36" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="37" Column="3" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\MouseLook.cs" Line="32" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

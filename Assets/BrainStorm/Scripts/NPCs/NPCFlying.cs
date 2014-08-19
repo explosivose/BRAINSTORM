@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Flying")]
 [RequireComponent(typeof(Rigidbody))]
 public class NPCFlying : MonoBehaviour {
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 // http://www.cs.toronto.edu/~dt/siggraph97-course/cwr87/
+[AddComponentMenu("Character/Boid")]
 [RequireComponent(typeof(Rigidbody))]
 public class Boid : MonoBehaviour {
 

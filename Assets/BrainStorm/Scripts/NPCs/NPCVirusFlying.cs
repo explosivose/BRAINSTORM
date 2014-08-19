@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Virus/Flying")]
 [RequireComponent(typeof(NPCFlying))]
 public class NPCVirusFlying : MonoBehaviour {
 

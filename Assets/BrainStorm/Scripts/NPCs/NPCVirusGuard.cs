@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Virus/Guard")]
 [RequireComponent(typeof(NPCPathFinder))]
 public class NPCVirusGuard : MonoBehaviour {
 

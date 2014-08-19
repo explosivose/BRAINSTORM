@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Spider/Spider")]
 public class SpiderLegAnimator : MonoBehaviour {
 
 	public enum Leg {

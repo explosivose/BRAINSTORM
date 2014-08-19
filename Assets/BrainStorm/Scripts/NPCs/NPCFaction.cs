@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Faction/Faction")]
 [RequireComponent(typeof(NPCPathFinder))]
 public class NPCFaction : MonoBehaviour {
 

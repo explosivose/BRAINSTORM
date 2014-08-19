@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Carrot")]
 [RequireComponent(typeof(Boid))]
 public class NPCCarrot : MonoBehaviour {
 	

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
+[AddComponentMenu("Character/Faction/Cubit")]
 [RequireComponent(typeof(NPCFaction))]
 public class NPCCubit : MonoBehaviour {
 

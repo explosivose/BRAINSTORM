@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Spider/Spider")]
 [RequireComponent(typeof(NPCPathFinder))]
 public class Spider : MonoBehaviour {
 

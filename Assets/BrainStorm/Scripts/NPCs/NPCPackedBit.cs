@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Character/Faction/Packed Bit")]
 [RequireComponent(typeof(NPCFaction))]
 public class NPCPackedBit : MonoBehaviour {
 

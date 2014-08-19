@@ -2,6 +2,7 @@
 using System.Collections;
 using Pathfinding;
 
+[AddComponentMenu("Character/PathFinder")]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Seeker))]
 public class NPCPathFinder : MonoBehaviour {
