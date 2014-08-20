@@ -452,6 +452,13 @@ MonoBehaviour:
     maxAirAcceleration: 30
     gravity: 15
     maxFallSpeed: 30
+  sprint:
+    enabled: 1
+    sprintSpeed: 20
+    sprintLength: 1.5
+    recoveryRate: .5
+    cooldown: .5
+    sprinting: 0
   jumping:
     enabled: 1
     baseHeight: 1

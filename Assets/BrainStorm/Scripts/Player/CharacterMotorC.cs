@@ -81,6 +81,29 @@ public class CharacterMotorC : MonoBehaviour {
 		public Vector3 lastHitPoint = new Vector3(Mathf.Infinity, 0, 0);
 	}
 	
+	[System.Serializable]
+	public class CharacterMotorSprint {
+		// Can we sprint?
+		public bool enabled = true;
+		// Top speed for sprinting
+		public float sprintSpeed = 20f;
+		// How long can we sprint for
+		public float sprintLength = 4f;
+		// How quickly do we recover?
+		public float recoveryRate = 1f;
+		// How long do we ignore sequential sprint button presses for?
+		public float cooldown = 0.5f;
+		// Are we sprinting now?
+		//[System.NonSerialized]
+		public bool sprinting;
+		// When was the last time the sprint button was pressed?
+		[System.NonSerialized]
+		public float lastStartTime;
+		// How much sprint time is remaining
+		[System.NonSerialized]
+		public float stamina;
+	}
+	
 	// We will contain all the jumping related variables in one helper class for clarity.
 	
 	[System.Serializable]
@@ -174,7 +197,12 @@ public class CharacterMotorC : MonoBehaviour {
 	[System.NonSerialized]
 	public bool inputJump = false;
 	
+	[System.NonSerialized]
+	// Is the sprint button held down?
+	public bool inputSprint = false;
+	
 	public CharacterMotorMovement movement = new CharacterMotorMovement();
+	public CharacterMotorSprint sprint = new CharacterMotorSprint();
 	public CharacterMotorJumping jumping = new CharacterMotorJumping();
 	public CharacterMotorJetpack jetpack = new CharacterMotorJetpack();
 	public CharacterMotorMovingPlatform movingPlatform = new CharacterMotorMovingPlatform();
@@ -339,6 +367,29 @@ public class CharacterMotorC : MonoBehaviour {
 	private Vector3 ApplyInputVelocityChange (Vector3 velocity) {
 		if (!canControl)
 			inputMoveDirection = Vector3.zero;
+		
+		// First, check if we're sprinting
+		if (sprint.enabled) {
+			if (inputSprint && !sprint.sprinting && canSprint) {
+				sprint.sprinting = true;
+				sprint.lastStartTime = Time.time;
+				SendMessage("OnSprint",SendMessageOptions.DontRequireReceiver);
+			}
+			if (sprint.sprinting) {
+				if (sprint.stamina > 0f && inputSprint) {
+					sprint.stamina -= Time.deltaTime;
+					// sprint is applied in MaxSpeedInDirection()
+				}
+				else { // sprint button release or ran out of stamina
+					sprint.sprinting = false;
+				}
+			}
+			else {
+				sprint.stamina += sprint.recoveryRate * Time.deltaTime;
+				sprint.stamina = Mathf.Min(sprint.stamina, sprint.sprintLength);
+			}
+		}
+		
 		// Find desired velocity
 		Vector3 desiredVelocity;
 		if (grounded && TooSteep()) {
@@ -451,7 +502,7 @@ public class CharacterMotorC : MonoBehaviour {
 			if (inputJump && velocity.y < 0f && !jetpack.jetpacking && canJetpack) {
 				jetpack.jetpacking = true;
 				jetpack.lastStartTime = Time.time;
-				SendMessage("OnJetpack", SendMessageOptions.DontRequireReceiver);
+				SendMessage("OnJetpackStart", SendMessageOptions.DontRequireReceiver);
 			}
 			if (jetpack.jetpacking) {
 				if (jetpack.fuel > 0f && inputJump) {
@@ -461,6 +512,7 @@ public class CharacterMotorC : MonoBehaviour {
 				}
 				else { // jump button released or ran out of fuel
 					jetpack.jetpacking = false;
+					SendMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
 				}
 			}
 			else {
@@ -561,6 +613,15 @@ public class CharacterMotorC : MonoBehaviour {
 		}
 	}
 	
+	public bool canSprint {
+		get {
+			if (!sprint.enabled) return false;
+			return sprint.lastStartTime + sprint.cooldown < Time.time
+				&& sprint.stamina > sprint.recoveryRate
+				&& grounded;
+		}
+	}
+	
 	bool IsJumping () {
 		return jumping.jumping;
 	}
@@ -592,10 +653,11 @@ public class CharacterMotorC : MonoBehaviour {
 	// Project a direction onto elliptical quater segments based on forward, sideways, and backwards speed.
 	// The function returns the length of the resulting vector.
 	double MaxSpeedInDirection (Vector3 desiredMovementDirection) {
+		float forwardSpeed = sprint.sprinting ? sprint.sprintSpeed : movement.maxForwardSpeed;
 		if (desiredMovementDirection == Vector3.zero)
 			return 0;
 		else {
-			double zAxisEllipseMultiplier = (desiredMovementDirection.z > 0 ? movement.maxForwardSpeed : movement.maxBackwardsSpeed) / movement.maxSidewaysSpeed;
+			double zAxisEllipseMultiplier = (desiredMovementDirection.z > 0 ? forwardSpeed : movement.maxBackwardsSpeed) / movement.maxSidewaysSpeed;
 			float dMD = (float)desiredMovementDirection.x;
 			float uio = (float)(desiredMovementDirection.z / zAxisEllipseMultiplier);
 			Vector3 temp = new Vector3(dMD, 0, uio).normalized;

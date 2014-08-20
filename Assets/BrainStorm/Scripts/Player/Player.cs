@@ -15,8 +15,13 @@ public class Player : MonoBehaviour {
 		get { return (float)_health/(float)maxHealth; }
 	}
 	
+	// probably move this and an hasJetpack bool to PlayerInventory
 	public float jetpack01 {
 		get { return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; }
+	}
+	
+	public float sprint01 {
+		get { return _motor.sprint.stamina/_motor.sprint.sprintLength; }
 	}
 	
 	private int _health;

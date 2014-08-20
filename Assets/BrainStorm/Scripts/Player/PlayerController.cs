@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 		// Apply the direction to the CharacterMotor
 		cmotor.inputMoveDirection = transform.rotation * directionVector;
 		cmotor.inputJump = Input.GetButton("Jump");
+		cmotor.inputSprint = Input.GetButton("Sprint");
 	}
 	
 }

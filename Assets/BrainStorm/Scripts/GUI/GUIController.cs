@@ -24,9 +24,11 @@ public class GUIController : MonoBehaviour {
 	
 	public GUIBarPlacement healthBar;
 	public GUIBarPlacement jetpackBar;
+	public GUIBarPlacement sprintBar;
 	
 	private GUIBarScript _healthBarInstance;
 	private GUIBarScript _jetpackBarInstance;
+	private GUIBarScript _sprintBarInstance;
 	
 	public enum Alignment {
 		UpperLeft,
@@ -90,12 +92,14 @@ public class GUIController : MonoBehaviour {
 		// spawn healthbar and place on bottom right
 		_healthBarInstance = healthBar.SpawnAndPlace();
 		_jetpackBarInstance = jetpackBar.SpawnAndPlace();
+		_sprintBarInstance = sprintBar.SpawnAndPlace();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		_healthBarInstance.Value = Player.Instance.health01;
 		_jetpackBarInstance.Value = Player.Instance.jetpack01;
+		_sprintBarInstance.Value = Player.Instance.sprint01;
 	}
 	
 }
