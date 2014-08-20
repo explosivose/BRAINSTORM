@@ -1,9 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\GUI\GUIController.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\GUI\GUIController.cs" Line="16" Column="36" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="29" Column="4" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\CharacterMotorC.cs" Line="656" Column="40" />
+      <File FileName="Assets\BrainStorm\Scripts\GUI\GUIController.cs" Line="102" Column="55" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="24" Column="66" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\PlayerController.cs" Line="44" Column="50" />
+      <File FileName="Assets\BrainStorm\Scripts\NPCs\Spider\SpiderLegAnimator.cs" Line="24" Column="15" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\PlayerInventory.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

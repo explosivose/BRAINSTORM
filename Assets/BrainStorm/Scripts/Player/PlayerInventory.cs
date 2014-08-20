@@ -1,18 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterMotorC))]
 public class PlayerInventory : MonoBehaviour {
+
+	public static PlayerInventory Instance;
 
 	public float playerReach = 4f;
 	
-	private Transform carryingObject;
-	private Transform equippedWeapon;
+	private CharacterMotorC _motor;
+	private Transform _carryingObject;
+	private Transform _equippedWeapon;
 
+	// probably move this and an hasJetpack bool to PlayerInventory
+	public float jetpack01 {
+		get { return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; }
+	}
+	
+	public float sprint01 {
+		get { return _motor.sprint.stamina/_motor.sprint.sprintLength; }
+	}
+
+	void Awake() {
+		if (Instance == null) {
+			Instance = this;
+		}
+		else {
+			Destroy(this);
+		}
+		_motor = GetComponent<CharacterMotorC>();
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetButtonDown("Interact")) {
-			if (carryingObject != null) {
+			if (_carryingObject) {
 				Drop();
 			}
 			else {
@@ -34,10 +56,10 @@ public class PlayerInventory : MonoBehaviour {
 				Carry (hit.transform);
 				break;
 			case "Weapon":
-				if (equippedWeapon != null)
-					equippedWeapon.SendMessage("Drop");
+				if (_equippedWeapon != null)
+					_equippedWeapon.SendMessage("Drop");
 				hit.transform.SendMessage("Equip");
-				equippedWeapon = hit.transform;
+				_equippedWeapon = hit.transform;
 				break;
 			default:
 				break;
@@ -48,15 +70,15 @@ public class PlayerInventory : MonoBehaviour {
 
 	
 	void Carry(Transform obj) {
-		carryingObject = obj;
-		carryingObject.rigidbody.isKinematic = true;
-		carryingObject.parent = Camera.main.transform;
+		_carryingObject = obj;
+		_carryingObject.rigidbody.isKinematic = true;
+		_carryingObject.parent = Camera.main.transform;
 	}
 	
 	void Drop() {
-		carryingObject.parent = GameManager.Instance.activeScene;
-		carryingObject.rigidbody.isKinematic = false;
-		carryingObject = null;
+		_carryingObject.parent = GameManager.Instance.activeScene;
+		_carryingObject.rigidbody.isKinematic = false;
+		_carryingObject = null;
 	}
 	
 	public void Killed(Transform victim) {

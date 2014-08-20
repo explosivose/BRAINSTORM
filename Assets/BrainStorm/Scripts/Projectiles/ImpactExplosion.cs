@@ -26,6 +26,7 @@ public class ImpactExplosion : MonoBehaviour {
 	IEnumerator OnCollisionEnter(Collision col) {
 		if (!_impact) {
 			_impact = true;
+			audio.Stop ();
 			// spawn explosion effect
 			Transform i = impactPrefab.Spawn(transform.position, transform.rotation);
 			i.parent = GameManager.Instance.activeScene;

@@ -318,6 +318,9 @@ public class CharacterMotorC : MonoBehaviour {
 		else if (!grounded && IsGroundedTest()) {
 			grounded = true;
 			jumping.jumping = false;
+			if (jetpack.jetpacking) {
+				SendMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
+			}
 			jetpack.jetpacking = false;
 			SubtractNewPlatformVelocity();
 			SendMessage("OnLand", SendMessageOptions.DontRequireReceiver);
@@ -373,7 +376,7 @@ public class CharacterMotorC : MonoBehaviour {
 			if (inputSprint && !sprint.sprinting && canSprint) {
 				sprint.sprinting = true;
 				sprint.lastStartTime = Time.time;
-				SendMessage("OnSprint",SendMessageOptions.DontRequireReceiver);
+				SendMessage("OnSprintStart",SendMessageOptions.DontRequireReceiver);
 			}
 			if (sprint.sprinting) {
 				if (sprint.stamina > 0f && inputSprint) {
@@ -382,6 +385,7 @@ public class CharacterMotorC : MonoBehaviour {
 				}
 				else { // sprint button release or ran out of stamina
 					sprint.sprinting = false;
+					SendMessage("OnSprintStop", SendMessageOptions.DontRequireReceiver);
 				}
 			}
 			else {

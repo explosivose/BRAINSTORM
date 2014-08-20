@@ -98,8 +98,8 @@ public class GUIController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		_healthBarInstance.Value = Player.Instance.health01;
-		_jetpackBarInstance.Value = Player.Instance.jetpack01;
-		_sprintBarInstance.Value = Player.Instance.sprint01;
+		_jetpackBarInstance.Value = PlayerInventory.Instance.jetpack01;
+		_sprintBarInstance.Value = PlayerInventory.Instance.sprint01;
 	}
 	
 }

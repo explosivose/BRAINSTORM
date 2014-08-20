@@ -34,6 +34,7 @@ GameObject:
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400014}
   - 114: {fileID: 11400012}
+  - 82: {fileID: 8200000}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -256,6 +257,64 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_Enabled: 1
+--- !u!82 &8200000
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!92 &9200000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -400,6 +459,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   hurtEffectDuration: .150000006
+  sounds:
+    volume: .25
+    hurt: {fileID: 8300000, guid: 4f7a361246832144b986d8e1442457df, type: 3}
+    jump: {fileID: 8300000, guid: 5852b254b031971499297b107cfc38db, type: 3}
+    land: {fileID: 8300000, guid: 1b2a1186013f22243894e53749097a2e, type: 3}
+    sprintStart: {fileID: 8300000, guid: 0ce480379bc3ff44e963eaef14f4b30a, type: 3}
+    sprintStop: {fileID: 8300000, guid: 1dd28b449484e4c4c95bff57e1a51720, type: 3}
+    jetpackStart: {fileID: 8300000, guid: a6645f190942b5f4c85c9f0772daa060, type: 3}
+    jetpackLoop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
+    jetpackStop: {fileID: 8300000, guid: ad49a56b3ea85d6438b5e68e894d41f0, type: 3}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -450,8 +519,8 @@ MonoBehaviour:
       m_PostInfinity: 2
     maxGroundAcceleration: 30
     maxAirAcceleration: 30
-    gravity: 15
-    maxFallSpeed: 30
+    gravity: 25
+    maxFallSpeed: 20
   sprint:
     enabled: 1
     sprintSpeed: 20
@@ -461,8 +530,8 @@ MonoBehaviour:
     sprinting: 0
   jumping:
     enabled: 1
-    baseHeight: 1
-    extraHeight: 1
+    baseHeight: 1.5
+    extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .5
   jetpack:
@@ -473,7 +542,7 @@ MonoBehaviour:
     rechargeRate: .800000012
     cooldown: .5
   movingPlatform:
-    enabled: 1
+    enabled: 0
     movementTransfer: 1
   sliding:
     enabled: 1
@@ -501,6 +570,11 @@ MonoBehaviour:
     alignment: 8
     horizontalOffset: 10
     verticalOffset: 64
+  sprintBar:
+    prefab: {fileID: 400000, guid: 66b0724d768aff24fbb1060f5bb66858, type: 2}
+    alignment: 8
+    horizontalOffset: 10
+    verticalOffset: 128
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
