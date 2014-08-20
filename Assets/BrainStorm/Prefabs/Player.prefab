@@ -449,18 +449,25 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
     maxGroundAcceleration: 30
-    maxAirAcceleration: 20
-    gravity: 10
-    maxFallSpeed: 20
+    maxAirAcceleration: 30
+    gravity: 15
+    maxFallSpeed: 30
   jumping:
     enabled: 1
     baseHeight: 1
-    extraHeight: 4.0999999
-    perpAmount: 0
+    extraHeight: 1
+    perpAmount: .100000001
     steepPerpAmount: .5
+  jetpack:
+    enabled: 1
+    verticalAccel: 50
+    maxVerticalSpeed: 6
+    maxJetpackFuel: 2.5
+    rechargeRate: .800000012
+    cooldown: .5
   movingPlatform:
-    enabled: 0
-    movementTransfer: 2
+    enabled: 1
+    movementTransfer: 1
   sliding:
     enabled: 1
     slidingSpeed: 15
@@ -482,6 +489,11 @@ MonoBehaviour:
     alignment: 8
     horizontalOffset: 10
     verticalOffset: -20
+  jetpackBar:
+    prefab: {fileID: 400000, guid: 5ebf3997becb15d40b9bae510b13edd5, type: 2}
+    alignment: 8
+    horizontalOffset: 10
+    verticalOffset: 64
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

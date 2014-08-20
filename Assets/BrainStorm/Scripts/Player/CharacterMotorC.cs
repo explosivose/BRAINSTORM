@@ -115,6 +115,31 @@ public class CharacterMotorC : MonoBehaviour {
 	}
 	
 	[System.Serializable]
+	public class CharacterMotorJetpack {
+		// Can we use a jetpack?
+		public bool enabled = false;
+		// How quickly do we reach max vertical speed?
+		public float verticalAccel = 1f;
+		// What's the fastest upwards we can go?
+		public float maxVerticalSpeed = 1f;
+		// How long does the jetpack last in seconds?
+		public float maxJetpackFuel = 4f;
+		// How quickly does the jetpack recharge?
+		public float rechargeRate = 1f;
+		// How long until we can use it again?
+		public float cooldown = 1f;
+		// is the jetpack in use right now?
+		[System.NonSerialized]
+		public bool jetpacking = false;
+		// the time we started jetpacking
+		[System.NonSerialized]
+		public float lastStartTime = 0f;
+		// how much time of jetpacking is remaining
+		[System.NonSerialized]
+		public float fuel;
+	}
+	
+	[System.Serializable]
 	public class CharacterMotorSliding {
 		// Does the character slide on too steep surfaces?
 		public bool enabled = true;
@@ -151,11 +176,11 @@ public class CharacterMotorC : MonoBehaviour {
 	
 	public CharacterMotorMovement movement = new CharacterMotorMovement();
 	public CharacterMotorJumping jumping = new CharacterMotorJumping();
+	public CharacterMotorJetpack jetpack = new CharacterMotorJetpack();
 	public CharacterMotorMovingPlatform movingPlatform = new CharacterMotorMovingPlatform();
 	public CharacterMotorSliding sliding = new CharacterMotorSliding();
-	
-	[System.NonSerialized]
-	bool grounded = true;
+
+	private bool grounded = true;
 	
 	[System.NonSerialized]
 	Vector3 groundNormal = Vector3.zero;
@@ -176,6 +201,8 @@ public class CharacterMotorC : MonoBehaviour {
 		velocity = ApplyInputVelocityChange(velocity);
 		// Apply gravity and jumping force
 		velocity = ApplyGravityAndJumping (velocity);
+		// Apply jetpack force
+		velocity = ApplyJetpack(velocity);
 		// Moving platform support
 		Vector3 moveDistance = Vector3.zero;
 		
@@ -263,6 +290,7 @@ public class CharacterMotorC : MonoBehaviour {
 		else if (!grounded && IsGroundedTest()) {
 			grounded = true;
 			jumping.jumping = false;
+			jetpack.jetpacking = false;
 			SubtractNewPlatformVelocity();
 			SendMessage("OnLand", SendMessageOptions.DontRequireReceiver);
 		}
@@ -279,8 +307,9 @@ public class CharacterMotorC : MonoBehaviour {
 			movingPlatform.activeGlobalRotation = tr.rotation;
 			movingPlatform.activeLocalRotation = Quaternion.Inverse(movingPlatform.activePlatform.rotation) * movingPlatform.activeGlobalRotation;
 		}
+
 	}
-	
+
 	void FixedUpdate () {
 		if (movingPlatform.enabled) {
 			if (movingPlatform.activePlatform != null) {
@@ -372,6 +401,7 @@ public class CharacterMotorC : MonoBehaviour {
 					velocity += jumping.jumpDir * movement.gravity * Time.deltaTime;
 				}
 			}
+			
 			// Make sure we don't fall any faster than maxFallSpeed. This gives our character a terminal velocity.
 			velocity.y = Mathf.Max (velocity.y, -movement.maxFallSpeed);
 		}
@@ -409,6 +439,36 @@ public class CharacterMotorC : MonoBehaviour {
 				jumping.holdingJumpButton = false;
 			}
 		}
+
+		
+		return velocity;
+	}
+	
+	private Vector3 ApplyJetpack(Vector3 velocity) {
+		// if we're falling and the inputJump button is held true
+		if (jetpack.enabled) {
+			// if jump button held true and we're falling and not jetpacking and jetpack wasn't recently activated
+			if (inputJump && velocity.y < 0f && !jetpack.jetpacking && canJetpack) {
+				jetpack.jetpacking = true;
+				jetpack.lastStartTime = Time.time;
+				SendMessage("OnJetpack", SendMessageOptions.DontRequireReceiver);
+			}
+			if (jetpack.jetpacking) {
+				if (jetpack.fuel > 0f && inputJump) {
+					jetpack.fuel -= Time.deltaTime;
+					velocity.y += jetpack.verticalAccel * Time.deltaTime;
+					velocity.y = Mathf.Min(velocity.y, jetpack.maxVerticalSpeed);
+				}
+				else { // jump button released or ran out of fuel
+					jetpack.jetpacking = false;
+				}
+			}
+			else {
+				jetpack.fuel += jetpack.rechargeRate * Time.deltaTime;
+				jetpack.fuel = Mathf.Min(jetpack.fuel, jetpack.maxJetpackFuel);
+			}
+		}
+
 		return velocity;
 	}
 	
@@ -486,6 +546,19 @@ public class CharacterMotorC : MonoBehaviour {
 		// From the jump height and gravity we deduce the upwards speed
 		// for the character to reach at the apex.
 		return Mathf.Sqrt (2 * targetJumpHeight * movement.gravity);
+	}
+	
+	public bool isFalling {
+		get { return movement.velocity.y < 0f; }
+	}
+	
+	public bool canJetpack {
+		get { 
+			if (!jetpack.enabled) return false;
+			return jetpack.lastStartTime + jetpack.cooldown < Time.time
+				&& jetpack.fuel > jetpack.rechargeRate
+				&& !grounded;
+		}
 	}
 	
 	bool IsJumping () {

@@ -21,7 +21,7 @@ public class SpiderLegAnimator : MonoBehaviour {
 	private Vector3 updateElbow;
 
 	
-	void Start () {
+	void OnEnable () {
 		StartCoroutine( Animate() );
 	}
 	

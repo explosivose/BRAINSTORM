@@ -2,7 +2,7 @@
 using System.Collections;
 
 [AddComponentMenu("Player/Player")]
-
+[RequireComponent(typeof(CharacterMotorC))]
 public class Player : MonoBehaviour {
 
 	public static Player Instance;
@@ -15,10 +15,15 @@ public class Player : MonoBehaviour {
 		get { return (float)_health/(float)maxHealth; }
 	}
 	
+	public float jetpack01 {
+		get { return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; }
+	}
+	
 	private int _health;
 	private bool _dead = false;
 	private Color _hurtOverlay;
 	private float _lastHurtTime; 
+	private CharacterMotorC _motor;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour {
 		else {
 			Destroy(this);
 		}
+		_motor = GetComponent<CharacterMotorC>();
 		_health = maxHealth;
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
 	}

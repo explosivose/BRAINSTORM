@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Player\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\GUI\GUIController.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="37" Column="3" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\MouseLook.cs" Line="32" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\GUI\GUIController.cs" Line="16" Column="36" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="29" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
