@@ -4,13 +4,14 @@ using System.Collections;
 // Require a character controller to be attached to the same game object
 [RequireComponent (typeof (CharacterMotorC))]
 
-//RequireComponent (CharacterMotor)
+
 [AddComponentMenu("Player/Player Controller")]
-//@script AddComponentMenu ("Character/FPS Input Controller")
+
 
 
 public class PlayerController : MonoBehaviour {
 	private CharacterMotorC cmotor;
+
 	// Use this for initialization
 	void Awake() {
 		cmotor = GetComponent<CharacterMotorC>();

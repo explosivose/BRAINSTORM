@@ -27,6 +27,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: RocketLauncher
   m_TagString: Weapon
@@ -86,8 +87,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.17408323, y: 2.07572436, z: 4.59518528}
+  m_LocalRotation: {x: -.680956483, y: 0, z: 0, w: .732323885}
+  m_LocalPosition: {x: 163.913986, y: -13.5516176, z: -161.17157}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -226,8 +227,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipped: 0
-  localPosition: {x: .709764421, y: -.345498294, z: .215618402}
+  eqippedPosition: {x: .674682617, y: .256763488, z: .916336119}
   defaultRotation: {x: 0, y: 0, z: 0}
+  holsteredPosition: {x: 0, y: -.520352423, z: -.723937988}
+  holsteredRotation: {x: -85.836853, y: 0, z: 0}
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd2f894ddbafdbd46b0a028b6715b66e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Rocket Launcher
+  height: 20
+  width: 200
+  minimumShowTime: .25
+  inspect: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

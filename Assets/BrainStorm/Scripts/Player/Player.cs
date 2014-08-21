@@ -84,6 +84,10 @@ public class Player : MonoBehaviour {
 		audio.Play();
 	}
 	
+	public void Killed(Transform victim) {
+		Debug.Log ("Player killed something :O");
+	}
+	
 	void Damage(DamageInstance damage) {
 		_health -= damage.damage;
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);

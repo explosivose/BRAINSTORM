@@ -11,6 +11,9 @@ public class PlayerInventory : MonoBehaviour {
 	private CharacterMotorC _motor;
 	private Transform _carryingObject;
 	private Transform _equippedWeapon;
+	private Transform _holsteredWeapon;
+	private Transform _utility1;
+	private Transform _utility2;
 
 	// probably move this and an hasJetpack bool to PlayerInventory
 	public float jetpack01 {
@@ -33,6 +36,12 @@ public class PlayerInventory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		RaycastHit hit;
+		Transform cam = Camera.main.transform;
+		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach)) {
+			hit.transform.SendMessage("OnInspect", SendMessageOptions.DontRequireReceiver);
+		}
+		
 		if (Input.GetButtonDown("Interact")) {
 			if (_carryingObject) {
 				Drop();
@@ -40,6 +49,17 @@ public class PlayerInventory : MonoBehaviour {
 			else {
 				AttemptPickup();
 			}
+		}
+		if (Input.GetButtonDown("ChangeWeapon")) {
+			if (_equippedWeapon) {
+				_equippedWeapon.SendMessage("Holster");
+			}
+			if (_holsteredWeapon) {
+				_holsteredWeapon.SendMessage("Equip");
+			}
+			Transform temp = _holsteredWeapon;
+			_holsteredWeapon = _equippedWeapon;
+			_equippedWeapon = temp;
 		}
 	}
 	
@@ -80,8 +100,5 @@ public class PlayerInventory : MonoBehaviour {
 		_carryingObject.rigidbody.isKinematic = false;
 		_carryingObject = null;
 	}
-	
-	public void Killed(Transform victim) {
-		Debug.Log ("Player killed something :O");
-	}
+
 }
