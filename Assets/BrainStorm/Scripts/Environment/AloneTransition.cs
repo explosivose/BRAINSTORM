@@ -32,6 +32,10 @@ public class AloneTransition : MonoBehaviour {
 		_renRoads = r.GetComponentsInChildren(typeof(MeshRenderer));
 		_renBuildings = b.GetComponentsInChildren(typeof(MeshRenderer)) ;
 		
+		
+	}
+	
+	void OnEnable() {
 		StartCoroutine(Transitioner());
 	}
 	

@@ -656,7 +656,7 @@ MonoBehaviour:
     sprinting: 0
   jumping:
     enabled: 1
-    baseHeight: 1.5
+    baseHeight: 2
     extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .5

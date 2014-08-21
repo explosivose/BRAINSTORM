@@ -11,6 +11,7 @@ public class NPCCarrot : MonoBehaviour {
 	public int attackTippingPoint = 20;
 	public float attackRollRate = 0.5f;
 	public Boid.Profile boidAttackProfile = new Boid.Profile();
+	public LayerMask targetSearchMask;
 	public float targetSearchRange = 50f;
 	
 	public enum State {
@@ -29,7 +30,7 @@ public class NPCCarrot : MonoBehaviour {
 	///		the larger the frenzy the more likely a boid is to attack
 	///		
 	/// </summary>
-	private State _state = State.Alone;
+	private State _state;
 	public State state {
 		get { return _state; }
 		set { 
@@ -73,6 +74,8 @@ public class NPCCarrot : MonoBehaviour {
 
 	private static int _carrotCount;
 	private static int _carrotsInFrenzy;
+	private static int _updateIndex;
+	private int _myIndex;
 
 	private Boid _boid;
 	private DamageInstance _damage;
@@ -88,27 +91,37 @@ public class NPCCarrot : MonoBehaviour {
 		_damage = new DamageInstance();
 		_damage.source = this.transform;
 		_damage.damage = attackDamage;
-		_carrotCount++;
+		_myIndex = _carrotCount++;
 	}
 	
 	void Start() {
 		_player = GameObject.FindGameObjectWithTag("Player").transform;
+		state = State.Alone;
 	}
 	
-	// BoidUpdate() is a message from Boid.cs
-	void BoidUpdate () {
-		switch(state) {
-		case State.Alone:
-			AloneUpdate();
-			break;
-		case State.Frenzied:
-			FrenzyUpdate();
-			break;
-		case State.Attack:
-			AttackUpdate();
-			break;
-		default:
-			break;
+	void OnEnable() {
+		_attacking = false;
+		StartCoroutine( FindTarget() );
+	}
+
+	void Update () {
+		if (_updateIndex == _myIndex) {
+			switch(state) {
+			case State.Alone:
+				AloneUpdate();
+				break;
+			case State.Frenzied:
+				FrenzyUpdate();
+				break;
+			case State.Attack:
+				AttackUpdate();
+				break;
+			default:
+				break;
+			}
+			if(++_updateIndex >= _carrotCount) {
+				_updateIndex = 0;
+			}
 		}
 	}
 	
@@ -119,7 +132,6 @@ public class NPCCarrot : MonoBehaviour {
 			return;
 		}
 		
-		FindTarget();
 		if (_TVTarget == null) return;
 		_boid.SetTarget2(_TVTarget);
 		if (Vector3.Distance(transform.position, _TVTarget.position) < 5f) {
@@ -136,7 +148,9 @@ public class NPCCarrot : MonoBehaviour {
 			return;
 		}
 		
-		FindTarget();
+		float playerDistance = Vector3.Distance(_player.transform.position, transform.position);
+		_boid.profile.target1Weight = playerDistance * 0.125f;
+		
 		if (_attackTarget == null) return;
 		
 		foreach(Transform b in _boid.neighbours) {
@@ -174,7 +188,6 @@ public class NPCCarrot : MonoBehaviour {
 	}
 	
 	void AttackUpdate() {
-		FindTarget();
 		if (_attackTarget == null) {
 			state = State.Frenzied;
 			return;
@@ -201,8 +214,8 @@ public class NPCCarrot : MonoBehaviour {
 
 	}
 	
-	void FindTarget() {
-		Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange);
+	IEnumerator FindTarget() {
+		Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange, targetSearchMask);
 		foreach(Collider c in colliders) {
 			if ( c.isTrigger ) continue;
 			if ( c.transform == this.transform) continue;
@@ -220,6 +233,7 @@ public class NPCCarrot : MonoBehaviour {
 				break;
 			}
 		}
+		yield return new WaitForSeconds(Random.Range(0.5f, 3f));
 	}
 	
 	Transform CompareTargets(Transform target1, Transform target2) {

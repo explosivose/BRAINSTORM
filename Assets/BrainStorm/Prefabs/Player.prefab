@@ -113,8 +113,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: 0, y: -.103800677, z: 0, w: .99459815}
-  m_LocalPosition: {x: 163.913986, y: -13.9383488, z: -160.447632}
+  m_LocalRotation: {x: 0, y: -.290512055, z: 0, w: .956871331}
+  m_LocalPosition: {x: 113.212334, y: 1.5547204, z: -115.036896}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -523,14 +523,14 @@ MonoBehaviour:
     maxFallSpeed: 20
   sprint:
     enabled: 1
-    sprintSpeed: 20
-    sprintLength: 1.5
-    recoveryRate: .5
+    sprintSpeed: 60
+    sprintLength: 1
+    recoveryRate: .400000006
     cooldown: .5
     sprinting: 0
   jumping:
     enabled: 1
-    baseHeight: 1.5
+    baseHeight: 2
     extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .5

@@ -32,11 +32,14 @@ public class Boid : MonoBehaviour {
 		get { return _boidCount; }
 	}
 	public bool update {
-		get { return _myIndex == _updateIndex; }
+		get { return _myIndex == _updateIndex-1; }
 	}
 	public Profile profile {
 		get { return _profile; }
 		set { _profile = value; }
+	}
+	public Vector3 boidDir {
+		get { return _boidDir; }
 	}
 	
 	private static int _boidCount = 0;
@@ -76,7 +79,7 @@ public class Boid : MonoBehaviour {
 			Debug.DrawRay(transform.position, _boidDir, Color.white);
 		}
 		if (_updateIndex == _myIndex) {
-			SendMessage("BoidUpdate", SendMessageOptions.DontRequireReceiver);
+			//SendMessage("BoidUpdate", SendMessageOptions.DontRequireReceiver);
 			Calc();
 			if(++_updateIndex >= _boidCount) {
 				_updateIndex = 0;
