@@ -124,6 +124,10 @@ public class CharacterMotorC : MonoBehaviour {
 		// Very handy for organization!
 		// Are we jumping? (Initiated with jump button and not grounded yet)
 		// To see if we are just in the air (initiated by jumping OR falling) see the grounded variable.
+		
+		public bool superJump = false;
+		public float superJumpHeight = 20.0f;
+		
 		[System.NonSerialized]
 		public bool jumping = false;
 		[System.NonSerialized]
@@ -477,9 +481,12 @@ public class CharacterMotorC : MonoBehaviour {
 					jumping.jumpDir = Vector3.Slerp(Vector3.up, groundNormal, jumping.steepPerpAmount);
 				else
 					jumping.jumpDir = Vector3.Slerp(Vector3.up, groundNormal, jumping.perpAmount);
+				
+				// use superJump if its enabled
+				float jumpHeight = jumping.superJump ? jumping.superJumpHeight : jumping.baseHeight;
 				// Apply the jumping force to the velocity. Cancel any vertical velocity first.
 				velocity.y = 0;
-				velocity += jumping.jumpDir * CalculateJumpVerticalSpeed (jumping.baseHeight);
+				velocity += jumping.jumpDir * CalculateJumpVerticalSpeed (jumpHeight);
 				// Apply inertia from platform
 				if (movingPlatform.enabled &&
 				    (movingPlatform.movementTransfer == MovementTransferOnJump.InitTransfer ||

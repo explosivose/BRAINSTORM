@@ -456,6 +456,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400014, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
+      propertyPath: jumping.superJump
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
   m_RootGameObject: {fileID: 1739406454}
@@ -618,6 +622,8 @@ MonoBehaviour:
     extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .5
+    superJump: 0
+    superJumpHeight: 20
   jetpack:
     enabled: 0
     verticalAccel: 50

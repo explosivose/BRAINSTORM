@@ -38,6 +38,11 @@ public class PlayerInventory : MonoBehaviour {
 		get { return _motor.sprint.enabled; }
 		set { _motor.sprint.enabled = value; }
 	}
+	
+	public bool hasSuperJump {
+		get { return _motor.jumping.superJump; }
+		set { _motor.jumping.superJump = value; }
+	}
 
 	void Awake() {
 		if (Instance == null) {
