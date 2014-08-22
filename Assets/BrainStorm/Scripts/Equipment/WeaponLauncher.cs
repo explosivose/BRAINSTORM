@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(WeaponEquip))]
+[RequireComponent(typeof(Equipment))]
+[AddComponentMenu("Player/Weapon/Launcher")]
 public class WeaponLauncher : MonoBehaviour {
 
 	public Transform projectile;
@@ -11,14 +12,14 @@ public class WeaponLauncher : MonoBehaviour {
 
 	private bool _firing = false;
 	private Transform _weaponNozzle;
-	private WeaponEquip _equip;
+	private Equipment _equip;
 	private Transform _crosshair;
 	
 	// Use this for initialization
 	void Start () {
 		ObjectPool.CreatePool(projectile);
 		_weaponNozzle = transform.FindChild("Nozzle");
-		_equip = GetComponent<WeaponEquip>();
+		_equip = GetComponent<Equipment>();
 		_crosshair = transform.FindChild("Crosshair");
 	}
 	

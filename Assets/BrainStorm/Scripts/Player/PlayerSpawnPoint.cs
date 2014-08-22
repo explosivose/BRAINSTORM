@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Player/Spawn Point")]
 public class PlayerSpawnPoint : MonoBehaviour {
 
 	public Transform spawnPoint;

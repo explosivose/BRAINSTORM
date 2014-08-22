@@ -15,9 +15,6 @@ public class Player : MonoBehaviour {
 		public AudioClip land;
 		public AudioClip sprintStart;
 		public AudioClip sprintStop;
-		public AudioClip jetpackStart;
-		public AudioClip jetpackLoop;
-		public AudioClip jetpackStop;
 	}
 			
 	public int maxHealth;
@@ -29,6 +26,8 @@ public class Player : MonoBehaviour {
 	public float health01 {
 		get { return (float)_health/(float)maxHealth; }
 	}
+	
+	private CharacterMotorC _motor;
 	
 	private int _health;
 	private bool _dead = false;
@@ -42,6 +41,7 @@ public class Player : MonoBehaviour {
 		else {
 			Destroy(this);
 		}
+		_motor = GetComponent<CharacterMotorC>();
 		_health = maxHealth;
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
 	}
@@ -50,11 +50,35 @@ public class Player : MonoBehaviour {
 		if (_dead) return;
 		if (_lastHurtTime + hurtEffectDuration <= Time.time)
 			ScreenFade.Instance.StartFade(Color.clear, hurtEffectDuration);
+			
+		// Get the input vector from keyboard or analog stick
+		Vector3 directionVector;
+		directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		if (directionVector != Vector3.zero) {
+			// Get the length of the directon vector and then normalize it
+			// Dividing by the length is cheaper than normalizing when we already have the length anyway
+			float directionLength = directionVector.magnitude;
+			directionVector = directionVector / directionLength;
+			
+			// Make sure the length is no bigger than 1
+			directionLength = Mathf.Min(1, directionLength);
+			
+			// Make the input vector more sensitive towards the extremes and less sensitive in the middle
+			// This makes it easier to control slow speeds when using analog sticks
+			directionLength = directionLength * directionLength;
+			
+			// Multiply the normalized direction vector by the modified length
+			directionVector = directionVector * directionLength;
+		}
+		
+		// Apply the direction to the CharacterMotor
+		_motor.inputMoveDirection = transform.rotation * directionVector;
+		_motor.inputJump = Input.GetButton("Jump");
+		_motor.inputSprint = Input.GetButton("Sprint");
 	}
 	
 	void OnJump() {
 		PlaySound(sounds.jump);
-
 	}
 	
 	void OnLand() {
@@ -69,13 +93,7 @@ public class Player : MonoBehaviour {
 		PlaySound(sounds.sprintStop);
 	}
 	
-	void OnJetpackStart() {
-		PlaySound(sounds.jetpackStart);
-	}
-	
-	void OnJetpackStop() {
-		PlaySound(sounds.jetpackStop);
-	}
+
 	
 	void PlaySound(AudioClip clip) {
 		audio.clip = clip;

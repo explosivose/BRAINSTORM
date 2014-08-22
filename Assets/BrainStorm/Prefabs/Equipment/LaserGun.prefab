@@ -31,7 +31,7 @@ GameObject:
   - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: LaserGun
-  m_TagString: Weapon
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1337,8 +1337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e5c8b9928e61f41813568232cb8897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipped: 0
-  eqippedPosition: {x: .681575418, y: -.39467141, z: 1.39605105}
+  type: 0
+  parent: 1
+  equippedPosition: {x: 0, y: 0, z: 0}
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: .66242981, y: -1.44835198, z: .152298003}
   holsteredRotation: {x: 90, y: -360, z: -360}

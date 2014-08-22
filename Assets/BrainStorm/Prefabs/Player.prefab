@@ -112,7 +112,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.713501, y: 2.97282028, z: 4.44785213}
+  m_LocalPosition: {x: 163.913986, y: -13.9383488, z: -160.447632}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -395,9 +395,6 @@ MonoBehaviour:
     land: {fileID: 8300000, guid: 1b2a1186013f22243894e53749097a2e, type: 3}
     sprintStart: {fileID: 8300000, guid: 0ce480379bc3ff44e963eaef14f4b30a, type: 3}
     sprintStop: {fileID: 8300000, guid: 1dd28b449484e4c4c95bff57e1a51720, type: 3}
-    jetpackStart: {fileID: 8300000, guid: a6645f190942b5f4c85c9f0772daa060, type: 3}
-    jetpackLoop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
-    jetpackStop: {fileID: 8300000, guid: ad49a56b3ea85d6438b5e68e894d41f0, type: 3}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -409,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c288a15dcefecda41a3cb6bbc5eab71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cmotor: {fileID: 0}
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -451,7 +449,7 @@ MonoBehaviour:
     gravity: 25
     maxFallSpeed: 20
   sprint:
-    enabled: 1
+    enabled: 0
     sprintSpeed: 60
     sprintLength: 1
     recoveryRate: .400000006
@@ -464,7 +462,7 @@ MonoBehaviour:
     perpAmount: .100000001
     steepPerpAmount: .5
   jetpack:
-    enabled: 1
+    enabled: 0
     verticalAccel: 50
     maxVerticalSpeed: 6
     maxJetpackFuel: 2.5

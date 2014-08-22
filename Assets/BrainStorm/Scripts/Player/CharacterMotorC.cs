@@ -319,7 +319,7 @@ public class CharacterMotorC : MonoBehaviour {
 			grounded = true;
 			jumping.jumping = false;
 			if (jetpack.jetpacking) {
-				SendMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
+				BroadcastMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
 			}
 			jetpack.jetpacking = false;
 			SubtractNewPlatformVelocity();
@@ -506,7 +506,7 @@ public class CharacterMotorC : MonoBehaviour {
 			if (inputJump && velocity.y < 0f && !jetpack.jetpacking && canJetpack) {
 				jetpack.jetpacking = true;
 				jetpack.lastStartTime = Time.time;
-				SendMessage("OnJetpackStart", SendMessageOptions.DontRequireReceiver);
+				BroadcastMessage("OnJetpackStart", SendMessageOptions.DontRequireReceiver);
 			}
 			if (jetpack.jetpacking) {
 				if (jetpack.fuel > 0f && inputJump) {
@@ -516,7 +516,7 @@ public class CharacterMotorC : MonoBehaviour {
 				}
 				else { // jump button released or ran out of fuel
 					jetpack.jetpacking = false;
-					SendMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
+					BroadcastMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
 				}
 			}
 			else {

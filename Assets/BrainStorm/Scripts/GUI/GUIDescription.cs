@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("GUI/Inspect Description")]
 public class GUIDescription : MonoBehaviour {
 	
 	// Probably smarter to have several types of descriptions
@@ -8,9 +9,9 @@ public class GUIDescription : MonoBehaviour {
 	// where weapon string is defined in one place and might sensibly be
 	//		weaponString = "Press E to pickup"
 	public string description;
-	public int height;
-	public int width;
-	public float minimumShowTime = 1f;
+	public int height = 20;
+	public int width = 200;
+	public float minimumShowTime = 0.1f;
 	public bool inspect = false;
 	
 	private bool inspectReq;
