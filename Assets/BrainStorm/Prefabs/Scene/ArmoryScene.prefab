@@ -10957,6 +10957,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &101270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 401270}
+  - 114: {fileID: 11400004}
+  m_Layer: 0
+  m_Name: ArmoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -10971,6 +10987,7 @@ Transform:
   - {fileID: 400002}
   - {fileID: 401264}
   - {fileID: 401266}
+  - {fileID: 401270}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &400002
@@ -19211,6 +19228,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 401266}
   m_RootOrder: 0
+--- !u!4 &401270
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101270}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40, y: 20, z: 20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400000}
+  m_RootOrder: 4
 --- !u!23 &2300000
 Renderer:
   m_ObjectHideFlags: 1
@@ -38502,6 +38531,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   changeTo: 0
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e08b59a0d240544afc0d8615d1343f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 400002, guid: 894a289d562e4bc488a8f4b8639b2524, type: 2}
+  - {fileID: 400002, guid: a8c65dc85e550cc47ad557337c2239fc, type: 2}
+  equipmentPrefabs:
+  - {fileID: 400002, guid: 099ff387e12487b40a676d8eb2fd5bc6, type: 2}
+  - {fileID: 400006, guid: 1a582c681c746f74da3ab06f93cf099c, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

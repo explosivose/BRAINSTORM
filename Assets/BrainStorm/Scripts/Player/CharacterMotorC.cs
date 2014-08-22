@@ -376,7 +376,7 @@ public class CharacterMotorC : MonoBehaviour {
 			if (inputSprint && !sprint.sprinting && canSprint) {
 				sprint.sprinting = true;
 				sprint.lastStartTime = Time.time;
-				SendMessage("OnSprintStart",SendMessageOptions.DontRequireReceiver);
+				BroadcastMessage("OnSprintStart",SendMessageOptions.DontRequireReceiver);
 			}
 			if (sprint.sprinting) {
 				if (sprint.stamina > 0f && inputSprint) {
@@ -385,7 +385,7 @@ public class CharacterMotorC : MonoBehaviour {
 				}
 				else { // sprint button release or ran out of stamina
 					sprint.sprinting = false;
-					SendMessage("OnSprintStop", SendMessageOptions.DontRequireReceiver);
+					BroadcastMessage("OnSprintStop", SendMessageOptions.DontRequireReceiver);
 				}
 			}
 			else {

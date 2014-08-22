@@ -13,8 +13,6 @@ public class Player : MonoBehaviour {
 		public AudioClip hurt;
 		public AudioClip jump;
 		public AudioClip land;
-		public AudioClip sprintStart;
-		public AudioClip sprintStop;
 	}
 			
 	public int maxHealth;
@@ -84,16 +82,6 @@ public class Player : MonoBehaviour {
 	void OnLand() {
 		PlaySound(sounds.land);
 	}
-	
-	void OnSprintStart() {
-		PlaySound(sounds.sprintStart);
-	}
-	
-	void OnSprintStop() {
-		PlaySound(sounds.sprintStop);
-	}
-	
-
 	
 	void PlaySound(AudioClip clip) {
 		audio.clip = clip;

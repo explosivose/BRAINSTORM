@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// in future, perhaps, this could inherit from a PhysicsObject MonoBehaviour
+// which plays audio for collisions 
+
 [RequireComponent(typeof(Rigidbody))]
 [AddComponentMenu("Player/Equipment/Equip")]
 public class Equipment : MonoBehaviour {

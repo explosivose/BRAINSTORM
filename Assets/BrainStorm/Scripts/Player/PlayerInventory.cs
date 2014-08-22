@@ -33,6 +33,11 @@ public class PlayerInventory : MonoBehaviour {
 		get { return _motor.jetpack.enabled; }
 		set { _motor.jetpack.enabled = value; }
 	}
+	
+	public bool hasSprint {
+		get { return _motor.sprint.enabled; }
+		set { _motor.sprint.enabled = value; }
+	}
 
 	void Awake() {
 		if (Instance == null) {
@@ -167,20 +172,6 @@ public class PlayerInventory : MonoBehaviour {
 			Debug.DrawRay(cam.position, cam.forward * playerReach, Color.red);
 		}
 	}
-	
-	void AttemptPickup() {
-		// raycast from center of camera
-		RaycastHit hit;
-		Transform cam = Camera.main.transform;
-		if (Physics.Raycast (cam.position, cam.forward, out hit, playerReach)) {
-			Debug.DrawLine(cam.position, hit.point, Color.red, 1f);
-			
-			switch(hit.transform.tag) {
-
-			}
-		}
-	}
-	
 
 	
 	void Carry(Transform obj) {

@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour {
 	
 	private bool _paused;
 	private bool _levelTeardown;
-	private Transform _activeScene;
+	private Transform _activeScene = null;
 	
 	void Awake() {
 		if (Instance == null) {
