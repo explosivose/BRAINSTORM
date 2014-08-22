@@ -32,7 +32,7 @@ GameObject:
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400014}
   - 82: {fileID: 8200000}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -374,6 +374,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerReach: 3
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 4294967039
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,9 +435,9 @@ MonoBehaviour:
     maxGroundAcceleration: 30
     maxAirAcceleration: 30
     gravity: 25
-    maxFallSpeed: 20
+    maxFallSpeed: 100
   sprint:
-    enabled: 0
+    enabled: 1
     sprintSpeed: 60
     sprintLength: 1
     recoveryRate: .400000006
@@ -445,9 +448,11 @@ MonoBehaviour:
     baseHeight: 2
     extraHeight: 0
     perpAmount: .100000001
-    steepPerpAmount: .5
+    steepPerpAmount: .25
+    superJump: 1
+    superJumpHeight: 20
   jetpack:
-    enabled: 0
+    enabled: 1
     verticalAccel: 50
     maxVerticalSpeed: 6
     maxJetpackFuel: 2.5

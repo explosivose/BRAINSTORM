@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour {
 		else {
 			Destroy(this);
 		}
-		
+		transform.position = Vector3.zero;
 		foreach(Scene s in scenes) {
 			ObjectPool.CreatePool(s.scenePrefab);
 		}

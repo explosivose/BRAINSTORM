@@ -8,6 +8,7 @@ public class PlayerInventory : MonoBehaviour {
 	public static PlayerInventory Instance;
 
 	public float playerReach = 4f;
+	public LayerMask raycastMask;
 	
 	private CharacterMotorC _motor;
 	private float _inspectStartTime;	// the time we started inspected an equipable item
@@ -149,7 +150,7 @@ public class PlayerInventory : MonoBehaviour {
 	void InspectItem() {
 		RaycastHit hit;
 		Transform cam = Camera.main.transform;
-		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach)) {
+		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach, raycastMask)) {
 			hit.transform.SendMessage("OnInspect", SendMessageOptions.DontRequireReceiver);
 			switch(hit.transform.tag) {
 			case "TV":
