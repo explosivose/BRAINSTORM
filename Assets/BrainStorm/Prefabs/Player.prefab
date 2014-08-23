@@ -111,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 163.913986, y: -13.9383488, z: -160.447632}
+  m_LocalPosition: {x: 0, y: 1.51413918, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -479,19 +479,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar:
     prefab: {fileID: 400000, guid: 0167b1c6550dde54fbb7a3a7077f037a, type: 2}
-    alignment: 8
-    horizontalOffset: 10
-    verticalOffset: -20
+    alignment: 6
+    horizontalOffset: 5
+    verticalOffset: 5
   jetpackBar:
     prefab: {fileID: 400000, guid: 5ebf3997becb15d40b9bae510b13edd5, type: 2}
-    alignment: 8
-    horizontalOffset: 10
-    verticalOffset: 64
+    alignment: 6
+    horizontalOffset: 5
+    verticalOffset: 5
   sprintBar:
     prefab: {fileID: 400000, guid: 66b0724d768aff24fbb1060f5bb66858, type: 2}
-    alignment: 8
-    horizontalOffset: 10
-    verticalOffset: 128
+    alignment: 6
+    horizontalOffset: 5
+    verticalOffset: 5
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

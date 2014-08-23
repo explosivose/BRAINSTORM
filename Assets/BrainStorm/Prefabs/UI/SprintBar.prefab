@@ -39,21 +39,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c95a157734574f82b4e53cba5dae53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value: 1
+  Value: .535999656
   FadeFactor: 1
-  Position: {x: 610.619995, y: 106}
+  Position: {x: 15, y: 403}
   ScaleSize: 1
   DisplayText: 1
-  TextString: 26%
+  TextString: 53%
   TextColor: {r: 0, g: 0, b: 0, a: 1}
-  OverRideTextColorWithGradient: 0
-  TextFont: {fileID: 12800000, guid: c390600279d704750a83bfc589709a66, type: 3}
-  TextSize: 72.9000015
-  TextOffset: {x: 3.79999995, y: 6.9000001}
-  Background: {fileID: 2800000, guid: 88209659b5edb4eb8b1b49967f96f469, type: 3}
-  Mask: {fileID: 2800000, guid: ca2b4d4dd535f46c087823b2063a14a5, type: 3}
-  ValueBar: {fileID: 2800000, guid: aa2bd2c35438946b693d01bdab247e80, type: 3}
-  Foreground: {fileID: 0}
+  OverRideTextColorWithGradient: 1
+  TextFont: {fileID: 12800000, guid: 240a102734c6045e1a3e91655501fa0a, type: 3}
+  TextSize: 12
+  TextOffset: {x: 133.080002, y: 20.3999996}
+  Background: {fileID: 2800000, guid: 4682d6316cae9774491f9bce732f4dda, type: 3}
+  Mask: {fileID: 2800000, guid: b2b5d5fa0490e1e43940f4c821d8f42a, type: 3}
+  ValueBar: {fileID: 2800000, guid: 7b799060668ea914392f8ee310599d26, type: 3}
+  Foreground: {fileID: 2800000, guid: 8fe924798484fa341963516ba8635215, type: 3}
   GradientColors:
   - {r: 1, g: .980392158, b: 0, a: 1}
 --- !u!1001 &100100000
