@@ -32,6 +32,7 @@ public class NPCVirusZombie : MonoBehaviour {
 				// cheatsidoodle way to keep these NPCs from wandering off-scene
 				_boid.SetTarget1(GameManager.Instance.transform);
 				StartCoroutine(FindTarget());
+				audio.pitch = _sf;
 				break;
 				
 			case State.Stalking:
@@ -43,6 +44,7 @@ public class NPCVirusZombie : MonoBehaviour {
 			case State.Attacking:
 				_boid.profile = attackProfile;
 				_boid.SetTarget1(_attackTarget);
+				audio.pitch = _sf * 12f;
 				break;
 				
 			case State.Dead:
@@ -65,6 +67,7 @@ public class NPCVirusZombie : MonoBehaviour {
 	private Transform _attackTarget;
 	private bool _attacking = false;
 	private DamageInstance _damage = new DamageInstance();
+	private float _sf;
 	
 	void Awake() {
 		_boid = GetComponent<Boid>();
@@ -72,7 +75,10 @@ public class NPCVirusZombie : MonoBehaviour {
 		_damage.source = this.transform;
 		_damage.damage = damage;
 		_boid.defaultBehaviour = idleProfile;
-		transform.localScale *= (Random.value/2f) + 0.5f;
+		_sf = (Random.value/2f) + 0.5f;
+		transform.localScale *= _sf;
+		audio.pitch = _sf;
+		audio.timeSamples = Random.Range(0, audio.clip.samples);
 	}
 	
 	void Start() {
@@ -87,6 +93,7 @@ public class NPCVirusZombie : MonoBehaviour {
 		_attackTarget = null;
 		_hurt = false;
 		_attacking = false;
+		audio.Play();
 		
 	}
 	
@@ -125,7 +132,7 @@ public class NPCVirusZombie : MonoBehaviour {
 			return;
 		}
 		
-		if (targetDistance < targetSearchRange / 2f) {
+		if (targetDistance < targetSearchRange / 3f) {
 			state = State.Attacking;
 		}
 	}
@@ -158,7 +165,7 @@ public class NPCVirusZombie : MonoBehaviour {
 		Debug.DrawLine(transform.position, _attackTarget.position, Color.red);
 		float targetDistance = Vector3.Distance(transform.position, _attackTarget.position);
 		
-		if (targetDistance > targetSearchRange / 2f) {
+		if (targetDistance > targetSearchRange / 3f) {
 			state = State.Idle;
 			return;
 		}
@@ -244,7 +251,9 @@ public class NPCVirusZombie : MonoBehaviour {
 	}
 	
 	IEnumerator Death() {
+		audio.pitch = _sf * 0.5f;
 		yield return new WaitForSeconds(2f);
+		audio.Stop();
 		transform.Recycle();
 	}
 }

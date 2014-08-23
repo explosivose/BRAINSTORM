@@ -37,9 +37,6 @@ public class Boid : MonoBehaviour {
 	public static int boidCount {
 		get { return _boidCount; }
 	}
-	public bool update {
-		get { return _myIndex == _updateIndex-1; }
-	}
 	public Profile profile {
 		get { return _profile; }
 		set { _profile = value; }
