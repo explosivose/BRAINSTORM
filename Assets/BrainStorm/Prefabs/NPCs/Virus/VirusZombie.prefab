@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   - 135: {fileID: 13500004}
+  - 96: {fileID: 9600000}
   m_Layer: 0
   m_Name: Graphic
   m_TagString: Untagged
@@ -105,6 +106,47 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!96 &9600000
+TrailRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Time: 3
+  m_StartWidth: .5
+  m_EndWidth: 0
+  m_Colors:
+    m_Color[0]:
+      serializedVersion: 2
+      rgba: 4278245631
+    m_Color[1]:
+      serializedVersion: 2
+      rgba: 4278245374
+    m_Color[2]:
+      serializedVersion: 2
+      rgba: 4278245117
+    m_Color[3]:
+      serializedVersion: 2
+      rgba: 4278244860
+    m_Color[4]:
+      serializedVersion: 2
+      rgba: 54523
+  m_MinVertexDistance: .100000001
+  m_Autodestruct: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,27 +169,35 @@ MonoBehaviour:
     dead: {fileID: 2100000, guid: edaa9158e71a8f840bf0fb82a259297e, type: 2}
     lingerie: {fileID: 0}
   idleProfile:
-    moveSpeed: 10
+    moveSpeed: 5
     turnSpeed: 2
-    separation: 30
-    alignmentWeight: 1
-    cohesionWeight: 3
+    separation: 20
+    alignmentWeight: .5
+    cohesionWeight: 2
     target1Weight: .100000001
     target2Weight: 0
+  stalkProfile:
+    moveSpeed: 7.5
+    turnSpeed: 5
+    separation: 10
+    alignmentWeight: .5
+    cohesionWeight: 3
+    target1Weight: 5
+    target2Weight: 0
   attackProfile:
-    moveSpeed: 20
+    moveSpeed: 12
     turnSpeed: 10
-    separation: 2
-    alignmentWeight: 3
+    separation: 50
+    alignmentWeight: 2
     cohesionWeight: 1
     target1Weight: 5
     target2Weight: 0
   targetSearchMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 256
   damage: 5
   attackRate: 2
-  targetSearchRange: 50
+  targetSearchRange: 30
   timeBetweenTargetSearches: 4
 --- !u!114 &11400002
 MonoBehaviour:
@@ -160,7 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd8d1c7cc657734aae668a1db090175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawDebug: 0
+  layer: 1
+  drawDebug: 1
   controlEnabled: 1
   defaultBehaviour:
     moveSpeed: 5

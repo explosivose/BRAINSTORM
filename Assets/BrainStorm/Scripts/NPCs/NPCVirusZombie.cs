@@ -6,12 +6,13 @@ using System.Collections;
 public class NPCVirusZombie : MonoBehaviour {
 
 	public enum State {
-		Idle, Attacking, Dead
+		Idle, Stalking, Attacking, Dead
 	}
 	
 	public CharacterStats stats = new CharacterStats();
 	public CharacterMaterials wardrobe = new CharacterMaterials();
 	public Boid.Profile idleProfile = new Boid.Profile();
+	public Boid.Profile stalkProfile = new Boid.Profile();
 	public Boid.Profile attackProfile = new Boid.Profile();
 	public LayerMask targetSearchMask;
 	public int damage;
@@ -26,15 +27,24 @@ public class NPCVirusZombie : MonoBehaviour {
 			switch(_state) {
 			case State.Idle:
 			default:
-				StartCoroutine(FindTarget());
+				_attackTarget = null;
 				_boid.profile = idleProfile;
 				// cheatsidoodle way to keep these NPCs from wandering off-scene
 				_boid.SetTarget1(GameManager.Instance.transform);
+				StartCoroutine(FindTarget());
 				break;
+				
+			case State.Stalking:
+				_boid.profile = stalkProfile;
+				_boid.SetTarget1(_attackTarget);
+				StartCoroutine(StalkRoutine());
+				break;
+				
 			case State.Attacking:
 				_boid.profile = attackProfile;
 				_boid.SetTarget1(_attackTarget);
 				break;
+				
 			case State.Dead:
 				_boid.controlEnabled = false;
 				_ren.material = wardrobe.dead;
@@ -62,6 +72,7 @@ public class NPCVirusZombie : MonoBehaviour {
 		_damage.source = this.transform;
 		_damage.damage = damage;
 		_boid.defaultBehaviour = idleProfile;
+		transform.localScale *= (Random.value/2f) + 0.5f;
 	}
 	
 	void Start() {
@@ -87,19 +98,51 @@ public class NPCVirusZombie : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		switch(_state) {
-		case State.Idle:
-		default:
+		case State.Stalking:
+			StalkUpdate();
 			break;
 		case State.Attacking:
 			AttackUpdate();
 			break;
-		case State.Dead:
-			break;
 		}
 	}
 	
-	void IdleUpdate(){
+	void StalkUpdate() {
+		if (!_attackTarget) {
+			state = State.Idle;
+			return;
+		}
+		if (_attackTarget.tag == "Untagged") {
+			state = State.Idle;
+			return;
+		}
 		
+		Debug.DrawLine(transform.position, _attackTarget.position, Color.yellow);
+		float targetDistance = (Vector3.Distance(transform.position, _attackTarget.position));
+		
+		if (targetDistance > targetSearchRange) {
+			state = State.Idle;
+			return;
+		}
+		
+		if (targetDistance < targetSearchRange / 2f) {
+			state = State.Attacking;
+		}
+	}
+	
+	IEnumerator StalkRoutine() {
+		float time = 1f;
+		while(state == State.Stalking) {
+			_boid.target1PositionOffset = transform.up * 10f;
+			yield return new WaitForSeconds(time);
+			_boid.target1PositionOffset = transform.right * 10f;
+			yield return new WaitForSeconds(time);
+			_boid.target1PositionOffset = -transform.up * 10f;
+			yield return new WaitForSeconds(time);
+			_boid.target1PositionOffset = -transform.right * 10f;
+			yield return new WaitForSeconds(time);
+		}
+		_boid.target1PositionOffset = Vector3.zero;
 	}
 	
 	void AttackUpdate() {
@@ -112,7 +155,15 @@ public class NPCVirusZombie : MonoBehaviour {
 			return;
 		}
 		
-		if (Vector3.Distance(transform.position, _attackTarget.position) < stats.attackRange) {
+		Debug.DrawLine(transform.position, _attackTarget.position, Color.red);
+		float targetDistance = Vector3.Distance(transform.position, _attackTarget.position);
+		
+		if (targetDistance > targetSearchRange / 2f) {
+			state = State.Idle;
+			return;
+		}
+		
+		if (targetDistance < stats.attackRange) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
 	}
@@ -142,7 +193,7 @@ public class NPCVirusZombie : MonoBehaviour {
 			}
 			
 			if (_attackTarget != null) {
-				state = State.Attacking;
+				state = State.Stalking;
 			}
 			
 			yield return new WaitForSeconds(timeBetweenTargetSearches);

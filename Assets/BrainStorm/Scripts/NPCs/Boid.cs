@@ -7,6 +7,12 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Boid : MonoBehaviour {
 
+	public enum BoidLayer {
+		Boid, Boid2
+	}
+	
+	public BoidLayer layer = BoidLayer.Boid;
+
 	[System.Serializable]
 	public class Profile {
 		public float moveSpeed;
@@ -41,9 +47,20 @@ public class Boid : MonoBehaviour {
 	public Vector3 boidDir {
 		get { return _boidDir; }
 	}
+	public Vector3 target1PositionOffset {
+		get { return _target1Off; }
+		set { _target1Off = value; }
+	}
+	public Vector3 target2PositionOffset {
+		get { return _target2Off; }
+		set { _target2Off = value; }
+	}
 	
 	private static int _boidCount = 0;
+	private static int _boid2Count = 0;
+	
 	private static int _updateIndex = 0;
+	private static int _update2Index = 0;
 	private int _myIndex;
 	
 
@@ -56,7 +73,9 @@ public class Boid : MonoBehaviour {
 	private Vector3 _target1Dir;
 	private Vector3 _target2Dir;
 	private Transform _target1;
+	private Vector3 _target1Off = Vector3.zero;
 	private Transform _target2;
+	private Vector3 _target2Off = Vector3.zero;
 	
 	public void SetTarget1(Transform target) {
 		_target1 = target;
@@ -67,7 +86,18 @@ public class Boid : MonoBehaviour {
 	}
 	
 	void Start() {
-		_myIndex = _boidCount++;
+		
+		switch (layer) {
+		case BoidLayer.Boid:
+			gameObject.layer = LayerMask.NameToLayer("Boid");
+			_myIndex = _boidCount++;
+			break;
+		case BoidLayer.Boid2:
+			gameObject.layer = LayerMask.NameToLayer("Boid2");
+			_myIndex = _boid2Count++;
+			break;
+		}
+		
 		profile = defaultBehaviour;
 	}
 	
@@ -78,13 +108,23 @@ public class Boid : MonoBehaviour {
 			Debug.DrawRay(transform.position, _cohesionDir, Color.magenta);
 			Debug.DrawRay(transform.position, _boidDir, Color.white);
 		}
-		if (_updateIndex == _myIndex) {
-			//SendMessage("BoidUpdate", SendMessageOptions.DontRequireReceiver);
-			Calc();
-			if(++_updateIndex >= _boidCount) {
-				_updateIndex = 0;
+		
+		switch (layer) {
+		case BoidLayer.Boid:
+			if (_updateIndex == _myIndex) {
+				Calc();
+				if(++_updateIndex >= _boidCount) 
+					_updateIndex = 0;
 			}
+			break;
 			
+		case BoidLayer.Boid2:
+			if (_update2Index == _myIndex) {
+				Calc();
+				if(++_update2Index >= _boid2Count) 
+					_update2Index = 0;
+			}
+			break;
 		}
 	}
 	
@@ -129,12 +169,12 @@ public class Boid : MonoBehaviour {
 				_cohesionDir * profile.cohesionWeight;
 				
 		if (_target1!=null)  {
-			_target1Dir = (_target1.position - transform.position).normalized;
+			_target1Dir = (_target1.position + _target1Off - transform.position).normalized;
 			_boidDir += _target1Dir * profile.target1Weight;
 		}
 		
 		if (_target2!=null) {
-			_target2Dir = (_target2.position - transform.position).normalized;
+			_target2Dir = (_target2.position + _target2Off - transform.position).normalized;
 			_boidDir += _target2Dir * profile.target2Weight;
 		}
 		
