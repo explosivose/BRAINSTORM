@@ -6,9 +6,9 @@ using System.Collections;
 public class WeaponLauncher : MonoBehaviour {
 
 	public Transform projectile;
-	
 	public float timeBetweenShots;
 	public float range;
+	public LayerMask raycastMask;
 
 	private bool _firing = false;
 	private Transform _weaponNozzle;
@@ -35,7 +35,7 @@ public class WeaponLauncher : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
 		RaycastHit hit;
 		Transform target = null;
-		if (Physics.Raycast(ray, out hit, range)) {
+		if (Physics.Raycast(ray, out hit, range, raycastMask)) {
 			if (!hit.collider.isTrigger) {
 				transform.LookAt(hit.point);
 				_crosshair.position = hit.point;

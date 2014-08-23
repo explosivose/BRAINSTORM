@@ -109,21 +109,21 @@ public class PlayerInventory : MonoBehaviour {
 						_inspected.SendMessage("Equip");
 						_equippedWeapon = _inspected;
 						break;
-					// If it's a utility1 (Jump) 
-					// and we don't have a utility1 yet then equip it
+					// If it's a utility1 (Jump) equip it
+					// and swap it with any utility1 we already have
 					case Equipment.Type.utility1:
-						if (!_utility1) {
+							if (_utility1)
+								_utility1.SendMessage("Drop");
 							_inspected.SendMessage("Equip");
 							_utility1 = _inspected;
-						}	
 						break;
-					// If it's a utility2 (Sprint)
-					// and we don't have a utility2 yet then equip it
+					// If it's a utility2 (Sprint) equip it
+					// and swap it with any utility2 we already have
 					case Equipment.Type.utility2:
-						if (!_utility2) {
+							if (_utility2)
+								_utility2.SendMessage("Drop");
 							_inspected.SendMessage("Equip");
 							_utility2 = _inspected;
-						}
 						break;
 					}
 					break;

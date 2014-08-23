@@ -453,8 +453,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: .707056344, y: 0, z: 0, w: .707157254}
-  m_LocalPosition: {x: 38.2538261, y: 1.17699075, z: 17.2052155}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .349990845, y: -.230402946, z: 1.01599121}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400048}
@@ -1339,7 +1339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   parent: 1
-  equippedPosition: {x: 0, y: 0, z: 0}
+  equippedPosition: {x: .349990785, y: -.230402902, z: 1.01599097}
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: .66242981, y: -1.44835198, z: .152298003}
   holsteredRotation: {x: 90, y: -360, z: -360}
@@ -1357,6 +1357,9 @@ MonoBehaviour:
   projectile: {fileID: 400000, guid: 5cbab15dd6817b74f91359b68b7d2abe, type: 2}
   timeBetweenShots: .200000003
   range: 100
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 4294965247
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

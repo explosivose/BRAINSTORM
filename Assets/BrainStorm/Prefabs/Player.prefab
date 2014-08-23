@@ -32,7 +32,7 @@ GameObject:
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400014}
   - 82: {fileID: 8200000}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.51413918, z: 0}
+  m_LocalPosition: {x: 163.913986, y: -13.9383488, z: -160.447632}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -376,7 +376,7 @@ MonoBehaviour:
   playerReach: 3
   raycastMask:
     serializedVersion: 2
-    m_Bits: 4294967039
+    m_Bits: 4294965247
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -437,7 +437,7 @@ MonoBehaviour:
     gravity: 25
     maxFallSpeed: 100
   sprint:
-    enabled: 1
+    enabled: 0
     sprintSpeed: 60
     sprintLength: 1
     recoveryRate: .400000006
@@ -449,12 +449,12 @@ MonoBehaviour:
     extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .25
-    superJump: 1
+    superJump: 0
     superJumpHeight: 20
   jetpack:
-    enabled: 1
-    verticalAccel: 50
-    maxVerticalSpeed: 6
+    enabled: 0
+    verticalAccel: 60
+    maxVerticalSpeed: 10
     maxJetpackFuel: 2.5
     rechargeRate: .800000012
     cooldown: .5
