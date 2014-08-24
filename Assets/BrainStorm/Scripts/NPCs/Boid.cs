@@ -53,6 +53,8 @@ public class Boid : MonoBehaviour {
 		set { _target2Off = value; }
 	}
 	
+	// instead of having 1 and 2 maybe have child classes
+	// bad boid and good boid?
 	private static int _boidCount = 0;
 	private static int _boid2Count = 0;
 	

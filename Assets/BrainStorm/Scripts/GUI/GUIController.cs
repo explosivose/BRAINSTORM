@@ -7,10 +7,19 @@ public class GUIBarPlacement {
 	public GUIController.Alignment alignment;
 	public int horizontalOffset;
 	public int verticalOffset;
+	private Transform _instance;
+	public bool visible {
+		get { 
+			if (_instance) return _instance.gameObject.activeInHierarchy;
+			else return false;
+		}
+		set { if (_instance) _instance.gameObject.SetActive(value); }
+	}
 	public GUIBarScript SpawnAndPlace() {
-		Transform instance = prefab.Spawn();
-		instance.parent = Player.Instance.transform;
-		GUIBarScript bar = instance.GetComponent<GUIBarScript>();
+		if (!_instance)
+			_instance = prefab.Spawn();
+		_instance.parent = Player.Instance.transform;
+		GUIBarScript bar = _instance.GetComponent<GUIBarScript>();
 		int width = bar.Background.width;
 		int height = bar.Background.height;
 		bar.Position.x = GUIController.CalcLeft(width, horizontalOffset, alignment);
@@ -21,6 +30,7 @@ public class GUIBarPlacement {
 
 public class GUIController : MonoBehaviour {
 
+	public static GUIController Instance;
 	
 	public GUIBarPlacement healthBar;
 	public GUIBarPlacement jetpackBar;
@@ -86,13 +96,26 @@ public class GUIController : MonoBehaviour {
 		}
 	}
 	
+	void Awake() {
+		// singleton design pattern
+		if (Instance == null) {
+			Instance = this;
+		}
+		else {
+			Destroy(this);
+		}
+	}
+	
 	// Use this for initialization
 	void Start () {
 		
 		// spawn healthbar and place on bottom right
 		_healthBarInstance = healthBar.SpawnAndPlace();
+		healthBar.visible = true;
 		_jetpackBarInstance = jetpackBar.SpawnAndPlace();
+		jetpackBar.visible = false;
 		_sprintBarInstance = sprintBar.SpawnAndPlace();
+		sprintBar.visible = false;
 	}
 	
 	// Update is called once per frame

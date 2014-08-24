@@ -45,6 +45,22 @@ public class PlayerInventory : MonoBehaviour {
 		set { _motor.jumping.superJump = value; }
 	}
 
+	private Transform utility1 {
+		get { return _utility1; }
+		set {
+			_utility1 = value;
+			GUIController.Instance.jetpackBar.visible = (_utility1 != null);
+		}
+	}
+	
+	private Transform utility2 {
+		get { return _utility2; }
+		set {
+			_utility2 = value;
+			GUIController.Instance.sprintBar.visible = (_utility2 != null);
+		}
+	}
+
 	void Awake() {
 		if (Instance == null) {
 			Instance = this;
@@ -70,7 +86,7 @@ public class PlayerInventory : MonoBehaviour {
 				if (_utility1) 
 					_utility1.SendMessage("Drop");
 				_inspected.SendMessage("Equip");
-				_utility1 = _inspected;
+				utility1 = _inspected;
 			}
 			// or that equipment is utility2, and we press Sprint
 			else if(_inspectedEquip.type == Equipment.Type.utility2 && 
@@ -79,7 +95,7 @@ public class PlayerInventory : MonoBehaviour {
 				if (_utility2)
 					_utility2.SendMessage("Drop");
 				_inspected.SendMessage("Equip");
-				_utility2 = _inspected;
+				utility2 = _inspected;
 			}
 		}
 		
@@ -115,7 +131,7 @@ public class PlayerInventory : MonoBehaviour {
 							if (_utility1)
 								_utility1.SendMessage("Drop");
 							_inspected.SendMessage("Equip");
-							_utility1 = _inspected;
+							utility1 = _inspected;
 						break;
 					// If it's a utility2 (Sprint) equip it
 					// and swap it with any utility2 we already have
@@ -123,7 +139,7 @@ public class PlayerInventory : MonoBehaviour {
 							if (_utility2)
 								_utility2.SendMessage("Drop");
 							_inspected.SendMessage("Equip");
-							_utility2 = _inspected;
+							utility2 = _inspected;
 						break;
 					}
 					break;
