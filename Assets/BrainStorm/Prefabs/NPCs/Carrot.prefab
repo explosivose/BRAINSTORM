@@ -156,7 +156,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   hostileTo: 4
-  targetSearchRange: 50
+  targetSearchRange: 25
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

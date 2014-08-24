@@ -26,6 +26,10 @@ public class GUIDescription : MonoBehaviour {
 		inspect = false;
 	}
 	
+	void OnEnable() {
+		inspect = false;
+	}
+	
 	// having a lot of OnGUI is probably horrible
 	// maybe think about a GUIDescription implementation that 
 	// uses GUIText or some other gameObject in world space
