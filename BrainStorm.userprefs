@@ -1,11 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\NPCs\Boid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\NPCs\NPC.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCVirusZombie.cs" Line="253" Column="23" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\Boid.cs" Line="61" Column="38" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCCarrot.cs" Line="128" Column="22" />
-      <File FileName="Assets\BrainStorm\Scripts\Singleton.cs" Line="55" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPC.cs" Line="15" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

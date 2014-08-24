@@ -2,6 +2,7 @@
 using System.Collections;
 
 [AddComponentMenu("Character/Faction/Faction")]
+[RequireComponent(typeof(NPC))]
 [RequireComponent(typeof(NPCPathFinder))]
 public class NPCFaction : MonoBehaviour {
 
@@ -70,6 +71,7 @@ public class NPCFaction : MonoBehaviour {
 				_pathfinder.destination = advancePosition;
 				_pathfinder.stopDistance = 10f;
 				_target = null;
+				GetComponent<NPC>().type = NPC.Type.Native;
 				break;
 			case State.Idle:
 			default:

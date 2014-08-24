@@ -12,6 +12,8 @@ public class NPCCarrot : MonoBehaviour {
 	public float attackRollRate = 0.5f;
 	public Boid.Profile boidAttackProfile = new Boid.Profile();
 	public LayerMask targetSearchMask;
+	[BitMask(typeof(NPC.Type))]
+	public NPC.Type hostileTo;
 	public float targetSearchRange = 50f;
 	
 	public enum State {
@@ -47,6 +49,7 @@ public class NPCCarrot : MonoBehaviour {
 				break;
 			case State.Frenzied:
 				_carrotsInFrenzy++;
+				_attackTarget = null;
 				_boid.controlEnabled = true;
 				_boid.profile = _boid.defaultBehaviour;
 				_boid.SetTarget1(_player);
@@ -205,7 +208,19 @@ public class NPCCarrot : MonoBehaviour {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-		_attackTarget.SendMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+
+		_attackTarget.BroadcastMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		_attackTarget.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		// This is BroadcastMessage() rather than SendMessage() 
+		// because _attackTarget will be a child object of a virus zombie for example
+		// this is because the virus zombie is a boid which needs an object
+		// on boid layer and character layer.
+		// I should think about how to organise boid character objects in the
+		// hierarchy to avoid using BroadcastMessage()
+		// Or perhaps think about writing a character parent class to call
+		// functions on directly (which also carries common functions like
+		// FindTarget(), Damage(), blah blah
+		// There's a similar code that could be shared.
 		yield return new WaitForSeconds(0.5f);
 		_attacking = false;
 	}
@@ -215,25 +230,29 @@ public class NPCCarrot : MonoBehaviour {
 	}
 	
 	IEnumerator FindTarget() {
-		Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange, targetSearchMask);
-		foreach(Collider c in colliders) {
-			if ( c.isTrigger ) continue;
-			if ( c.transform == this.transform) continue;
-			if (_attackTarget != null) {
-				if (_attackTarget.tag != "NPC") _attackTarget = null;
+		while(true) {
+			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange, targetSearchMask);
+			foreach(Collider c in colliders) {
+				if ( c.isTrigger ) continue;
+				if ( c.transform == this.transform) continue;
+				if (_attackTarget != null) {
+					if (_attackTarget.tag != "NPC") _attackTarget = null;
+				}
+				switch (c.tag) {
+				case "TV":
+					_TVTarget = CompareTargets(_TVTarget, c.transform);
+					break;
+				case "NPC":
+					NPC npc = c.GetComponent<NPC>();
+					if ((npc.type & hostileTo) == npc.type && npc.type > 0)
+						_attackTarget = CompareTargets(_attackTarget, c.transform);
+					break;
+				default:
+					break;
+				}
 			}
-			switch (c.tag) {
-			case "TV":
-				_TVTarget = CompareTargets(_TVTarget, c.transform);
-				break;
-			case "NPC":
-				_attackTarget = CompareTargets(_attackTarget, c.transform);
-				break;
-			default:
-				break;
-			}
+			yield return new WaitForSeconds(Random.Range(0.5f, 3f));
 		}
-		yield return new WaitForSeconds(Random.Range(0.5f, 3f));
 	}
 	
 	Transform CompareTargets(Transform target1, Transform target2) {

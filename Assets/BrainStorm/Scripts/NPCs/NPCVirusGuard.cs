@@ -11,6 +11,9 @@ public class NPCVirusGuard : MonoBehaviour {
 	
 	public CharacterStats stats = new CharacterStats();
 	public float defendRange;
+	public LayerMask targetSearchMask;
+	[BitMask(typeof(NPC.Type))]
+	public NPC.Type hostileTo;
 	public float targetSearchRange;
 	public float timeBetweenTargetSearches;
 	public Transform projectilePrefab;
@@ -134,13 +137,18 @@ public class NPCVirusGuard : MonoBehaviour {
 	IEnumerator FindTarget() {
 		while(state == State.Defending) {
 			
-			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange, targetSearchMask);
 			foreach(Collider c in colliders) {
 				if ( c.isTrigger ) continue;
 				if ( c.transform == this.transform) continue;
 				
 				switch (c.tag) {
-				//case "NPC":
+				case "NPC":
+					NPC npc = c.GetComponent<NPC>();
+					Debug.DrawLine(transform.position, c.transform.position, Color.red);
+					if ((npc.type & hostileTo) == npc.type && npc.type > 0)
+						_attackTarget = CompareTargets(_attackTarget, c.transform);
+					break;
 				case "Player":
 					_attackTarget = CompareTargets(_attackTarget, c.transform);
 					break;

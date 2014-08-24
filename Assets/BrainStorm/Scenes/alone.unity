@@ -4727,7 +4727,7 @@ GameObject:
   - 114: {fileID: 913000167}
   - 114: {fileID: 913000175}
   - 82: {fileID: 913000173}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4783,7 +4783,7 @@ MonoBehaviour:
   playerReach: 3
   raycastMask:
     serializedVersion: 2
-    m_Bits: 4294967039
+    m_Bits: 4294966783
 --- !u!114 &913000171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4920,7 +4920,7 @@ MonoBehaviour:
     gravity: 25
     maxFallSpeed: 100
   sprint:
-    enabled: 1
+    enabled: 0
     sprintSpeed: 60
     sprintLength: 1
     recoveryRate: .400000006
@@ -4932,12 +4932,12 @@ MonoBehaviour:
     extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .25
-    superJump: 1
+    superJump: 0
     superJumpHeight: 20
   jetpack:
-    enabled: 1
-    verticalAccel: 50
-    maxVerticalSpeed: 6
+    enabled: 0
+    verticalAccel: 60
+    maxVerticalSpeed: 10
     maxJetpackFuel: 2.5
     rechargeRate: .800000012
     cooldown: .5
@@ -5990,7 +5990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68745463daccc644897e2f809638f383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockSize: 1
+  flockSize: 15
   prefab: {fileID: 100000, guid: f500e129b081542479a5035566b13dbc, type: 2}
   setTarget: 0
   target: {fileID: 0}
@@ -6059,7 +6059,7 @@ Transform:
   m_PrefabInternal: {fileID: 1259426602}
   m_GameObject: {fileID: 1115997802}
   m_LocalRotation: {x: .628849924, y: 0, z: 0, w: .777526736}
-  m_LocalPosition: {x: 136.842316, y: 7.03510284, z: -213.515396}
+  m_LocalPosition: {x: 156.95816, y: 7.03510284, z: -201.60408}
   m_LocalScale: {x: .5, y: .49999994, z: .5}
   m_Children: []
   m_Father: {fileID: 100098879}
@@ -6928,6 +6928,22 @@ Prefab:
     - target: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400216, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 156.95816
+      objectReference: {fileID: 0}
+    - target: {fileID: 400216, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -201.60408
+      objectReference: {fileID: 0}
+    - target: {fileID: 400216, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 7.03510284
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400068, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
+      propertyPath: flockSize
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
@@ -8852,19 +8868,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar:
     prefab: {fileID: 400000, guid: 0167b1c6550dde54fbb7a3a7077f037a, type: 2}
-    alignment: 8
-    horizontalOffset: 10
-    verticalOffset: -20
+    alignment: 6
+    horizontalOffset: 5
+    verticalOffset: 5
   jetpackBar:
     prefab: {fileID: 400000, guid: 5ebf3997becb15d40b9bae510b13edd5, type: 2}
-    alignment: 8
-    horizontalOffset: 10
-    verticalOffset: 64
+    alignment: 6
+    horizontalOffset: 5
+    verticalOffset: 5
   sprintBar:
     prefab: {fileID: 400000, guid: 66b0724d768aff24fbb1060f5bb66858, type: 2}
-    alignment: 8
-    horizontalOffset: 10
-    verticalOffset: 128
+    alignment: 6
+    horizontalOffset: 5
+    verticalOffset: 5
 --- !u!1 &1861136816
 GameObject:
   m_ObjectHideFlags: 0

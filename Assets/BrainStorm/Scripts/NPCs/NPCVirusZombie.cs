@@ -15,6 +15,8 @@ public class NPCVirusZombie : MonoBehaviour {
 	public Boid.Profile stalkProfile = new Boid.Profile();
 	public Boid.Profile attackProfile = new Boid.Profile();
 	public LayerMask targetSearchMask;
+	[BitMask(typeof(NPC.Type))]
+	public NPC.Type hostileTo;
 	public int damage;
 	public float attackRate;
 	public float targetSearchRange;
@@ -51,6 +53,7 @@ public class NPCVirusZombie : MonoBehaviour {
 				_boid.controlEnabled = false;
 				_ren.material = wardrobe.dead;
 				tag = "Untagged";
+				transform.FindChild ("Graphic").tag = "Untagged";
 				rigidbody.useGravity = true;
 				_attackTarget = null;
 				StartCoroutine(Death ());
@@ -88,7 +91,7 @@ public class NPCVirusZombie : MonoBehaviour {
 	
 	void OnEnable() {
 		if (GameManager.Instance.levelTeardown) return;
-		tag = "NPC";
+		transform.FindChild ("Graphic").tag = "NPC";
 		_health = stats.health;
 		_attackTarget = null;
 		_hurt = false;
@@ -177,7 +180,8 @@ public class NPCVirusZombie : MonoBehaviour {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-		_attackTarget.SendMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		_attackTarget.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		_attackTarget.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
 		yield return new WaitForSeconds(1f/attackRate);
 		_attacking = false;
 	}
@@ -190,7 +194,11 @@ public class NPCVirusZombie : MonoBehaviour {
 				if ( c.transform == this.transform) continue;
 				
 				switch (c.tag) {
-					//case "NPC":
+				case "NPC":
+					NPC npc = c.GetComponent<NPC>();
+					if ((npc.type & hostileTo) == npc.type && npc.type > 0)
+						_attackTarget = CompareTargets(_attackTarget, c.transform);
+					break;
 				case "Player":
 					_attackTarget = CompareTargets(_attackTarget, c.transform);
 					break;
@@ -254,6 +262,6 @@ public class NPCVirusZombie : MonoBehaviour {
 		audio.pitch = _sf * 0.5f;
 		yield return new WaitForSeconds(2f);
 		audio.Stop();
-		transform.Recycle();
+		//transform.Recycle();
 	}
 }

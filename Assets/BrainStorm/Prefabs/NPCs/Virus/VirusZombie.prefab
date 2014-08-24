@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   - 135: {fileID: 13500004}
+  - 114: {fileID: 11400004}
   - 96: {fileID: 9600000}
   m_Layer: 8
   m_Name: Graphic
@@ -35,7 +36,7 @@ GameObject:
   - 82: {fileID: 8200000}
   m_Layer: 11
   m_Name: VirusZombie
-  m_TagString: NPC
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -253,7 +254,8 @@ MonoBehaviour:
     target2Weight: 0
   targetSearchMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
+  hostileTo: 1
   damage: 5
   attackRate: 2
   targetSearchRange: 40
@@ -280,6 +282,18 @@ MonoBehaviour:
     cohesionWeight: 1
     target1Weight: 1
     target2Weight: 1
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d311424256c6d4b9eddfbbd9bd21a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 4
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

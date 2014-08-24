@@ -111,7 +111,8 @@ public class Boid : MonoBehaviour {
 		switch (layer) {
 		case BoidLayer.Boid:
 			if (_updateIndex == _myIndex) {
-				Calc();
+				if (controlEnabled) 
+					Calc();
 				if(++_updateIndex >= _boidCount) 
 					_updateIndex = 0;
 			}
@@ -119,7 +120,8 @@ public class Boid : MonoBehaviour {
 			
 		case BoidLayer.Boid2:
 			if (_update2Index == _myIndex) {
-				Calc();
+				if (controlEnabled) 
+					Calc();
 				if(++_update2Index >= _boid2Count) 
 					_update2Index = 0;
 			}

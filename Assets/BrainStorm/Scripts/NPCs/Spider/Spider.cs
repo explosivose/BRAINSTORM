@@ -3,6 +3,7 @@ using System.Collections;
 
 [AddComponentMenu("Character/Spider/Spider")]
 [RequireComponent(typeof(NPCPathFinder))]
+[RequireComponent(typeof(NPC))]
 public class Spider : MonoBehaviour {
 
 	public enum State {
