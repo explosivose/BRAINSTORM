@@ -47,7 +47,7 @@ public class Equipment : MonoBehaviour {
 	
 	public void Drop() {
 		_equipped = false;
-		transform.parent = null;
+		transform.parent = GameManager.Instance.activeScene;
 		transform.position = Camera.main.transform.position;
 		transform.position += Camera.main.transform.forward;
 		rigidbody.isKinematic = false;
