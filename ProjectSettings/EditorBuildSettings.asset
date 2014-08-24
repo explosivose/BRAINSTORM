@@ -6,10 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/BrainStorm/Scenes/lobby.unity
-  - enabled: 1
-    path: Assets/BrainStorm/Scenes/alone.unity
-  - enabled: 1
-    path: Assets/BrainStorm/Scenes/rage.unity
-  - enabled: 1
-    path: Assets/BrainStorm/Scenes/terror.unity
+    path: Assets/BrainStorm/Scenes/brainstorm.unity

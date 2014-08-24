@@ -62,6 +62,10 @@ public class Boid : MonoBehaviour {
 	private static int _update2Index = 0;
 	private int _myIndex;
 	
+	// maintain a list of active boids so that _updateIndex
+	// doesn't get stuck on inactive boids in another scene
+	private static List<Boid> _activeBoids1 = new List<Boid>();
+	private static List<Boid> _activeBoids2 = new List<Boid>();
 
 	private List<Transform> _nearbyBoids = new List<Transform>();
 	private Profile _profile;
@@ -100,6 +104,28 @@ public class Boid : MonoBehaviour {
 		profile = defaultBehaviour;
 	}
 	
+	void OnEnable() {
+		switch (layer) {
+		case BoidLayer.Boid:
+			_activeBoids1.Add(this);
+			break;
+		case BoidLayer.Boid2:
+			_activeBoids2.Add(this);
+			break;
+		}
+	}
+	
+	void OnDisable() {
+		switch (layer) {
+		case BoidLayer.Boid:
+			_activeBoids1.Remove(this);
+			break;
+		case BoidLayer.Boid2:
+			_activeBoids2.Remove(this);
+			break;
+		}
+	}
+	
 	void Update() {
 		if (drawDebug) {
 			Debug.DrawRay(transform.position, _separationDir, Color.yellow);
@@ -110,21 +136,17 @@ public class Boid : MonoBehaviour {
 		
 		switch (layer) {
 		case BoidLayer.Boid:
-			if (_updateIndex == _myIndex) {
-				if (controlEnabled) 
-					Calc();
-				if(++_updateIndex >= _boidCount) 
+			_activeBoids1[_updateIndex].Calc();
+			if(++_updateIndex >= _activeBoids1.Count) 
 					_updateIndex = 0;
-			}
+			
 			break;
 			
 		case BoidLayer.Boid2:
-			if (_update2Index == _myIndex) {
-				if (controlEnabled) 
-					Calc();
-				if(++_update2Index >= _boid2Count) 
+			_activeBoids2[_update2Index].Calc();
+			if(++_update2Index >= _activeBoids2.Count) 
 					_update2Index = 0;
-			}
+			
 			break;
 		}
 	}
@@ -138,7 +160,7 @@ public class Boid : MonoBehaviour {
 		rigidbody.AddForce(transform.forward * force);
 	}
 	
-	void Calc() {
+	public void Calc() {
 		if (_nearbyBoids.Count > 0) {
 			Vector3 avgPosition = Vector3.zero;
 			Vector3 avgVelocity = Vector3.zero;

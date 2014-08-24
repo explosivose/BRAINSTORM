@@ -90,6 +90,7 @@ public class NPCVirusZombie : MonoBehaviour {
 	}
 	
 	void OnEnable() {
+		if (state == State.Dead) return;
 		if (GameManager.Instance.levelTeardown) return;
 		transform.FindChild ("Graphic").tag = "NPC";
 		_health = stats.health;
