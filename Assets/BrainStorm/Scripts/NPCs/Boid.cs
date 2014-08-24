@@ -135,7 +135,6 @@ public class Boid : MonoBehaviour {
 	}
 	
 	void Calc() {
-		
 		if (_nearbyBoids.Count > 0) {
 			Vector3 avgPosition = Vector3.zero;
 			Vector3 avgVelocity = Vector3.zero;

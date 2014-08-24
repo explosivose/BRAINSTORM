@@ -12,9 +12,9 @@ GameObject:
   - 23: {fileID: 2300000}
   - 135: {fileID: 13500004}
   - 96: {fileID: 9600000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Graphic
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +33,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 135: {fileID: 13500002}
   - 82: {fileID: 8200000}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: VirusZombie
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 250
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -253,10 +253,10 @@ MonoBehaviour:
     target2Weight: 0
   targetSearchMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
   damage: 5
   attackRate: 2
-  targetSearchRange: 30
+  targetSearchRange: 40
   timeBetweenTargetSearches: 4
 --- !u!114 &11400002
 MonoBehaviour:
@@ -302,7 +302,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 20
+  m_Radius: 40
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &13500004
 SphereCollider:
