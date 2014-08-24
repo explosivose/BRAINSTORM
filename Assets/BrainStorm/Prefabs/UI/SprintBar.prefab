@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: .535999656
-  FadeFactor: 1
+  FadeFactor: 10
   Position: {x: 15, y: 403}
   ScaleSize: 1
   DisplayText: 1
@@ -48,14 +48,16 @@ MonoBehaviour:
   TextColor: {r: 0, g: 0, b: 0, a: 1}
   OverRideTextColorWithGradient: 1
   TextFont: {fileID: 12800000, guid: 240a102734c6045e1a3e91655501fa0a, type: 3}
-  TextSize: 12
+  TextSize: 20
   TextOffset: {x: 133.080002, y: 20.3999996}
   Background: {fileID: 2800000, guid: 4682d6316cae9774491f9bce732f4dda, type: 3}
   Mask: {fileID: 2800000, guid: b2b5d5fa0490e1e43940f4c821d8f42a, type: 3}
   ValueBar: {fileID: 2800000, guid: 7b799060668ea914392f8ee310599d26, type: 3}
   Foreground: {fileID: 2800000, guid: 8fe924798484fa341963516ba8635215, type: 3}
   GradientColors:
-  - {r: 1, g: .980392158, b: 0, a: 1}
+  - {r: .0156862754, g: .0666666701, b: .239215687, a: 1}
+  - {r: .541176498, g: .36470589, b: .541176498, a: 1}
+  - {r: .713725507, g: .541176498, b: .592156887, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

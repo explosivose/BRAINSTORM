@@ -213,11 +213,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 400000, guid: 2d799f7b25a67b64e89f8c1b076080b2, type: 2}
-  timeBetweenShots: .200000003
+  rateOfFire: 1
+  deteriorate:
+    enabled: 0
+    amount: 1
+    cooldown: 1
+    recoveryRate: 1
   range: 100
   raycastMask:
     serializedVersion: 2
-    m_Bits: 4294965247
+    m_Bits: 4294966783
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
