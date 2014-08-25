@@ -19,9 +19,16 @@ public class NPC : MonoBehaviour {
 	}
 	
 	public enum TargetSearchRange {
-		nearRange,
-		farRange,
-		farthestRange
+		NearRange,
+		FarRange,
+		FarthestRange
+	}
+	
+	public enum TargetProximity {
+		Here,
+		Near,
+		Far,
+		OutOfRange,
 	}
 	
 	[System.Serializable]
@@ -35,17 +42,19 @@ public class NPC : MonoBehaviour {
 		[BitMask(typeof(NPC.Type))]
 		public Type					valid_NPC_Targets;
 		public LayerMask			targetSearchMask;
-		public TargetSearchRange	searchForTargetsIn = TargetSearchRange.farthestRange;
+		public TargetSearchRange	searchForTargetsIn = TargetSearchRange.FarthestRange;
 		public float				timeBetweenTargetSearches = 2f;
 		public float				timeBtwnSrchsRandomness = 1f;
 	}
 	
 	// properties exposed to the unity inspector
 	// -----------------------------------------
+	public bool				drawDebug;
 	public Type 			type;
 	public int 				maxHealth = 100;
 	public bool 			invulnerable = false;
 	public int 				attackDamage = 5;
+	public float			attackRate = 2f;
 	
 	public TargetSearchCriteria targetSearch = new TargetSearchCriteria();
 	
@@ -75,6 +84,21 @@ public class NPC : MonoBehaviour {
 	// well, do we hasTarget?
 	public bool hasTarget {
 		get { return _target != null; }
+	}
+	
+	public TargetProximity targetProximity {
+		get {
+			if (!hasTarget) return TargetProximity.OutOfRange;
+			float distance = Vector3.Distance(transform.position, _target.position);
+			if (distance < _search.nearRange)
+				return TargetProximity.Here;
+			if (distance >= _search.nearRange && distance < _search.farRange)
+				return TargetProximity.Near;
+			if (distance >= _search.farRange && distance < _search.farthestRange)
+				return TargetProximity.Far;
+			//else
+			return TargetProximity.OutOfRange;
+		}
 	}
 	
 	// target distance less than nearRange
@@ -191,13 +215,13 @@ public class NPC : MonoBehaviour {
 			// set search range for new target search
 			float searchRange = 100f;
 			switch (_search.searchForTargetsIn) {
-			case TargetSearchRange.nearRange:
+			case TargetSearchRange.NearRange:
 				searchRange = _search.nearRange;
 				break;
-			case TargetSearchRange.farRange:
+			case TargetSearchRange.FarRange:
 				searchRange = _search.farRange;
 				break;
-			case TargetSearchRange.farthestRange:
+			case TargetSearchRange.FarthestRange:
 				searchRange = _search.farthestRange;
 				break;	
 			}
@@ -231,6 +255,9 @@ public class NPC : MonoBehaviour {
 					}
 				}
 			}
+			
+			if (_target && drawDebug)
+				Debug.DrawLine(transform.position, _target.position, Color.red);
 			
 			float time = _search.timeBetweenTargetSearches;
 			time += Random.Range(-_search.timeBtwnSrchsRandomness, 

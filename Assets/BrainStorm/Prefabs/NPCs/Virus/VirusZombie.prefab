@@ -11,7 +11,8 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   - 135: {fileID: 13500004}
-  - 114: {fileID: 11400004}
+  - 114: {fileID: 11400000}
+  - 82: {fileID: 8200002}
   - 96: {fileID: 9600000}
   m_Layer: 8
   m_Name: Graphic
@@ -31,9 +32,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 135: {fileID: 13500000}
   - 114: {fileID: 11400002}
-  - 114: {fileID: 11400000}
   - 135: {fileID: 13500002}
-  - 82: {fileID: 8200000}
   m_Layer: 11
   m_Name: VirusZombie
   m_TagString: Untagged
@@ -108,12 +107,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!82 &8200000
+--- !u!82 &8200002
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
+  m_GameObject: {fileID: 100000}
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 09ad918e57d8cb24280e7f209333624b, type: 3}
@@ -212,16 +211,33 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
+  m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0baf189cb9d1694daa7cdad612e3520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    health: 100
-    immune: 0
-    attackRange: 4
+  drawDebug: 1
+  type: 4
+  maxHealth: 100
+  invulnerable: 0
+  attackDamage: 5
+  attackRate: 2
+  targetSearch:
+    nearRange: 3
+    farRange: 15
+    farthestRange: 30
+    targetPlayer: 1
+    validTargetTags:
+    - NPC
+    - Player
+    valid_NPC_Targets: 1
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 768
+    searchForTargetsIn: 2
+    timeBetweenTargetSearches: 2
+    timeBtwnSrchsRandomness: 1
   wardrobe:
     normal: {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}
     attacking: {fileID: 2100000, guid: 77a71994029d89c44b2831ef31e810aa, type: 2}
@@ -252,14 +268,6 @@ MonoBehaviour:
     cohesionWeight: 1
     target1Weight: 5
     target2Weight: 0
-  targetSearchMask:
-    serializedVersion: 2
-    m_Bits: 768
-  hostileTo: 1
-  damage: 5
-  attackRate: 2
-  targetSearchRange: 40
-  timeBetweenTargetSearches: 4
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,18 +290,6 @@ MonoBehaviour:
     cohesionWeight: 1
     target1Weight: 1
     target2Weight: 1
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96d311424256c6d4b9eddfbbd9bd21a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 4
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

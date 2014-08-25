@@ -187,7 +187,7 @@ public class NPCCarrot : NPC {
 		}
 		_boid.SetTarget2(_target);
 		// This should be an attack coroutine with an attack cooldown
-		if (!targetIsOutOfRange) {
+		if (targetIsHere) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
 	}
@@ -207,7 +207,7 @@ public class NPCCarrot : NPC {
 		// functions on directly (which also carries common functions like
 		// FindTarget(), Damage(), blah blah
 		// There's a similar code that could be shared.
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(attackRate);
 		_attacking = false;
 	}
 }
