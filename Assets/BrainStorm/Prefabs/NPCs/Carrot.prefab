@@ -12,7 +12,6 @@ GameObject:
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
-  - 114: {fileID: 11400002}
   - 135: {fileID: 13500002}
   - 136: {fileID: 13600002}
   m_Layer: 10
@@ -30,7 +29,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400002}
-  - 114: {fileID: 11400004}
+  - 114: {fileID: 11400002}
   - 136: {fileID: 13600000}
   m_Layer: 8
   m_Name: Collider
@@ -133,14 +132,44 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
+  m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1502985609e22a04c85be63d50ef1143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 5
+  type: 1
+  maxHealth: 100
+  invulnerable: 0
   attackDamage: 5
+  targetSearch:
+    nearRange: 2
+    farRange: 15
+    farthestRange: 50
+    targetPlayer: 0
+    validTargetTags:
+    - TV
+    valid_NPC_Targets: 0
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 4096
+    searchForTargetsIn: 2
+    timeBetweenTargetSearches: 2
+    timeBtwnSrchsRandomness: 1
+  frenzyTargetSearch:
+    nearRange: 2
+    farRange: 15
+    farthestRange: 30
+    targetPlayer: 0
+    validTargetTags:
+    - NPC
+    valid_NPC_Targets: 4
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 2304
+    searchForTargetsIn: 2
+    timeBetweenTargetSearches: 2
+    timeBtwnSrchsRandomness: 1
   frenzyTippingPoint: 5
   attackTippingPoint: 100
   attackRollRate: .0500000007
@@ -152,23 +181,6 @@ MonoBehaviour:
     cohesionWeight: 2
     target1Weight: .75
     target2Weight: 3
-  targetSearchMask:
-    serializedVersion: 2
-    m_Bits: 256
-  hostileTo: 4
-  targetSearchRange: 25
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96d311424256c6d4b9eddfbbd9bd21a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
 --- !u!135 &13500002
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -66,7 +66,8 @@ public class NPC : MonoBehaviour {
 		get { return _searchingForTarget; }
 		set {
 			_searchingForTarget = value;
-			if (_searchingForTarget)
+			// if we weren't already searching, start search routine
+			if (_searchingForTarget && !_searchRoutineActive)
 				StartCoroutine( FindTarget() );
 		}
 	}
@@ -81,7 +82,7 @@ public class NPC : MonoBehaviour {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, _target.position);
-			return (distance < targetSearch.nearRange);
+			return (distance < _search.nearRange);
 		}
 	}
 	
@@ -90,7 +91,7 @@ public class NPC : MonoBehaviour {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, _target.position);
-			return (distance > targetSearch.nearRange && distance < targetSearch.farRange);
+			return (distance > _search.nearRange && distance < _search.farRange);
 		}
 	}
 	
@@ -99,7 +100,7 @@ public class NPC : MonoBehaviour {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, _target.position);
-			return (distance > targetSearch.farRange && distance < targetSearch.farthestRange);
+			return (distance > _search.farRange && distance < _search.farthestRange);
 		}
 	}
 	
@@ -108,7 +109,7 @@ public class NPC : MonoBehaviour {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, _target.position);
-			return (distance > targetSearch.farthestRange);
+			return (distance > _search.farthestRange);
 		}
 	}
 	
@@ -121,7 +122,8 @@ public class NPC : MonoBehaviour {
 	// private class members
 	// ---------------------
 	private int 			_health;
-	private bool			_searchingForTarget;
+	private bool			_searchingForTarget = false;
+	private bool 			_searchRoutineActive = false;
 	
 	protected virtual void Awake() {
 		_search = targetSearch;
@@ -172,51 +174,54 @@ public class NPC : MonoBehaviour {
 	}
 	
 	IEnumerator FindTarget() {
-		while(_searchingForTarget) {
+		_searchRoutineActive = true;
+		while(_searchingForTarget == true) {
 				
-			// null target if it has changed to invalid tag
-			// this happens if, for example, the target is killed
-			bool targetStillValid = false;
-			foreach(string s in targetSearch.validTargetTags) 
-				if (s == _target.tag)
-					targetStillValid = true;
-			
-			if (!targetStillValid) _target = null;
+			if(_target) {
+				// null target if it has changed to invalid tag
+				// this happens if, for example, the target is killed
+				bool targetStillValid = false;
+				foreach(string s in _search.validTargetTags) 
+					if (s == _target.tag)
+						targetStillValid = true;
+				
+				if (!targetStillValid) _target = null;
+			}
 
 			// set search range for new target search
 			float searchRange = 100f;
-			switch (targetSearch.searchForTargetsIn) {
+			switch (_search.searchForTargetsIn) {
 			case TargetSearchRange.nearRange:
-				searchRange = targetSearch.nearRange;
+				searchRange = _search.nearRange;
 				break;
 			case TargetSearchRange.farRange:
-				searchRange = targetSearch.farRange;
+				searchRange = _search.farRange;
 				break;
 			case TargetSearchRange.farthestRange:
-				searchRange = targetSearch.farthestRange;
+				searchRange = _search.farthestRange;
 				break;	
 			}
 			
 			// perform search and inspect teh loot
-			Collider[] colliders = Physics.OverlapSphere(transform.position, searchRange, targetSearch.targetSearchMask);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, searchRange, _search.targetSearchMask);
 			foreach(Collider c in colliders) {
 				if ( c.isTrigger ) continue;
 				if ( c.transform == this.transform) continue;
 				
-				foreach(string s in targetSearch.validTargetTags) {
+				foreach(string s in _search.validTargetTags) {
 					// is tag valid?
 					if (s == c.tag) {
 						// is it an NPC?
 						if (c.tag == "NPC") {
 							// do i want to target this NPC?
 							NPC npc = c.GetComponent<NPC>();
-							if ((npc.type & targetSearch.valid_NPC_Targets) == npc.type && 
+							if ((npc.type & _search.valid_NPC_Targets) == npc.type && 
 								npc.type > 0) {
 								_target = CompareTargets(_target, c.transform);
 							}
 						}
 						// is it the player and can I target the player?
-						else if (c.tag == "Player" && targetSearch.targetPlayer) {
+						else if (c.tag == "Player" && _search.targetPlayer) {
 							_target = CompareTargets(_target, c.transform);
 						}
 						// for everything else, we just go for it
@@ -227,11 +232,12 @@ public class NPC : MonoBehaviour {
 				}
 			}
 			
-			float time = targetSearch.timeBetweenTargetSearches;
-			time += Random.Range(-targetSearch.timeBtwnSrchsRandomness, 
-									targetSearch.timeBtwnSrchsRandomness);
+			float time = _search.timeBetweenTargetSearches;
+			time += Random.Range(-_search.timeBtwnSrchsRandomness, 
+			                     _search.timeBtwnSrchsRandomness);
 			yield return new WaitForSeconds(time);
 		}
+		_searchRoutineActive = false;
 	}
 	
 	Transform CompareTargets(Transform target1, Transform target2) {

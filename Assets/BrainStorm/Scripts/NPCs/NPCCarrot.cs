@@ -2,19 +2,13 @@
 using System.Collections;
 
 [AddComponentMenu("Character/Carrot")]
-[RequireComponent(typeof(Boid))]
-public class NPCCarrot : MonoBehaviour {
+public class NPCCarrot : NPC {
 	
-	public float attackRange = 3f;
-	public int attackDamage = 5;
+	public TargetSearchCriteria frenzyTargetSearch;
 	public int frenzyTippingPoint = 5;
 	public int attackTippingPoint = 20;
 	public float attackRollRate = 0.5f;
 	public Boid.Profile boidAttackProfile = new Boid.Profile();
-	public LayerMask targetSearchMask;
-	[BitMask(typeof(NPC.Type))]
-	public NPC.Type hostileTo;
-	public float targetSearchRange = 50f;
 	
 	public enum State {
 		Alone, Frenzied, Attack
@@ -43,22 +37,25 @@ public class NPCCarrot : MonoBehaviour {
 			_state = value;
 			switch(value) {
 			case State.Alone:
-				_boid.SetTarget1(null);
-				_boid.SetTarget2(_TVTarget);
+				type = Type.Infected;
 				_boid.profile = boidAttackProfile;
+				_search = targetSearch;
+				searchForTargets = true;
 				break;
 			case State.Frenzied:
 				_carrotsInFrenzy++;
-				_attackTarget = null;
+				type = Type.Native;
 				_boid.controlEnabled = true;
 				_boid.profile = _boid.defaultBehaviour;
 				_boid.SetTarget1(_player);
 				_boid.SetTarget2(null);
 				StartCoroutine(AttackRollRoutine());
+				_search = frenzyTargetSearch;
+				searchForTargets = true;
 				break;
 			case State.Attack:
 				_boid.profile = boidAttackProfile;
-				_boid.SetTarget2(_attackTarget);
+				_boid.SetTarget2(_target);
 				break;
 			default:
 				break;
@@ -67,10 +64,6 @@ public class NPCCarrot : MonoBehaviour {
 		}
 	}
 	
-	public Transform attackTarget {
-		get { return _attackTarget; }
-	}
-
 	public static float frenzyFactor {
 		get { return (float)_carrotsInFrenzy/(float)_carrotCount; }
 	}
@@ -81,30 +74,26 @@ public class NPCCarrot : MonoBehaviour {
 	private int _myIndex;
 
 	private Boid _boid;
-	private DamageInstance _damage;
 	private float _attackRoll;
 	private bool _attacking;
 	private Transform _player;
-	private Transform _attackTarget;
-	private Transform _TVTarget;
 	
-	void Awake() {
-		_boid = GetComponent<Boid>();
+	protected override void Awake() {
+		base.Awake();
+		_boid = GetComponentInParent<Boid>();
+		if (!_boid) Debug.LogError("NPCCarrot parent must have Boid component");
 		_boid.controlEnabled = false;
-		_damage = new DamageInstance();
-		_damage.source = this.transform;
-		_damage.damage = attackDamage;
 		_myIndex = _carrotCount++;
 	}
 	
 	void Start() {
-		_player = GameObject.FindGameObjectWithTag("Player").transform;
-		state = State.Alone;
+		_player = Player.Instance.transform;
 	}
 	
-	void OnEnable() {
+	protected override void OnEnable() {
+		base.OnEnable();
 		_attacking = false;
-		StartCoroutine( FindTarget() );
+		state = State.Alone;
 	}
 
 	void Update () {
@@ -135,9 +124,10 @@ public class NPCCarrot : MonoBehaviour {
 			return;
 		}
 		
-		if (_TVTarget == null) return;
-		_boid.SetTarget2(_TVTarget);
-		if (Vector3.Distance(transform.position, _TVTarget.position) < 5f) {
+		if (!hasTarget) return;
+		_boid.SetTarget2(_target);
+		
+		if (targetIsHere) {
 			_boid.controlEnabled = false;
 		}
 		else {
@@ -154,12 +144,12 @@ public class NPCCarrot : MonoBehaviour {
 		float playerDistance = Vector3.Distance(_player.transform.position, transform.position);
 		_boid.profile.target1Weight = playerDistance * 0.125f;
 		
-		if (_attackTarget == null) return;
+		if (!hasTarget) return;
 		
 		foreach(Transform b in _boid.neighbours) {
-			NPCCarrot otherCarrot = b.GetComponent<NPCCarrot>();
+			NPCCarrot otherCarrot = b.GetComponentInChildren<NPCCarrot>();
 			if (otherCarrot.state == State.Attack) {
-				_attackTarget = otherCarrot.attackTarget;
+				_target = otherCarrot._target;
 				state = State.Attack;
 				return;
 			}
@@ -191,17 +181,13 @@ public class NPCCarrot : MonoBehaviour {
 	}
 	
 	void AttackUpdate() {
-		if (_attackTarget == null) {
+		if (!hasTarget) {
 			state = State.Frenzied;
 			return;
 		}
-		if (_attackTarget.tag == "Untagged") {
-			state = State.Frenzied;
-			return;
-		}
-		_boid.SetTarget2(_attackTarget);
+		_boid.SetTarget2(_target);
 		// This should be an attack coroutine with an attack cooldown
-		if (Vector3.Distance(transform.position, _attackTarget.position) < attackRange) {
+		if (!targetIsOutOfRange) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
 	}
@@ -209,8 +195,8 @@ public class NPCCarrot : MonoBehaviour {
 	IEnumerator AttackRoutine() {
 		_attacking = true;
 
-		_attackTarget.BroadcastMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
-		_attackTarget.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		_target.BroadcastMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		_target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
 		// This is BroadcastMessage() rather than SendMessage() 
 		// because _attackTarget will be a child object of a virus zombie for example
 		// this is because the virus zombie is a boid which needs an object
@@ -224,48 +210,4 @@ public class NPCCarrot : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 		_attacking = false;
 	}
-	
-	void Killed(Transform victim) {
-
-	}
-	
-	IEnumerator FindTarget() {
-		while(true) {
-			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange, targetSearchMask);
-			foreach(Collider c in colliders) {
-				if ( c.isTrigger ) continue;
-				if ( c.transform == this.transform) continue;
-				if (_attackTarget != null) {
-					if (_attackTarget.tag != "NPC") _attackTarget = null;
-				}
-				switch (c.tag) {
-				case "TV":
-					_TVTarget = CompareTargets(_TVTarget, c.transform);
-					break;
-				case "NPC":
-					NPC npc = c.GetComponent<NPC>();
-					if ((npc.type & hostileTo) == npc.type && npc.type > 0)
-						_attackTarget = CompareTargets(_attackTarget, c.transform);
-					break;
-				default:
-					break;
-				}
-			}
-			yield return new WaitForSeconds(Random.Range(0.5f, 3f));
-		}
-	}
-	
-	Transform CompareTargets(Transform target1, Transform target2) {
-		if (target1 == target2) return target1;
-		if (target1 == null) return target2; // target2 won't be null because of previous line
-		if (target2 == null) return target1;
-		
-		// choose closest target
-		// at a later date could implement LOS priority
-		float d1 = Vector3.Distance(transform.position, target1.position);
-		float d2 = Vector3.Distance(transform.position, target2.position);
-		if (d1 < d2) return target1;
-		else return target2;
-	}
-	
 }
