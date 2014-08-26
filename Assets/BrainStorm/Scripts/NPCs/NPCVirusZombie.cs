@@ -15,7 +15,7 @@ public class NPCVirusZombie : NPC {
 	
 	public State state {
 		get { return _state; }
-		set {
+		private set {
 			_state = value;
 			switch(_state) {
 			case State.Idle:
@@ -91,7 +91,7 @@ public class NPCVirusZombie : NPC {
 	
 	// Update is called once per frame
 	void Update () {
-		switch(_state) {
+		switch(state) {
 		case State.Idle:
 			IdleUpdate();
 			break;

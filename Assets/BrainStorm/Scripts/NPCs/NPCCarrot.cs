@@ -5,11 +5,12 @@ using System.Collections;
 public class NPCCarrot : NPC {
 	
 	public TargetSearchCriteria frenzyTargetSearch;
-	public int frenzyTippingPoint = 5;
-	public int attackTippingPoint = 20;
-	public float attackRollRate = 0.5f;
-	public Boid.Profile boidAttackProfile = new Boid.Profile();
-	
+	public int 					frenzyTippingPoint = 5;
+	public int 					attackTippingPoint = 20;
+	public float 				attackRollRate = 0.5f;
+	public Boid.Profile 		boidAttackProfile = new Boid.Profile();
+	public AudioClip 			audioFrenzy;
+	public AudioClip			audioAttack;
 	public enum State {
 		Alone, Frenzied, Attack
 	}
@@ -29,7 +30,7 @@ public class NPCCarrot : NPC {
 	private State _state;
 	public State state {
 		get { return _state; }
-		set { 
+		private set { 
 			
 			if (_state == State.Frenzied) 
 				_carrotsInFrenzy--;
@@ -45,6 +46,7 @@ public class NPCCarrot : NPC {
 			case State.Frenzied:
 				_carrotsInFrenzy++;
 				type = Type.Native;
+				audio.clip = audioFrenzy;
 				_boid.controlEnabled = true;
 				_boid.profile = _boid.defaultBehaviour;
 				_boid.SetTarget1(_player);
@@ -54,6 +56,7 @@ public class NPCCarrot : NPC {
 				searchForTargets = true;
 				break;
 			case State.Attack:
+				audio.clip = audioAttack;
 				_boid.profile = boidAttackProfile;
 				_boid.SetTarget2(_target);
 				break;
@@ -68,15 +71,15 @@ public class NPCCarrot : NPC {
 		get { return (float)_carrotsInFrenzy/(float)_carrotCount; }
 	}
 
-	private static int _carrotCount;
-	private static int _carrotsInFrenzy;
-	private static int _updateIndex;
-	private int _myIndex;
+	private static int 	_carrotCount;
+	private static int 	_carrotsInFrenzy;
+	private static int 	_updateIndex;
+	private int 		_myIndex;
 
-	private Boid _boid;
-	private float _attackRoll;
-	private bool _attacking;
-	private Transform _player;
+	private Boid 		_boid;
+	private float 		_attackRoll;
+	private bool 		_attacking;
+	private Transform 	_player;
 	
 	protected override void Awake() {
 		base.Awake();
@@ -125,14 +128,13 @@ public class NPCCarrot : NPC {
 		}
 		
 		if (!hasTarget) return;
+		
 		_boid.SetTarget2(_target);
 		
-		if (targetIsHere) {
+		if (targetIsHere) 
 			_boid.controlEnabled = false;
-		}
-		else {
+		else 
 			_boid.controlEnabled = true;
-		}
 	}
 	
 	void FrenzyUpdate() {
@@ -186,7 +188,6 @@ public class NPCCarrot : NPC {
 			return;
 		}
 		_boid.SetTarget2(_target);
-		// This should be an attack coroutine with an attack cooldown
 		if (targetIsHere) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
@@ -194,9 +195,7 @@ public class NPCCarrot : NPC {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-
-		_target.BroadcastMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
-		_target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		_target.SendMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
 		// This is BroadcastMessage() rather than SendMessage() 
 		// because _attackTarget will be a child object of a virus zombie for example
 		// this is because the virus zombie is a boid which needs an object
