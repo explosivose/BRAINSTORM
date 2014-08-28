@@ -202,7 +202,7 @@ MonoBehaviour:
   type: 1
   maxHealth: 100
   invulnerable: 0
-  attackDamage: 5
+  attackDamage: 50
   attackRate: 2
   targetSearch:
     nearRange: 2
@@ -243,6 +243,8 @@ MonoBehaviour:
     cohesionWeight: 2
     target1Weight: .75
     target2Weight: 3
+  audioFrenzy: {fileID: 8300000, guid: 88ff1c3c4fad1b942877701c7ed26966, type: 3}
+  audioAttack: {fileID: 8300000, guid: e4b97d80e4876a440ab1d26136aa4680, type: 3}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

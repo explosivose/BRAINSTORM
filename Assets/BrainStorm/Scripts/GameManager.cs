@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 	public bool changeSceneOnAwake;
 	public Scene[] scenes;
 	
-	
+	public const string GameVersion = "v0.2-dev";
 	
 	public static GameManager Instance;	
 		
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
 		else {
 			Destroy(this);
 		}
+		
 		transform.position = Vector3.zero;
 		foreach(Scene s in scenes) {
 			ObjectPool.CreatePool(s.scenePrefab);
