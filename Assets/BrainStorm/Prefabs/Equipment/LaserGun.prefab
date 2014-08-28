@@ -1364,7 +1364,7 @@ MonoBehaviour:
   range: 100
   raycastMask:
     serializedVersion: 2
-    m_Bits: 4294966783
+    m_Bits: 4294963711
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
