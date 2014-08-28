@@ -71,33 +71,28 @@ public class PlayerInventory : MonoBehaviour {
 		_motor = GetComponent<CharacterMotorC>();
 	}
 	
+	void OnSpawn() {
+		// destroy the weapon you were holding when you respawn
+		if (_equippedWeapon) _equippedWeapon.Recycle();
+		_equippedWeapon = null;
+		_holsteredWeapon = null;
+		_utility1 = null;
+		_utility2 = null;
+	}
+	
+	void OnDeath() {
+		// drop everything
+		if(_carryingObject) Drop();
+		if(_equippedWeapon) _equippedWeapon.SendMessage("Drop");
+		if(_holsteredWeapon) _holsteredWeapon.SendMessage("Drop");
+		if(_utility1) _utility1.SendMessage("Drop");
+		if(_utility2) _utility2.SendMessage("Drop");
+	}
+	
 	// Update is called once per frame
 	void Update () {
 		
 		InspectItem();
-		
-		// this first block swaps utility items when you press Jump or Sprint
-		// if we've been inspecting equipment for some time
-		if (_inspectedEquip && Time.time > _inspectStartTime + 0.2f) {
-			// and that equipment is utility1, and we press Jump
-			if (_inspectedEquip.type == Equipment.Type.utility1 &&
-					Input.GetButtonDown("Jump")) {
-				// swap with equipped utility1 if any
-				if (_utility1) 
-					_utility1.SendMessage("Drop");
-				_inspected.SendMessage("Equip");
-				utility1 = _inspected;
-			}
-			// or that equipment is utility2, and we press Sprint
-			else if(_inspectedEquip.type == Equipment.Type.utility2 && 
-					Input.GetButtonDown("Sprint")) {
-				// swap with equipped utility2 if any
-				if (_utility2)
-					_utility2.SendMessage("Drop");
-				_inspected.SendMessage("Equip");
-				utility2 = _inspected;
-			}
-		}
 		
 		// This block handles what to do when you press the Interact button
 		// Player presses the interact button (probably E on keyboard)
@@ -207,5 +202,6 @@ public class PlayerInventory : MonoBehaviour {
 		_carryingObject.rigidbody.isKinematic = false;
 		_carryingObject = null;
 	}
+
 
 }

@@ -40,8 +40,14 @@ public class Player : MonoBehaviour {
 			Destroy(this);
 		}
 		_motor = GetComponent<CharacterMotorC>();
-		_health = maxHealth;
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
+		Spawn();
+	}
+	
+	void Spawn() {
+		_health = maxHealth;
+		_dead = false;
+		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void Update() {
@@ -106,9 +112,12 @@ public class Player : MonoBehaviour {
 	IEnumerator Death() {
 		_dead = true;
 		ScreenFade.Instance.StartFade(Color.black, 1f);
+		float vol = AudioListener.volume;
+		AudioListener.volume = 0f;
+		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
 		yield return new WaitForSeconds(1.5f);
+		AudioListener.volume = vol;
 		GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
-		_health = maxHealth;
-		_dead = false;
+		Spawn();
 	}
 }
