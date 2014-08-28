@@ -61,13 +61,19 @@ public class NPC : MonoBehaviour {
 	
 	// other properties in the c# get/set style
 	// ----------------------------------------
-	 
+	
+	public Transform target { 
+		get; 
+		protected set; 
+	}
+	
 	public int health {
-		get { return _health; }
+		get;
+		private set;
 	}
 	
 	public bool isDead {
-		get { return _health <= 0; }
+		get { return health <= 0; }
 	}
 	
 	// if set true, start search routine
@@ -83,13 +89,13 @@ public class NPC : MonoBehaviour {
 	
 	// well, do we hasTarget?
 	public bool hasTarget {
-		get { return _target != null; }
+		get { return target != null; }
 	}
 	
 	public TargetProximity targetProximity {
 		get {
 			if (!hasTarget) return TargetProximity.OutOfRange;
-			float distance = Vector3.Distance(transform.position, _target.position);
+			float distance = Vector3.Distance(transform.position, target.position);
 			if (distance < _search.nearRange)
 				return TargetProximity.Here;
 			if (distance >= _search.nearRange && distance < _search.farRange)
@@ -105,7 +111,7 @@ public class NPC : MonoBehaviour {
 	public bool targetIsHere {
 		get {
 			if (!hasTarget) return false;
-			float distance = Vector3.Distance(transform.position, _target.position);
+			float distance = Vector3.Distance(transform.position, target.position);
 			return (distance < _search.nearRange);
 		}
 	}
@@ -114,7 +120,7 @@ public class NPC : MonoBehaviour {
 	public bool targetIsNear {
 		get {
 			if (!hasTarget) return false;
-			float distance = Vector3.Distance(transform.position, _target.position);
+			float distance = Vector3.Distance(transform.position, target.position);
 			return (distance > _search.nearRange && distance < _search.farRange);
 		}
 	}
@@ -123,7 +129,7 @@ public class NPC : MonoBehaviour {
 	public bool targetIsFar {
 		get {
 			if (!hasTarget) return false;
-			float distance = Vector3.Distance(transform.position, _target.position);
+			float distance = Vector3.Distance(transform.position, target.position);
 			return (distance > _search.farRange && distance < _search.farthestRange);
 		}
 	}
@@ -132,22 +138,32 @@ public class NPC : MonoBehaviour {
 	public bool targetIsOutOfRange {
 		get {
 			if (!hasTarget) return false;
-			float distance = Vector3.Distance(transform.position, _target.position);
+			float distance = Vector3.Distance(transform.position, target.position);
 			return (distance > _search.farthestRange);
 		}
 	}
 	
 	// protected class members
 	// -----------------------
-	protected Transform 			_target;
 	protected DamageInstance 		_damage = new DamageInstance();
 	protected TargetSearchCriteria	_search;
+	protected float					_searchRange = 100f;
+	protected bool			_searchingForTarget = false;
+	protected bool 			_searchRoutineActive = false;
 	
 	// private class members
 	// ---------------------
-	private int 			_health;
-	private bool			_searchingForTarget = false;
-	private bool 			_searchRoutineActive = false;
+	
+	/* (none) */
+	
+	// public methods
+	// ----------------
+	public void NullTarget() {
+		target = null;
+	}
+	
+	// private methods
+	// ---------------
 	
 	protected virtual void Awake() {
 		_search = targetSearch;
@@ -162,7 +178,7 @@ public class NPC : MonoBehaviour {
 		// NPC has been enabled by some other means
 		else {
 			tag = "NPC";
-			_health = maxHealth;
+			health = maxHealth;
 			_damage.source = this.transform;
 			_damage.damage = attackDamage;
 		}
@@ -176,19 +192,19 @@ public class NPC : MonoBehaviour {
 		// NPC has been disabled by some other means
 		else {
 			tag = "Untagged";
-			_target = null;
+			target = null;
 		}
 	}
 	
 	
 	protected virtual void Damage(DamageInstance damage) {
 		if (invulnerable) return;
-		if (_health <= 0) return;
+		if (health <= 0) return;
 		if (damage.source == this.transform) return;
 		
-		_health -= damage.damage;
-		if (_health <= 0) {
-			_health = 0;
+		health -= damage.damage;
+		if (health <= 0) {
+			health = 0;
 			damage.source.SendMessage("Killed", this.transform);
 		}
 	}
@@ -197,37 +213,36 @@ public class NPC : MonoBehaviour {
 		
 	}
 	
-	IEnumerator FindTarget() {
+	protected virtual IEnumerator FindTarget() {
 		_searchRoutineActive = true;
 		while(_searchingForTarget == true) {
 				
-			if(_target) {
+			if(target) {
 				// null target if it has changed to invalid tag
 				// this happens if, for example, the target is killed
 				bool targetStillValid = false;
 				foreach(string s in _search.validTargetTags) 
-					if (s == _target.tag)
+					if (s == target.tag)
 						targetStillValid = true;
 				
-				if (!targetStillValid) _target = null;
+				if (!targetStillValid) target = null;
 			}
 
 			// set search range for new target search
-			float searchRange = 100f;
 			switch (_search.searchForTargetsIn) {
 			case TargetSearchRange.NearRange:
-				searchRange = _search.nearRange;
+				_searchRange = _search.nearRange;
 				break;
 			case TargetSearchRange.FarRange:
-				searchRange = _search.farRange;
+				_searchRange = _search.farRange;
 				break;
 			case TargetSearchRange.FarthestRange:
-				searchRange = _search.farthestRange;
+				_searchRange = _search.farthestRange;
 				break;	
 			}
 			
 			// perform search and inspect teh loot
-			Collider[] colliders = Physics.OverlapSphere(transform.position, searchRange, _search.targetSearchMask);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, _searchRange, _search.targetSearchMask);
 			foreach(Collider c in colliders) {
 				if ( c.isTrigger ) continue;
 				if ( c.transform == this.transform) continue;
@@ -241,23 +256,23 @@ public class NPC : MonoBehaviour {
 							NPC npc = c.GetComponent<NPC>();
 							if ((npc.type & _search.valid_NPC_Targets) == npc.type && 
 								npc.type > 0) {
-								_target = CompareTargets(_target, c.transform);
+								target = CompareTargets(target, c.transform);
 							}
 						}
 						// is it the player and can I target the player?
 						else if (c.tag == "Player" && _search.targetPlayer) {
-							_target = CompareTargets(_target, c.transform);
+							target = CompareTargets(target, c.transform);
 						}
 						// for everything else, we just go for it
 						else {
-							_target = CompareTargets(_target, c.transform);
+							target = CompareTargets(target, c.transform);
 						}
 					}
 				}
 			}
 			
-			if (_target && drawDebug)
-				Debug.DrawLine(transform.position, _target.position, Color.red);
+			if (target && drawDebug)
+				Debug.DrawLine(transform.position, target.position, Color.red);
 			
 			float time = _search.timeBetweenTargetSearches;
 			time += Random.Range(-_search.timeBtwnSrchsRandomness, 
@@ -267,7 +282,7 @@ public class NPC : MonoBehaviour {
 		_searchRoutineActive = false;
 	}
 	
-	Transform CompareTargets(Transform target1, Transform target2) {
+	protected Transform CompareTargets(Transform target1, Transform target2) {
 		if (target1 == target2) return target1;
 		if (target1 == null) return target2; // target2 won't be null because of previous line
 		if (target2 == null) return target1;

@@ -58,7 +58,7 @@ public class NPCCarrot : NPC {
 			case State.Attack:
 				audio.clip = audioAttack;
 				_boid.profile = boidAttackProfile;
-				_boid.SetTarget2(_target);
+				_boid.SetTarget2(target);
 				break;
 			default:
 				break;
@@ -129,7 +129,7 @@ public class NPCCarrot : NPC {
 		
 		if (!hasTarget) return;
 		
-		_boid.SetTarget2(_target);
+		_boid.SetTarget2(target);
 		
 		if (targetIsHere) 
 			_boid.controlEnabled = false;
@@ -151,7 +151,7 @@ public class NPCCarrot : NPC {
 		foreach(Transform b in _boid.neighbours) {
 			NPCCarrot otherCarrot = b.GetComponentInChildren<NPCCarrot>();
 			if (otherCarrot.state == State.Attack) {
-				_target = otherCarrot._target;
+				target = otherCarrot.target;
 				state = State.Attack;
 				return;
 			}
@@ -187,7 +187,7 @@ public class NPCCarrot : NPC {
 			state = State.Frenzied;
 			return;
 		}
-		_boid.SetTarget2(_target);
+		_boid.SetTarget2(target);
 		if (targetIsHere) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
@@ -195,7 +195,7 @@ public class NPCCarrot : NPC {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-		_target.SendMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		target.SendMessage("Damage", _damage, SendMessageOptions.DontRequireReceiver);
 		// This is BroadcastMessage() rather than SendMessage() 
 		// because _attackTarget will be a child object of a virus zombie for example
 		// this is because the virus zombie is a boid which needs an object

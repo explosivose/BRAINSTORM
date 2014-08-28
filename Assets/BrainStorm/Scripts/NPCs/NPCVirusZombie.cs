@@ -20,7 +20,7 @@ public class NPCVirusZombie : NPC {
 			switch(_state) {
 			case State.Idle:
 			default:
-				_target = null;
+				target = null;
 				_boid.profile = idleProfile;
 				// cheatsidoodle way to keep these NPCs from wandering off-scene
 				_boid.SetTarget1(GameManager.Instance.transform);
@@ -31,14 +31,14 @@ public class NPCVirusZombie : NPC {
 			case State.Stalking:
 				searchForTargets = true;
 				_boid.profile = stalkProfile;
-				_boid.SetTarget1(_target);
+				_boid.SetTarget1(target);
 				StartCoroutine(StalkRoutine());
 				break;
 				
 			case State.Attacking:
 				searchForTargets = false;
 				_boid.profile = attackProfile;
-				_boid.SetTarget1(_target);
+				_boid.SetTarget1(target);
 				audio.pitch = _sf * 12f;
 				break;
 				
@@ -48,7 +48,7 @@ public class NPCVirusZombie : NPC {
 				_ren.material = wardrobe.dead;
 				tag = "Untagged";
 				_boid.rigidbody.useGravity = true;
-				_target = null;
+				target = null;
 				StartCoroutine(Death ());
 				break;
 			}
@@ -110,7 +110,7 @@ public class NPCVirusZombie : NPC {
 		}
 		
 		if(drawDebug)
-			Debug.DrawLine(transform.position, _target.position, Color.grey);
+			Debug.DrawLine(transform.position, target.position, Color.grey);
 			
 		if (targetIsFar) {
 			state = State.Stalking;
@@ -124,7 +124,7 @@ public class NPCVirusZombie : NPC {
 		}
 		
 		if(drawDebug)
-			Debug.DrawLine(transform.position, _target.position, Color.yellow);
+			Debug.DrawLine(transform.position, target.position, Color.yellow);
 		
 		TargetProximity proximity = targetProximity;
 		
@@ -160,7 +160,7 @@ public class NPCVirusZombie : NPC {
 		}
 		
 		if (drawDebug)
-			Debug.DrawLine(transform.position, _target.position, Color.red);
+			Debug.DrawLine(transform.position, target.position, Color.red);
 		
 		TargetProximity proximity = targetProximity;
 		
@@ -176,8 +176,8 @@ public class NPCVirusZombie : NPC {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-		_target.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
-		_target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		target.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
 		yield return new WaitForSeconds(1f/attackRate);
 		_attacking = false;
 	}
@@ -194,7 +194,7 @@ public class NPCVirusZombie : NPC {
 	}
 	
 	protected override void Killed(Transform victim) {
-		if (victim == _target) {
+		if (victim == target) {
 			state = State.Idle;
 		}
 	}
@@ -213,5 +213,6 @@ public class NPCVirusZombie : NPC {
 		yield return new WaitForSeconds(2f);
 		audio.Stop();
 		//transform.Recycle();
+		//spawn corpse and recycle
 	}
 }

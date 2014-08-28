@@ -2,9 +2,8 @@
 using System.Collections;
 
 [AddComponentMenu("Character/Faction/Faction")]
-[RequireComponent(typeof(NPC))]
 [RequireComponent(typeof(NPCPathFinder))]
-public class NPCFaction : MonoBehaviour {
+public class NPCFaction : NPC {
 
 	public enum Faction {
 		Pink, Purple
@@ -13,9 +12,6 @@ public class NPCFaction : MonoBehaviour {
 		Idle, Advancing, Attacking, Dead, Calm
 	}
 	
-	public CharacterStats stats = new CharacterStats();
-	public float targetSearchRange;
-	public float timeBetweenTargetSearches;
 	public CharacterAudio sounds = new CharacterAudio();
 	public CharacterMaterials pinkWardrobe = new CharacterMaterials();
 	public CharacterMaterials purpleWardrobe = new CharacterMaterials();
@@ -49,20 +45,21 @@ public class NPCFaction : MonoBehaviour {
 			case State.Advancing:
 				_pathfinder.destination = advancePosition;
 				_pathfinder.stopDistance = 10f;
-				_target = null;
-				StartCoroutine( FindTarget() );
+				target = null;
+				searchForTargets = true;
 				break;
 			case State.Attacking:
-				_pathfinder.destination = _target.position;
-				_pathfinder.stopDistance = stats.attackRange;
+				_pathfinder.destination = target.position;
+				_pathfinder.stopDistance = targetSearch.nearRange;
+				searchForTargets = false;
 				break;
 				
 			case State.Dead:
+				searchForTargets = false;
 				_ren.material = _wardrobe.dead;
 				FactionManager.Instance.NPCDeath(team);
-				tag = "Untagged";
 				rigidbody.useGravity = true;
-				_target = null;
+				target = null;
 				StartCoroutine(Death ());
 				break;
 				
@@ -70,19 +67,14 @@ public class NPCFaction : MonoBehaviour {
 				_ren.material = _wardrobe.lingerie;
 				_pathfinder.destination = advancePosition;
 				_pathfinder.stopDistance = 10f;
-				_target = null;
-				GetComponent<NPC>().type = NPC.Type.Native;
+				target = null;
+				type = Type.Native;
 				break;
 			case State.Idle:
 			default:
 				break;
 			}
 		}
-	}
-	
-	private Transform _target;
-	public Transform target {
-		get { return _target; }
 	}
 	
 	private bool _attacking; 
@@ -102,23 +94,21 @@ public class NPCFaction : MonoBehaviour {
 		}
 	}
 
-	
-	private int _health;
 	private NPCPathFinder _pathfinder;
 	private CharacterMaterials _wardrobe = new CharacterMaterials();
 	private MeshRenderer _ren;
-	
-	
 	private bool _hurt;
 	
-	void Awake() {
+	protected override void Awake() {
+		base.Awake();
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_ren = GetComponentInChildren<MeshRenderer>();
-		_health = stats.health;
 		state = State.Idle;
 	}
 	
 	void OnEnable() {
+		base.OnEnable();
+		// this scene is being loaded
 		if (GameManager.Instance.levelTeardown) {
 			_ren.material = _wardrobe.normal;
 			state = state;
@@ -126,18 +116,11 @@ public class NPCFaction : MonoBehaviour {
 				transform.Recycle();
 			}
 		}
+		// NPC has been enabled by other means
 		else {
-			tag = "NPC";
-			_health = stats.health;
-			_target = null;
 			_attacking = false;
 			_hurt = false;
 		}
-	}
-	
-	void OnDisable() {
-		if (GameManager.Instance.levelTeardown) return;
-		tag = "Untagged";
 	}
 	
 	void Update () {
@@ -158,22 +141,17 @@ public class NPCFaction : MonoBehaviour {
 	}
 	
 	void AttackUpdate() {
-		if (_target == null) {
-			Debug.Log ("target null");
+		if (!hasTarget) {
+			Debug.Log ("target lost");
 			state = State.Advancing;
 			return;
 		}
-		if (_target.tag == "Untagged") {
-			Debug.Log ("target untagged");
-			state = State.Advancing;
-			return;
-		}
-		if (_pathfinder.atDestination && !_attacking) {
+		if (targetIsHere && !_attacking) {
 			SendMessage("Attack");
 		}
 		// if target changes location, update destination
-		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			_pathfinder.destination = _target.position;
+		if (Vector3.Distance(_pathfinder.destination, target.position) > 1f) {
+			_pathfinder.destination = target.position;
 		}
 	}
 	
@@ -184,64 +162,16 @@ public class NPCFaction : MonoBehaviour {
 		}
 	}
 	
-	IEnumerator FindTarget() {
-		while(state == State.Advancing) {
-			
-			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange);
-			foreach(Collider c in colliders) {
-				if (c.isTrigger) continue;
-				
-				switch(c.tag) {
-				case "NPC":
-					NPCFaction f = c.GetComponent<NPCFaction>();
-					if (f != null) {
-						if (f.team != team) {
-							// found opposite faction
-							_target = CompareTargets(_target, c.transform);
-						}
-					}
-					else {
-						// found NPC that doesn't belong to faction
-						_target = CompareTargets(_target, c.transform);
-					}
-					break;
-				case "Player":
-					_target = CompareTargets(_target, c.transform);
-					break;
-				}
-				
-			}
-			
-			if (_target != null) {
-				state = State.Attacking;
-			}
-			yield return new WaitForSeconds(timeBetweenTargetSearches);
-		}
-	}
-	
-	Transform CompareTargets(Transform target1, Transform target2) {
-		if (target1 == target2) return target1;
-		if (target1 == null) return target2; // target2 won't be null because of previous line
-		if (target2 == null) return target1;
-		
-		// choose closest target
-		// at a later date could implement LOS priority
-		float d1 = Vector3.Distance(transform.position, target1.position);
-		float d2 = Vector3.Distance(transform.position, target2.position);
-		if (d1 < d2) return target1;
-		else return target2;
-	}
-	
-	public void Damage(DamageInstance damage) {
+	protected override void Damage(DamageInstance damage) {
 		if (state == State.Dead) return;
-		if (damage.source == this.transform) return;
 		NPCFaction f = damage.source.GetComponent<NPCFaction>();
 		if (f != null) {
 			if (f.team == team) return; // no friendly fire
 		}
 		
-		_health -= damage.damage;
-		if (_health <= 0) {
+		base.Damage(damage);
+	
+		if (isDead) {
 			damage.source.SendMessage("Killed", this.transform);
 			state = State.Dead;
 		}
@@ -250,10 +180,92 @@ public class NPCFaction : MonoBehaviour {
 		}
 	}
 	
-	public void Killed(Transform victim) {
-		if (victim == _target) {
+	protected override void Killed(Transform victim) {
+		if (victim == target) {
 			state = State.Advancing;
 		}
+	}
+	
+	// Faction NPCs need their own findtarget routine to identify the opposite faction
+	protected override IEnumerator FindTarget() {
+		_searchRoutineActive = true;
+		while(_searchingForTarget == true) {
+			
+			if(target) {
+				// null target if it has changed to invalid tag
+				// this happens if, for example, the target is killed
+				bool targetStillValid = false;
+				foreach(string s in _search.validTargetTags) 
+					if (s == target.tag)
+						targetStillValid = true;
+				
+				if (!targetStillValid) target = null;
+			}
+			
+			// set search range for new target search
+			switch (_search.searchForTargetsIn) {
+			case TargetSearchRange.NearRange:
+				_searchRange = _search.nearRange;
+				break;
+			case TargetSearchRange.FarRange:
+				_searchRange = _search.farRange;
+				break;
+			case TargetSearchRange.FarthestRange:
+				_searchRange = _search.farthestRange;
+				break;	
+			}
+			
+			// perform search and inspect teh loot
+			Collider[] colliders = Physics.OverlapSphere(transform.position, _searchRange, _search.targetSearchMask);
+			foreach(Collider c in colliders) {
+				if ( c.isTrigger ) continue;
+				if ( c.transform == this.transform) continue;
+				
+				foreach(string s in _search.validTargetTags) {
+					// is tag valid?
+					if (s == c.tag) {
+						// is it an NPC?
+						if (c.tag == "NPC") {
+							// is this a faction NPC?
+							NPCFaction f = c.GetComponent<NPCFaction>();
+							if (f) {
+								// if you're not on my side
+								if (f.team != team) 
+									target = CompareTargets(target, c.transform);
+							}
+							else {
+								// do i want to target this NPC?
+								NPC npc = c.GetComponent<NPC>();
+								if ((npc.type & _search.valid_NPC_Targets) == npc.type && 
+								    npc.type > 0) {
+									target = CompareTargets(target, c.transform);
+								}
+							}
+						}
+						// is it the player and can I target the player?
+						else if (c.tag == "Player" && _search.targetPlayer) {
+							target = CompareTargets(target, c.transform);
+						}
+						// for everything else, we just go for it
+						else {
+							target = CompareTargets(target, c.transform);
+						}
+					}
+				}
+			}
+			
+			if (target && drawDebug)
+				Debug.DrawLine(transform.position, target.position, Color.red);
+			
+			if (hasTarget)
+				state = State.Attacking;
+			
+			float time = _search.timeBetweenTargetSearches;
+			time += Random.Range(-_search.timeBtwnSrchsRandomness, 
+			                     _search.timeBtwnSrchsRandomness);
+			yield return new WaitForSeconds(time);
+		}
+		_searchRoutineActive = false;
 	}
 	
 	IEnumerator Hurt() {
@@ -269,7 +281,7 @@ public class NPCFaction : MonoBehaviour {
 	IEnumerator Death() {
 		
 		yield return new WaitForSeconds(2f);
-		
+		// spawn a corpse
 		transform.Recycle();
 	}
 }
