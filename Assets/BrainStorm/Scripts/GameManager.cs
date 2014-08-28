@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 	public bool changeSceneOnAwake;
 	public Scene[] scenes;
 	
-	public const string GameVersion = "v0.2-dev";
+	public const string GameVersion = "BRAINSTORMv0.2-dev";
 	
 	public static GameManager Instance;	
 		
