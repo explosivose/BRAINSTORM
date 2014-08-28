@@ -112,28 +112,30 @@ public class NPCVirusZombie : NPC {
 		if(drawDebug)
 			Debug.DrawLine(transform.position, target.position, Color.grey);
 			
-		if (targetIsFar) {
+		if (targetLOS) {
 			state = State.Stalking;
 		}
 	}
 	
+	
+	// wobble closer to target until we're close enough
 	void StalkUpdate() {
 		if (!hasTarget) {
 			state = State.Idle;
 			return;
 		}
-		
-		if(drawDebug)
-			Debug.DrawLine(transform.position, target.position, Color.yellow);
-		
-		TargetProximity proximity = targetProximity;
-		
-		if (proximity == TargetProximity.OutOfRange) {
+		if (targetIsOutOfRange) {
+			state = State.Idle;
+			return;
+		}
+		if (!targetLOS) {
 			state = State.Idle;
 			return;
 		}
 		
-		if (proximity == TargetProximity.Near) {
+		if(drawDebug)	Debug.DrawLine(transform.position, target.position, Color.yellow);
+
+		if (targetIsInAttackRange) {
 			state = State.Attacking;
 		}
 	}
@@ -153,24 +155,37 @@ public class NPCVirusZombie : NPC {
 		_boid.target1PositionOffset = Vector3.zero;
 	}
 	
+	// figure out whether can attack
+	// called every frame while state == attacking
 	void AttackUpdate() {
+		
+		if (drawDebug) 	Debug.DrawLine(transform.position, target.position, Color.red);
+		
+		// we're already attacking, return;
+		if (_attacking) return;	
+		
+		// target lost, change state.
 		if (!hasTarget) {
 			state = State.Idle;
 			return;
 		}
 		
-		if (drawDebug)
-			Debug.DrawLine(transform.position, target.position, Color.red);
+		// target moved too far away, go back to stalking
+		if (!targetIsInAttackRange) {
+			state = State.Stalking;
+			return;
+		}
 		
-		TargetProximity proximity = targetProximity;
-		
-		if (proximity == TargetProximity.Far || proximity == TargetProximity.OutOfRange) {
+		// lost sight of target, give up lol
+		if (!targetLOS)	{
 			state = State.Idle;
 			return;
 		}
 		
-		if (proximity == TargetProximity.Here) {
-			if (!_attacking) StartCoroutine(AttackRoutine());
+		// close enough to attack		
+		if (targetIsHere) {
+			// note we're already checking _attacking at the start of this method
+			StartCoroutine(AttackRoutine());
 		}
 	}
 	

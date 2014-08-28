@@ -14,7 +14,11 @@ public class GUIDescription : MonoBehaviour {
 	public float minimumShowTime = 0.1f;
 	public bool inspect = false;
 	
-	private bool inspectReq;
+	private GUIStyle _style;
+	
+	void Awake() {
+		_style = GameMenu.Instance.buttonStyle;
+	}
 	
 	void OnInspect() {
 		if (!inspect) StartCoroutine( Uninspect() );
@@ -42,6 +46,6 @@ public class GUIDescription : MonoBehaviour {
 		int top = Mathf.RoundToInt(Screen.height - screenPos.y - (float)height/2f);
 		
 		Rect position = new Rect(left, top, width, height);
-		GUI.Button (position, description);
+		GUI.Button (position, description, _style);
 	}
 }

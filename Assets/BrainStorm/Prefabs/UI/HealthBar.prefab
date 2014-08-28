@@ -47,7 +47,7 @@ MonoBehaviour:
   TextString: 100%
   TextColor: {r: 0, g: 0, b: 0, a: 1}
   OverRideTextColorWithGradient: 1
-  TextFont: {fileID: 12800000, guid: 240a102734c6045e1a3e91655501fa0a, type: 3}
+  TextFont: {fileID: 12800000, guid: 301f29708c65e074a801156478aaf6af, type: 3}
   TextSize: 32
   TextOffset: {x: 45.4000015, y: 35.5}
   Background: {fileID: 2800000, guid: 5498bd249c76e83438907f528d2fe9ae, type: 3}

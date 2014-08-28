@@ -29,7 +29,7 @@ public class GameMenu : MonoBehaviour {
 		int left, top, width, height;
 		if (showVersion) {
 			GUIController.Alignment versionAlign = GUIController.Alignment.UpperCenter;
-			height = 20;
+			height = labelVersionStyle.fontSize + 4;
 			width = 200;
 			left = GUIController.CalcLeft(width, 0, versionAlign);
 			top = GUIController.CalcTop(height, 0, versionAlign);
@@ -38,11 +38,11 @@ public class GameMenu : MonoBehaviour {
 
 		if (!_showMenu) return;
 		GUIController.Alignment buttonAlign = GUIController.Alignment.MiddleCenter;
-		height = 20;
+		height = buttonStyle.fontSize + 4;
 		width = 200;
 		left = GUIController.CalcLeft(width, 0, buttonAlign);
 		top = GUIController.CalcTop(height, 0, buttonAlign);
-		if (GUI.Button(new Rect(left, top, width, height), "resume", buttonStyle)) {
+		if (GUI.Button(new Rect(left, top, width, height), "Resume", buttonStyle)) {
 			GameManager.Instance.paused = false;
 		}
 	}

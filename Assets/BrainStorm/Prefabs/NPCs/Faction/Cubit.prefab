@@ -9,12 +9,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 135: {fileID: 13500000}
-  - 114: {fileID: 11400008}
-  - 114: {fileID: 11400004}
-  - 114: {fileID: 11400002}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400006}
+  - 114: {fileID: 11400004}
+  - 114: {fileID: 11400002}
   m_Layer: 8
   m_Name: Cubit
   m_TagString: NPC
@@ -158,12 +157,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd6f4293c6838e4c8b35080214b2dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    health: 100
-    immune: 0
-    attackRange: 20
-  targetSearchRange: 40
-  timeBetweenTargetSearches: 5
+  drawDebug: 0
+  type: 2
+  maxHealth: 100
+  invulnerable: 0
+  attackDamage: 5
+  attackRate: 2
+  targetSearch:
+    nearRange: 10
+    farRange: 20
+    farthestRange: 40
+    targetPlayer: 1
+    validTargetTags:
+    - Player
+    - NPC
+    valid_NPC_Targets: 3
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 768
+    searchForTargetsIn: 2
+    timeBetweenTargetSearches: 2
+    timeBtwnSrchsRandomness: 1
   sounds:
     attack: []
     hurt: []
@@ -198,18 +212,6 @@ MonoBehaviour:
   defaultStopDistance: 5
   nextWaypointDistance: 3
   pathUpdateCooldown: 5
---- !u!114 &11400008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96d311424256c6d4b9eddfbbd9bd21a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

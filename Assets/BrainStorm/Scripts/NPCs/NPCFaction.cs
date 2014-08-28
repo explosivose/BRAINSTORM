@@ -106,7 +106,7 @@ public class NPCFaction : NPC {
 		state = State.Idle;
 	}
 	
-	void OnEnable() {
+	protected override void OnEnable() {
 		base.OnEnable();
 		// this scene is being loaded
 		if (GameManager.Instance.levelTeardown) {
@@ -146,9 +146,12 @@ public class NPCFaction : NPC {
 			state = State.Advancing;
 			return;
 		}
-		if (targetIsHere && !_attacking) {
-			SendMessage("Attack");
+		if (!_attacking) {
+			if (targetIsInAttackRange && targetLOS) {
+				SendMessage("Attack");
+			}
 		}
+
 		// if target changes location, update destination
 		if (Vector3.Distance(_pathfinder.destination, target.position) > 1f) {
 			_pathfinder.destination = target.position;

@@ -55,13 +55,27 @@ public class NPC : MonoBehaviour {
 	public bool 			invulnerable = false;
 	public int 				attackDamage = 5;
 	public float			attackRate = 2f;
+	public float 			attackRange = 10f;
 	
 	public TargetSearchCriteria targetSearch = new TargetSearchCriteria();
 	
 	
+	// protected class members
+	// -----------------------
+	protected DamageInstance 		_damage = new DamageInstance();
+	protected TargetSearchCriteria	_search;
+	protected float					_searchRange = 100f;
+	protected bool			_searchingForTarget = false;
+	protected bool 			_searchRoutineActive = false;
+	
+	
+	// private class members
+	// ---------------------
+	private Transform				_eyes;		// we raycast from here to check LOS
+	
+	
 	// other properties in the c# get/set style
 	// ----------------------------------------
-	
 	public Transform target { 
 		get; 
 		protected set; 
@@ -107,6 +121,27 @@ public class NPC : MonoBehaviour {
 		}
 	}
 	
+	// do we have Line Of Sight?
+	public bool targetLOS {
+		get {
+			if (!hasTarget) return false;
+			Vector3 seeFrom = _eyes ? _eyes.position : transform.position;
+			bool LOS = !Physics.Linecast(seeFrom, target.position, ~_search.targetSearchMask);
+			if (drawDebug &&  LOS) 	Debug.DrawLine(seeFrom, target.position, Color.cyan);
+			if (drawDebug && !LOS)	Debug.DrawLine(seeFrom, target.position, Color.grey);
+			return LOS;
+		}
+	}
+	
+	// target distance less than attackRange
+	public bool targetIsInAttackRange {
+		get {
+			if (!hasTarget) return false;
+			float distance = Vector3.Distance(transform.position, target.position);
+			return (distance < attackRange);
+		}
+	}
+	
 	// target distance less than nearRange
 	public bool targetIsHere {
 		get {
@@ -143,19 +178,8 @@ public class NPC : MonoBehaviour {
 		}
 	}
 	
-	// protected class members
-	// -----------------------
-	protected DamageInstance 		_damage = new DamageInstance();
-	protected TargetSearchCriteria	_search;
-	protected float					_searchRange = 100f;
-	protected bool			_searchingForTarget = false;
-	protected bool 			_searchRoutineActive = false;
-	
-	// private class members
-	// ---------------------
-	
-	/* (none) */
-	
+
+		
 	// public methods
 	// ----------------
 	public void NullTarget() {
@@ -167,6 +191,7 @@ public class NPC : MonoBehaviour {
 	
 	protected virtual void Awake() {
 		_search = targetSearch;
+		_eyes = transform.Find("eyes");
 	}
 	
 	protected virtual void OnEnable() {
