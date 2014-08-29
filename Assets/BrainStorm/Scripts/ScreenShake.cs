@@ -42,6 +42,7 @@ public class ScreenShake : Singleton<ScreenShake>
 	void Update()
 	{
 		if (!_cam) return;
+		if (Time.timeScale < 0.1f) return;
 		if (_magnitude > 0f)
 		{
 			_cam.localPosition = _originalPosition + Random.insideUnitSphere * _magnitude;

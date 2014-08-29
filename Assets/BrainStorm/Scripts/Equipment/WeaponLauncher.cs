@@ -11,15 +11,31 @@ public class WeaponLauncher : MonoBehaviour {
 		public float amount = 1f;		// amount to subtract from rateOfFire
 		public float cooldown = 1f;		// if we fire during cooldown then subtract amount from rateOfFire
 		public float recoveryRate = 1f;	// how much rateOfFire to recover in one second
-		[System.NonSerialized]
-		public float lastFireTime;
-		[System.NonSerialized]
-		public float initRateOfFire;
+		// autoproperties are hidden from unity inspector
+		public float initRateOfFire { get; set; }
+	}
+	
+	[System.Serializable]
+	public class Recoil {
+		public bool enabled = true;
+		public float amount = 0.5f;		// lerp amount
+		// autoproperties are hidden from unity inspector
+		public Vector3 recoilPosition { get; set; }
+		public Quaternion recoilRotation { get; set; }
+		public float t { get; set; }
+	}
+	
+	[System.Serializable]
+	public class Shake {
+		public bool enabled = false;
+		public float amount = 0.1f;
 	}
 	
 	public Transform projectile;		// projectile prefab
 	public float rateOfFire;			// how many shots in one second?	
 	public Deterioration deteriorate = new Deterioration();
+	public Recoil recoil = new Recoil();
+	public Shake shake = new Shake();
 	public float range;					// how long is our raycast?
 	public LayerMask raycastMask;		// which layers can we hit?
 
@@ -27,14 +43,19 @@ public class WeaponLauncher : MonoBehaviour {
 	private Equipment _equip;
 	private Transform _crosshair;
 	private Transform _weaponNozzle;	// launch from this position
+	private Transform _handle; 			// recoil around this
 	private Transform _target;
 	private RaycastHit _hit;
+	private float _lastFireTime;
+	private float _nextPossibleFireTime; 
 
 	
 	// Use this for initialization
 	void Start () {
 		ObjectPool.CreatePool(projectile);
-		_weaponNozzle = transform.FindChild("Nozzle");
+		_weaponNozzle = transform.Find("Nozzle");
+		_handle = transform.Find("Handle");
+		if (!_handle) _handle = transform;
 		_equip = GetComponent<Equipment>();
 		_crosshair = transform.FindChild("Crosshair");
 		deteriorate.initRateOfFire = rateOfFire;
@@ -45,6 +66,7 @@ public class WeaponLauncher : MonoBehaviour {
 		if (!_equip.equipped) return;
 		
 		AimWeapon();
+		if (recoil.enabled) WeaponRecoil();
 		
 		// Fire the gun
 		if (Input.GetButton("Fire1") && !_firing) {
@@ -101,16 +123,43 @@ public class WeaponLauncher : MonoBehaviour {
 		_crosshair.rotation = transform.rotation;
 	}
 	
+	void WeaponRecoil() {
+		recoil.t = (Time.time - _lastFireTime) / 
+					(_nextPossibleFireTime - _lastFireTime);
+		recoil.recoilPosition = _equip.equippedPosition + Vector3.back;
+		recoil.recoilRotation = Quaternion.LookRotation(_handle.up);
+		
+		// recoil effect kinda works but it's not very well thought out
+		// have another go at it later :-)
+		
+		// pull back
+		if (recoil.t < recoil.amount) {
+			transform.localPosition = Vector3.Slerp(transform.localPosition,
+			                                        recoil.recoilPosition, recoil.t * recoil.amount);
+		}
+		// and ease forward
+		else {
+			transform.localPosition = Vector3.Slerp(transform.localPosition,
+			                                        _equip.equippedPosition, recoil.t * (1f - recoil.amount));
+		}
+
+		// this really doesn't work. 
+		// probably because we're already modifying the rotation
+		// to aim the weapon in AimWeapon()
+		//transform.localRotation=  Quaternion.Slerp(transform.localRotation,
+		//										recoil.recoilRotation, recoil.t);
+	}
+	
 	IEnumerator Fire() {
 		_firing = true;
 		if (deteriorate.enabled && 
-		    deteriorate.lastFireTime + 
-		    deteriorate.cooldown +
-		    1f/rateOfFire > Time.time) {
+		    _lastFireTime + deteriorate.cooldown + 1f/rateOfFire > Time.time) {
 		    rateOfFire -= deteriorate.amount;
 		}
 		
-		deteriorate.lastFireTime = Time.time;
+
+		
+		_lastFireTime = Time.time;
 		
 		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
 		
@@ -126,7 +175,14 @@ public class WeaponLauncher : MonoBehaviour {
 		
 		i.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
 		
-		yield return new WaitForSeconds(1f/rateOfFire);
+		float wait = 1f/rateOfFire;
+		_nextPossibleFireTime = Time.time + wait;
+		
+		if (shake.enabled) {
+			ScreenShake.Instance.Shake(shake.amount, wait);
+		}
+		
+		yield return new WaitForSeconds(wait);
 		
 		_firing = false;
 	}

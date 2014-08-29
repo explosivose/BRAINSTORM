@@ -47,7 +47,7 @@ public class NPCVirusZombie : NPC {
 				_boid.controlEnabled = false;
 				_ren.material = wardrobe.dead;
 				tag = "Untagged";
-				_boid.rigidbody.useGravity = true;
+				rigidbody.useGravity = true;
 				target = null;
 				StartCoroutine(Death ());
 				break;
