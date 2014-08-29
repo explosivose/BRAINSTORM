@@ -20,7 +20,7 @@ public class WeaponLaserEffects : MonoBehaviour {
 			i.parent = this.transform;
 			i.SendMessage("HitPosition", _nozzle.position + _nozzle.forward * 0.25f);
 		}
-		ScreenShake.Instance.Shake(0.1f, 1.3f);
+		ScreenShake.Instance.Shake(0.1f, 0.3f);
 		// gun kickback animation
 	}
 }

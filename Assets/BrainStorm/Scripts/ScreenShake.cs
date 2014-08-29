@@ -4,11 +4,11 @@ using System.Collections;
 public class ScreenShake : Singleton<ScreenShake> 
 {
 	
-	private Transform cam;
-	private Vector3 originalPosition = Vector3.zero;
+	private Transform _cam;
+	private Vector3 _originalPosition = Vector3.zero;
 	
-	private float mag;
-	private float t;
+	private float _magnitude;
+	private float _decayRate;
 	
 	void OnLevelWasLoaded()
 	{
@@ -22,34 +22,34 @@ public class ScreenShake : Singleton<ScreenShake>
 	
 	void init()
 	{
-		cam = Camera.main.transform;
-		if (cam == null) Debug.LogError("could not find main camera");
-		originalPosition = cam.localPosition;
+		_cam = Camera.main.transform;
+		if (!_cam) Debug.LogError("could not find main camera");
+		_originalPosition = _cam.localPosition;
 	}
 	
-	public void Shake(float magnitude, float decay)
+	public void Shake(float magnitude, float duration)
 	{
-		mag = magnitude;
-		t = decay;
+		_magnitude = magnitude;
+		_decayRate = magnitude/duration; 
 	}
 	
 	public void SetCamera(Transform newCamera)
 	{
-		cam = newCamera;
-		originalPosition = newCamera.position;
+		_cam = newCamera;
+		_originalPosition = newCamera.position;
 	}
 	
 	void Update()
 	{
-		if (cam == null) return;
-		if (mag > 0f)
+		if (!_cam) return;
+		if (_magnitude > 0f)
 		{
-			cam.localPosition = originalPosition + Random.insideUnitSphere * mag;
-			mag -= t * Time.deltaTime;
+			_cam.localPosition = _originalPosition + Random.insideUnitSphere * _magnitude;
+			_magnitude -= _decayRate * Time.deltaTime;
 		}
 		else 
 		{
-			cam.localPosition = originalPosition;
+			_cam.localPosition = _originalPosition;
 		}
 	}
 }

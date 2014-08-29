@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
 	void Damage(DamageInstance damage) {
 		_health -= damage.damage;
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-		ScreenShake.Instance.Shake(0.5f, (float)maxHealth/(float)damage.damage);
+		ScreenShake.Instance.Shake(0.5f * (float)maxHealth/(float)damage.damage, 0.3f);
 		_lastHurtTime = Time.time;
 		ScreenFade.Instance.StartFade(_hurtOverlay, hurtEffectDuration);
 		if (_health < 0) StartCoroutine ( Death() );
