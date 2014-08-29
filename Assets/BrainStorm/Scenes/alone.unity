@@ -2143,18 +2143,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71aebee8d5a61a44ae84cdd7687e13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  copyRenderSettings: 0
   changeSceneOnAwake: 0
   scenes:
   - tag: 0
     scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
-  - tag: 2
-    scenePrefab: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
-  - tag: 3
-    scenePrefab: {fileID: 400000, guid: 8709fa4a266bbff4e85f833ec4d7a1f8, type: 2}
-  - tag: 4
-    scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
+    fog: 1
+    fogColor: {r: 0, g: 0, b: 0, a: 0}
+    fogDensity: 0
+    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
   - tag: 1
-    scenePrefab: {fileID: 400000, guid: 2b22ab4395b9fa949b5bfe1996525c32, type: 2}
+    scenePrefab: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
+    fog: 0
+    fogColor: {r: 0, g: 0, b: 0, a: 0}
+    fogDensity: 0
+    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    skybox: {fileID: 2100000, guid: 7400269f7d341bc41b1f21adeccb2a5f, type: 2}
+  - tag: 2
+    scenePrefab: {fileID: 400000, guid: 8709fa4a266bbff4e85f833ec4d7a1f8, type: 2}
+    fog: 0
+    fogColor: {r: 0, g: 0, b: 0, a: 0}
+    fogDensity: 0
+    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    skybox: {fileID: 2100000, guid: 13fde35df00f2384598d84d32a7bacd8, type: 2}
+  - tag: 3
+    scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
+    fog: 0
+    fogColor: {r: 0, g: 0, b: 0, a: 0}
+    fogDensity: 0
+    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
 --- !u!4 &387549310
 Transform:
   m_ObjectHideFlags: 0
@@ -3333,6 +3352,14 @@ Prefab:
     - target: {fileID: 100000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
+      propertyPath: scenes.Array.data[0].fog
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
+      propertyPath: changeSceneOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}

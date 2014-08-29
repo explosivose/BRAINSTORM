@@ -3,6 +3,10 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
+	// if you press R then the current render settings are copied
+	// to the current scene in scenes[] to be saved manually
+	// by the game designer
+	public bool copyRenderSettings = false;
 	public bool changeSceneOnAwake;
 	public Scene[] scenes;
 	
@@ -36,12 +40,17 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public Transform activeScene {
-		get { return _activeScene; }
+		get {
+			if (_activeScene != null) 
+				return _activeScene.instance;
+			else 
+				return null;
+		}
 	}
 	
 	private bool _paused;
 	private bool _levelTeardown;
-	private Transform _activeScene = null;
+	private Scene _activeScene;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -52,9 +61,6 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		transform.position = Vector3.zero;
-		foreach(Scene s in scenes) {
-			ObjectPool.CreatePool(s.scenePrefab);
-		}
 	}
 	
 	// Use this for initialization
@@ -74,6 +80,25 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyUp(KeyCode.Escape) && !paused) {
 			paused = true;
 		}
+		if (Application.isEditor & copyRenderSettings) {
+			CopyRenderSettings();
+		}
+	}
+	
+	void CopyRenderSettings() {
+		if (Input.GetKeyUp(KeyCode.R)) {
+			foreach(Scene s in scenes) {
+				if (s.isLoaded) {
+					s.ambientLight = RenderSettings.ambientLight;
+					s.fog = RenderSettings.fog;
+					s.fogColor = RenderSettings.fogColor;
+					s.fogDensity = RenderSettings.fogDensity;
+					s.skybox = RenderSettings.skybox;
+					Debug.Log ("Render Settings for " + s.name + " copied.");
+					break;
+				}
+			}
+		}
 	}
 	
 	public void ChangeScene(Scene.Tag scene) {
@@ -83,11 +108,19 @@ public class GameManager : MonoBehaviour {
 	IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
-		if (_activeScene)
-			_activeScene.Recycle();
+		// unload active scene
+		if (_activeScene != null)
+			_activeScene.Unload();
+		// spawn next scene
 		foreach(Scene s in scenes) {
 			if (s.tag == scene) {
-				_activeScene = s.scenePrefab.Spawn();
+				_activeScene = s;
+				_activeScene.Load();
+				RenderSettings.ambientLight = _activeScene.ambientLight;
+				RenderSettings.fog = _activeScene.fog;
+				RenderSettings.fogColor = _activeScene.fogColor;
+				RenderSettings.fogDensity = _activeScene.fogDensity;
+				RenderSettings.skybox = _activeScene.skybox;
 				break;
 			}
 		}

@@ -11,7 +11,6 @@ public class PlayerInventory : MonoBehaviour {
 	public LayerMask raycastMask;
 	
 	private CharacterMotorC _motor;
-	private float _inspectStartTime;	// the time we started inspected an equipable item
 	private Transform _inspected;		// this is whatever equipable item the player is looking at
 	private Equipment _inspectedEquip; // the equipment script of the inspected transform (null if not inspecting equipment)
 	private Transform _carryingObject;
@@ -170,8 +169,6 @@ public class PlayerInventory : MonoBehaviour {
 				_inspectedEquip = null;
 				break;
 			case "Equipment":
-				if (hit.transform != _inspected)
-					_inspectStartTime = Time.time;
 				Debug.DrawLine(cam.position, hit.point, Color.green);
 				_inspected = hit.transform;
 				_inspectedEquip = _inspected.GetComponent<Equipment>();
