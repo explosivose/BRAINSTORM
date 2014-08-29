@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 // http://www.cs.toronto.edu/~dt/siggraph97-course/cwr87/
 [AddComponentMenu("Character/Boid")]
-[RequireComponent(typeof(Rigidbody))]
 public class Boid : MonoBehaviour {
 
 	public enum BoidLayer {
@@ -69,6 +68,7 @@ public class Boid : MonoBehaviour {
 
 	private List<Transform> _nearbyBoids = new List<Transform>();
 	private Profile _profile;
+	private Rigidbody _rb;
 	private Vector3 _boidDir;
 	private Vector3 _separationDir;		// direction away from weighted (more nearby -> more weight) avg pos of nearbies
 	private Vector3 _alignmentDir;		// avg velocity direction of nearbies
@@ -90,6 +90,9 @@ public class Boid : MonoBehaviour {
 	
 	void Start() {
 		
+		_rb = transform.parent.rigidbody;
+		if (!_rb) Debug.LogError("Boid parent must have Rigidbody!");
+		
 		switch (layer) {
 		case BoidLayer.Boid:
 			gameObject.layer = LayerMask.NameToLayer("Boid");
@@ -102,6 +105,7 @@ public class Boid : MonoBehaviour {
 		}
 		
 		profile = defaultBehaviour;
+		_rb = transform.parent.rigidbody;
 	}
 	
 	void OnEnable() {
@@ -156,8 +160,8 @@ public class Boid : MonoBehaviour {
 		Quaternion rotation = Quaternion.LookRotation(_boidDir);
 		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, profile.turnSpeed * Time.deltaTime);
 		
-		float force = rigidbody.drag * rigidbody.mass * profile.moveSpeed;
-		rigidbody.AddForce(transform.forward * force);
+		float force = _rb.drag * _rb.mass * profile.moveSpeed;
+		_rb.AddForce(transform.forward * force);
 	}
 	
 	public void Calc() {
@@ -167,7 +171,7 @@ public class Boid : MonoBehaviour {
 			Vector3 weightedAvgRepulsionDir = Vector3.zero;
 			foreach (Transform b in _nearbyBoids) {
 				avgPosition += b.position;
-				avgVelocity += b.rigidbody.velocity;
+				avgVelocity += b.parent.rigidbody.velocity;
 				weightedAvgRepulsionDir += (transform.position - b.position).normalized * 
 					profile.separation/Vector3.Distance(transform.position, b.position);
 			}

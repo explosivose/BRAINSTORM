@@ -279,6 +279,8 @@ public class NPC : MonoBehaviour {
 						if (c.tag == "NPC") {
 							// do i want to target this NPC?
 							NPC npc = c.GetComponent<NPC>();
+							if (!npc) Debug.LogError("Gameobject tagged NPC but " + 
+										"does not contain an NPC componenent.", c);
 							if ((npc.type & _search.valid_NPC_Targets) == npc.type && 
 								npc.type > 0) {
 								target = CompareTargets(target, c.transform);

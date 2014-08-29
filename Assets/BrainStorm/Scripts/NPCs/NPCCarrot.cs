@@ -83,8 +83,8 @@ public class NPCCarrot : NPC {
 	
 	protected override void Awake() {
 		base.Awake();
-		_boid = GetComponentInParent<Boid>();
-		if (!_boid) Debug.LogError("NPCCarrot parent must have Boid component");
+		_boid = GetComponentInChildren<Boid>();
+		if (!_boid) Debug.LogError("BoidController missing");
 		_boid.controlEnabled = false;
 		_myIndex = _carrotCount++;
 	}

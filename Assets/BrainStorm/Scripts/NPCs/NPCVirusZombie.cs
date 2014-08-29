@@ -64,7 +64,8 @@ public class NPCVirusZombie : NPC {
 	
 	protected override void Awake() {
 		base.Awake();
-		_boid = GetComponentInParent<Boid>();
+		_boid = GetComponentInChildren<Boid>();
+		if (!_boid) Debug.LogError("BoidController missing");
 		_ren = GetComponentInChildren<MeshRenderer>();
 		_boid.defaultBehaviour = idleProfile;
 		_sf = (Random.value/2f) + 0.5f;
