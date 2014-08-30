@@ -219,7 +219,9 @@ public class NPCVirusZombie : NPC {
 		_hurt = true;
 		_ren.material = wardrobe.hurt;
 		yield return new WaitForSeconds(0.1f);
-		_ren.material = wardrobe.normal;
+		// if we didn't die during that last wait
+		if (!isDead) 
+			_ren.material = wardrobe.normal;
 		yield return new WaitForSeconds(0.1f);
 		_hurt = false;
 	}
