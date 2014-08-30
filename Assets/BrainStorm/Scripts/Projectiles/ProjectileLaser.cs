@@ -6,12 +6,14 @@ using System.Collections.Generic;
 [RequireComponent(typeof(LineRenderer))]
 public class ProjectileLaser : MonoBehaviour {
 
-	public float 	lifetime;
-	public bool 	moveLaserWithTransform = false;
-	public Color 	startColor;
-	public Color 	endColor;
-	public float 	distanceBetweenPoints;
-	public float 	laserNoise;
+	public float 		lifetime;
+	public bool 		moveLaserWithTransform = false;
+	public Color 		startColor;
+	public Color 		endColor;
+	public float 		distanceBetweenPoints;
+	public float 		laserNoise;
+	public bool 		autofire; 			// fire laser in transform.forward
+	public LayerMask 	autofireMask;		// raycast mask for autofire
 	
 	private Projectile 		_projectile;
 	private Transform 		_target;
@@ -30,6 +32,27 @@ public class ProjectileLaser : MonoBehaviour {
 		_target = null;
 	}
 	
+	void OnEnable() {
+		if (GameManager.Instance.levelTeardown) return;
+		if (autofire) {
+			StartCoroutine( Autofire() );
+		}
+	}
+	
+	IEnumerator Autofire() {
+		// wait for position to update before autofiring
+		yield return new WaitForFixedUpdate();
+		RaycastHit hit;
+		Ray ray = new Ray(transform.position, transform.forward);
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, autofireMask)) {
+			SetTarget(hit.transform);
+			HitPosition(hit.point);
+		}
+		else {
+			HitPosition(transform.forward * 100);
+		}
+	}
+	
 	void SetTarget(Transform target) {
 		_target = target;
 		_target.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
@@ -39,7 +62,6 @@ public class ProjectileLaser : MonoBehaviour {
 		_startTime = Time.time;
 		_hit = position;
 		SetLaserPoints();
-		
 	}
 	
 	void SetLaserPoints() {
@@ -64,6 +86,7 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (GameManager.Instance.paused) return;
 		float t = (Time.time - _startTime) / lifetime;
 		Color s = Color.Lerp(startColor, Color.clear, t);
 		Color e = Color.Lerp(endColor, Color.clear, t);

@@ -11,21 +11,30 @@ public class PrefabSpawner : MonoBehaviour {
 	public Transform prefab;
 	public bool useObjectPool = true;
 	public bool spawnOnStart = true;
-	public int amountToSpawn = 10;
+	public float amountToSpawn = 10f;
 	public float variationOnAmount = 1f;
 	public bool randomRotation = true;
+	public Vector3 rotation;
 	public SpawnPosition style = SpawnPosition.Inherited;
 	public float timeBetweenInstantiations;
-
-	private int _amountToSpawn;
+	public float variationOnTime = 1f;
+	
+	private float _amountToSpawn;
 	private int _spawned = 0;
 	
 	
 	void Start() {
 		if (useObjectPool)
 			ObjectPool.CreatePool(prefab);
-		float vary = (Random.value-0.5f) * (float)amountToSpawn * variationOnAmount;
-		_amountToSpawn = Mathf.RoundToInt((float)amountToSpawn + vary);
+	
+		if (amountToSpawn < Mathf.Infinity && amountToSpawn > 0f) {
+			float vary = (Random.value-0.5f) * amountToSpawn * variationOnAmount;
+			_amountToSpawn = Mathf.RoundToInt(amountToSpawn + vary);
+		}
+		else {
+			_amountToSpawn = amountToSpawn;
+		}
+
 	}
 
 	// Use this for initialization
@@ -54,10 +63,13 @@ public class PrefabSpawner : MonoBehaviour {
 			}
 			
 			if (randomRotation) t.rotation = Random.rotation;
+			else t.rotation = Quaternion.Euler(rotation);
 			
 			t.parent = GameManager.Instance.activeScene;
 			_spawned++;
-			yield return new WaitForSeconds(timeBetweenInstantiations);
+			float vary = (Random.value-0.5f) * timeBetweenInstantiations * variationOnTime;
+			float wait = timeBetweenInstantiations + vary;
+			yield return new WaitForSeconds(wait);
 		}
 	}
 }
