@@ -18,7 +18,7 @@ public class WeaponLaserEffects : MonoBehaviour {
 			// these lasers need to be using local space
 			Transform i = laserEffect.Spawn(t.position);
 			i.parent = this.transform;
-			i.SendMessage("HitPosition", _nozzle.position + _nozzle.forward * 0.25f);
+			i.SendMessage("HitPosition", _nozzle.position);
 		}
 	}
 }

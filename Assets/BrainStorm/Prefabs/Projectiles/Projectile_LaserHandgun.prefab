@@ -101,8 +101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: .600000024
-  startColor: {r: 1, g: 0, b: 0, a: 1}
-  endColor: {r: 1, g: 0, b: 0, a: .403921574}
+  moveLaserWithTransform: 0
+  startColor: {r: 0, g: .751724005, b: 1, a: 1}
+  endColor: {r: 1, g: 0, b: 0, a: 1}
   distanceBetweenPoints: 2
   laserNoise: .200000003
 --- !u!114 &11400002
@@ -129,7 +130,7 @@ LineRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8beca7aa8ffcb324daf0c94a90a60db0, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -141,7 +142,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: .100000001
+    startWidth: .00999999978
     endWidth: .100000001
     m_StartColor:
       serializedVersion: 2

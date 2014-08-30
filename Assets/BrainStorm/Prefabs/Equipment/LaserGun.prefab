@@ -442,7 +442,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .014962554, y: -.248251677, z: .140853882}
+  m_LocalPosition: {x: .0135099888, y: -.153834134, z: .175715685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
@@ -719,7 +719,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .171243548, y: -.00132811069, z: .140853882}
+  m_LocalPosition: {x: .149454892, y: -.0187590271, z: .177168369}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
@@ -731,7 +731,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00871169567, y: .208087564, z: .140853882}
+  m_LocalPosition: {x: .0130694211, y: .115122624, z: .178620815}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
@@ -743,7 +743,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100046}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.150695086, y: -.00445306301, z: .140852928}
+  m_LocalPosition: {x: -.120190948, y: -.0204313993, z: .172809601}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
@@ -755,7 +755,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0146570206, y: .000235676765, z: -.0112235546}
+  m_LocalPosition: {x: .0146570206, y: -.0175697505, z: .229149818}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
@@ -1359,8 +1359,14 @@ MonoBehaviour:
   deteriorate:
     enabled: 1
     amount: 1.5
-    cooldown: .200000003
+    cooldown: .5
     recoveryRate: 2
+  recoil:
+    enabled: 1
+    amount: .200000003
+  shake:
+    enabled: 1
+    amount: .100000001
   range: 100
   raycastMask:
     serializedVersion: 2

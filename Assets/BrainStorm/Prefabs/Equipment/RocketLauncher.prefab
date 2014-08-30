@@ -219,6 +219,12 @@ MonoBehaviour:
     amount: 1
     cooldown: 1
     recoveryRate: 1
+  recoil:
+    enabled: 1
+    amount: .400000006
+  shake:
+    enabled: 1
+    amount: .200000003
   range: 100
   raycastMask:
     serializedVersion: 2

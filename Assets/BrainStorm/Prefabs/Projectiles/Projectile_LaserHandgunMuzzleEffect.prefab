@@ -41,11 +41,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2970d179dd78e1418342ac6131d11ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: .100000001
+  lifetime: .0500000007
+  moveLaserWithTransform: 1
   startColor: {r: 0, g: .586206913, b: 1, a: 1}
   endColor: {r: .463235319, g: .77599597, b: 1, a: 1}
   distanceBetweenPoints: .100000001
-  laserNoise: .00999999978
+  laserNoise: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,8 +83,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: .0500000007
-    endWidth: .0199999996
+    startWidth: .0199999996
+    endWidth: .00999999978
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295

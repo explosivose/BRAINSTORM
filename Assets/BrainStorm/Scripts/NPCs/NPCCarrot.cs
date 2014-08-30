@@ -46,7 +46,7 @@ public class NPCCarrot : NPC {
 			case State.Frenzied:
 				_carrotsInFrenzy++;
 				type = Type.Native;
-				audio.clip = audioFrenzy;
+				//audio.clip = audioFrenzy;
 				_boid.controlEnabled = true;
 				_boid.profile = _boid.defaultBehaviour;
 				_boid.SetTarget1(_player);
@@ -56,7 +56,7 @@ public class NPCCarrot : NPC {
 				searchForTargets = true;
 				break;
 			case State.Attack:
-				audio.clip = audioAttack;
+				//audio.clip = audioAttack;
 				_boid.profile = boidAttackProfile;
 				_boid.SetTarget2(target);
 				break;
@@ -149,7 +149,7 @@ public class NPCCarrot : NPC {
 		if (!hasTarget) return;
 		
 		foreach(Transform b in _boid.neighbours) {
-			NPCCarrot otherCarrot = b.GetComponentInChildren<NPCCarrot>();
+			NPCCarrot otherCarrot = b.GetComponentInParent<NPCCarrot>();
 			if (otherCarrot.state == State.Attack) {
 				target = otherCarrot.target;
 				state = State.Attack;

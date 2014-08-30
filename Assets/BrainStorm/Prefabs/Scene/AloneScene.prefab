@@ -8604,7 +8604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68745463daccc644897e2f809638f383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockSize: 3
+  flockSize: 10
   prefab: {fileID: 100000, guid: f500e129b081542479a5035566b13dbc, type: 2}
   setTarget: 0
   target: {fileID: 0}
