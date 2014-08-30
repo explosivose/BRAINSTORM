@@ -69,6 +69,7 @@ public class Boid : MonoBehaviour {
 	private List<Transform> _nearbyBoids = new List<Transform>();
 	private Profile _profile;
 	private Rigidbody _rb;
+	private Transform _parent;
 	private Vector3 _boidDir;
 	private Vector3 _separationDir;		// direction away from weighted (more nearby -> more weight) avg pos of nearbies
 	private Vector3 _alignmentDir;		// avg velocity direction of nearbies
@@ -89,7 +90,8 @@ public class Boid : MonoBehaviour {
 	}
 	
 	void Start() {
-		
+		_parent = transform.parent;
+		if (!_parent) Debug.LogError("Boid must have a parent!");
 		_rb = transform.parent.rigidbody;
 		if (!_rb) Debug.LogError("Boid parent must have Rigidbody!");
 		
@@ -158,10 +160,10 @@ public class Boid : MonoBehaviour {
 	void FixedUpdate() {
 		if (!controlEnabled) return;
 		Quaternion rotation = Quaternion.LookRotation(_boidDir);
-		transform.rotation = Quaternion.Lerp(transform.rotation, rotation, profile.turnSpeed * Time.deltaTime);
+		_parent.rotation = Quaternion.Lerp(_parent.rotation, rotation, profile.turnSpeed * Time.deltaTime);
 		
 		float force = _rb.drag * _rb.mass * profile.moveSpeed;
-		_rb.AddForce(transform.forward * force);
+		_rb.AddForce(_parent.forward * force);
 	}
 	
 	public void Calc() {
