@@ -169,6 +169,7 @@ MonoBehaviour:
   invulnerable: 0
   attackDamage: 5
   attackRate: 2
+  attackRange: 2
   targetSearch:
     nearRange: 2
     farRange: 15

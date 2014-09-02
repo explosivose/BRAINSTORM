@@ -8244,8 +8244,10 @@ MonoBehaviour:
   amountToSpawn: 10
   variationOnAmount: 1
   randomRotation: 1
+  rotation: {x: 0, y: 0, z: 0}
   style: 1
   timeBetweenInstantiations: .100000001
+  variationOnTime: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8263,8 +8265,10 @@ MonoBehaviour:
   amountToSpawn: 10
   variationOnAmount: 1
   randomRotation: 1
+  rotation: {x: 0, y: 0, z: 0}
   style: 1
   timeBetweenInstantiations: .100000001
+  variationOnTime: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8282,8 +8286,10 @@ MonoBehaviour:
   amountToSpawn: 10
   variationOnAmount: 1
   randomRotation: 1
+  rotation: {x: 0, y: 0, z: 0}
   style: 1
   timeBetweenInstantiations: .100000001
+  variationOnTime: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8361,8 +8367,10 @@ MonoBehaviour:
   amountToSpawn: 10
   variationOnAmount: 1
   randomRotation: 1
+  rotation: {x: 0, y: 0, z: 0}
   style: 1
   timeBetweenInstantiations: .100000001
+  variationOnTime: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8722,7 +8730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68745463daccc644897e2f809638f383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockSize: 10
+  flockSize: 2
   prefab: {fileID: 100000, guid: f500e129b081542479a5035566b13dbc, type: 2}
   setTarget: 0
   target: {fileID: 0}
