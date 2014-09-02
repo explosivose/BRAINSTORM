@@ -167,11 +167,13 @@ public class NPCFaction : NPC {
 	
 	protected override void Damage(DamageInstance damage) {
 		if (state == State.Dead) return;
-		NPCFaction f = damage.source.GetComponent<NPCFaction>();
-		if (f != null) {
-			if (f.team == team) return; // no friendly fire
+		if (damage.source != null) {
+			NPCFaction f = damage.source.GetComponent<NPCFaction>();
+			if (f != null) {
+				if (f.team == team) return; // no friendly fire
+			}
 		}
-		
+
 		base.Damage(damage);
 	
 		if (isDead) {

@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawDebug: 0
-  type: 2
+  type: 1
   maxHealth: 100
   invulnerable: 0
   attackDamage: 5

@@ -267,6 +267,7 @@ MonoBehaviour:
     searchForTargetsIn: 2
     timeBetweenTargetSearches: 2
     timeBtwnSrchsRandomness: 1
+  virusPrefab: {fileID: 400002}
   wardrobe:
     normal: {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}
     attacking: {fileID: 2100000, guid: 77a71994029d89c44b2831ef31e810aa, type: 2}

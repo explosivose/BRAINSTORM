@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 	public bool changeSceneOnAwake;
 	public Scene[] scenes;
 	
-	public const string GameVersion = "BRAINSTORM v0.3-a";
+	public const string GameVersion = "BRAINSTORM v0.3-dev";
 	
 	public static GameManager Instance;	
 		

@@ -8,6 +8,7 @@ public class NPCVirusZombie : NPC {
 		Idle, Stalking, Attacking, Dead
 	}
 	
+	public Transform	virusPrefab;
 	public CharacterMaterials wardrobe = new CharacterMaterials();
 	public Boid.Profile idleProfile = new Boid.Profile();
 	public Boid.Profile stalkProfile = new Boid.Profile();
@@ -64,6 +65,7 @@ public class NPCVirusZombie : NPC {
 	
 	protected override void Awake() {
 		base.Awake();
+		ObjectPool.CreatePool(virusPrefab);
 		_boid = GetComponentInChildren<Boid>();
 		if (!_boid) Debug.LogError("BoidController missing");
 		_ren = GetComponentInChildren<MeshRenderer>();
@@ -210,6 +212,7 @@ public class NPCVirusZombie : NPC {
 	}
 	
 	protected override void Killed(Transform victim) {
+		virusPrefab.Spawn(victim.position, victim.rotation);
 		if (victim == target) {
 			state = State.Idle;
 		}
