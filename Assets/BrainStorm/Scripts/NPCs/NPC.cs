@@ -133,6 +133,18 @@ public class NPC : MonoBehaviour {
 		}
 	}
 	
+	// does the target still match search criteria?
+	public bool targetIsValid {
+		get {
+			bool targetStillValid = false;
+			foreach(string s in _search.validTargetTags) 
+				if (s == target.tag)
+					targetStillValid = true;
+			
+			return targetStillValid;
+		}
+	}
+	
 	// target distance less than attackRange
 	public bool targetIsInAttackRange {
 		get {
@@ -242,17 +254,6 @@ public class NPC : MonoBehaviour {
 		_searchRoutineActive = true;
 		while(_searchingForTarget == true) {
 				
-			if(target) {
-				// null target if it has changed to invalid tag
-				// this happens if, for example, the target is killed
-				bool targetStillValid = false;
-				foreach(string s in _search.validTargetTags) 
-					if (s == target.tag)
-						targetStillValid = true;
-				
-				if (!targetStillValid) target = null;
-			}
-
 			// set search range for new target search
 			switch (_search.searchForTargetsIn) {
 			case TargetSearchRange.NearRange:

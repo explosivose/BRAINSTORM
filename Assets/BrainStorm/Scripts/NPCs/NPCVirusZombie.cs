@@ -168,7 +168,8 @@ public class NPCVirusZombie : NPC {
 		if (_attacking) return;	
 		
 		// target lost, change state.
-		if (!hasTarget) {
+		if (!hasTarget || !targetIsValid) {
+			target = null;
 			state = State.Idle;
 			return;
 		}
