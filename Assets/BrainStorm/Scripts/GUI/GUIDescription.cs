@@ -16,7 +16,7 @@ public class GUIDescription : MonoBehaviour {
 	
 	private GUIStyle _style;
 	
-	void Awake() {
+	void Start() {
 		_style = GameMenu.Instance.buttonStyle;
 	}
 	
