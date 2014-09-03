@@ -181,7 +181,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9319b77f81efb0f46be22293a62c0148, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -201,7 +201,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9319b77f81efb0f46be22293a62c0148, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -269,12 +269,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 400000, guid: a27b8e23a649598498829de7598c1253, type: 2}
-  rateOfFire: 20
+  rateOfFire: 100
   deteriorate:
     enabled: 1
-    amount: 5
-    cooldown: 2
-    recoveryRate: 5
+    amount: 25
+    cooldown: 20
+    recoveryRate: 50
   recoil:
     enabled: 1
     amount: .5

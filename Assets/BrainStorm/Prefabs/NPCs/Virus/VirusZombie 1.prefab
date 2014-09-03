@@ -31,7 +31,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 82: {fileID: 8200000}
   m_Layer: 8
-  m_Name: VirusZombie
+  m_Name: VirusZombie 1
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
     searchForTargetsIn: 2
     timeBetweenTargetSearches: 2
     timeBtwnSrchsRandomness: 1
-  virusPrefab: {fileID: 400002, guid: 557069ee1fbf17640972cd1e211efbe7, type: 2}
+  virusPrefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   wardrobe:
     normal: {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}
     attacking: {fileID: 2100000, guid: 77a71994029d89c44b2831ef31e810aa, type: 2}

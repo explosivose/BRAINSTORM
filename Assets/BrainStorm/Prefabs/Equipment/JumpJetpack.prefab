@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   parent: 0
-  equippedPosition: {x: 0, y: 0, z: 0}
+  equippedPosition: {x: .066874519, y: .55471611, z: -.475835294}
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: 0, y: 0, z: 0}
   holsteredRotation: {x: 0, y: 0, z: 0}

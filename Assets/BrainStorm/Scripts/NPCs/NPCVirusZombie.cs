@@ -45,7 +45,7 @@ public class NPCVirusZombie : NPC {
 				
 			case State.Dead:
 				searchForTargets = false;
-				_boid.controlEnabled = false;
+				_boid.enabled = false;
 				_ren.material = wardrobe.dead;
 				tag = "Untagged";
 				rigidbody.useGravity = true;
@@ -88,6 +88,7 @@ public class NPCVirusZombie : NPC {
 		_hurt = false;
 		_attacking = false;
 		audio.Play();
+		_boid.enabled = true;
 		_boid.target1PositionOffset = Vector3.zero;
 		
 	}
