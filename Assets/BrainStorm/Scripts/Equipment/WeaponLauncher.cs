@@ -155,6 +155,7 @@ public class WeaponLauncher : MonoBehaviour {
 		if (deteriorate.enabled && 
 		    _lastFireTime + deteriorate.cooldown + 1f/rateOfFire > Time.time) {
 		    rateOfFire -= deteriorate.amount;
+		    rateOfFire = Mathf.Max(rateOfFire, 0.5f);
 		}
 		
 
@@ -169,7 +170,8 @@ public class WeaponLauncher : MonoBehaviour {
 		
 		if (_target!=null) {
 			Debug.Log (name + " hit " + _target.name);// + " with " + i.name + ".");
-			i.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
+			if (_target.tag != "Untagged")
+				i.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
 		}
 			
 		
@@ -179,7 +181,7 @@ public class WeaponLauncher : MonoBehaviour {
 		_nextPossibleFireTime = Time.time + wait;
 		
 		if (shake.enabled) {
-			ScreenShake.Instance.Shake(shake.amount, wait);
+			ScreenShake.Instance.Shake(shake.amount, Mathf.Min(wait, 0.5f) );
 		}
 		
 		yield return new WaitForSeconds(wait);

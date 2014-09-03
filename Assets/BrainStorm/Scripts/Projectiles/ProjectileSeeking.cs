@@ -9,11 +9,18 @@ public class ProjectileSeeking : MonoBehaviour {
 	public float turnSpeed;
 	public float lifeTime;
 	
+	private bool _targetSet = false;
 	private Transform _target;
+	private Vector3 _destination;
 	private TrailRenderer trail;
 	
 	void SetTarget(Transform target) {
+		_targetSet = true;
 		_target = target;
+	}
+	
+	void HitPosition(Vector3 position) {
+		_destination = position;
 	}
 	
 	void Start() {
@@ -30,6 +37,8 @@ public class ProjectileSeeking : MonoBehaviour {
 		if (trail != null) trail.enabled = false;
 		rigidbody.velocity = Vector3.zero;
 		rigidbody.angularVelocity = Vector3.zero;
+		_targetSet = false;
+		_target = null;
 	}
 	
 	IEnumerator Initialize() {
@@ -43,7 +52,10 @@ public class ProjectileSeeking : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (_target != null && _target != this.transform) {
-			Quaternion rotation = Quaternion.LookRotation(_target.position - transform.position);
+			_destination = _target.position;
+		}
+		if (_targetSet) {
+			Quaternion rotation = Quaternion.LookRotation(_destination - transform.position);
 			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnSpeed * Time.deltaTime);
 		}
 		rigidbody.AddForce(transform.forward * acceleration);

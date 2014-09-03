@@ -96,9 +96,18 @@ public class ProjectileLaser : MonoBehaviour {
 			SetLaserPoints();
 		}
 		
-		if (t > 1 && !audio.isPlaying) {
-			_positions.Clear();
-			transform.Recycle();
+		if (t > 1) {
+			// also wait for audio if there is audio
+			if (audio) {
+				if (!audio.isPlaying) {
+					_positions.Clear();
+					transform.Recycle();
+				}
+			}
+			else {
+				_positions.Clear();
+				transform.Recycle();
+			}
 		} 
 	}
 }

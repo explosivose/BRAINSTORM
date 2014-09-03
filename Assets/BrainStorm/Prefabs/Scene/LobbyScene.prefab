@@ -39217,6 +39217,7 @@ MonoBehaviour:
   weaponPrefabs:
   - {fileID: 400002, guid: 894a289d562e4bc488a8f4b8639b2524, type: 2}
   - {fileID: 400002, guid: a8c65dc85e550cc47ad557337c2239fc, type: 2}
+  - {fileID: 400008, guid: 5e69bb2f2dad23346ab81936d899f79a, type: 2}
   equipmentPrefabs:
   - {fileID: 400002, guid: 099ff387e12487b40a676d8eb2fd5bc6, type: 2}
   - {fileID: 400006, guid: 1a582c681c746f74da3ab06f93cf099c, type: 2}
