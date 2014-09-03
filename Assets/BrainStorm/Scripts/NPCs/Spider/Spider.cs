@@ -56,6 +56,7 @@ public class Spider : NPC {
 				rigidbody.useGravity = true;
 				rigidbody.freezeRotation = false;
 				rigidbody.drag = 0.1f;
+				rigidbody.angularDrag = 2f;
 				collider.enabled = true;
 				target = null;
 				StartCoroutine( Death() );
@@ -188,6 +189,6 @@ public class Spider : NPC {
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
 		rigidbody.isKinematic = true;
-		//TerrorManager.Instance.StopTerror();
+		BroadcastMessage("Reveal");
 	}
 }

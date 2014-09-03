@@ -25,6 +25,10 @@ public class Player : MonoBehaviour {
 		get { return (float)_health/(float)maxHealth; }
 	}
 	
+	public bool screenEffects {
+		get; set;
+	}
+	
 	private CharacterMotorC _motor;
 	
 	private int _health;
@@ -52,7 +56,7 @@ public class Player : MonoBehaviour {
 	
 	void Update() {
 		if (_dead) return;
-		if (_lastHurtTime + hurtEffectDuration <= Time.time)
+		if (_lastHurtTime + hurtEffectDuration <= Time.time && screenEffects)
 			ScreenFade.Instance.StartFade(Color.clear, hurtEffectDuration);
 			
 		// Get the input vector from keyboard or analog stick
@@ -105,13 +109,15 @@ public class Player : MonoBehaviour {
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
 		ScreenShake.Instance.Shake(0.5f * (float)maxHealth/(float)damage.damage, 0.3f);
 		_lastHurtTime = Time.time;
-		ScreenFade.Instance.StartFade(_hurtOverlay, hurtEffectDuration);
+		if (screenEffects)
+			ScreenFade.Instance.StartFade(_hurtOverlay, hurtEffectDuration);
 		if (_health < 0) StartCoroutine ( Death() );
 	}
 	
 	IEnumerator Death() {
 		_dead = true;
-		ScreenFade.Instance.StartFade(Color.black, 1f);
+		if (screenEffects)
+			ScreenFade.Instance.StartFade(Color.black, 1f);
 		float vol = AudioListener.volume;
 		AudioListener.volume = 0f;
 		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
