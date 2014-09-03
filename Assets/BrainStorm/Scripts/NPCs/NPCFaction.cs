@@ -56,6 +56,8 @@ public class NPCFaction : NPC {
 				
 			case State.Dead:
 				searchForTargets = false;
+				tag = "Untagged";
+				_pathfinder.moveSpeedModifier = 0f;
 				_ren.material = _wardrobe.dead;
 				FactionManager.Instance.NPCDeath(team);
 				rigidbody.useGravity = true;
@@ -120,6 +122,7 @@ public class NPCFaction : NPC {
 		else {
 			_attacking = false;
 			_hurt = false;
+			_pathfinder.moveSpeedModifier = 1f;
 		}
 	}
 	
@@ -285,8 +288,10 @@ public class NPCFaction : NPC {
 	
 	IEnumerator Death() {
 		
-		yield return new WaitForSeconds(2f);
-		// spawn a corpse
+		yield return new WaitForSeconds(60f);
+		
+		// spawn a corpse?
+		
 		transform.Recycle();
 	}
 }

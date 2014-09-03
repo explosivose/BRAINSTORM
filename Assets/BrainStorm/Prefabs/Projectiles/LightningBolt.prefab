@@ -12,6 +12,7 @@ GameObject:
   - 120: {fileID: 12000000}
   - 114: {fileID: 11400000}
   - 82: {fileID: 8200000}
+  - 82: {fileID: 8200002}
   m_Layer: 0
   m_Name: LightningBolt
   m_TagString: Untagged
@@ -47,10 +48,10 @@ AudioSource:
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 40
-  MaxDistance: 1000
+  MinDistance: 50
+  MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -59,13 +60,96 @@ AudioSource:
     m_Curve:
     - time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.70943093
+      outSlope: -3.70943093
+      tangentMode: 0
+    - time: .170037463
+      value: .550251245
+      inSlope: -2.50099587
+      outSlope: -2.50099587
+      tangentMode: 0
+    - time: .332584292
+      value: .280150741
+      inSlope: -1.00021994
+      outSlope: -1.00021994
+      tangentMode: 0
+    - time: .650187314
+      value: .0797738731
+      inSlope: -.334789276
+      outSlope: -.334789276
       tangentMode: 0
     - time: 1
       value: 0
+      inSlope: -.100039922
+      outSlope: -.100039922
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &8200002
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: a771dadb13ceec349bced8a7d23947fc, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: .0358113162
+      outSlope: .0358113162
+      tangentMode: 0
+    - time: .247445658
+      value: 1
+      inSlope: .401732594
+      outSlope: .401732594
+      tangentMode: 0
+    - time: .461992502
+      value: .208817557
+      inSlope: -1.15393925
+      outSlope: -1.15393925
+      tangentMode: 0
+    - time: 1
+      value: .0201005191
+      inSlope: -.00763246045
+      outSlope: -.00763246045
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
