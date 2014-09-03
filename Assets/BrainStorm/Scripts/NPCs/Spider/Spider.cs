@@ -3,15 +3,11 @@ using System.Collections;
 
 [AddComponentMenu("Character/Spider/Spider")]
 [RequireComponent(typeof(NPCPathFinder))]
-[RequireComponent(typeof(NPC))]
-public class Spider : MonoBehaviour {
+public class Spider : NPC {
 
 	public enum State {
 		idle, stalking, attacking, dead
 	}
-
-	public CharacterStats stats = new CharacterStats();
-	public float stalkDistance;
 	
 	public CharacterAudio sounds = new CharacterAudio();
 	
@@ -40,17 +36,17 @@ public class Spider : MonoBehaviour {
 				break;
 				
 			case State.stalking:
-				_pathfinder.destination = _target.position;
+				_pathfinder.destination = target.position;
 				_pathfinder.moveSpeedModifier = 1f;
 				_pathfinder.rotationSpeedModifier = 1f;
-				_pathfinder.stopDistance = stalkDistance;
+				_pathfinder.stopDistance = _search.farRange;
 				break;
 				
 			case State.attacking:
 				
 				_pathfinder.moveSpeedModifier = 3f;
 				_pathfinder.rotationSpeedModifier = 2f;
-				_pathfinder.stopDistance = stats.attackRange;
+				_pathfinder.stopDistance = _search.farRange;
 				break;
 				
 			case State.dead:
@@ -61,19 +57,22 @@ public class Spider : MonoBehaviour {
 				rigidbody.freezeRotation = false;
 				rigidbody.drag = 0.1f;
 				collider.enabled = true;
-				_target = null;
+				target = null;
+				StartCoroutine( Death() );
 				break;
 			}
 		}
 	}
 	
 	private NPCPathFinder _pathfinder;
+	private float _initPathHeightOffset;
 	private GameObject _animator;
-	private Transform _target;
 	
-	void Awake() {
+	protected override void Awake() {
+		base.Awake();
 		_pathfinder = GetComponent<NPCPathFinder>();
-		_target = GameObject.FindGameObjectWithTag("Player").transform;
+		_initPathHeightOffset = _pathfinder.pathHeightOffset;
+		target = Player.Instance.transform;
 		_animator = transform.FindChild("Animator").gameObject;
 	}
 	
@@ -84,18 +83,18 @@ public class Spider : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	void OnEnable () {
+	protected override void OnEnable () {
+		base.OnEnable();
 		if (GameManager.Instance.levelTeardown) {
 			if (state == State.dead) {
 				_animator.SetActive(false);
 			}
 		}
-		tag = "NPC";
 	}
 	
-	void OnDisable() {
+	protected override void OnDisable() {
+		base.OnDisable();
 		if (GameManager.Instance.levelTeardown) return;
-		tag = "Untagged";
 	}
 	
 	// Update is called once per frame
@@ -119,67 +118,76 @@ public class Spider : MonoBehaviour {
 	}
 	
 	void StalkUpdate() {
-		if (_target == null) {
-			Debug.Log ("target null");
+		if (!hasTarget) {
+			Debug.Log ("Spider lost target.");
 			state = State.idle;
 			return;
 		}
-		if (_target.tag == "Untagged") {
-			Debug.Log ("target untagged");
-			state = State.idle;
-			return;
-		}
-		if (_pathfinder.atDestination) {
+		if (!targetIsOutOfRange) {
 			state = State.attacking;
 		}
 		// if target changes location, update destination
-		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			state = State.stalking;
+		if (Vector3.Distance(_pathfinder.destination, target.position) > 1f) {
+			_pathfinder.destination = target.position;
 		}
 	}
 	
 	void AttackUpdate() {
-		if (_target == null) {
-			Debug.Log ("target null");
-			state = State.idle;
-			return;
-		}
-		if (_target.tag == "Untagged") {
-			Debug.Log ("target untagged");
+		if (!hasTarget) {
+			Debug.Log ("Spider lost target.");
 			state = State.idle;
 			return;
 		}
 
-		float targetDistance = Vector3.Distance(transform.position, _target.position);
-
-		if (_pathfinder.atDestination) {
-			BroadcastMessage("Attack", _target.position);
+		if (targetIsHere) {
+			_pathfinder.moveSpeedModifier = 1f;
+			// we're too close, back up
+			if (target.position.y > transform.position.y) {
+				_pathfinder.pathHeightOffset = 0f;
+			}
+			else {
+				_pathfinder.pathHeightOffset = _initPathHeightOffset + 40f;
+			}
 		}
 		else {
-			//if (attacking) BroadcastMessage("CancelAttack");
+			_pathfinder.pathHeightOffset = _initPathHeightOffset;
 		}
+
+		if (targetIsNear) {
+			BroadcastMessage("Attack", target.position);
+		}
+		
+		if (targetIsFar) {
+			if (attacking) BroadcastMessage("CancelAttack");
+		}
+
 		// if we're too far
-		if (targetDistance > stalkDistance){
+		if (targetIsOutOfRange){
 			state = State.stalking;
 		}
 		// if target changes location, update destination
-		if (Vector3.Distance(_pathfinder.destination, _target.position) > 1f) {
-			_pathfinder.destination = _target.position;
+		if (Vector3.Distance(_pathfinder.destination, target.position) > 1f) {
+			_pathfinder.destination = target.position;
 		}
 	}
 	
-	void Damage(DamageInstance damage) {
-		if (damage.source.tag == "Player") {
-			if (state != State.dead) StartCoroutine( Death() );
+	protected override void Damage(DamageInstance damage) {
+		// only vulnerable while attacking
+		if (!invulnerable) {
+			if (damage.source.tag == "Player") {
+				if (state != State.dead) state = State.dead;;
+			}
 		}
+	}
+	
+	protected override void Killed(Transform victim) {
+		Debug.Log ("Spider killed " + victim.name);
 	}
 	
 	IEnumerator Death() {
-		state = State.dead;
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
 		rigidbody.isKinematic = true;
-		TerrorManager.Instance.StopTerror();
-		
+		//TerrorManager.Instance.StopTerror();
 	}
 }
