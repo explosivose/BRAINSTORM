@@ -214,7 +214,8 @@ public class NPCVirusZombie : NPC {
 	}
 	
 	protected override void Killed(Transform victim) {
-		virusPrefab.Spawn(victim.position, victim.rotation);
+		Transform v = virusPrefab.Spawn(victim.position, victim.rotation);
+		v.parent = GameManager.Instance.activeScene;
 		if (victim == target) {
 			state = State.Idle;
 		}

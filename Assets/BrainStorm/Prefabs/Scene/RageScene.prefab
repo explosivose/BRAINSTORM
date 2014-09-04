@@ -6368,10 +6368,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6b0319310cdd94c917854d82c14f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  artefactKind: 1
+  artefactKind: 2
   closestDistance: 5
   farthestDistance: 10
-  _revealed: 0
+  _revealed: 1
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
