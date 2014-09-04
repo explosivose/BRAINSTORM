@@ -143,7 +143,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_SmoothSphereCollisions: 0
-  m_Convex: 0
+  m_Convex: 1
   m_Mesh: {fileID: 4300000, guid: 9a2c76273ecfeea41a4f852a6a6dac1f, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -157,6 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   artefactKind: 1
+  closestDistance: 5
+  farthestDistance: 10
   _revealed: 0
 --- !u!198 &19800000
 ParticleSystem:
