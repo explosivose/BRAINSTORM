@@ -2,7 +2,8 @@ fileFormatVersion: 2
 guid: b0baf189cb9d1694daa7cdad612e3520
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - virusPrefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
