@@ -10,9 +10,10 @@ GameObject:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
+  - 96: {fileID: 9600000}
   m_Layer: 8
   m_Name: Graphic
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,14 +27,29 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 54: {fileID: 5400000}
-  - 114: {fileID: 11400004}
-  - 114: {fileID: 11400002}
-  - 114: {fileID: 11400006}
   - 114: {fileID: 11400000}
   - 135: {fileID: 13500000}
   m_Layer: 8
   m_Name: VirusGuard
   m_TagString: NPC
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400004}
+  - 114: {fileID: 11400002}
+  - 135: {fileID: 13500002}
+  - 135: {fileID: 13500004}
+  m_Layer: 11
+  m_Name: BoidControl
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,12 +73,25 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .729449272, y: 53.0896301, z: 202.800491}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
+  - {fileID: 400004}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &400004
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400002}
+  m_RootOrder: 1
 --- !u!23 &2300000
 Renderer:
   m_ObjectHideFlags: 1
@@ -105,6 +134,47 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!96 &9600000
+TrailRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Time: 3
+  m_StartWidth: .5
+  m_EndWidth: 0
+  m_Colors:
+    m_Color[0]:
+      serializedVersion: 2
+      rgba: 4278245631
+    m_Color[1]:
+      serializedVersion: 2
+      rgba: 4278245374
+    m_Color[2]:
+      serializedVersion: 2
+      rgba: 4278245117
+    m_Color[3]:
+      serializedVersion: 2
+      rgba: 4278244860
+    m_Color[4]:
+      serializedVersion: 2
+      rgba: 54523
+  m_MinVertexDistance: .100000001
+  m_Autodestruct: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,18 +186,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4314142032f5db64c81c53b4581ef8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    health: 100
-    immune: 0
-    attackRange: 40
-  defendRange: 30
-  targetSearchMask:
-    serializedVersion: 2
-    m_Bits: 3840
-  hostileTo: 3
-  targetSearchRange: 40
-  timeBetweenTargetSearches: 5
-  projectilePrefab: {fileID: 400000, guid: a27b8e23a649598498829de7598c1253, type: 2}
+  drawDebug: 0
+  type: 4
+  maxHealth: 100
+  invulnerable: 0
+  attackDamage: 5
+  attackRate: 2
+  attackRange: 10
+  targetSearch:
+    nearRange: 3
+    farRange: 15
+    farthestRange: 30
+    targetPlayer: 1
+    validTargetTags:
+    - Player
+    - NPC
+    valid_NPC_Targets: 1
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 768
+    searchForTargetsIn: 2
+    timeBetweenTargetSearches: 2
+    timeBtwnSrchsRandomness: 1
+  virusPrefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   sounds:
     attack: []
     hurt: []
@@ -138,64 +219,44 @@ MonoBehaviour:
     hurt: {fileID: 2100000, guid: 0ef22311940229c42afde65f73a30855, type: 2}
     dead: {fileID: 2100000, guid: 91ab70c02150bd645b463ccb062ba0ea, type: 2}
     lingerie: {fileID: 0}
+  defendProfile:
+    moveSpeed: 7.5
+    turnSpeed: 1
+    separation: 20
+    alignmentWeight: .5
+    cohesionWeight: 2
+    target1Weight: 1
+    target2Weight: 1
+  attackProfile:
+    moveSpeed: 20
+    turnSpeed: 10
+    separation: 10
+    alignmentWeight: 2
+    cohesionWeight: 1
+    target1Weight: 5
+    target2Weight: 5
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
+  m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb69ac369aaa1045ab4ce6e343d1ebe, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dd8d1c7cc657734aae668a1db090175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawDebug: 0
-  maxMoveSpeed: 10
-  maxRotationSpeed: 5
-  pathHeightOffset: 10
-  defaultStopDistance: 5
-  nextWaypointDistance: 2
-  pathUpdateCooldown: 1
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawGizmos: 1
-  detailedGizmos: 0
-  saveGetNearestHints: 1
-  startEndModifier:
-    priority: 1
-    addPoints: 0
-    exactStartPoint: 3
-    exactEndPoint: 3
-    useRaycasting: 0
-    mask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useGraphRaycasting: 0
-  traversableTags:
-    tagsChange: -1
-    tagsSet: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
---- !u!114 &11400006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96d311424256c6d4b9eddfbbd9bd21a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 4
+  layer: 1
+  drawDebug: 1
+  controlEnabled: 1
+  defaultBehaviour:
+    moveSpeed: 5
+    turnSpeed: 1
+    separation: 1
+    alignmentWeight: 1
+    cohesionWeight: 1
+    target1Weight: 1
+    target2Weight: 1
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -207,6 +268,30 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.39999998
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &13500002
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &13500004
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 40
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:

@@ -2,23 +2,17 @@
 using System.Collections;
 
 [AddComponentMenu("Character/Virus/Guard")]
-[RequireComponent(typeof(NPCPathFinder))]
-public class NPCVirusGuard : MonoBehaviour {
+public class NPCVirusGuard : NPC {
 
 	public enum State {
 		Idle, Defending, Attacking, Dead
 	}
 	
-	public CharacterStats stats = new CharacterStats();
-	public float defendRange;
-	public LayerMask targetSearchMask;
-	[BitMask(typeof(NPC.Type))]
-	public NPC.Type hostileTo;
-	public float targetSearchRange;
-	public float timeBetweenTargetSearches;
-	public Transform projectilePrefab;
+	public Transform	virusPrefab;
 	public CharacterAudio sounds = new CharacterAudio();
 	public CharacterMaterials wardrobe = new CharacterMaterials();
+	public Boid.Profile defendProfile = new Boid.Profile();
+	public Boid.Profile attackProfile = new Boid.Profile();
 	
 	private State _state;
 	public State state {
@@ -27,20 +21,27 @@ public class NPCVirusGuard : MonoBehaviour {
 			_state = value;
 			switch(_state) {
 			case State.Defending:
-				Vector3 destination = _defendTarget.position;
-				destination += Random.insideUnitSphere * defendRange;
-				_pathfinder.destination = destination;
-				_pathfinder.stopDistance = _pathfinder.pathHeightOffset + 2f;
-				StartCoroutine( FindTarget() );
+				target = null;
+				_boid.profile = defendProfile;
+				// cheatsidoodle way to keep these NPCs from wandering off-scene
+				_boid.SetTarget2(_defendTarget);
+				searchForTargets = true;
 				break;
 				
 			case State.Attacking:
-				_pathfinder.destination = _attackTarget.position;
-				_pathfinder.stopDistance = stats.attackRange;
+				searchForTargets = false;
+				_boid.profile = attackProfile;
+				_boid.SetTarget1(target);
 				break;
 				
 			case State.Dead:
-				StartCoroutine( Death() );
+				searchForTargets = false;
+				_boid.enabled = false;
+				_ren.material = wardrobe.dead;
+				tag = "Untagged";
+				rigidbody.useGravity = true;
+				target = null;
+				StartCoroutine(Death ());
 				break;
 				
 			case State.Idle:
@@ -51,34 +52,30 @@ public class NPCVirusGuard : MonoBehaviour {
 		}
 	}
 	
-	private Transform _attackTarget;
 	private Transform _defendTarget;
-	private int _health;
-	private NPCPathFinder _pathfinder;
+	private Boid _boid;
 	private MeshRenderer _ren;
 	private bool _hurt;
 	private bool _attacking;
-
-	void Awake() {
-		_pathfinder = GetComponent<NPCPathFinder>();
-		_ren = GetComponentInChildren<MeshRenderer>();
-		_health = stats.health;
-		_state = State.Idle;
-	}
-
-	void OnEnable() {
-		if (GameManager.Instance.levelTeardown) return;
-		tag = "NPC";
-		_health = stats.health;
-		_attackTarget = null;
-		_defendTarget = null;
-		_attacking = false;
-		_hurt = false;
-	}
 	
-	void OnDisable() {
+	protected override void Awake() {
+		base.Awake();
+		ObjectPool.CreatePool(virusPrefab);
+		_boid = GetComponentInChildren<Boid>();
+		if (!_boid) Debug.LogError("BoidController missing");
+		_ren = GetComponentInChildren<MeshRenderer>();
+		_boid.defaultBehaviour = defendProfile;
+	}
+
+	protected override void OnEnable() {
+		base.OnEnable();
+		if (state == State.Dead) return;
 		if (GameManager.Instance.levelTeardown) return;
-		tag = "Untagged";
+		_hurt = false;
+		_attacking = false;
+		_boid.enabled = true;
+		_boid.target1PositionOffset = Vector3.zero;
+		
 	}
 
 	void Defend(Transform target) {
@@ -107,88 +104,31 @@ public class NPCVirusGuard : MonoBehaviour {
 	}
 	
 	void DefendUpdate() {
-		if (_pathfinder.atDestination) {
-			state = State.Defending;
-			return;
-		}
+
 	}
 	
 	void AttackUpdate() {
-		if (_attackTarget == null) {
+		if (!hasTarget) {
 			state = State.Defending;
 			return;
 		}
-		if (_attackTarget.tag == "Untagged") {
-			state = State.Defending;
-			return;
-		}
-		if (Vector3.Distance(transform.position, _defendTarget.position) > defendRange) {
+		if (Vector3.Distance(transform.position, _defendTarget.position) > targetSearch.farthestRange) {
 			state = State.Defending;
 		}
-		if (_pathfinder.atDestination && !_attacking) {
-			SendMessage("Attack");
-		}
-		// if target changes location, update destination
-		if (Vector3.Distance(_pathfinder.destination, _attackTarget.position) > 1f) {
-			state = State.Attacking; // reinitialise (update pathfinder)
+		if (targetIsInAttackRange && targetLOS && !_attacking) {
+			SendMessage("AttackRoutine");
 		}
 	}
 	
-	IEnumerator FindTarget() {
-		while(state == State.Defending) {
-			
-			Collider[] colliders = Physics.OverlapSphere(transform.position, targetSearchRange, targetSearchMask);
-			foreach(Collider c in colliders) {
-				if ( c.isTrigger ) continue;
-				if ( c.transform == this.transform) continue;
-				
-				switch (c.tag) {
-				case "NPC":
-					NPC npc = c.GetComponent<NPC>();
-					Debug.DrawLine(transform.position, c.transform.position, Color.red);
-					if ((npc.type & hostileTo) == npc.type && npc.type > 0)
-						_attackTarget = CompareTargets(_attackTarget, c.transform);
-					break;
-				case "Player":
-					_attackTarget = CompareTargets(_attackTarget, c.transform);
-					break;
-				default:
-					break;
-				}
-			}
-			
-			if (_attackTarget != null) {
-				state = State.Attacking;
-			}
-			
-			yield return new WaitForSeconds(timeBetweenTargetSearches);
-			
-		}
-	}
-	
-	Transform CompareTargets(Transform target1, Transform target2) {
-		if (target1 == target2) return target1;
-		if (target1 == null) return target2; // target2 won't be null because of previous line
-		if (target2 == null) return target1;
-		
-		// choose closest target
-		// at a later date could implement LOS priority
-		float d1 = Vector3.Distance(transform.position, target1.position);
-		float d2 = Vector3.Distance(transform.position, target2.position);
-		if (d1 < d2) return target1;
-		else return target2;
-	}
-	
-	IEnumerator Attack() {
+	IEnumerator AttackRoutine() {
 		_attacking = true;
-		_ren.material = wardrobe.attacking;
-		FireProjectile();
-		yield return new WaitForSeconds(0.05f);
-		_ren.material = wardrobe.normal;
-		yield return new WaitForSeconds(0.1f);
+		target.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		yield return new WaitForSeconds(1f/attackRate);
 		_attacking = false;
 	}
 	
+	/* I want this function to be on one of the faction NPCs later...
 	void FireProjectile() {
 		float t = Random.value * 2 * Mathf.PI;
 		Vector3 fireLocation = transform.position;
@@ -200,14 +140,12 @@ public class NPCVirusGuard : MonoBehaviour {
 		i.SendMessage("SetTarget", _attackTarget);
 		i.SendMessage("SetDamageSource", this.transform);
 	}
+	*/
 	
-	void Damage(DamageInstance damage) {
+	protected override void Damage(DamageInstance damage) {
 		if (state == State.Dead) return;
-		if (damage.source == this.transform) return;
-		
-		_health -= damage.damage;
-		if (_health <= 0) {
-			damage.source.SendMessage("Killed", this.transform);
+		base.Damage(damage);
+		if (isDead) {
 			state = State.Dead;
 		}
 		else if (!_hurt) {
@@ -215,9 +153,11 @@ public class NPCVirusGuard : MonoBehaviour {
 		}
 	}
 	
-	void Killed(Transform victim) {
-		if (victim == _attackTarget) {
-			state = State.Defending;
+	protected override void Killed(Transform victim) {
+		Transform v = virusPrefab.Spawn(victim.position, victim.rotation);
+		v.parent = GameManager.Instance.activeScene;
+		if (victim == target) {
+			state = State.Idle;
 		}
 	}
 	
@@ -225,17 +165,16 @@ public class NPCVirusGuard : MonoBehaviour {
 		_hurt = true;
 		_ren.material = wardrobe.hurt;
 		yield return new WaitForSeconds(0.1f);
-		_ren.material = wardrobe.normal;
+		// if we didn't die during that last wait
+		if (!isDead) 
+			_ren.material = wardrobe.normal;
 		yield return new WaitForSeconds(0.1f);
 		_hurt = false;
 	}
 	
 	IEnumerator Death() {
-		_ren.material = wardrobe.dead;
-		tag = "Untagged";
-		rigidbody.useGravity = true;
-		_attackTarget = null;
 		yield return new WaitForSeconds(2f);
-		transform.Recycle();
+		//transform.Recycle();
+		//spawn corpse and recycle
 	}
 }

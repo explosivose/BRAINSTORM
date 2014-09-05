@@ -4049,7 +4049,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.0298998356, z: .298306733}
+  m_LocalPosition: {x: .509525418, y: 1.04269791, z: .343780518}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400082}
@@ -4073,7 +4073,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.8716736, y: 68.9597092, z: 22.7375946}
+  m_LocalPosition: {x: 1.64147186, y: 66.1197052, z: 123.67009}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -4097,7 +4097,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 81.1469421, y: 58.6466904, z: -91.606781}
+  m_LocalPosition: {x: 279.713562, y: 104.94796, z: 146.673157}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -4145,7 +4145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -175.59201, y: 48.1088181, z: 144.266052}
+  m_LocalPosition: {x: -315.671753, y: 124.7658, z: 191.199966}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -4324,7 +4324,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: .600667596, y: 1.04175568, z: 0}
   m_LocalScale: {x: .200000003, y: .200000003, z: .200000003}
   m_Children: []
   m_Father: {fileID: 400082}
@@ -13762,6 +13762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b70ddbf19adcc4aa40016efba54371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virusCount: 10
+  virusPrefabs:
+  - {fileID: 400002, guid: 9c0287a6df3696e4cbbdeb89516734de, type: 2}
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -14603,7 +14606,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: -1
+      scalar: -2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14727,10 +14730,10 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 16777215
+        rgba: 4294967040
       minMaxState: 0
     startSize:
-      scalar: .100000001
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14802,7 +14805,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 1
-    radius: 5
+    radius: 10
     angle: 25
     length: 5
     boxX: 1
