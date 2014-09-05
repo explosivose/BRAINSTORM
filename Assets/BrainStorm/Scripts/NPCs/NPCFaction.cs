@@ -12,6 +12,7 @@ public class NPCFaction : NPC {
 		Idle, Advancing, Attacking, Dead, Calm
 	}
 	
+	public Transform soulPrefab;
 	public CharacterAudio sounds = new CharacterAudio();
 	public CharacterMaterials pinkWardrobe = new CharacterMaterials();
 	public CharacterMaterials purpleWardrobe = new CharacterMaterials();
@@ -62,6 +63,7 @@ public class NPCFaction : NPC {
 				FactionManager.Instance.NPCDeath(team);
 				rigidbody.useGravity = true;
 				target = null;
+				soulPrefab.Spawn(transform.position);
 				StartCoroutine(Death ());
 				break;
 				
@@ -106,6 +108,7 @@ public class NPCFaction : NPC {
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_ren = GetComponentInChildren<MeshRenderer>();
 		state = State.Idle;
+		ObjectPool.CreatePool(soulPrefab);
 	}
 	
 	protected override void OnEnable() {

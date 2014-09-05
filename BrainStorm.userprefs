@@ -1,18 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Environment\ArmoryManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Environment\SpireManager.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPC.cs" Line="251" Column="3" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCVirusZombie.cs" Line="51" Column="22" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCCarrot.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCFaction.cs" Line="122" Column="9" />
-      <File FileName="Assets\BrainStorm\Scripts\GUI\GUIDescription.cs" Line="19" Column="16" />
-      <File FileName="Assets\BrainStorm\Scripts\Equipment\WeaponLauncher.cs" Line="173" Column="34" />
-      <File FileName="Assets\BrainStorm\Scripts\Projectiles\ProjectileSeeking.cs" Line="23" Column="27" />
-      <File FileName="Assets\BrainStorm\Scripts\Environment\ArmoryManager.cs" Line="36" Column="2" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\Spider\Spider.cs" Line="178" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Projectiles\ImpactSticky.cs" Line="26" Column="29" />
-      <File FileName="Assets\BrainStorm\Scripts\Projectiles\ProjectileLaser.cs" Line="105" Column="6" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\Pylon.cs" Line="29" Column="28" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\Soul.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\SpireManager.cs" Line="32" Column="2" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\Spire.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

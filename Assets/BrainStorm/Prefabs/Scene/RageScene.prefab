@@ -2011,6 +2011,7 @@ GameObject:
   - 4: {fileID: 400232}
   - 114: {fileID: 11400018}
   - 65: {fileID: 6500012}
+  - 114: {fileID: 11400058}
   m_Layer: 0
   m_Name: Spire
   m_TagString: Untagged
@@ -3954,6 +3955,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100456
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400456}
+  m_Layer: 0
+  m_Name: Top
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -4300,7 +4316,7 @@ Transform:
   - {fileID: 400114}
   - {fileID: 400042}
   m_Father: {fileID: 400118}
-  m_RootOrder: 6
+  m_RootOrder: 11
 --- !u!4 &400048
 Transform:
   m_ObjectHideFlags: 1
@@ -4366,7 +4382,7 @@ Transform:
   - {fileID: 400014}
   - {fileID: 400040}
   m_Father: {fileID: 400118}
-  m_RootOrder: 17
+  m_RootOrder: 4
 --- !u!4 &400058
 Transform:
   m_ObjectHideFlags: 1
@@ -4566,7 +4582,7 @@ Transform:
   - {fileID: 400166}
   - {fileID: 400200}
   m_Father: {fileID: 400118}
-  m_RootOrder: 21
+  m_RootOrder: 5
 --- !u!4 &400090
 Transform:
   m_ObjectHideFlags: 1
@@ -4705,7 +4721,7 @@ Transform:
   - {fileID: 400210}
   - {fileID: 400010}
   m_Father: {fileID: 400118}
-  m_RootOrder: 24
+  m_RootOrder: 6
 --- !u!4 &400112
 Transform:
   m_ObjectHideFlags: 1
@@ -4753,30 +4769,30 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400232}
+  - {fileID: 400180}
+  - {fileID: 400190}
+  - {fileID: 400164}
+  - {fileID: 400056}
+  - {fileID: 400088}
+  - {fileID: 400110}
   - {fileID: 400262}
   - {fileID: 400256}
-  - {fileID: 400180}
   - {fileID: 400452}
   - {fileID: 400136}
   - {fileID: 400046}
-  - {fileID: 400190}
   - {fileID: 400430}
   - {fileID: 400424}
   - {fileID: 400402}
   - {fileID: 400396}
-  - {fileID: 400164}
   - {fileID: 400382}
   - {fileID: 400360}
   - {fileID: 400354}
   - {fileID: 400332}
-  - {fileID: 400056}
   - {fileID: 400318}
   - {fileID: 400312}
   - {fileID: 400290}
-  - {fileID: 400088}
   - {fileID: 400284}
   - {fileID: 400206}
-  - {fileID: 400110}
   m_Father: {fileID: 400000}
   m_RootOrder: 12
 --- !u!4 &400120
@@ -4892,7 +4908,7 @@ Transform:
   - {fileID: 400160}
   - {fileID: 400128}
   m_Father: {fileID: 400118}
-  m_RootOrder: 5
+  m_RootOrder: 10
 --- !u!4 &400138
 Transform:
   m_ObjectHideFlags: 1
@@ -5066,7 +5082,7 @@ Transform:
   - {fileID: 400154}
   - {fileID: 400216}
   m_Father: {fileID: 400118}
-  m_RootOrder: 12
+  m_RootOrder: 3
 --- !u!4 &400166
 Transform:
   m_ObjectHideFlags: 1
@@ -5168,7 +5184,7 @@ Transform:
   - {fileID: 400186}
   - {fileID: 400018}
   m_Father: {fileID: 400118}
-  m_RootOrder: 3
+  m_RootOrder: 1
 --- !u!4 &400182
 Transform:
   m_ObjectHideFlags: 1
@@ -5234,7 +5250,7 @@ Transform:
   - {fileID: 400220}
   - {fileID: 400022}
   m_Father: {fileID: 400118}
-  m_RootOrder: 7
+  m_RootOrder: 2
 --- !u!4 &400192
 Transform:
   m_ObjectHideFlags: 1
@@ -5336,7 +5352,7 @@ Transform:
   - {fileID: 400184}
   - {fileID: 400208}
   m_Father: {fileID: 400118}
-  m_RootOrder: 23
+  m_RootOrder: 24
 --- !u!4 &400208
 Transform:
   m_ObjectHideFlags: 1
@@ -5493,6 +5509,7 @@ Transform:
   m_Children:
   - {fileID: 400032}
   - {fileID: 400112}
+  - {fileID: 400456}
   m_Father: {fileID: 400118}
   m_RootOrder: 0
 --- !u!4 &400234
@@ -5644,7 +5661,7 @@ Transform:
   - {fileID: 400222}
   - {fileID: 400258}
   m_Father: {fileID: 400118}
-  m_RootOrder: 2
+  m_RootOrder: 8
 --- !u!4 &400258
 Transform:
   m_ObjectHideFlags: 1
@@ -5686,7 +5703,7 @@ Transform:
   - {fileID: 400270}
   - {fileID: 400260}
   m_Father: {fileID: 400118}
-  m_RootOrder: 1
+  m_RootOrder: 7
 --- !u!4 &400264
 Transform:
   m_ObjectHideFlags: 1
@@ -5824,7 +5841,7 @@ Transform:
   - {fileID: 400276}
   - {fileID: 400286}
   m_Father: {fileID: 400118}
-  m_RootOrder: 22
+  m_RootOrder: 23
 --- !u!4 &400286
 Transform:
   m_ObjectHideFlags: 1
@@ -5866,7 +5883,7 @@ Transform:
   - {fileID: 400298}
   - {fileID: 400288}
   m_Father: {fileID: 400118}
-  m_RootOrder: 20
+  m_RootOrder: 22
 --- !u!4 &400292
 Transform:
   m_ObjectHideFlags: 1
@@ -6004,7 +6021,7 @@ Transform:
   - {fileID: 400304}
   - {fileID: 400314}
   m_Father: {fileID: 400118}
-  m_RootOrder: 19
+  m_RootOrder: 21
 --- !u!4 &400314
 Transform:
   m_ObjectHideFlags: 1
@@ -6046,7 +6063,7 @@ Transform:
   - {fileID: 400326}
   - {fileID: 400316}
   m_Father: {fileID: 400118}
-  m_RootOrder: 18
+  m_RootOrder: 20
 --- !u!4 &400320
 Transform:
   m_ObjectHideFlags: 1
@@ -6136,7 +6153,7 @@ Transform:
   - {fileID: 400340}
   - {fileID: 400330}
   m_Father: {fileID: 400118}
-  m_RootOrder: 16
+  m_RootOrder: 19
 --- !u!4 &400334
 Transform:
   m_ObjectHideFlags: 1
@@ -6274,7 +6291,7 @@ Transform:
   - {fileID: 400346}
   - {fileID: 400356}
   m_Father: {fileID: 400118}
-  m_RootOrder: 15
+  m_RootOrder: 18
 --- !u!4 &400356
 Transform:
   m_ObjectHideFlags: 1
@@ -6316,7 +6333,7 @@ Transform:
   - {fileID: 400368}
   - {fileID: 400358}
   m_Father: {fileID: 400118}
-  m_RootOrder: 14
+  m_RootOrder: 17
 --- !u!4 &400362
 Transform:
   m_ObjectHideFlags: 1
@@ -6454,7 +6471,7 @@ Transform:
   - {fileID: 400374}
   - {fileID: 400384}
   m_Father: {fileID: 400118}
-  m_RootOrder: 13
+  m_RootOrder: 16
 --- !u!4 &400384
 Transform:
   m_ObjectHideFlags: 1
@@ -6544,7 +6561,7 @@ Transform:
   - {fileID: 400388}
   - {fileID: 400398}
   m_Father: {fileID: 400118}
-  m_RootOrder: 11
+  m_RootOrder: 15
 --- !u!4 &400398
 Transform:
   m_ObjectHideFlags: 1
@@ -6586,7 +6603,7 @@ Transform:
   - {fileID: 400410}
   - {fileID: 400400}
   m_Father: {fileID: 400118}
-  m_RootOrder: 10
+  m_RootOrder: 14
 --- !u!4 &400404
 Transform:
   m_ObjectHideFlags: 1
@@ -6724,7 +6741,7 @@ Transform:
   - {fileID: 400416}
   - {fileID: 400426}
   m_Father: {fileID: 400118}
-  m_RootOrder: 9
+  m_RootOrder: 13
 --- !u!4 &400426
 Transform:
   m_ObjectHideFlags: 1
@@ -6766,7 +6783,7 @@ Transform:
   - {fileID: 400438}
   - {fileID: 400428}
   m_Father: {fileID: 400118}
-  m_RootOrder: 8
+  m_RootOrder: 12
 --- !u!4 &400432
 Transform:
   m_ObjectHideFlags: 1
@@ -6904,7 +6921,7 @@ Transform:
   - {fileID: 400444}
   - {fileID: 400454}
   m_Father: {fileID: 400118}
-  m_RootOrder: 4
+  m_RootOrder: 9
 --- !u!4 &400454
 Transform:
   m_ObjectHideFlags: 1
@@ -6917,6 +6934,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400452}
   m_RootOrder: 5
+--- !u!4 &400456
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.33904624, y: 185.696777, z: -4.57328796}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400232}
+  m_RootOrder: 2
 --- !u!23 &2300000
 Renderer:
   m_ObjectHideFlags: 1
@@ -13722,6 +13751,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextPylon: {fileID: 400136}
+--- !u!114 &11400058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b70ddbf19adcc4aa40016efba54371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -185,6 +185,7 @@ MonoBehaviour:
     searchForTargetsIn: 2
     timeBetweenTargetSearches: 2
     timeBtwnSrchsRandomness: 1
+  soulPrefab: {fileID: 400000, guid: a18855487fd031e4ea97049d8301c16d, type: 2}
   sounds:
     attack: []
     hurt: []
