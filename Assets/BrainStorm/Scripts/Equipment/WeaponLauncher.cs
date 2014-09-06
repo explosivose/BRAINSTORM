@@ -64,7 +64,7 @@ public class WeaponLauncher : MonoBehaviour {
 	void Update () {
 		_crosshair.gameObject.SetActive(_equip.equipped);
 		if (!_equip.equipped) return;
-		
+		if (GameManager.Instance.paused) return;
 		AimWeapon();
 		if (recoil.enabled) WeaponRecoil();
 		
