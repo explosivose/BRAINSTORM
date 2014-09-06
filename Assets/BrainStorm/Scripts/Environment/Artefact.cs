@@ -30,6 +30,7 @@ public class Artefact : MonoBehaviour {
 		_collider.enabled = true;
 		_renderer.enabled = true;
 		_particles.Play();
+		audio.Play();
 	}
 	
 	// Update is called once per frame

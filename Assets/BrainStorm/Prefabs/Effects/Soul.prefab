@@ -86,7 +86,7 @@ TrailRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: b71181143a7762a4ba592171d9ff293c, type: 2}
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -100,19 +100,19 @@ TrailRenderer:
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
-      rgba: 4294901342
+      rgba: 4294939371
     m_Color[1]:
       serializedVersion: 2
-      rgba: 4294835550
+      rgba: 4294873578
     m_Color[2]:
       serializedVersion: 2
-      rgba: 4294769758
+      rgba: 4294770895
     m_Color[3]:
       serializedVersion: 2
-      rgba: 4294703966
+      rgba: 4294705358
     m_Color[4]:
       serializedVersion: 2
-      rgba: 16448094
+      rgba: 16449741
   m_MinVertexDistance: .100000001
   m_Autodestruct: 0
 --- !u!114 &11400000

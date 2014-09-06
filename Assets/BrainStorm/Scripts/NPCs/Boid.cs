@@ -142,16 +142,18 @@ public class Boid : MonoBehaviour {
 		
 		switch (layer) {
 		case BoidLayer.Boid:
-			_activeBoids1[_updateIndex].Calc();
 			if(++_updateIndex >= _activeBoids1.Count) 
-					_updateIndex = 0;
+				_updateIndex = 0;
+			_activeBoids1[_updateIndex].Calc();
+
 			
 			break;
 			
 		case BoidLayer.Boid2:
-			_activeBoids2[_update2Index].Calc();
 			if(++_update2Index >= _activeBoids2.Count) 
-					_update2Index = 0;
+				_update2Index = 0;
+			_activeBoids2[_update2Index].Calc();
+
 			
 			break;
 		}

@@ -63,7 +63,8 @@ public class NPCFaction : NPC {
 				FactionManager.Instance.NPCDeath(team);
 				rigidbody.useGravity = true;
 				target = null;
-				soulPrefab.Spawn(transform.position);
+				Transform soul = soulPrefab.Spawn(transform.position);
+				soul.parent = GameManager.Instance.activeScene;
 				StartCoroutine(Death ());
 				break;
 				

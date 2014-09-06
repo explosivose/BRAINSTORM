@@ -74,7 +74,7 @@ Transform:
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: .5, y: 1, z: .5}
   m_Children:
   - {fileID: 400000}
   - {fileID: 400004}
@@ -140,13 +140,13 @@ TrailRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}
+  - {fileID: 2100000, guid: c249e21a8db77714aa081e49eaecbac2, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -160,19 +160,19 @@ TrailRenderer:
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
-      rgba: 4278245631
+      rgba: 4278190080
     m_Color[1]:
       serializedVersion: 2
-      rgba: 4278245374
+      rgba: 4278190080
     m_Color[2]:
       serializedVersion: 2
-      rgba: 4278245117
+      rgba: 4278190080
     m_Color[3]:
       serializedVersion: 2
-      rgba: 4278244860
+      rgba: 4278190080
     m_Color[4]:
       serializedVersion: 2
-      rgba: 54523
+      rgba: 0
   m_MinVertexDistance: .100000001
   m_Autodestruct: 0
 --- !u!114 &11400000
@@ -186,46 +186,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4314142032f5db64c81c53b4581ef8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawDebug: 0
+  drawDebug: 1
   type: 4
-  maxHealth: 100
+  maxHealth: 50
   invulnerable: 0
   attackDamage: 5
   attackRate: 2
-  attackRange: 10
+  attackRange: 20
   targetSearch:
     nearRange: 3
     farRange: 15
-    farthestRange: 30
+    farthestRange: 40
     targetPlayer: 1
     validTargetTags:
     - Player
     - NPC
+    - Artefact
     valid_NPC_Targets: 1
     targetSearchMask:
       serializedVersion: 2
-      m_Bits: 768
+      m_Bits: 4864
     searchForTargetsIn: 2
     timeBetweenTargetSearches: 2
     timeBtwnSrchsRandomness: 1
   virusPrefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
+  projectilePrefab: {fileID: 400000, guid: 379e529e8e3fab842bd7e4c3c6f13175, type: 2}
   sounds:
     attack: []
     hurt: []
     death: []
   wardrobe:
     normal: {fileID: 2100000, guid: c249e21a8db77714aa081e49eaecbac2, type: 2}
-    attacking: {fileID: 2100000, guid: 0e7ce5f5a1be37c42bab057960f76918, type: 2}
+    attacking: {fileID: 2100000, guid: 52350efa07912f945ba2dbd4dc554a8c, type: 2}
     hurt: {fileID: 2100000, guid: 0ef22311940229c42afde65f73a30855, type: 2}
     dead: {fileID: 2100000, guid: 91ab70c02150bd645b463ccb062ba0ea, type: 2}
     lingerie: {fileID: 0}
   defendProfile:
     moveSpeed: 7.5
     turnSpeed: 1
-    separation: 20
+    separation: 100
     alignmentWeight: .5
-    cohesionWeight: 2
-    target1Weight: 1
+    cohesionWeight: 4
+    target1Weight: 2
     target2Weight: 1
   attackProfile:
     moveSpeed: 20

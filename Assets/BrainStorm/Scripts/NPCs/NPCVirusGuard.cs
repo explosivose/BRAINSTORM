@@ -9,6 +9,7 @@ public class NPCVirusGuard : NPC {
 	}
 	
 	public Transform	virusPrefab;
+	public Transform 	projectilePrefab;
 	public CharacterAudio sounds = new CharacterAudio();
 	public CharacterMaterials wardrobe = new CharacterMaterials();
 	public Boid.Profile defendProfile = new Boid.Profile();
@@ -21,15 +22,13 @@ public class NPCVirusGuard : NPC {
 			_state = value;
 			switch(_state) {
 			case State.Defending:
-				target = null;
 				_boid.profile = defendProfile;
-				// cheatsidoodle way to keep these NPCs from wandering off-scene
 				_boid.SetTarget2(_defendTarget);
 				searchForTargets = true;
 				break;
 				
 			case State.Attacking:
-				searchForTargets = false;
+				searchForTargets = true;
 				_boid.profile = attackProfile;
 				_boid.SetTarget1(target);
 				break;
@@ -61,6 +60,7 @@ public class NPCVirusGuard : NPC {
 	protected override void Awake() {
 		base.Awake();
 		ObjectPool.CreatePool(virusPrefab);
+		ObjectPool.CreatePool(projectilePrefab);
 		_boid = GetComponentInChildren<Boid>();
 		if (!_boid) Debug.LogError("BoidController missing");
 		_ren = GetComponentInChildren<MeshRenderer>();
@@ -93,39 +93,80 @@ public class NPCVirusGuard : NPC {
 			AttackUpdate();
 			break;
 			
-		case State.Dead:
+		case State.Idle:
+			IdleUpdate();
 			break;
 			
-		case State.Idle:
+		case State.Dead:
 		default:
 			break;
 			
 		}
 	}
 	
+	void IdleUpdate() {
+		if (hasTarget) {
+			if (target.tag == "Artefact") {
+				state = State.Defending;
+			}
+			else {
+				state = State.Attacking;
+			}
+		}
+	}
+	
 	void DefendUpdate() {
-
+		if (!hasTarget) {
+			state = State.Idle;
+			return;
+		}
+		if (target.tag != "Artefact") {
+			state = State.Attacking;
+			return;
+		}
+		if (targetIsInAttackRange && !_attacking) {
+			StartCoroutine(Attack());
+			Spire.Instance.VirusTouch();
+			Debug.DrawLine(transform.position, target.position, Color.cyan);
+		}
 	}
 	
 	void AttackUpdate() {
 		if (!hasTarget) {
+			state = State.Idle;
+			return;
+		}
+		if (target.tag == "Artefact") {
 			state = State.Defending;
 			return;
 		}
 		if (Vector3.Distance(transform.position, _defendTarget.position) > targetSearch.farthestRange) {
 			state = State.Defending;
+			return;
 		}
-		if (targetIsInAttackRange && targetLOS && !_attacking) {
-			SendMessage("AttackRoutine");
+		if (targetIsInAttackRange && !_attacking) {
+			StartCoroutine(Attack());
+			Debug.DrawLine(transform.position, target.position, Color.magenta);
 		}
 	}
 	
-	IEnumerator AttackRoutine() {
+	IEnumerator Attack() {
 		_attacking = true;
-		target.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
-		target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		StartCoroutine( AttackEffect() );
+		Vector3 fireLocation = transform.position + (target.position - transform.position).normalized * 1.5f;
+		Transform i = projectilePrefab.Spawn(fireLocation);
+		i.parent = GameManager.Instance.activeScene;
+		i.SendMessage("SetTarget", target);
+		i.SendMessage("HitPosition", target.position);
+		i.SendMessage("SetDamageSource", this.transform);
 		yield return new WaitForSeconds(1f/attackRate);
 		_attacking = false;
+	}
+	
+	IEnumerator AttackEffect() {
+		_ren.material = wardrobe.attacking;
+		yield return new WaitForSeconds(0.1f);
+		_ren.material = wardrobe.normal;
 	}
 	
 	/* I want this function to be on one of the faction NPCs later...
