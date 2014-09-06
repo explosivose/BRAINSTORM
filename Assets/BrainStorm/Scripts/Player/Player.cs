@@ -81,6 +81,7 @@ public class Player : MonoBehaviour {
 		
 		// Apply the direction to the CharacterMotor
 		_motor.inputMoveDirection = transform.rotation * directionVector;
+		_motor.inputLookDirection = Camera.main.transform.rotation * directionVector;
 		_motor.inputJump = Input.GetButton("Jump");
 		_motor.inputSprint = Input.GetButton("Sprint");
 	}

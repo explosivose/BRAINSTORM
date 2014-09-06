@@ -22,7 +22,12 @@ public class PlayerInventory : MonoBehaviour {
 
 	// probably move this and an hasJetpack bool to PlayerInventory
 	public float jetpack01 {
-		get { return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; }
+		get {
+			if (hasJetpack)
+				return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; 
+			else
+				return _motor.dashpack.fuel/_motor.dashpack.maxDashpackFuel;
+		}
 	}
 	
 	public float sprint01 {
@@ -32,6 +37,11 @@ public class PlayerInventory : MonoBehaviour {
 	public bool hasJetpack {
 		get { return _motor.jetpack.enabled; }
 		set { _motor.jetpack.enabled = value; }
+	}
+	
+	public bool hasDashpack {
+		get { return _motor.dashpack.enabled; }
+		set { _motor.dashpack.enabled = value; }
 	}
 	
 	public bool hasSprint {

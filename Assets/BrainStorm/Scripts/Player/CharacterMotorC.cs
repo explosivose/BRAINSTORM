@@ -167,6 +167,30 @@ public class CharacterMotorC : MonoBehaviour {
 	}
 	
 	[System.Serializable]
+	public class CharacterMotorDashpack {
+		// can we use the dashpack?
+		public bool enabled = false;
+		// How quickly do we reach max speed?
+		public float accel = 1f;
+		// How quickly can we go?
+		public float maxSpeed = 20f;
+		// How long does the jetpack last in seconds?
+		public float maxDashpackFuel = 4f;
+		// How quickly does the jetpack recharge?
+		public float rechargeRate = 1f;
+		// How long until we can use it again?
+		public float cooldown = 1f;
+		// is the jetpack in use right now?
+		public bool dashpacking { get; set; }
+		// the time we started jetpacking
+		public float lastStartTime { get; set; }
+		// how much time of jetpacking is remaining
+		public float fuel { get; set; }
+		// dashpack momentum
+		public Vector3 dash { get; set; }
+	}
+	
+	[System.Serializable]
 	public class CharacterMotorSliding {
 		// Does the character slide on too steep surfaces?
 		public bool enabled = true;
@@ -196,6 +220,11 @@ public class CharacterMotorC : MonoBehaviour {
 	[System.NonSerialized]
 	public Vector3 inputMoveDirection = Vector3.zero;
 	
+	// the current global direction the character is looking
+	// used to determine dash jetpack direction
+	[System.NonSerialized]
+	public Vector3 inputLookDirection = Vector3.zero;
+	
 	// Is the jump button held down? We use this interface instead of checking
 	// for the jump button directly so this script can also be used by AIs.
 	[System.NonSerialized]
@@ -209,6 +238,7 @@ public class CharacterMotorC : MonoBehaviour {
 	public CharacterMotorSprint sprint = new CharacterMotorSprint();
 	public CharacterMotorJumping jumping = new CharacterMotorJumping();
 	public CharacterMotorJetpack jetpack = new CharacterMotorJetpack();
+	public CharacterMotorDashpack dashpack = new CharacterMotorDashpack();
 	public CharacterMotorMovingPlatform movingPlatform = new CharacterMotorMovingPlatform();
 	public CharacterMotorSliding sliding = new CharacterMotorSliding();
 
@@ -235,6 +265,9 @@ public class CharacterMotorC : MonoBehaviour {
 		velocity = ApplyGravityAndJumping (velocity);
 		// Apply jetpack force
 		velocity = ApplyJetpack(velocity);
+		// Apply dashpack force
+		velocity = ApplyDashpack(velocity);
+		
 		// Moving platform support
 		Vector3 moveDistance = Vector3.zero;
 		
@@ -322,10 +355,17 @@ public class CharacterMotorC : MonoBehaviour {
 		else if (!grounded && IsGroundedTest()) {
 			grounded = true;
 			jumping.jumping = false;
+			
 			if (jetpack.jetpacking) {
 				BroadcastMessage("OnJetpackStop", SendMessageOptions.DontRequireReceiver);
 			}
 			jetpack.jetpacking = false;
+			
+			if (dashpack.dashpacking) {
+				BroadcastMessage("OnDashpackStop", SendMessageOptions.DontRequireReceiver);
+			}
+			dashpack.dashpacking = false;
+			
 			SubtractNewPlatformVelocity();
 			SendMessage("OnLand", SendMessageOptions.DontRequireReceiver);
 		}
@@ -531,7 +571,41 @@ public class CharacterMotorC : MonoBehaviour {
 				jetpack.fuel = Mathf.Min(jetpack.fuel, jetpack.maxJetpackFuel);
 			}
 		}
-
+		
+		return velocity;
+	}
+	
+	private Vector3 ApplyDashpack(Vector3 velocity) {
+		if (dashpack.enabled) {
+			// if jump button held down and we're not already dashpacking
+			// and we're able to dashpack
+			if (inputJump && !dashpack.dashpacking && canDashpack) {
+				dashpack.dashpacking = true;
+				dashpack.lastStartTime = Time.time;
+				BroadcastMessage("OnDashpackStart", SendMessageOptions.DontRequireReceiver);
+			}
+			if (dashpack.dashpacking) {
+				if (dashpack.fuel > 0f && inputJump) {
+					dashpack.fuel -= Time.deltaTime;
+					// hold steady vertical while dashpacking
+					if (velocity.y < 0f) 
+						velocity.y += dashpack.accel * Time.deltaTime;
+					// dash in look direction input
+					if (velocity.magnitude < dashpack.maxSpeed) 
+						velocity += inputLookDirection.normalized * dashpack.accel * Time.deltaTime;
+				}
+				else {
+					dashpack.dashpacking = false;
+					BroadcastMessage("OnDashpackStop", SendMessageOptions.DontRequireReceiver);
+				}
+			}
+			else {
+				dashpack.fuel += dashpack.rechargeRate * Time.deltaTime;
+				dashpack.fuel = Mathf.Min(dashpack.fuel, dashpack.maxDashpackFuel);
+				dashpack.dash = Vector3.zero;
+			}
+		}
+		
 		return velocity;
 	}
 	
@@ -620,6 +694,15 @@ public class CharacterMotorC : MonoBehaviour {
 			if (!jetpack.enabled) return false;
 			return jetpack.lastStartTime + jetpack.cooldown < Time.time
 				&& jetpack.fuel > jetpack.rechargeRate
+				&& !grounded;
+		}
+	}
+	
+	public bool canDashpack {
+		get {
+			if (!dashpack.enabled) return false;
+			return dashpack.lastStartTime + dashpack.cooldown < Time.time
+				&& dashpack.fuel > dashpack.rechargeRate
 				&& !grounded;
 		}
 	}

@@ -73,10 +73,15 @@ public class MouseLook : MonoBehaviour {
 		
 		screenCenter.z = mousePos.z;
 		
-		mousePos.x = Mathf.Max (mousePos.x, 0);
-		mousePos.x = Mathf.Min (mousePos.x, Screen.width);
-		mousePos.y = Mathf.Max (mousePos.y, 0);
-		mousePos.y = Mathf.Min (mousePos.y, Screen.height);
+		// don't rotate if mouse is offscreen
+		if (mousePos.x < 0 ||
+		 	mousePos.x > Screen.width ||
+			mousePos.y < 0 ||
+			mousePos.y > Screen.height) 
+		{
+				lastCall = Time.realtimeSinceStartup;
+				return;
+		}
 		
 		Vector3 lookAt = Vector3.Lerp(screenCenter, mousePos, deltaTime);
 		
