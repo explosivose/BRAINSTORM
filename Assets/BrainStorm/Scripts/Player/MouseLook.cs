@@ -66,6 +66,8 @@ public class MouseLook : MonoBehaviour {
 	
 	float lastCall = 0f;
 	void LookAtCursor() {
+		// calculate our own delta time because Time.deltaTime doesn't work
+		// whilst Time.timeScale = 0f
 		float deltaTime = Time.realtimeSinceStartup - lastCall;
 		
 		Vector3 screenCenter = new Vector3(Screen.width/2f, Screen.height/2f, 0f);
@@ -89,7 +91,7 @@ public class MouseLook : MonoBehaviour {
 		Quaternion rotation =  Quaternion.LookRotation(ray.direction);
 		Transform cam = Camera.main.transform;
 		if (GameManager.Instance.paused)
-		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime);
+		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime * 2f);
 		
 		lastCall = Time.realtimeSinceStartup;
 	}

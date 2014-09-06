@@ -4,7 +4,7 @@ using System.Collections;
 public class CTRLmenu : CTRLelement {
 
 	public enum Action {
-		menu, credits, back
+		menu, back
 	}
 	public Action action;
 	public Transform menuPrefab;
@@ -13,9 +13,6 @@ public class CTRLmenu : CTRLelement {
 	protected override void OnEnable ()
 	{
 		base.OnEnable ();
-		if (action == Action.credits) {
-			text = Credits.developers;
-		}
 	}
 
 	protected override void OnDisable ()
@@ -39,21 +36,26 @@ public class CTRLmenu : CTRLelement {
 		base.OnMouseUpAsButton ();
 		switch(action) {
 		case Action.menu:
-			SpawnMenu();
+			ShowMenu();
 			break;
 		case Action.back:
 			transform.parent.Recycle();
 			break;
-		case Action.credits:
 		default:
 			break;
 		}
 	}
 	
-	void SpawnMenu() {
+	void ShowMenu() {
+		// hide other branches first
+		transform.parent.BroadcastMessage("HideMenu", SendMessageOptions.DontRequireReceiver);
 		Transform cam = Camera.main.transform;
 		Vector3 position = cam.position + (cam.forward + cam.right) * 5f;
 		Quaternion rotation = Quaternion.LookRotation(position - Camera.main.transform.position);
 		menuInstance = menuPrefab.Spawn(position, rotation);
+	}
+	
+	void HideMenu() {
+		if (menuInstance) menuInstance.Recycle();
 	}
 }

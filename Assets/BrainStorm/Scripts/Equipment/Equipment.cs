@@ -29,10 +29,13 @@ public class Equipment : MonoBehaviour {
 	
 	private bool _equipped;
 	private Transform _parent;
+	private GameObject _tooltip;
 	
 	void Start() {
 		if (parent == EquipParent.camera) _parent = Camera.main.transform;
 		if (parent == EquipParent.player) _parent = Player.Instance.transform;
+		_tooltip = transform.Find("tooltip").gameObject;
+		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}
 	
 	public void Equip() {
@@ -42,6 +45,7 @@ public class Equipment : MonoBehaviour {
 		transform.localRotation = Quaternion.Euler(defaultRotation);
 		rigidbody.isKinematic = true;
 		collider.enabled = false;
+		if (_tooltip) _tooltip.SetActive(false);
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
@@ -52,6 +56,7 @@ public class Equipment : MonoBehaviour {
 		transform.position += Camera.main.transform.forward;
 		rigidbody.isKinematic = false;
 		collider.enabled = true;
+		if (_tooltip) _tooltip.SetActive(true);
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 	}
 	

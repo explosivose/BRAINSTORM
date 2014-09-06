@@ -454,7 +454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
-  action: 2
+  action: 1
   menuPrefab: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:

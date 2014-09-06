@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
+	public static GameManager Instance;	
+	
 	// if you press R then the current render settings are copied
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
@@ -10,9 +12,7 @@ public class GameManager : MonoBehaviour {
 	public bool changeSceneOnLoad;
 	public Scene[] scenes;
 	
-	public const string GameVersion = "BRAINSTORM v0.3-dev";
 	
-	public static GameManager Instance;	
 		
 	public bool paused {
 		get { return _paused; }
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour {
 	private bool _levelTeardown;
 	private Scene _activeScene;
 	private Quaternion _camRotationBeforePause;
+	private GUIText _header;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -62,7 +63,8 @@ public class GameManager : MonoBehaviour {
 		else {
 			Destroy(this.gameObject);
 		}
-		
+		_header = transform.Find("Header").guiText;
+		_header.text = Strings.gameVersion;
 		transform.position = Vector3.zero;
 	}
 	

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(BoxCollider))]
+
 public class CTRLelement : MonoBehaviour {
 
 	public Color textColor = Color.white;
@@ -46,25 +46,28 @@ public class CTRLelement : MonoBehaviour {
 	
 	public string text {
 		get {
-			return _text.text;
+			return textMesh.text;
 		}
 		set {
-			_text.text = value;
+			textMesh.text = value;
 		}
 	}
 	
 	private BoxCollider _boxCollider;
-	private SpriteRenderer _background;
-	private TextMesh _text;
+	protected TextMesh textMesh { get; private set; }
 	
 	protected virtual void Awake () {
 		_boxCollider = GetComponent<BoxCollider>();
-		_background = GetComponent<SpriteRenderer>();
-		_text = transform.Find("text").GetComponent<TextMesh>();
+		textMesh = transform.Find("text").GetComponent<TextMesh>();
+		if (!textMesh) Debug.LogError("Required child object with TextMesh is missing.");
 	}
 	
 	protected virtual void OnEnable() {
-		_text.color = textColor;
+		textMesh.color = textColor;
+	}
+	
+	protected virtual void Update() {
+	
 	}
 	
 	protected virtual void OnDisable() {
@@ -72,11 +75,11 @@ public class CTRLelement : MonoBehaviour {
 	}
 	
 	protected virtual void OnMouseEnter() {
-		_text.color = textHoverColor;
+		textMesh.color = textHoverColor;
 	}
 	
 	protected virtual void OnMouseExit() {
-		_text.color = textColor;
+		textMesh.color = textColor;
 	}
 	
 	protected virtual void OnMouseDown() {
