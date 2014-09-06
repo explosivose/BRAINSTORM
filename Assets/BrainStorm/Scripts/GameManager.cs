@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
 	public bool copyRenderSettings = false;
-	public bool changeSceneOnAwake;
+	public bool changeSceneOnLoad;
 	public Scene[] scenes;
 	
 	public const string GameVersion = "BRAINSTORM v0.3-dev";
@@ -19,17 +19,19 @@ public class GameManager : MonoBehaviour {
 		set {
 			_paused = value;
 			if (_paused) {
+				_camRotationBeforePause = Camera.main.transform.localRotation;
 				Time.timeScale = 0f;
 				AudioListener.volume = 0f;
 				Screen.lockCursor = false;
-				GameMenu.Instance.showMenu = true;
+				CTRL.Instance.ShowPauseMenu();
 			}
 
 			else {
+				Camera.main.transform.localRotation = _camRotationBeforePause;
 				Time.timeScale = 1f;
 				AudioListener.volume = 1f;
 				Screen.lockCursor = true;
-				GameMenu.Instance.showMenu = false;
+				CTRL.Instance.HidePauseMenu();
 			}
 		}
 	}
@@ -51,13 +53,14 @@ public class GameManager : MonoBehaviour {
 	private bool _paused;
 	private bool _levelTeardown;
 	private Scene _activeScene;
+	private Quaternion _camRotationBeforePause;
 	
 	void Awake() {
 		if (Instance == null) {
 			Instance = this;
 		}
 		else {
-			Destroy(this);
+			Destroy(this.gameObject);
 		}
 		
 		transform.position = Vector3.zero;
@@ -66,10 +69,19 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad(this);
+		StartGame();
+	}
+	
+	void OnLevelWasLoaded() {
+		StartGame();
+	}
+	
+	void StartGame() {
 		Screen.lockCursor = true;
-		if (changeSceneOnAwake) {
+		if (changeSceneOnLoad) {
 			ChangeScene(Scene.Tag.Lobby);
 		}
+		paused = false;
 	}
 	
 	// Update is called once per frame

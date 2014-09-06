@@ -32,7 +32,16 @@ public class MouseLook : MonoBehaviour {
 
 	void Update ()
 	{
-		if (GameManager.Instance.paused) return;
+		//if (GameManager.Instance.paused) return;
+		if (Screen.lockCursor) {
+			RotateOnAxis();
+		}
+		else {
+			LookAtCursor();
+		}
+	}
+	
+	void RotateOnAxis() {
 		if (axes == RotationAxes.MouseXAndY)
 		{
 			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
@@ -53,6 +62,31 @@ public class MouseLook : MonoBehaviour {
 			
 			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 		}
+	}
+	
+	float lastCall = 0f;
+	void LookAtCursor() {
+		float deltaTime = Time.realtimeSinceStartup - lastCall;
+		
+		Vector3 screenCenter = new Vector3(Screen.width/2f, Screen.height/2f, 0f);
+		Vector3 mousePos = Input.mousePosition;
+		
+		screenCenter.z = mousePos.z;
+		
+		mousePos.x = Mathf.Max (mousePos.x, 0);
+		mousePos.x = Mathf.Min (mousePos.x, Screen.width);
+		mousePos.y = Mathf.Max (mousePos.y, 0);
+		mousePos.y = Mathf.Min (mousePos.y, Screen.height);
+		
+		Vector3 lookAt = Vector3.Lerp(screenCenter, mousePos, deltaTime);
+		
+		Ray ray = Camera.main.ScreenPointToRay(mousePos);
+		Quaternion rotation =  Quaternion.LookRotation(ray.direction);
+		Transform cam = Camera.main.transform;
+		if (GameManager.Instance.paused)
+		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime);
+		
+		lastCall = Time.realtimeSinceStartup;
 	}
 	
 	void Start ()
