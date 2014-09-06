@@ -44,6 +44,15 @@ public class CTRLelement : MonoBehaviour {
 		}
 	}
 	
+	public string text {
+		get {
+			return _text.text;
+		}
+		set {
+			_text.text = value;
+		}
+	}
+	
 	private BoxCollider _boxCollider;
 	private SpriteRenderer _background;
 	private TextMesh _text;
@@ -56,6 +65,10 @@ public class CTRLelement : MonoBehaviour {
 	
 	protected virtual void OnEnable() {
 		_text.color = textColor;
+	}
+	
+	protected virtual void OnDisable() {
+		
 	}
 	
 	protected virtual void OnMouseEnter() {

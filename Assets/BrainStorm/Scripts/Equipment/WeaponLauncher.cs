@@ -113,7 +113,7 @@ public class WeaponLauncher : MonoBehaviour {
 		}
 		// Fake a hit point if we haven't found an object to look at infront of us
 		else {
-			_crosshair.position = Camera.main.transform.position + Camera.main.transform.forward;
+			_crosshair.position = Camera.main.transform.position + Camera.main.transform.forward * range;
 			Quaternion rotation = Quaternion.Euler(_equip.defaultRotation);
 			transform.localRotation = Quaternion.Lerp(transform.localRotation, rotation, Time.deltaTime);
 			_hit.point = transform.position + _weaponNozzle.forward * range;

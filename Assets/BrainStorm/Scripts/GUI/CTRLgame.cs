@@ -7,7 +7,7 @@ public class CTRLgame : CTRLelement {
 		resume, restart, quit
 	}
 	public Action action;
-
+	
 	protected override void OnMouseEnter ()
 	{
 		base.OnMouseEnter ();
@@ -35,4 +35,6 @@ public class CTRLgame : CTRLelement {
 			break;
 		}
 	}
+	
+
 }
