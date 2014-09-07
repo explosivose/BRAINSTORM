@@ -8370,6 +8370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc8532feab9a4b4f919d12353ce382b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 400000, guid: 3bc7f9c8f95935543871d8e4aad78614, type: 2}
+  attackRate: 5
   carrotThreshold: .5
 --- !u!114 &11400020
 MonoBehaviour:
@@ -8477,6 +8479,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc8532feab9a4b4f919d12353ce382b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 400000, guid: 3bc7f9c8f95935543871d8e4aad78614, type: 2}
+  attackRate: 5
   carrotThreshold: .5
 --- !u!114 &11400036
 MonoBehaviour:
@@ -9045,7 +9049,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: .75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &13500002
 SphereCollider:
@@ -9057,7 +9061,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: .75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!154 &15400000
 TerrainCollider:

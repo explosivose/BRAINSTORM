@@ -234,6 +234,7 @@ public class NPC : MonoBehaviour {
 	}
 	
 	
+	
 	protected virtual void Damage(DamageInstance damage) {
 		if (invulnerable) return;
 		if (health <= 0) return;

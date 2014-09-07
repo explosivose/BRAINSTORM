@@ -108,7 +108,7 @@ public class Player : MonoBehaviour {
 	void Damage(DamageInstance damage) {
 		_health -= damage.damage;
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-		ScreenShake.Instance.Shake(0.5f * (float)maxHealth/(float)damage.damage, 0.3f);
+		ScreenShake.Instance.Shake(Mathf.Max(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 		_lastHurtTime = Time.time;
 		if (screenEffects)
 			ScreenFade.Instance.StartFade(_hurtOverlay, hurtEffectDuration);
