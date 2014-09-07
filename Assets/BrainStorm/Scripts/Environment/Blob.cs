@@ -13,7 +13,6 @@ public class Blob : MonoBehaviour {
 	private float 	_scaleFactor;
 	private List<Transform> _targets = new List<Transform>();
 	private int 	_tindex = 0;
-	private bool 	_attacking;
 	
 	// Use this for initialization
 	void Start () {
@@ -26,10 +25,6 @@ public class Blob : MonoBehaviour {
 		StartCoroutine( Attack() );
 	}
 	
-	void OnDisable() {
-		_attacking = false;
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		_scaleFactor = 1f - (NPCCarrot.frenzyFactor * 1f/carrotThreshold);
@@ -40,7 +35,6 @@ public class Blob : MonoBehaviour {
 	
 	IEnumerator Attack() {
 		yield return new WaitForSeconds(1f);
-		_attacking = true;
 		while(true) {
 			if (_targets.Count > 0) {
 				_tindex++;
@@ -53,7 +47,6 @@ public class Blob : MonoBehaviour {
 			}
 			yield return new WaitForSeconds(1f/attackRate);
 		}
-		_attacking = false;
 	}
 	
 	void OnTriggerEnter(Collider col) {
