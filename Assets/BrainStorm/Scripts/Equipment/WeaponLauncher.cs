@@ -95,7 +95,7 @@ public class WeaponLauncher : MonoBehaviour {
 			                                              - transform.position, Player.Instance.transform.up );
 			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 4f);
 			//transform.LookAt(hit.point);
-			_crosshair.position = _hit.point;
+			_crosshair.position = Vector3.Lerp(_crosshair.position, _hit.point, Time.deltaTime * 8f);
 			Debug.DrawLine(Camera.main.transform.position, _hit.point, Color.red);
 			Debug.DrawLine(transform.position, _hit.point, Color.yellow);
 			/* hit.transform != hit.collider.transform

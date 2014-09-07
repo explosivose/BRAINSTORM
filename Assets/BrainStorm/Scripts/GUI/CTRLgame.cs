@@ -29,12 +29,11 @@ public class CTRLgame : CTRLelement {
 			Application.LoadLevel(Application.loadedLevel);
 			break;
 		case Action.quit:
-			if (Application.isEditor) {
-				UnityEditor.EditorApplication.isPlaying = false;
-			}
-			else {
-				Application.Quit();
-			}
+			#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+			#else
+			Application.Quit();
+			#endif
 			
 			break;
 		default:
