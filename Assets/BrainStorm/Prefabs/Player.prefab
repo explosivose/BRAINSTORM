@@ -409,9 +409,9 @@ MonoBehaviour:
   canControl: 1
   useFixedUpdate: 1
   movement:
-    maxForwardSpeed: 15
+    maxForwardSpeed: 12.5
     maxSidewaysSpeed: 10
-    maxBackwardsSpeed: 10
+    maxBackwardsSpeed: 8
     slopeSpeedMultiplier:
       serializedVersion: 2
       m_Curve:
@@ -453,7 +453,7 @@ MonoBehaviour:
     superJumpHeight: 20
   jetpack:
     enabled: 0
-    verticalAccel: 70
+    verticalAccel: 60
     maxVerticalSpeed: 20
     maxJetpackFuel: 1.75
     rechargeRate: .800000012
@@ -461,6 +461,7 @@ MonoBehaviour:
   dashpack:
     enabled: 0
     accel: 100
+    verticalAccel: 60
     maxSpeed: 20
     maxDashpackFuel: 2.5
     rechargeRate: 1.20000005

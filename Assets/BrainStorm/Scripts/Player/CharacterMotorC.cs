@@ -172,6 +172,8 @@ public class CharacterMotorC : MonoBehaviour {
 		public bool enabled = false;
 		// How quickly do we reach max speed?
 		public float accel = 1f;
+		// How quickly do we stop falling (with zero directional input)?
+		public float verticalAccel = 1f;
 		// How quickly can we go?
 		public float maxSpeed = 20f;
 		// How long does the jetpack last in seconds?
@@ -588,8 +590,9 @@ public class CharacterMotorC : MonoBehaviour {
 				if (dashpack.fuel > 0f && inputJump) {
 					dashpack.fuel -= Time.deltaTime;
 					// hold steady vertical while dashpacking
+					
 					if (velocity.y < 0f) 
-						velocity.y += dashpack.accel * Time.deltaTime;
+						velocity.y += dashpack.verticalAccel * Time.deltaTime;
 					// dash in look direction input
 					if (velocity.magnitude < dashpack.maxSpeed) 
 						velocity += inputLookDirection.normalized * dashpack.accel * Time.deltaTime;

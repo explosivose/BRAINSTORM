@@ -17,6 +17,8 @@ public class DashJetpack : MonoBehaviour {
 	}
 	public AudioLibrary sounds = new AudioLibrary();
 
+	private bool jetpacking = false;
+
 	void OnEquip() {
 		PlayerInventory.Instance.hasDashpack = true;
 	}
@@ -26,16 +28,24 @@ public class DashJetpack : MonoBehaviour {
 	}
 	
 	void OnDashpackStart() {
-		PlaySound(sounds.jetpackStart);
+		PlaySound(sounds.jetpackStart, false);
+		jetpacking = true;
 	}
 	
 	void OnDashpackStop() {
-		PlaySound(sounds.jetpackStop);
+		PlaySound(sounds.jetpackStop, false);
+		jetpacking = false;
 	}
 	
-	void PlaySound(AudioClip clip) {
+	void Update() {
+		if (jetpacking && !audio.isPlaying) {
+			PlaySound(sounds.jetpackLoop, true);
+		}
+	}
+	
+	void PlaySound(AudioClip clip, bool loop) {
 		audio.clip = clip;
-		audio.loop = false;
+		audio.loop = loop;
 		audio.volume = sounds.volume;
 		audio.Play();
 	}

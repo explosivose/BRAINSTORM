@@ -18,6 +18,8 @@ public class JumpJetpack : MonoBehaviour {
 	
 	public AudioLibrary sounds = new AudioLibrary();
 	
+	private bool jetpacking = false;
+	
 	void OnEquip() {
 		PlayerInventory.Instance.hasJetpack = true;
 	}
@@ -27,16 +29,22 @@ public class JumpJetpack : MonoBehaviour {
 	}
 	
 	void OnJetpackStart() {
-		PlaySound(sounds.jetpackStart);
+		PlaySound(sounds.jetpackStart, false);
 	}
 	
 	void OnJetpackStop() {
-		PlaySound(sounds.jetpackStop);
+		PlaySound(sounds.jetpackStop, false);
 	}
 	
-	void PlaySound(AudioClip clip) {
+	void Update() {
+		if (jetpacking && !audio.isPlaying) {
+			PlaySound(sounds.jetpackLoop, true);
+		}
+	}
+	
+	void PlaySound(AudioClip clip, bool loop) {
 		audio.clip = clip;
-		audio.loop = false;
+		audio.loop = loop;
 		audio.volume = sounds.volume;
 		audio.Play();
 	}
