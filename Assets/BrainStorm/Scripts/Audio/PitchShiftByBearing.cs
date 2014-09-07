@@ -81,7 +81,7 @@ public class PitchShiftByBearing : MonoBehaviour {
 		float dist = Vector3.Distance(transform.position, lastChange);
 		if (dist > 5f) {
 			sequenceIndex++;
-			if (sequenceIndex >= sequence.Length) 
+			if (sequenceIndex > sequence.Length) 
 				sequenceIndex = 0;
 			audio.pitch = sequence[sequenceIndex];
 			lastChange = transform.position;

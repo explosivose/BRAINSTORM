@@ -148,6 +148,8 @@ public class NPCCarrot : NPC {
 		
 		if (!hasTarget) return;
 		
+		if (!targetIsValid) target = null;
+		
 		foreach(Transform b in _boid.neighbours) {
 			NPCCarrot otherCarrot = b.GetComponentInParent<NPCCarrot>();
 			if (otherCarrot.state == State.Attack) {
@@ -183,7 +185,7 @@ public class NPCCarrot : NPC {
 	}
 	
 	void AttackUpdate() {
-		if (!hasTarget) {
+		if (!hasTarget || !targetIsValid) {
 			state = State.Frenzied;
 			return;
 		}

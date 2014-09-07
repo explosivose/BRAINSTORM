@@ -85,8 +85,6 @@ public class MouseLook : MonoBehaviour {
 				return;
 		}
 		
-		Vector3 lookAt = Vector3.Lerp(screenCenter, mousePos, deltaTime);
-		
 		Ray ray = Camera.main.ScreenPointToRay(mousePos);
 		Quaternion rotation =  Quaternion.LookRotation(ray.direction);
 		Transform cam = Camera.main.transform;

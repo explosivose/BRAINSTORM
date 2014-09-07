@@ -218,7 +218,7 @@ MonoBehaviour:
   artefactKind: 1
   closestDistance: 10
   farthestDistance: 30
-  _revealed: 0
+  _revealed: 1
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
