@@ -165,6 +165,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400010, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
+      propertyPath: damageTest
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
   m_RootGameObject: {fileID: 1739406454}
@@ -628,6 +632,7 @@ GameObject:
   - 114: {fileID: 1739406456}
   - 114: {fileID: 1739406463}
   - 82: {fileID: 1739406464}
+  - 114: {fileID: 1739406458}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -663,6 +668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  damageTest: 1
   hurtEffectDuration: .150000006
   sounds:
     volume: .25
@@ -685,6 +691,17 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 4294966783
+--- !u!114 &1739406458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1739406454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c57c53a9f01fc4b91599e5bb4c085d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1739406460
 MonoBehaviour:
   m_ObjectHideFlags: 0

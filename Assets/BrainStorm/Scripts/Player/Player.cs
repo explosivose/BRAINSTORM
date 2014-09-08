@@ -3,6 +3,7 @@ using System.Collections;
 
 [AddComponentMenu("Player/Player")]
 [RequireComponent(typeof(CharacterMotorC))]
+[RequireComponent(typeof(ScreenFade))]
 public class Player : MonoBehaviour {
 
 	public static Player Instance;
@@ -16,8 +17,7 @@ public class Player : MonoBehaviour {
 	}
 			
 	public int maxHealth;
-	
-	public float hurtEffectDuration = 0.15f;
+	public float hurtEffectDuration = 0.1f;
 	
 	public AudioLibrary sounds = new AudioLibrary();
 	
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
 	
 	private int _health;
 	private bool _dead = false;
+	private ScreenFade _fade;
 	private Color _hurtOverlay;
 	private float _lastHurtTime; 
 	
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour {
 			Destroy(this);
 		}
 		_motor = GetComponent<CharacterMotorC>();
+		_fade = GetComponent<ScreenFade>();
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
 		Spawn();
 	}
@@ -51,13 +53,14 @@ public class Player : MonoBehaviour {
 	void Spawn() {
 		_health = maxHealth;
 		_dead = false;
+		screenEffects = true;
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void Update() {
 		if (_dead) return;
 		if (_lastHurtTime + hurtEffectDuration <= Time.time && screenEffects)
-			ScreenFade.Instance.StartFade(Color.clear, hurtEffectDuration);
+			_fade.StartFade(Color.clear, hurtEffectDuration);
 			
 		// Get the input vector from keyboard or analog stick
 		Vector3 directionVector;
@@ -108,17 +111,17 @@ public class Player : MonoBehaviour {
 	void Damage(DamageInstance damage) {
 		_health -= damage.damage;
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-		ScreenShake.Instance.Shake(Mathf.Max(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
+		ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 		_lastHurtTime = Time.time;
 		if (screenEffects)
-			ScreenFade.Instance.StartFade(_hurtOverlay, hurtEffectDuration);
+			_fade.StartFade(_hurtOverlay, hurtEffectDuration);
 		if (_health < 0) StartCoroutine ( Death() );
 	}
 	
 	IEnumerator Death() {
 		_dead = true;
 		if (screenEffects)
-			ScreenFade.Instance.StartFade(Color.black, 1f);
+			_fade.StartFade(Color.black, 1f);
 		float vol = AudioListener.volume;
 		AudioListener.volume = 0f;
 		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);

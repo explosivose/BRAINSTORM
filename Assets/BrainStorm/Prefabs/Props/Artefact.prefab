@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   artefactKind: 1
-  closestDistance: 10
+  closestDistance: 5
   farthestDistance: 30
   _revealed: 1
 --- !u!198 &19800000
