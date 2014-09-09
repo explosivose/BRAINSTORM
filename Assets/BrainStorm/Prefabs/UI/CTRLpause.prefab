@@ -114,7 +114,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   - 212: {fileID: 21200006}
-  - 65: {fileID: 6500006}
   m_Layer: 5
   m_Name: CTRLbackground
   m_TagString: Untagged
@@ -130,6 +129,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400014}
+  - 114: {fileID: 11400008}
   m_Layer: 5
   m_Name: CTRLpause
   m_TagString: Untagged
@@ -417,18 +417,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.55999994, y: 1.27999997, z: 0}
   m_Center: {x: 1.27999997, y: -.639999986, z: 0}
---- !u!65 &6500006
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.11999989, y: 5.11999989, z: 0}
-  m_Center: {x: 2.55999994, y: -2.55999994, z: 0}
 --- !u!65 &6500008
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -582,6 +570,18 @@ MonoBehaviour:
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 2
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7dc11ce0bcdfa41a34caaa883c2e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animate: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

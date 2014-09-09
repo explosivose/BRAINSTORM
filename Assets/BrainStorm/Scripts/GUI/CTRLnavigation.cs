@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CTRLmenu : CTRLelement {
+public class CTRLnavigation : CTRLelement {
 
 	public enum Action {
 		menu, back

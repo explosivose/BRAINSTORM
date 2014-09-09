@@ -7,15 +7,18 @@ public class PrefabSpawner : MonoBehaviour {
 		Inherited,
 		RandomInColliderBounds
 	}
+	public enum SpawnRotation {
+		Inherited,
+		Randomly
+	}
 
 	public Transform prefab;
 	public bool useObjectPool = true;
 	public bool spawnOnStart = true;
 	public float amountToSpawn = 10f;
 	public float variationOnAmount = 1f;
-	public bool randomRotation = true;
-	public Vector3 rotation;
-	public SpawnPosition style = SpawnPosition.Inherited;
+	public SpawnPosition position = SpawnPosition.Inherited;
+	public SpawnRotation rotation = SpawnRotation.Inherited;
 	public float timeBetweenInstantiations;
 	public float variationOnTime = 1f;
 	
@@ -48,22 +51,30 @@ public class PrefabSpawner : MonoBehaviour {
 		for (int i = _spawned; i < _amountToSpawn; i++) {
 			Transform t = prefab.Spawn(transform.position);
 			
-			switch(style) {
+			switch(position) {
+				default:
 				case SpawnPosition.Inherited:
 					t.position = transform.position;
 					break;
 				case SpawnPosition.RandomInColliderBounds:
-					Vector3 position = new Vector3 (
+					Vector3 pos = new Vector3 (
 						Random.value * collider.bounds.size.x,
 						Random.value * collider.bounds.size.y,
 						Random.value * collider.bounds.size.z
 						) - collider.bounds.extents;
-					t.position = transform.position + position;
+					t.position = transform.position + pos;
 					break;
 			}
 			
-			if (randomRotation) t.rotation = Random.rotation;
-			else t.rotation = Quaternion.Euler(rotation);
+			switch(rotation) {
+				default:
+				case SpawnRotation.Inherited:
+					t.rotation = transform.rotation;
+					break;
+				case SpawnRotation.Randomly:
+					t.rotation = Random.rotation;
+					break;
+			}
 			
 			t.parent = GameManager.Instance.activeScene;
 			_spawned++;

@@ -54,10 +54,12 @@ public class CTRLelement : MonoBehaviour {
 	}
 	
 	private BoxCollider _boxCollider;
+	private Vector3 _initialPosition;
 	protected TextMesh textMesh { get; private set; }
 	
 	protected virtual void Awake () {
 		_boxCollider = GetComponent<BoxCollider>();
+		_initialPosition = transform.localPosition;
 		textMesh = transform.Find("text").GetComponent<TextMesh>();
 		if (!textMesh) Debug.LogError("Required child object with TextMesh is missing.");
 	}
@@ -71,7 +73,7 @@ public class CTRLelement : MonoBehaviour {
 	}
 	
 	protected virtual void OnDisable() {
-		
+		transform.localPosition = _initialPosition;
 	}
 	
 	protected virtual void OnMouseEnter() {
@@ -83,7 +85,11 @@ public class CTRLelement : MonoBehaviour {
 	}
 	
 	protected virtual void OnMouseDown() {
-		
+		transform.localPosition = _initialPosition + Vector3.forward * 0.1f;
+	}
+	
+	protected virtual void OnMouseUp() {
+		transform.localPosition = _initialPosition;
 	}
 	
 	protected virtual void OnMouseUpAsButton() {

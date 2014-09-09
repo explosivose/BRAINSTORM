@@ -3345,9 +3345,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: Infinity
   variationOnAmount: 0
-  randomRotation: 0
-  rotation: {x: 90, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!4 &485509405
@@ -9939,6 +9938,10 @@ Prefab:
       propertyPath: changeSceneOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
+      propertyPath: changeSceneOnLoad
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
   m_RootGameObject: {fileID: 1417697885}
@@ -10058,7 +10061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copyRenderSettings: 0
-  changeSceneOnLoad: 1
+  changeSceneOnLoad: 0
   scenes:
   - tag: 0
     scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
@@ -11471,9 +11474,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 10
   variationOnAmount: 1
-  randomRotation: 1
-  rotation: {x: 0, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: .100000001
   variationOnTime: 1
 --- !u!1 &1685832182
@@ -12045,6 +12047,7 @@ GameObject:
   - 114: {fileID: 1756414531}
   - 114: {fileID: 1756414532}
   - 82: {fileID: 1756414526}
+  - 114: {fileID: 1756414527}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -12126,6 +12129,18 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &1756414527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3,
+    type: 2}
+  m_PrefabInternal: {fileID: 645462879}
+  m_GameObject: {fileID: 1756414524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c57c53a9f01fc4b91599e5bb4c085d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1756414528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14933,9 +14948,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 10
   variationOnAmount: 1
-  randomRotation: 1
-  rotation: {x: 0, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: .100000001
   variationOnTime: 1
 --- !u!1 &2062048718
@@ -15582,9 +15596,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 10
   variationOnAmount: 1
-  randomRotation: 1
-  rotation: {x: 0, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: .100000001
   variationOnTime: 1
 --- !u!1 &2113003255
