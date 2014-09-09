@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -69,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copyRenderSettings: 0
-  changeSceneOnLoad: 1
+  changeSceneOnLoad: 0
   scenes:
   - tag: 0
     scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
@@ -99,6 +100,17 @@ MonoBehaviour:
     fogDensity: .0299999993
     ambientLight: {r: .156862751, g: .0705882385, b: .0901960805, a: 0}
     skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c57c53a9f01fc4b91599e5bb4c085d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!132 &13200000
 GUIText:
   m_ObjectHideFlags: 1

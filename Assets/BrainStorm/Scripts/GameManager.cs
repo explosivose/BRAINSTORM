@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(ScreenFade))]
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;	
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour {
 	private Scene _activeScene;
 	private Quaternion _camRotationBeforePause;
 	private GUIText _header;
+	private ScreenFade _fade;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -65,6 +67,7 @@ public class GameManager : MonoBehaviour {
 		}
 		_header = transform.Find("Header").guiText;
 		_header.text = Strings.gameVersion;
+		_fade = GetComponent<ScreenFade>();
 		transform.position = Vector3.zero;
 	}
 	
@@ -120,6 +123,8 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
+		_fade.StartFade(Color.black, 0.5f);
+		yield return new WaitForSeconds(0.5f);
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
 		// unload active scene
@@ -139,6 +144,9 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		_levelTeardown = false;
+		yield return new WaitForEndOfFrame();
+		_fade.StartFade(Color.clear, 0.5f);
+		yield return new WaitForSeconds(0.5f);
 	}
 	
 }
