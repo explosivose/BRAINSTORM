@@ -95,6 +95,7 @@ public class NPCCarrot : NPC {
 	
 	protected override void OnEnable() {
 		base.OnEnable();
+		if (GameManager.Instance.levelTeardown) return;
 		_attacking = false;
 		state = State.Alone;
 	}

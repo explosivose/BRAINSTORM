@@ -296,8 +296,8 @@ MonoBehaviour:
   controlEnabled: 1
   defaultBehaviour:
     moveSpeed: 10
-    turnSpeed: 2.5
-    separation: 5
+    turnSpeed: 1.5
+    separation: 10
     alignmentWeight: 1
     cohesionWeight: 2.5
     target1Weight: .75

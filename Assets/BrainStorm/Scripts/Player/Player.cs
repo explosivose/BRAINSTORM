@@ -24,15 +24,23 @@ public class Player : MonoBehaviour {
 	public float health01 {
 		get { return (float)_health/(float)maxHealth; }
 	}
-	
-	public bool screenEffects {
-		get; set;
+	public bool screenEffects { 
+		get; set; 
+	}
+	public bool noclip { 
+		get {
+			return _noclip;	
+		}
+		set {
+			_noclip = value;
+			_motor.canControl = !value;
+		}
 	}
 	
 	private CharacterMotorC _motor;
-	
 	private int _health;
 	private bool _dead = false;
+	private bool _noclip = false;
 	private ScreenFade _fade;
 	private Color _hurtOverlay;
 	private float _lastHurtTime; 
@@ -80,6 +88,10 @@ public class Player : MonoBehaviour {
 			
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
+		}
+		
+		if (noclip) {
+			transform.position += Camera.main.transform.rotation * directionVector * CTRL.deltaTime;
 		}
 		
 		// Apply the direction to the CharacterMotor

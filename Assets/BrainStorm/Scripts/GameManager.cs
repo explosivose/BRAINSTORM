@@ -6,14 +6,21 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;	
 	
+	public enum WinStates {
+		None 	= 0x00,
+		Grief 	= 0x01,
+		Rage	= 0x02,
+		Terror 	= 0x04,
+		All		= 0xFF
+	}
+	
 	// if you press R then the current render settings are copied
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
 	public bool copyRenderSettings = false;
-	public bool changeSceneOnLoad;
+	[BitMask(typeof(GameManager.WinStates))]
+	public WinStates winState = WinStates.None;
 	public Scene[] scenes;
-	
-	
 		
 	public bool paused {
 		get { return _paused; }
@@ -37,7 +44,6 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	
 	public bool levelTeardown {
 		get { return _levelTeardown; }
 	}
@@ -51,8 +57,42 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
+	public float timeSinceSceneChange {
+		get {
+			return Time.time - _sceneChangeTime;
+		}
+	}
+	
+	public bool griefComplete {
+		get {
+			return (
+				(winState & WinStates.Grief) == WinStates.Grief &&
+				winState != WinStates.None
+			);
+		}
+	}
+	
+	public bool rageComplete {
+		get {
+			return (
+				(winState & WinStates.Rage) == WinStates.Rage &&
+				winState != WinStates.None
+			);
+		}
+	}
+	
+	public bool terrorComplete {
+		get {
+			return  (
+				(winState & WinStates.Terror) == WinStates.Terror &&
+				winState != WinStates.None
+			);
+		}
+	}
+	
 	private bool _paused;
 	private bool _levelTeardown;
+	private float _sceneChangeTime = -999f;
 	private Scene _activeScene;
 	private Quaternion _camRotationBeforePause;
 	private GUIText _header;
@@ -77,13 +117,15 @@ public class GameManager : MonoBehaviour {
 		StartGame();
 	}
 	
+	// this is called when the game is restarted
+	// Application.LoadLevel(Application.loadedLevel);
 	void OnLevelWasLoaded() {
 		StartGame();
 	}
 	
 	void StartGame() {
 		Screen.lockCursor = true;
-		if (changeSceneOnLoad) {
+		if (Application.loadedLevelName == "brainstorm") {
 			ChangeScene(Scene.Tag.Lobby);
 		}
 		paused = false;
@@ -119,10 +161,13 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void ChangeScene(Scene.Tag scene) {
+		if (timeSinceSceneChange < 1f) return;
+		paused = false;
+		_sceneChangeTime = Time.time;
 		StartCoroutine( ChangeSceneRoutine(scene) );
 	}
 	
-	IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
+	private IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
 		_fade.StartFade(Color.black, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 		yield return new WaitForEndOfFrame();
