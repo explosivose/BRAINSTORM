@@ -48,6 +48,17 @@ public class Artefact : MonoBehaviour {
 		float t = (farDist - playerDistance)/farDist;
 		
 		if (playerDistance < 0f) {
+			switch (artefactKind) {
+			case Scene.Tag.Grief:
+				GameManager.Instance.winState |= GameManager.WinStates.Grief;
+				break;
+			case Scene.Tag.Rage:
+				GameManager.Instance.winState |= GameManager.WinStates.Rage;
+				break;
+			case Scene.Tag.Terror:
+				GameManager.Instance.winState |= GameManager.WinStates.Terror;
+				break;
+			}
 			GameManager.Instance.ChangeScene(Scene.Tag.Lobby);
 		}
 		
