@@ -136,8 +136,8 @@ public class GameManager : MonoBehaviour {
 		if (!Screen.lockCursor && !paused) {
 			paused = true;
 		}
-		if (Input.GetKeyUp(KeyCode.Escape) && !paused) {
-			paused = true;
+		if (Input.GetKeyUp(KeyCode.Escape)) {
+			paused = !paused;
 		}
 		if (Application.isEditor & copyRenderSettings) {
 			CopyRenderSettings();

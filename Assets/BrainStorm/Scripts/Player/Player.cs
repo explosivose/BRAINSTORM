@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
 		}
 		set {
 			_noclip = value;
-			_motor.canControl = !value;
+			_motor.enabled = !value;
 		}
 	}
 	
@@ -91,14 +91,17 @@ public class Player : MonoBehaviour {
 		}
 		
 		if (noclip) {
+			directionVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+			directionVector *= _motor.movement.maxForwardSpeed;
 			transform.position += Camera.main.transform.rotation * directionVector * CTRL.deltaTime;
 		}
-		
-		// Apply the direction to the CharacterMotor
-		_motor.inputMoveDirection = transform.rotation * directionVector;
-		_motor.inputLookDirection = Camera.main.transform.rotation * directionVector;
-		_motor.inputJump = Input.GetButton("Jump");
-		_motor.inputSprint = Input.GetButton("Sprint");
+		else {
+			// Apply the direction to the CharacterMotor
+			_motor.inputMoveDirection = transform.rotation * directionVector;
+			_motor.inputLookDirection = Camera.main.transform.rotation * directionVector;
+			_motor.inputJump = Input.GetButton("Jump");
+			_motor.inputSprint = Input.GetButton("Sprint");
+		}
 	}
 	
 	void OnJump() {
