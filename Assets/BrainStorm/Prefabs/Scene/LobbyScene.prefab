@@ -2975,6 +2975,7 @@ MonoBehaviour:
   - {fileID: 400002, guid: 894a289d562e4bc488a8f4b8639b2524, type: 2}
   - {fileID: 400002, guid: a8c65dc85e550cc47ad557337c2239fc, type: 2}
   - {fileID: 400008, guid: 84f024ffcef0dce4b8955ca114a9dfba, type: 2}
+  - {fileID: 400002, guid: bb771b2f67cacf74185e832af46fbc4f, type: 2}
   equipmentPrefabs:
   - {fileID: 400002, guid: f8bc71c5cedf3c54f947108e82e5acc9, type: 2}
   - {fileID: 400006, guid: 1a582c681c746f74da3ab06f93cf099c, type: 2}
