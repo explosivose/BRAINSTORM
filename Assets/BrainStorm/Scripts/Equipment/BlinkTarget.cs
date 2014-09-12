@@ -42,11 +42,18 @@ public class BlinkTarget : MonoBehaviour {
 	void OnDrop() {
 		PlayerInventory.Instance.hasBlink = false;
 		if (_blinkTarget) _blinkTarget.Recycle();
+		_blinkTarget = null;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!_equipment.equipped) return;
+		if (GameManager.Instance.paused) {
+			if(_blinkTarget)
+				_blinkTarget.Recycle();
+			_blinkTarget = null;
+			return;
+		};
 		_equipment.energy = _range/maxRange;
 		// recharge
 		_range += Time.deltaTime * maxRange/rechargeTime;
@@ -60,7 +67,8 @@ public class BlinkTarget : MonoBehaviour {
 		
 		
 		if (Input.GetButtonDown("Sprint")) {
-			_blinkTarget = blinkTargetPrefab.Spawn();
+			if (!_blinkTarget)
+				_blinkTarget = blinkTargetPrefab.Spawn();
 		}
 		
 		if (_blinkTarget) {
@@ -84,11 +92,16 @@ public class BlinkTarget : MonoBehaviour {
 	
 	void StopBlink() {
 		_blinking = false;
+		_blinkTarget = null;
 		Player.Instance.motor.enabled = true;
 		_equipment.AudioStop();
 	}
 	
 	void Blink() {
+		if (!_blinkTarget) {
+			StopBlink();
+			return;
+		}
 		Vector3 previousPosition = _player.position;
 		_player.position = Vector3.Lerp(
 			_player.position, 
