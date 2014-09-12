@@ -5,11 +5,13 @@ public class PrefabSpawner : MonoBehaviour {
 
 	public enum SpawnPosition {
 		Inherited,
-		RandomInColliderBounds
+		RandomInColliderBounds,
+		Unchanged
 	}
 	public enum SpawnRotation {
 		Inherited,
-		Randomly
+		Randomly,
+		Unchanged
 	}
 
 	public Transform prefab;
@@ -68,6 +70,9 @@ public class PrefabSpawner : MonoBehaviour {
 						) - collider.bounds.extents;
 					t.position = transform.position + pos;
 					break;
+				case SpawnPosition.Unchanged:
+					break;
+			
 			}
 			
 			switch(rotation) {
@@ -77,6 +82,8 @@ public class PrefabSpawner : MonoBehaviour {
 					break;
 				case SpawnRotation.Randomly:
 					t.rotation = Random.rotation;
+					break;
+				case SpawnRotation.Unchanged:
 					break;
 			}
 			

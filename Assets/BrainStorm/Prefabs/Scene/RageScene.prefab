@@ -13276,9 +13276,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 10
   variationOnAmount: 1
-  randomRotation: 1
-  rotation: {x: 0, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: .100000001
   variationOnTime: 1
 --- !u!114 &11400002
@@ -13297,9 +13296,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 10
   variationOnAmount: 1
-  randomRotation: 1
-  rotation: {x: 0, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: .100000001
   variationOnTime: 1
 --- !u!114 &11400004
@@ -13318,9 +13316,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 10
   variationOnAmount: 1
-  randomRotation: 1
-  rotation: {x: 0, y: 0, z: 0}
-  style: 1
+  position: 0
+  rotation: 6
   timeBetweenInstantiations: .100000001
   variationOnTime: 1
 --- !u!114 &11400006
@@ -13339,9 +13336,8 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: Infinity
   variationOnAmount: 0
-  randomRotation: 0
-  rotation: {x: 90, y: 0, z: 0}
-  style: 1
+  position: 1
+  rotation: 2
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400010
@@ -13507,6 +13503,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   spawnOnEnable: 1
   spawnOnTrigger: 1
+  updateOnSceneChange: 0
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
