@@ -36,6 +36,14 @@ public class Player : MonoBehaviour {
 			_motor.enabled = !value;
 		}
 	}
+	public bool motorEnabled {
+		get {
+			return _motor.enabled;
+		}
+		set {
+			_motor.enabled = value;
+		}
+	}
 	
 	private CharacterMotorC _motor;
 	private int _health;

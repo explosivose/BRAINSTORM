@@ -25,8 +25,10 @@ public class PlayerInventory : MonoBehaviour {
 		get {
 			if (hasJetpack)
 				return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; 
-			else
+			else if (hasDashpack)
 				return _motor.dashpack.fuel/_motor.dashpack.maxDashpackFuel;
+			else 
+				return 0f;
 		}
 	}
 	
@@ -44,14 +46,18 @@ public class PlayerInventory : MonoBehaviour {
 		set { _motor.dashpack.enabled = value; }
 	}
 	
+	public bool hasSuperJump {
+		get { return _motor.jumping.superJump; }
+		set { _motor.jumping.superJump = value; }
+	}
+	
 	public bool hasSprint {
 		get { return _motor.sprint.enabled; }
 		set { _motor.sprint.enabled = value; }
 	}
 	
-	public bool hasSuperJump {
-		get { return _motor.jumping.superJump; }
-		set { _motor.jumping.superJump = value; }
+	public bool hasBlink {
+		get; set;
 	}
 
 	private Transform utility1 {
