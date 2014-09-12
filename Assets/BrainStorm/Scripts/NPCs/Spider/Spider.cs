@@ -68,6 +68,7 @@ public class Spider : NPC {
 	private NPCPathFinder _pathfinder;
 	private float _initPathHeightOffset;
 	private GameObject _animator;
+	private PrefabSpawner _artefactSpawner;
 	
 	protected override void Awake() {
 		base.Awake();
@@ -75,6 +76,7 @@ public class Spider : NPC {
 		_initPathHeightOffset = _pathfinder.pathHeightOffset;
 		target = Player.Instance.transform;
 		_animator = transform.FindChild("Animator").gameObject;
+		_artefactSpawner = GetComponentInChildren<PrefabSpawner>();
 	}
 	
 	IEnumerator Start() {
@@ -189,6 +191,7 @@ public class Spider : NPC {
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
 		rigidbody.isKinematic = true;
-		BroadcastMessage("Reveal");
+		GameManager.Instance.terrorComplete = true;
+		_artefactSpawner.Spawn();
 	}
 }

@@ -243,7 +243,7 @@ public class NPC : MonoBehaviour {
 		health -= damage.damage;
 		if (health <= 0) {
 			health = 0;
-			damage.source.SendMessage("Killed", this.transform);
+			damage.source.BroadcastMessage("Killed", this.transform);
 		}
 	}
 	

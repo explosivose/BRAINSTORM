@@ -21,7 +21,15 @@ public class GameManager : MonoBehaviour {
 	[BitMask(typeof(GameManager.WinStates))]
 	public WinStates winState = WinStates.None;
 	public Scene[] scenes;
-		
+	
+	private bool _paused;
+	private bool _levelTeardown;
+	private float _sceneChangeTime = -999f;
+	private Scene _activeScene;
+	private Quaternion _camRotationBeforePause;
+	private GUIText _header;
+	private ScreenFade _fade;
+	
 	public bool paused {
 		get { return _paused; }
 		set {
@@ -70,6 +78,12 @@ public class GameManager : MonoBehaviour {
 				winState != WinStates.None
 			);
 		}
+		set {
+			if (value) 
+				winState |= WinStates.Grief;
+			else 
+				winState &= ~WinStates.Grief;
+		}
 	}
 	
 	public bool rageComplete {
@@ -78,6 +92,12 @@ public class GameManager : MonoBehaviour {
 				(winState & WinStates.Rage) == WinStates.Rage &&
 				winState != WinStates.None
 			);
+		}
+		set {
+			if (value) 
+				winState |= WinStates.Rage;
+			else 
+				winState &= ~WinStates.Rage;
 		}
 	}
 	
@@ -88,16 +108,14 @@ public class GameManager : MonoBehaviour {
 				winState != WinStates.None
 			);
 		}
+		set {
+			if (value)
+				winState |= WinStates.Terror;
+			else
+				winState &= ~WinStates.Terror;
+		}
 	}
-	
-	private bool _paused;
-	private bool _levelTeardown;
-	private float _sceneChangeTime = -999f;
-	private Scene _activeScene;
-	private Quaternion _camRotationBeforePause;
-	private GUIText _header;
-	private ScreenFade _fade;
-	
+
 	void Awake() {
 		if (Instance == null) {
 			Instance = this;
@@ -111,7 +129,7 @@ public class GameManager : MonoBehaviour {
 		transform.position = Vector3.zero;
 	}
 	
-	// Use this for initialization
+	
 	void Start () {
 		DontDestroyOnLoad(this);
 		StartGame();
@@ -131,13 +149,13 @@ public class GameManager : MonoBehaviour {
 		paused = false;
 	}
 	
-	// Update is called once per frame
+	
 	void Update () {
 		if (!Screen.lockCursor && !paused) {
 			paused = true;
 		}
-		if (Input.GetKeyUp(KeyCode.Escape)) {
-			paused = !paused;
+		if (Input.GetKeyUp(KeyCode.Escape) && !paused) {
+			paused = true;
 		}
 		if (Application.isEditor & copyRenderSettings) {
 			CopyRenderSettings();

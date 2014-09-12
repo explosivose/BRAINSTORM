@@ -59,6 +59,7 @@ public class Spire : MonoBehaviour {
 		artefactPeakSize = Mathf.Max(artefactSize, artefactPeakSize);
 		if (artefactSize >= 1f && !artefactActivated) {
 			ActivateArtefact();
+			GameManager.Instance.rageComplete = true;
 		}
 	}
 	

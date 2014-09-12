@@ -97,11 +97,9 @@ public class CharacterMotorC : MonoBehaviour {
 		//[System.NonSerialized]
 		public bool sprinting;
 		// When was the last time the sprint button was pressed?
-		[System.NonSerialized]
-		public float lastStartTime;
+		public float lastStartTime {get; set;}
 		// How much sprint time is remaining
-		[System.NonSerialized]
-		public float stamina;
+		public float stamina {get; set;}
 	}
 	
 	// We will contain all the jumping related variables in one helper class for clarity.
@@ -156,14 +154,11 @@ public class CharacterMotorC : MonoBehaviour {
 		// How long until we can use it again?
 		public float cooldown = 1f;
 		// is the jetpack in use right now?
-		[System.NonSerialized]
-		public bool jetpacking = false;
+		public bool jetpacking {get; set;}
 		// the time we started jetpacking
-		[System.NonSerialized]
-		public float lastStartTime = 0f;
+		public float lastStartTime {get; set;}
 		// how much time of jetpacking is remaining
-		[System.NonSerialized]
-		public float fuel;
+		public float fuel {get; set;}
 	}
 	
 	[System.Serializable]

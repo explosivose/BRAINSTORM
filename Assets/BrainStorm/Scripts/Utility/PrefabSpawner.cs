@@ -42,11 +42,15 @@ public class PrefabSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void OnEnable() {
-		if (spawnOnStart) StartCoroutine(Spawn ());
+		if (spawnOnStart) Spawn();
 	}
 	
-	// Update is called once per frame
-	IEnumerator Spawn() {
+
+	public void Spawn() {
+		StartCoroutine( SpawnRoutine () );
+	}
+
+	IEnumerator SpawnRoutine() {
 		yield return new WaitForEndOfFrame();
 		for (int i = _spawned; i < _amountToSpawn; i++) {
 			Transform t = prefab.Spawn(transform.position);

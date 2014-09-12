@@ -7,7 +7,7 @@ public class Blob : MonoBehaviour {
 	public Transform projectilePrefab;
 	public float attackRate = 10f;
 	public float carrotThreshold = 0.5f;
-	
+	public float deathThreshold = 0.1f;
 	
 	private Vector3 _initialScale;
 	private float 	_scaleFactor;
@@ -30,7 +30,12 @@ public class Blob : MonoBehaviour {
 		_scaleFactor = 1f - (NPCCarrot.frenzyFactor * 1f/carrotThreshold);
 		_scaleFactor = Mathf.Clamp01(_scaleFactor);
 		Vector3 scale = _initialScale * _scaleFactor;
+		if (_scaleFactor < deathThreshold) {
+			scale = Vector3.zero;
+			GameManager.Instance.griefComplete = true;
+		}
 		transform.localScale = Vector3.Lerp(transform.localScale, scale, Time.deltaTime);
+
 	}
 	
 	IEnumerator Attack() {
