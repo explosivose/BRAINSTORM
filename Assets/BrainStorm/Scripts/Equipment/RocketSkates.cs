@@ -1,22 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Equipment/Rocket Skates")]
-public class RocketSkates : MonoBehaviour {
+public class RocketSkates : Equipment {
 	
 	//  behaviour is currently in the CharacterMotorC script
 	// this script is just sounds and enabling/disabling behaviour
-	
-	[System.Serializable]
-	public class AudioLibrary {
-		public float volume = 0.25f;
-		public AudioClip start;
-		public AudioClip loop;
-		public AudioClip stop;
-	}
-	
-	public AudioLibrary sounds = new AudioLibrary();
 	
 	void OnEquip() {
 		PlayerInventory.Instance.hasSprint = true;
@@ -40,5 +29,4 @@ public class RocketSkates : MonoBehaviour {
 		audio.volume = sounds.volume;
 		audio.Play();
 	}
-	
 }

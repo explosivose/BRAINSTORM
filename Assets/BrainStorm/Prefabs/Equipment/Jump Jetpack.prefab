@@ -26,7 +26,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 54: {fileID: 5400000}
-  - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
   - 65: {fileID: 6500000}
   - 82: {fileID: 8200000}
@@ -285,28 +284,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac766fee1e728d45ae70de7753c6ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-    volume: .25
-    jetpackStart: {fileID: 8300000, guid: a6645f190942b5f4c85c9f0772daa060, type: 3}
-    jetpackLoop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
-    jetpackStop: {fileID: 8300000, guid: ad49a56b3ea85d6438b5e68e894d41f0, type: 3}
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1e5c8b9928e61f41813568232cb8897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   type: 1
   parent: 0
   equippedPosition: {x: .066874519, y: .55471611, z: -.475835294}
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: 0, y: 0, z: 0}
   holsteredRotation: {x: 0, y: 0, z: 0}
+  sounds:
+    volume: .25
+    start: {fileID: 8300000, guid: a6645f190942b5f4c85c9f0772daa060, type: 3}
+    loop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
+    stop: {fileID: 8300000, guid: ad49a56b3ea85d6438b5e68e894d41f0, type: 3}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

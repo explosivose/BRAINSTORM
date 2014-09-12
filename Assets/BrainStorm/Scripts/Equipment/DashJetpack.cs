@@ -1,21 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Equipment/Dash Jetpack")]
-public class DashJetpack : MonoBehaviour {
+public class DashJetpack : Equipment {
 
 	// jetpack behaviour is currently in the CharacterMotorC script
 	// this script is just sounds and enabling/disabling behaviour
-
-	[System.Serializable]
-	public class AudioLibrary {
-		public float volume;
-		public AudioClip jetpackStart;
-		public AudioClip jetpackLoop;
-		public AudioClip jetpackStop;
-	}
-	public AudioLibrary sounds = new AudioLibrary();
 
 	private bool jetpacking = false;
 
@@ -28,25 +18,18 @@ public class DashJetpack : MonoBehaviour {
 	}
 	
 	void OnDashpackStart() {
-		PlaySound(sounds.jetpackStart, false);
+		PlaySound(sounds.start, false);
 		jetpacking = true;
 	}
 	
 	void OnDashpackStop() {
-		PlaySound(sounds.jetpackStop, false);
+		PlaySound(sounds.stop, false);
 		jetpacking = false;
 	}
 	
 	void Update() {
 		if (jetpacking && !audio.isPlaying) {
-			PlaySound(sounds.jetpackLoop, true);
+			PlaySound(sounds.loop, true);
 		}
-	}
-	
-	void PlaySound(AudioClip clip, bool loop) {
-		audio.clip = clip;
-		audio.loop = loop;
-		audio.volume = sounds.volume;
-		audio.Play();
 	}
 }

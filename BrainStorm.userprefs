@@ -1,18 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Utility\IKLimb.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Equipment\BlinkTarget.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\Utility\IKLimb.cs" Line="160" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\PlayerSpawnPoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\Spider\Spider.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Utility\PrefabSpawner.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPC.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Environment\Spire.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Environment\Blob.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCCarrot.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Projectiles\ProjectileLaser.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\CharacterMotorC.cs" Line="464" Column="4" />
+      <File FileName="Assets\BrainStorm\Scripts\GUI\GUIController.cs" Line="23" Column="1" />
+      <File FileName="Assets\GradientGUIBars\Script\GUIBarScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Equipment\BlinkTarget.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

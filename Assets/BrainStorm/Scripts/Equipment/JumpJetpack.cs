@@ -1,23 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Equipment/Jump Jetpack")]
-public class JumpJetpack : MonoBehaviour {
+public class JumpJetpack : Equipment {
 	
 	// jetpack behaviour is currently in the CharacterMotorC script
 	// this script is just sounds and enabling/disabling behaviour
-	
-	[System.Serializable]
-	public class AudioLibrary {
-		public float volume;
-		public AudioClip jetpackStart;
-		public AudioClip jetpackLoop;
-		public AudioClip jetpackStop;
-	}
-	
-	public AudioLibrary sounds = new AudioLibrary();
-	
+
 	private bool jetpacking = false;
 	
 	void OnEquip() {
@@ -29,24 +18,18 @@ public class JumpJetpack : MonoBehaviour {
 	}
 	
 	void OnJetpackStart() {
-		PlaySound(sounds.jetpackStart, false);
+		PlaySound(sounds.start, false);
+		jetpacking = true;
 	}
 	
 	void OnJetpackStop() {
-		PlaySound(sounds.jetpackStop, false);
+		PlaySound(sounds.stop, false);
+		jetpacking = false;
 	}
 	
 	void Update() {
 		if (jetpacking && !audio.isPlaying) {
-			PlaySound(sounds.jetpackLoop, true);
+			PlaySound(sounds.loop, true);
 		}
-	}
-	
-	void PlaySound(AudioClip clip, bool loop) {
-		audio.clip = clip;
-		audio.loop = loop;
-		audio.volume = sounds.volume;
-		audio.Play();
-	}
-	
+	}	
 }

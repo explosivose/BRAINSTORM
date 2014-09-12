@@ -5,40 +5,52 @@ using System.Collections;
 // which plays audio for collisions 
 
 [RequireComponent(typeof(Rigidbody))]
-[AddComponentMenu("Player/Equipment/Equip")]
 public class Equipment : MonoBehaviour {
-	// utility1 is operated with the Jump button
-	// utility2 is operated with the Sprint button
-	public enum Type {
-		weapon, utility1, utility2
+	
+	[System.Serializable]
+	public class AudioLibrary {
+		public float volume;
+		public AudioClip start;
+		public AudioClip loop;
+		public AudioClip stop;
 	}
-	public Type type;
+
+	public enum Type {
+		weapon, 
+		utility1, 	// utility1 is operated with the Jump button
+		utility2	// utility2 is operated with the Sprint button
+	}
+	
 	
 	public enum EquipParent {
 		player, camera
 	}
-	public EquipParent parent;
+	
 
+	public Type 			type;
+	public EquipParent 		parent;
+	public Vector3 			equippedPosition;
+	public Vector3 			defaultRotation;
+	public Vector3 			holsteredPosition;
+	public Vector3 			holsteredRotation;
+	public AudioLibrary 	sounds = new AudioLibrary();
+	
+	private bool 			_equipped;
+	private Transform 		_parent;
+	private GameObject 		_tooltip;
+	
 	public bool equipped {
 		get { return _equipped; }
 	}
-	public Vector3 equippedPosition;
-	public Vector3 defaultRotation;
-	public Vector3 holsteredPosition;
-	public Vector3 holsteredRotation;
 	
-	private bool _equipped;
-	private Transform _parent;
-	private GameObject _tooltip;
-	
-	void Start() {
+	protected virtual void Start() {
 		if (parent == EquipParent.camera) _parent = Camera.main.transform;
 		if (parent == EquipParent.player) _parent = Player.Instance.transform;
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}
 	
-	public void Equip() {
+	public virtual void Equip() {
 		_equipped = true;
 		transform.parent = _parent;
 		transform.localPosition = equippedPosition;
@@ -49,7 +61,7 @@ public class Equipment : MonoBehaviour {
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
-	public void Drop() {
+	public virtual void Drop() {
 		_equipped = false;
 		transform.parent = GameManager.Instance.activeScene;
 		transform.position = Camera.main.transform.position;
@@ -60,7 +72,7 @@ public class Equipment : MonoBehaviour {
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 	}
 	
-	public void Holster() {
+	public virtual void Holster() {
 		_equipped = false;
 		transform.parent = _parent;
 		transform.localPosition = holsteredPosition;
@@ -68,5 +80,12 @@ public class Equipment : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		collider.enabled = false;
 		SendMessage("OnHolster", SendMessageOptions.DontRequireReceiver);
+	}
+	
+	protected void PlaySound(AudioClip clip, bool loop) {
+		audio.clip = clip;
+		audio.loop = loop;
+		audio.volume = sounds.volume;
+		audio.Play();
 	}
 }
