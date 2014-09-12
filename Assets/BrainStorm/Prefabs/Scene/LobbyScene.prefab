@@ -715,7 +715,7 @@ GameObject:
   - 4: {fileID: 401278}
   - 114: {fileID: 11400006}
   m_Layer: 0
-  m_Name: ArmoryManager
+  m_Name: Armory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2980,6 +2980,7 @@ MonoBehaviour:
   - {fileID: 400006, guid: 1a582c681c746f74da3ab06f93cf099c, type: 2}
   - {fileID: 400000, guid: c3b3bc8b275f7db48a4477f7176b23be, type: 2}
   - {fileID: 400000, guid: 7efa3adbafa1e5442a1728394f62fef4, type: 2}
+  - {fileID: 400002, guid: 34153bcbdef985e4a8cd96bc851b604e, type: 2}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

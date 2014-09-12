@@ -43,14 +43,18 @@ public class Equipment : MonoBehaviour {
 		get { return _equipped; }
 	}
 	
-	protected virtual void Start() {
+	public float energy {
+		get; set;
+	}
+	
+	void Start() {
 		if (parent == EquipParent.camera) _parent = Camera.main.transform;
 		if (parent == EquipParent.player) _parent = Player.Instance.transform;
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}
 	
-	public virtual void Equip() {
+	public void Equip() {
 		_equipped = true;
 		transform.parent = _parent;
 		transform.localPosition = equippedPosition;
@@ -61,7 +65,7 @@ public class Equipment : MonoBehaviour {
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
-	public virtual void Drop() {
+	public void Drop() {
 		_equipped = false;
 		transform.parent = GameManager.Instance.activeScene;
 		transform.position = Camera.main.transform.position;
@@ -72,7 +76,7 @@ public class Equipment : MonoBehaviour {
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 	}
 	
-	public virtual void Holster() {
+	public void Holster() {
 		_equipped = false;
 		transform.parent = _parent;
 		transform.localPosition = holsteredPosition;
@@ -80,6 +84,18 @@ public class Equipment : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		collider.enabled = false;
 		SendMessage("OnHolster", SendMessageOptions.DontRequireReceiver);
+	}
+	
+	public void AudioStart() {
+		PlaySound(sounds.start, false);
+	}
+	
+	public void AudioLoop() {
+		PlaySound(sounds.loop, true);
+	}
+	
+	public void AudioStop() {
+		PlaySound(sounds.stop, false);
 	}
 	
 	protected void PlaySound(AudioClip clip, bool loop) {

@@ -26,6 +26,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
   - 65: {fileID: 6500000}
   - 82: {fileID: 8200000}
@@ -88,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.7248001, y: 2.53305292, z: 17.6763382}
+  m_LocalPosition: {x: 0, y: .0170862675, z: -.745105743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -192,7 +193,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.74000001, y: 1.49000001, z: .550000012}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &8200000
 AudioSource:
@@ -273,6 +274,28 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 1627389696
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e5c8b9928e61f41813568232cb8897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  parent: 0
+  equippedPosition: {x: 0, y: .0170862693, z: -.745105684}
+  defaultRotation: {x: 0, y: 0, z: 0}
+  holsteredPosition: {x: 0, y: 0, z: 0}
+  holsteredRotation: {x: 0, y: 0, z: 0}
+  sounds:
+    volume: 0
+    start: {fileID: 8300000, guid: a6645f190942b5f4c85c9f0772daa060, type: 3}
+    loop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
+    stop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,17 +307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac766fee1e728d45ae70de7753c6ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  parent: 0
-  equippedPosition: {x: .066874519, y: .55471611, z: -.475835294}
-  defaultRotation: {x: 0, y: 0, z: 0}
-  holsteredPosition: {x: 0, y: 0, z: 0}
-  holsteredRotation: {x: 0, y: 0, z: 0}
-  sounds:
-    volume: .25
-    start: {fileID: 8300000, guid: a6645f190942b5f4c85c9f0772daa060, type: 3}
-    loop: {fileID: 8300000, guid: a506882eccc560d40b88a04ed20fa23e, type: 3}
-    stop: {fileID: 8300000, guid: ad49a56b3ea85d6438b5e68e894d41f0, type: 3}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

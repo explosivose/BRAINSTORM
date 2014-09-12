@@ -19,23 +19,25 @@ public class PlayerInventory : MonoBehaviour {
 	private Transform _utility1;		// utility equipment operated with Jump button
 	private Transform _utility2;		// utility equipment operated with Sprint button
 	
-
-	// probably move this and an hasJetpack bool to PlayerInventory
-	public float jetpack01 {
+			
+	public float jumpbar {
 		get {
-			if (hasJetpack)
-				return _motor.jetpack.fuel/_motor.jetpack.maxJetpackFuel; 
-			else if (hasDashpack)
-				return _motor.dashpack.fuel/_motor.dashpack.maxDashpackFuel;
+			if (_utility1)
+				return _utility1.GetComponent<Equipment>().energy;
 			else 
 				return 0f;
 		}
 	}
 	
-	public float sprint01 {
-		get { return _motor.sprint.stamina/_motor.sprint.sprintLength; }
+	public float sprintbar {
+		get {
+			if (_utility2)
+				return _utility2.GetComponent<Equipment>().energy;
+			else
+				return 0f;
+		}
 	}
-
+	
 	public bool hasJetpack {
 		get { return _motor.jetpack.enabled; }
 		set { _motor.jetpack.enabled = value; }

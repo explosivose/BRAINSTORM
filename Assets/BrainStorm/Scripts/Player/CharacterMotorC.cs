@@ -100,6 +100,7 @@ public class CharacterMotorC : MonoBehaviour {
 		public float lastStartTime {get; set;}
 		// How much sprint time is remaining
 		public float stamina {get; set;}
+		public float stamina01 {get { return stamina / sprintLength; } }
 	}
 	
 	// We will contain all the jumping related variables in one helper class for clarity.
@@ -159,6 +160,7 @@ public class CharacterMotorC : MonoBehaviour {
 		public float lastStartTime {get; set;}
 		// how much time of jetpacking is remaining
 		public float fuel {get; set;}
+		public float fuel01 {get { return fuel/maxJetpackFuel; } }
 	}
 	
 	[System.Serializable]
@@ -183,6 +185,7 @@ public class CharacterMotorC : MonoBehaviour {
 		public float lastStartTime { get; set; }
 		// how much time of jetpacking is remaining
 		public float fuel { get; set; }
+		public float fuel01 { get {return fuel/maxDashpackFuel; } }
 		// dashpack momentum
 		public Vector3 dash { get; set; }
 	}

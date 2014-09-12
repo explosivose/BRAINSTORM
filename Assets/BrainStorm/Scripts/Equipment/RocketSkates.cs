@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Equipment/Rocket Skates")]
-public class RocketSkates : Equipment {
+public class RocketSkates : MonoBehaviour {
 	
 	//  behaviour is currently in the CharacterMotorC script
 	// this script is just sounds and enabling/disabling behaviour
+	
+	private Equipment equipment;
+	
+	void Awake() {
+		equipment = GetComponent<Equipment>();
+	}
 	
 	void OnEquip() {
 		PlayerInventory.Instance.hasSprint = true;
@@ -16,17 +23,14 @@ public class RocketSkates : Equipment {
 	}
 	
 	void OnSprintStart() {
-		PlaySound(sounds.start);
+		equipment.AudioStart();
 	}
 	
 	void OnSprintStop() {
-		PlaySound(sounds.stop);
+		equipment.AudioStop();
 	}
 	
-	void PlaySound(AudioClip clip) {
-		audio.clip = clip;
-		audio.loop = false;
-		audio.volume = sounds.volume;
-		audio.Play();
+	void Update() {
+		equipment.energy = Player.Instance.motor.sprint.stamina01;
 	}
 }

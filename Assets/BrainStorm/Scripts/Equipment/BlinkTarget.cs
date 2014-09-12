@@ -1,24 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Equipment/Blink")]
-public class BlinkTarget : Equipment {
+public class BlinkTarget : MonoBehaviour {
 
 	public Transform 	blinkTargetPrefab;
 	public float 		blinkSpeed;
-	public float 		maxRange;					// how long is our raycast?
+	public float 		maxRange;				// how long is our raycast?
+	public float 		rechargeTime;			// how long to get from 0 to maxRange?
+	public float 		cooldown;				// how long before we can use it again?
 	public LayerMask 	raycastMask;			// which layers can we hit?
+	
 	private Transform 	_blinkTarget;
 	private bool 		_blinking;
+	private float		_range;
+	private float 		_lastUseTime = -999f;
 	private Transform	_player;
+	private Equipment   _equipment;
+	
+	public bool canBlink {
+		get {
+			if (!_equipment.equipped) return false;
+			return _lastUseTime + cooldown < Time.time;
+		}
+	}
 	
 	void Awake() {
 		blinkTargetPrefab.CreatePool();
+		_equipment = GetComponent<Equipment>();
 	}
 	
-	protected override void Start ()
-	{
-		base.Start ();
+	void Start () {
 		_player = Player.Instance.transform;
 	}
 	
@@ -33,41 +46,57 @@ public class BlinkTarget : Equipment {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!equipped) return;
-		
+		if (!_equipment.equipped) return;
+		_equipment.energy = _range/maxRange;
+		// recharge
+		_range += Time.deltaTime * maxRange/rechargeTime;
+		_range = Mathf.Min (_range, maxRange);
+		_range = Mathf.Max (0f, _range);
 		if (_blinking) {
 			Blink();
 			return;
 		}
 		
+		
+		
 		if (Input.GetButtonDown("Sprint")) {
 			_blinkTarget = blinkTargetPrefab.Spawn();
 		}
-		if (Input.GetButtonUp("Sprint")) {
-			StartBlink();
-		}
+		
 		if (_blinkTarget) {
 			PositionTarget();
 		}
+		
+		if (Input.GetButtonUp("Sprint") && canBlink ) {
+			StartBlink();
+		}
+
+
 	}
 	
 	void StartBlink() {
 		_blinking = true;
-		Player.Instance.motorEnabled = false;
+		Player.Instance.motor.enabled = false;
+		_equipment.AudioStart();
+		_blinkTarget.Recycle();
+		_lastUseTime = Time.time;
 	}
 	
 	void StopBlink() {
 		_blinking = false;
-		Player.Instance.motorEnabled = true;
-		_blinkTarget.Recycle();
+		Player.Instance.motor.enabled = true;
+		_equipment.AudioStop();
 	}
 	
 	void Blink() {
-		_player.position = Vector3.Slerp(
+		Vector3 previousPosition = _player.position;
+		_player.position = Vector3.Lerp(
 			_player.position, 
 			_blinkTarget.position,
 			Time.deltaTime * blinkSpeed
 		);
+		float dist = Vector3.Distance(previousPosition, _player.position);
+		_range -= dist;
 		if (Vector3.Distance(_player.position, _blinkTarget.position) < 1f) {
 			StopBlink();
 		}
@@ -80,12 +109,12 @@ public class BlinkTarget : Equipment {
 			);
 		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, range, raycastMask)) {
+		if (Physics.Raycast(ray, out hit, _range, raycastMask)) {
 			_blinkTarget.position = hit.point + hit.normal * 2f;
 		}
 		else {
 			_blinkTarget.position = transform.position +
-				ray.direction * range;
+				ray.direction * _range;
 		}
 	}
 }
