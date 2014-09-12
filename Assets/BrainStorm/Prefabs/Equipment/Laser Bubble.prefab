@@ -307,16 +307,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db3187b991993b41b8ee8a3407fc06c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 10
+  maxRadius: 25
   minRadius: .200000003
-  damage: 5
-  force: 100
+  damage: 50
+  force: 1000
   targetMask:
     serializedVersion: 2
     m_Bits: 12545
-  cooldown: .5
-  maxExpandedTime: 4
-  rechargeTime: 2
+  cooldown: 1
+  maxExpandedTime: .5
+  rechargeTime: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

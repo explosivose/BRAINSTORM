@@ -3903,19 +3903,19 @@ ParticleAnimator:
   Does Animate Color?: 1
   colorAnimation[0]:
     serializedVersion: 2
-    rgba: 16711837
+    rgba: 129
   colorAnimation[1]:
     serializedVersion: 2
-    rgba: 2617114780
+    rgba: 2600468610
   colorAnimation[2]:
     serializedVersion: 2
-    rgba: 4294945348
+    rgba: 4278190211
   colorAnimation[3]:
     serializedVersion: 2
-    rgba: 3036479643
+    rgba: 3019899010
   colorAnimation[4]:
     serializedVersion: 2
-    rgba: 184287386
+    rgba: 167772289
   worldRotationAxis: {x: 0, y: 0, z: 0}
   localRotationAxis: {x: 0, y: 0, z: 0}
   sizeGrow: 0

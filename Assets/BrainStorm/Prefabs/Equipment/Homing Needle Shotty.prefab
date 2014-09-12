@@ -59,7 +59,7 @@ GameObject:
   - 4: {fileID: 400006}
   - 33: {fileID: 3300004}
   - 23: {fileID: 2300004}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,6 +402,11 @@ MonoBehaviour:
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: .561193824, y: -.970801592, z: -.107944503}
   holsteredRotation: {x: 90, y: 0, z: 0}
+  sounds:
+    volume: 0
+    start: {fileID: 0}
+    loop: {fileID: 0}
+    stop: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

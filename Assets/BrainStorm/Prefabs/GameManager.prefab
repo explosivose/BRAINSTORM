@@ -85,14 +85,14 @@ MonoBehaviour:
     fogColor: {r: .290196091, g: .286274523, b: .290196091, a: 0}
     fogDensity: .00499999989
     ambientLight: {r: .154411793, g: .142359287, b: .128298029, a: 0}
-    skybox: {fileID: 2100000, guid: 7400269f7d341bc41b1f21adeccb2a5f, type: 2}
+    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   - tag: 2
     scenePrefab: {fileID: 400000, guid: 8709fa4a266bbff4e85f833ec4d7a1f8, type: 2}
     fog: 1
     fogColor: {r: .200000003, g: .172549024, b: .141176477, a: 0}
     fogDensity: .00499999989
     ambientLight: {r: .198529422, g: .132839546, b: .0934256017, a: 0}
-    skybox: {fileID: 2100000, guid: 13fde35df00f2384598d84d32a7bacd8, type: 2}
+    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
   - tag: 3
     scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
     fog: 1

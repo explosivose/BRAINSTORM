@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,8 +310,8 @@ MonoBehaviour:
   blinkTargetPrefab: {fileID: 400000, guid: 559cf2bc985d1f44eaa94f99c7a5c2b7, type: 2}
   blinkSpeed: 8
   maxRange: 40
-  rechargeTime: 2
-  cooldown: 0
+  rechargeTime: 4
+  cooldown: .200000003
   raycastMask:
     serializedVersion: 2
     m_Bits: 4353
