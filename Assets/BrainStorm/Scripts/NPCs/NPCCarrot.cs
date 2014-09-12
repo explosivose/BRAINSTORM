@@ -70,6 +70,9 @@ public class NPCCarrot : NPC {
 	public static float frenzyFactor {
 		get { return (float)_carrotsInFrenzy/(float)_carrotCount; }
 	}
+	public static int count {
+		get { return _carrotCount; }
+	}
 
 	private static int 	_carrotCount;
 	private static int 	_carrotsInFrenzy;
