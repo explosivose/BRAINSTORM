@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 	[BitMask(typeof(GameManager.WinStates))]
 	public WinStates winState = WinStates.None;
 	public Scene[] scenes;
-	
+	public Scene copyScene;
 	private bool _paused;
 	private bool _levelTeardown;
 	private float _sceneChangeTime = -999f;
@@ -164,17 +164,12 @@ public class GameManager : MonoBehaviour {
 	
 	void CopyRenderSettings() {
 		if (Input.GetKeyUp(KeyCode.R)) {
-			foreach(Scene s in scenes) {
-				if (s.isLoaded) {
-					s.ambientLight = RenderSettings.ambientLight;
-					s.fog = RenderSettings.fog;
-					s.fogColor = RenderSettings.fogColor;
-					s.fogDensity = RenderSettings.fogDensity;
-					s.skybox = RenderSettings.skybox;
-					Debug.Log ("Render Settings for " + s.name + " copied.");
-					break;
-				}
-			}
+			copyScene = new Scene();
+			copyScene.ambientLight = RenderSettings.ambientLight;
+			copyScene.fog = RenderSettings.fog;
+			copyScene.fogColor = RenderSettings.fogColor;
+			copyScene.fogDensity = RenderSettings.fogDensity;
+			copyScene.skybox = RenderSettings.skybox;
 		}
 	}
 	

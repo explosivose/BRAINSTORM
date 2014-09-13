@@ -10,7 +10,8 @@ GameObject:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  m_Layer: 5
+  - 114: {fileID: 11400004}
+  m_Layer: 0
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +64,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400006}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,6 +318,20 @@ MonoBehaviour:
   cooldown: 1
   maxExpandedTime: .5
   rechargeTime: 1
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5143a4b3564c7c345b56f526f2a2d37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scale: .100000001
+  speed: 1
+  recalculateNormals: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

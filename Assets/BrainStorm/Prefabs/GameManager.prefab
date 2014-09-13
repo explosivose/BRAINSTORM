@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 158.574448, y: 35.4166107, z: -16.0222778}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -96,9 +96,9 @@ MonoBehaviour:
   - tag: 3
     scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
     fog: 1
-    fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
+    fogColor: {r: 0, g: 0, b: 0, a: 0}
     fogDensity: .0299999993
-    ambientLight: {r: .156862751, g: .0705882385, b: .0901960805, a: 0}
+    ambientLight: {r: .192156866, g: .345098048, b: .376470596, a: 0}
     skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
   - tag: 4
     scenePrefab: {fileID: 400000, guid: 2d5cb6abbb05d6449b4d86a2e323c7a6, type: 2}
@@ -121,6 +121,14 @@ MonoBehaviour:
     fogDensity: .0299999993
     ambientLight: {r: .786764741, g: .662378728, b: .404952437, a: 0}
     skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
+  copyScene:
+    tag: 0
+    scenePrefab: {fileID: 0}
+    fog: 1
+    fogColor: {r: 0, g: 0, b: 0, a: 1}
+    fogDensity: .0299999993
+    ambientLight: {r: .193014711, g: .344878286, b: .375, a: 1}
+    skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
