@@ -71,7 +71,11 @@ public class Player : MonoBehaviour {
 	}
 	
 	void Update() {
+		// do not allow motor control while in noclip mode
+		if (noclip) motor.enabled = false;
+		
 		if (_dead) return;
+		
 		if (_lastHurtTime + hurtEffectDuration <= Time.time && screenEffects)
 			_fade.StartFade(Color.clear, hurtEffectDuration);
 			
