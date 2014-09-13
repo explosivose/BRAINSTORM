@@ -47,7 +47,7 @@ public class Artefact : MonoBehaviour {
 		float t = (farDist - playerDistance)/farDist;
 		
 		if (playerDistance < 0f) {
-			GameManager.Instance.ChangeScene(Scene.Tag.Lobby);
+			GameManager.Instance.SceneComplete();
 		}
 		
 		if(t < 1f ) {

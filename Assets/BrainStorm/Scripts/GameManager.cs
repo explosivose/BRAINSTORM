@@ -178,6 +178,20 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
+	public void SceneComplete() {
+		switch (_activeScene.tag) {
+		case Scene.Tag.Grief:
+			ChangeScene(Scene.Tag.Joy);
+			break;
+		case Scene.Tag.Rage:
+			ChangeScene(Scene.Tag.Calm);
+			break;
+		case Scene.Tag.Terror:
+			ChangeScene(Scene.Tag.Safety);
+			break;
+		}
+	}
+	
 	public void ChangeScene(Scene.Tag scene) {
 		if (timeSinceSceneChange < 1f) return;
 		paused = false;
