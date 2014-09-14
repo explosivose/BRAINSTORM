@@ -47,7 +47,7 @@ public class Spiderette : NPC {
 	
 	// Update is called once per frame
 	void Update () {
-		if (targetLOS && targetIsInAttackRange && grounded) {
+		if (targetLOS && targetIsInRange && grounded) {
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 			AttackJump();
 			return;

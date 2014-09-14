@@ -54,7 +54,7 @@ public class Spire : MonoBehaviour {
 		artefactGrowthSpeed = Mathf.Min(artefactGrowthSpeed, 0.5f);
 		artefactSize += Time.deltaTime * artefactGrowthSpeed;
 		artefactSize = Mathf.Max(artefactSize, 0.1f);
-		artefactSize = Mathf.Min(artefactSize, 10f);
+		artefactSize = Mathf.Min(artefactSize, 1.5f);
 		artefact.localScale = Vector3.one * artefactSize;
 		artefactPeakSize = Mathf.Max(artefactSize, artefactPeakSize);
 		if (artefactSize >= 1f && !artefactActivated) {
