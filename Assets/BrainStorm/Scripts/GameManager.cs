@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;	
 	
+	[System.Flags]
 	public enum WinStates {
 		None 	= 0x00,
 		Grief 	= 0x01,
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour {
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
 	public bool copyRenderSettings = false;
-	[BitMask(typeof(GameManager.WinStates))]
+	[EnumMask]
 	public WinStates winState = WinStates.None;
 	public Scene[] scenes;
 	public Scene copyScene;

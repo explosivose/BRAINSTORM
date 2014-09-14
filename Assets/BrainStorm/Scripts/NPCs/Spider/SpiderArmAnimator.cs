@@ -84,7 +84,7 @@ public class SpiderArmAnimator : MonoBehaviour {
 	}
 	
 	void CancelAttack() {
-		state = State.idle;
+		if (state == State.priming) state = State.idle;
 	}
 	
 	IEnumerator AttackRoutine() {

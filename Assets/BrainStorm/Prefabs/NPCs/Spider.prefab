@@ -363,10 +363,10 @@ GameObject:
   - 114: {fileID: 11400002}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400004}
-  - 114: {fileID: 11400034}
   - 114: {fileID: 11400006}
   - 82: {fileID: 8200000}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400034}
   m_Layer: 8
   m_Name: Spider
   m_TagString: NPC
@@ -3317,11 +3317,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971cf92652100d745ac4b5400f8963c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    health: 100
-    immune: 0
-    attackRange: 17.5
-  stalkDistance: 30
+  drawDebug: 0
+  type: 2
+  maxHealth: 100
+  invulnerable: 1
+  attackDamage: 5
+  attackRate: 2
+  attackRange: 10
+  targetSearch:
+    minRange: 1
+    maxRange: 15
+    validTargetTags: []
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 0
+    valid_NPC_Targets: 0
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
+    timeBtwnSrchsRandomness: 1
   sounds:
     attack: []
     hurt: []
@@ -3495,6 +3508,11 @@ MonoBehaviour:
   idleElbow: {fileID: 400082}
   armMoveSpeed: 2.5
   attackSpeed: 7.5
+  primingTime: .5
+  strikeTime: 1
+  cooldownTime: 1.5
+  eyesMaterial: {fileID: 0}
+  eyesVulnerable: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3534,6 +3552,11 @@ MonoBehaviour:
   idleElbow: {fileID: 400036}
   armMoveSpeed: 2.5
   attackSpeed: 7.5
+  primingTime: .5
+  strikeTime: 1
+  cooldownTime: 1.5
+  eyesMaterial: {fileID: 0}
+  eyesVulnerable: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &11400028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3581,7 +3604,7 @@ MonoBehaviour:
   damageOnEnter: 80
 --- !u!114 &11400034
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100044}
@@ -3590,7 +3613,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d311424256c6d4b9eddfbbd9bd21a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawDebug: 0
   type: 2
+  maxHealth: 100
+  invulnerable: 0
+  attackDamage: 5
+  attackRate: 2
+  attackRange: 10
+  targetSearch:
+    minRange: 1
+    maxRange: 15
+    validTargetTags: []
+    targetSearchMask:
+      serializedVersion: 2
+      m_Bits: 0
+    valid_NPC_Targets: 0
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
+    timeBtwnSrchsRandomness: 1
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -135,7 +135,7 @@ public class NPCCarrot : NPC {
 		
 		_boid.SetTarget2(target);
 		
-		if (targetIsHere) 
+		if (targetIsTooClose) 
 			_boid.controlEnabled = false;
 		else 
 			_boid.controlEnabled = true;
@@ -194,7 +194,7 @@ public class NPCCarrot : NPC {
 			return;
 		}
 		_boid.SetTarget2(target);
-		if (targetIsHere) {
+		if (targetIsInAttackRange) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
 	}

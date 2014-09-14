@@ -13,7 +13,7 @@ public class LaserBubble : MonoBehaviour {
 	public float maxExpandedTime;	// how long can the bubble be expanded for?
 	public float rechargeTime;		// how long does it take to recharge?
 	
-	private bool _active;
+	private bool _expanded;
 	private float _radius;
 	private DamageInstance _damage = new DamageInstance();
 	private Equipment _equipment;
@@ -22,11 +22,11 @@ public class LaserBubble : MonoBehaviour {
 	private float _charge;
 	private float _lastUseTime = -999f;
 	
-	public bool active {
-		get { return _active; }
+	public bool expanded {
+		get { return _expanded; }
 		private set {
-			_active = value;
-			if (!_active) _lastUseTime = Time.time;
+			_expanded = value;
+			if (!_expanded) _lastUseTime = Time.time;
 		}
 	}
 	
@@ -69,14 +69,14 @@ public class LaserBubble : MonoBehaviour {
 		if (!_equipment.equipped) return;
 		
 		if (Input.GetButton("Fire1")) {
-			if (canFire && !active) 
-				active = true;
+			if (canFire && !expanded) 
+				expanded = true;
 		}
 		
 		float noise = (Random.value - 0.5f)/5f; // +/- 10%
 		Color color = _initColor;
 		
-		if(active) {
+		if(expanded) {
 			_lastUseTime = Time.time;
 			// expand
 			_radius += Time.deltaTime * 8f;
@@ -86,7 +86,7 @@ public class LaserBubble : MonoBehaviour {
 			// discharge
 			_charge -= Time.deltaTime;
 			// set inactive if no charge left
-			active = _charge > 0f;
+			expanded = _charge > 0f;
 		}
 		else {
 			// collapse
@@ -112,7 +112,7 @@ public class LaserBubble : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
-		if (active) Attack();
+		if (expanded) Attack();
 	}
 	
 	void Attack() {

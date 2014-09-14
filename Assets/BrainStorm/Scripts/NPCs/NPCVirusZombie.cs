@@ -188,7 +188,7 @@ public class NPCVirusZombie : NPC {
 		}
 		
 		// close enough to attack		
-		if (targetIsHere) {
+		if (targetIsInAttackRange) {
 			// note we're already checking _attacking at the start of this method
 			StartCoroutine(AttackRoutine());
 		}

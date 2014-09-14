@@ -188,23 +188,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawDebug: 0
   type: 2
-  maxHealth: 20
+  maxHealth: 25
   invulnerable: 0
   attackDamage: 2
   attackRate: 1
   attackRange: 1
   targetSearch:
-    nearRange: 0
-    farRange: 4
-    farthestRange: 10
-    targetPlayer: 1
+    minRange: 1
+    maxRange: 15
     validTargetTags: []
-    valid_NPC_Targets: 0
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 512
-    searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    valid_NPC_Targets: 0
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
   stickyness: 20
   maxGndDist: 1

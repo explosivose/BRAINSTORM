@@ -5,45 +5,42 @@ using System.Collections.Generic;
 [AddComponentMenu("Character/NPC")]
 public class NPC : MonoBehaviour {
 
+	[System.Flags]
 	public enum Type {
-		None		= 0x00,
+		//None		= 0x00
 		Native 		= 0x01,		// healthy NPCs (friendly to player)
-		Infected 	= 0x02,		// (faction NPCs, Spider, etc)
+		Infected 	= 0x02,		// (Spider, etc)
 		Virus		= 0x04,		// Virus' are friendly to one another, hostile to most other things
-				//	= 0x08
-				//	= 0x10
+		Team1		= 0x08,		// Faction NPCs team 1 (pink)
+		Team2		= 0x10		// Faction NPCs team 2 (purple)
 				//	= 0x20
 				//	= 0x40
 				//	= 0x80
-		All			= 0xFF
+		//All		= 0xFF
 	}
 	
 	public enum TargetSearchRange {
-		NearRange,
-		FarRange,
-		FarthestRange
+		minRange,
+		maxRange,
 	}
 	
 	public enum TargetProximity {
 		Here,
-		Near,
-		Far,
+		InRange,
 		OutOfRange,
 	}
 	
 	[System.Serializable]
 	public class TargetSearchCriteria {
-		public float 			nearRange = 1f;
-		public float 			farRange = 15f;
-		public float			farthestRange = 30f;
+		public float 			minRange = 1f;
+		public float 			maxRange = 15f;
 		
-		public bool					targetPlayer;
 		public List<string>			validTargetTags = new List<string>();
-		[BitMask(typeof(NPC.Type))]
-		public Type					valid_NPC_Targets;
 		public LayerMask			targetSearchMask;
-		public TargetSearchRange	searchForTargetsIn = TargetSearchRange.FarthestRange;
-		public float				timeBetweenTargetSearches = 2f;
+		[EnumMask]
+		public Type					valid_NPC_Targets;
+		public TargetSearchRange	searchForTargetsIn = TargetSearchRange.maxRange;
+		public float				timeBtwnTrgtSrchs = 2f;
 		public float				timeBtwnSrchsRandomness = 1f;
 	}
 	
@@ -110,12 +107,10 @@ public class NPC : MonoBehaviour {
 		get {
 			if (!hasTarget) return TargetProximity.OutOfRange;
 			float distance = Vector3.Distance(transform.position, target.position);
-			if (distance < _search.nearRange)
+			if (distance < _search.minRange)
 				return TargetProximity.Here;
-			if (distance >= _search.nearRange && distance < _search.farRange)
-				return TargetProximity.Near;
-			if (distance >= _search.farRange && distance < _search.farthestRange)
-				return TargetProximity.Far;
+			if (distance >= _search.minRange && distance < _search.maxRange)
+				return TargetProximity.InRange;
 			//else
 			return TargetProximity.OutOfRange;
 		}
@@ -154,44 +149,34 @@ public class NPC : MonoBehaviour {
 		}
 	}
 	
-	// target distance less than nearRange
-	public bool targetIsHere {
+	// target distance less than minRange
+	public bool targetIsTooClose {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, target.position);
-			return (distance < _search.nearRange);
+			return (distance <= _search.minRange);
 		}
 	}
 	
-	// target distance between nearRange and farRange
-	public bool targetIsNear {
+	// target distance between minRange and maxRange
+	public bool targetIsInRange {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, target.position);
-			return (distance > _search.nearRange && distance < _search.farRange);
+			return (distance > _search.minRange && distance <= _search.maxRange);
 		}
 	}
-	
-	// target distance between farRange and farthestRange
-	public bool targetIsFar {
-		get {
-			if (!hasTarget) return false;
-			float distance = Vector3.Distance(transform.position, target.position);
-			return (distance > _search.farRange && distance < _search.farthestRange);
-		}
-	}
-	
-	// target distance greater than farthestRange
+		
+	// target distance greater than maxRange
 	public bool targetIsOutOfRange {
 		get {
 			if (!hasTarget) return false;
 			float distance = Vector3.Distance(transform.position, target.position);
-			return (distance > _search.farthestRange);
+			return (distance > _search.maxRange);
 		}
 	}
 	
 
-		
 	// public methods
 	// ----------------
 	public void NullTarget() {
@@ -220,8 +205,6 @@ public class NPC : MonoBehaviour {
 		else {
 			tag = "NPC";
 			health = maxHealth;
-			_damage.source = this.transform;
-			_damage.damage = attackDamage;
 		}
 	}
 	
@@ -238,7 +221,7 @@ public class NPC : MonoBehaviour {
 	}
 	
 	
-	
+	// NPC has received damage!
 	protected virtual void Damage(DamageInstance damage) {
 		if (invulnerable) return;
 		if (health <= 0) return;
@@ -251,32 +234,34 @@ public class NPC : MonoBehaviour {
 		}
 	}
 	
+	// NPC has killed something!
 	protected virtual void Killed(Transform victim) {
 		
 	}
 	
+	// search for valid target routine
 	protected virtual IEnumerator FindTarget() {
 		_searchRoutineActive = true;
 		while(_searchingForTarget == true) {
 				
 			// set search range for new target search
 			switch (_search.searchForTargetsIn) {
-			case TargetSearchRange.NearRange:
-				_searchRange = _search.nearRange;
+			case TargetSearchRange.minRange:
+				_searchRange = _search.minRange;
 				break;
-			case TargetSearchRange.FarRange:
-				_searchRange = _search.farRange;
+			case TargetSearchRange.maxRange:
+				_searchRange = _search.maxRange;
 				break;
-			case TargetSearchRange.FarthestRange:
-				_searchRange = _search.farthestRange;
-				break;	
 			}
 			
-			// perform search and inspect teh loot
-			Collider[] colliders = Physics.OverlapSphere(transform.position, _searchRange, _search.targetSearchMask);
+			// perform search 
+			Collider[] colliders = Physics.OverlapSphere(
+				transform.position, _searchRange, _search.targetSearchMask
+			);
+			// and inspect teh loot
 			foreach(Collider c in colliders) {
-				if ( c.isTrigger ) continue;
-				if ( c.transform == this.transform) continue;
+				if ( c.isTrigger ) continue;	// ignore trigger colliders
+				if ( c.transform == this.transform) continue;	// don't target yourself
 				
 				foreach(string s in _search.validTargetTags) {
 					// is tag valid?
@@ -292,10 +277,6 @@ public class NPC : MonoBehaviour {
 								target = CompareTargets(target, c.transform);
 							}
 						}
-						// is it the player and can I target the player?
-						else if (c.tag == "Player" && _search.targetPlayer) {
-							target = CompareTargets(target, c.transform);
-						}
 						// for everything else, we just go for it
 						else {
 							target = CompareTargets(target, c.transform);
@@ -307,7 +288,7 @@ public class NPC : MonoBehaviour {
 			if (target && drawDebug)
 				Debug.DrawLine(transform.position, target.position, Color.red);
 			
-			float time = _search.timeBetweenTargetSearches;
+			float time = _search.timeBtwnTrgtSrchs;
 			time += Random.Range(-_search.timeBtwnSrchsRandomness, 
 			                     _search.timeBtwnSrchsRandomness);
 			yield return new WaitForSeconds(time);

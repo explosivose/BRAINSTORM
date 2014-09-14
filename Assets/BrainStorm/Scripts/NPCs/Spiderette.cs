@@ -8,8 +8,7 @@ public class Spiderette : NPC {
 	public float stickyness = 10f;
 	public float maxGndDist = 0.75f;
 	public float jumpDuration = 1f;
-	private bool stalking;
-
+	
 	private NPCPathFinder _pathfinder;
 	private MeshRenderer _ren;
 	private float _lastAttackTime = -999f;
@@ -48,7 +47,7 @@ public class Spiderette : NPC {
 	
 	// Update is called once per frame
 	void Update () {
-		if (targetLOS && targetIsNear && grounded) {
+		if (targetLOS && targetIsInAttackRange && grounded) {
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 			AttackJump();
 			return;
@@ -60,7 +59,6 @@ public class Spiderette : NPC {
 		
 		// if we can't be seen and we have LOS then move toward player
 		if (!_ren.isVisible && targetLOS) {
-			stalking = true;
 			if (!audio.isPlaying) audio.Play();
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 			// update path if target has moved
@@ -70,14 +68,11 @@ public class Spiderette : NPC {
 		}
 		// otherwise, be still
 		else if (!isJumping) {	
-			stalking = false;
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation  |
 									RigidbodyConstraints.FreezePositionX | 
 									RigidbodyConstraints.FreezePositionZ;
 			if (audio.isPlaying) audio.Stop();
 		}
-		
-		if (isDead) transform.Recycle();
 	}
 	
 	void FixedUpdate() {
@@ -110,5 +105,9 @@ public class Spiderette : NPC {
 		rigidbody.velocity = v;
 	}
 	
-	
+	protected override void Damage (DamageInstance damage)
+	{
+		base.Damage (damage);
+		if (isDead) transform.Recycle();
+	}
 }

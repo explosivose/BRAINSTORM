@@ -24,10 +24,10 @@ public class FactionManager : MonoBehaviour {
 	private int _pinkCount;
 	private int _purpleCount;
 	
-	public void NPCDeath(NPCFaction.Faction faction) {
-		if (faction == NPCFaction.Faction.Pink) 
+	public void NPCDeath(NPC.Type faction) {
+		if (faction == NPC.Type.Team1) 
 			_pinkCount--;
-		else 
+		else if (faction == NPC.Type.Team2)
 			_purpleCount--;
 	}	
 	
@@ -65,26 +65,26 @@ public class FactionManager : MonoBehaviour {
 		int purpleSpawnIndex = Random.Range(0, purpleSpawnAreas.Length);
 		
 		int NPCIndex;
-		Transform NPC;
+		Transform instance;
 		NPCFaction f;
 		for (int i = 0; i < waveSize; i++) {
 			NPCIndex = Random.Range(0, NPCPrefabs.Length);
-			NPC = NPCPrefabs[NPCIndex].Spawn(pinkSpawnAreas[pinkSpawnIndex].position);
-			NPC.parent = GameManager.Instance.activeScene;
-			NPC.name = "Pink" + NPCPrefabs[NPCIndex].name;
-			f = NPC.GetComponent<NPCFaction>();
-			f.team = NPCFaction.Faction.Pink;
+			instance = NPCPrefabs[NPCIndex].Spawn(pinkSpawnAreas[pinkSpawnIndex].position);
+			instance.parent = GameManager.Instance.activeScene;
+			instance.name = "Pink" + NPCPrefabs[NPCIndex].name;
+			f = instance.GetComponent<NPCFaction>();
+			f.type = NPC.Type.Team1;
 			f.advancePosition = purpleSpawnAreas[purpleSpawnIndex].position;
 			f.state = initialState;
 			_pinkCount++;
 			
 			yield return new WaitForSeconds(0.1f);
 			
-			NPC = NPCPrefabs[NPCIndex].Spawn(purpleSpawnAreas[purpleSpawnIndex].position);
-			NPC.parent = GameManager.Instance.activeScene;
-			NPC.name = "Purple" + NPCPrefabs[NPCIndex].name;
-			f = NPC.GetComponent<NPCFaction>();
-			f.team = NPCFaction.Faction.Purple;
+			instance = NPCPrefabs[NPCIndex].Spawn(purpleSpawnAreas[purpleSpawnIndex].position);
+			instance.parent = GameManager.Instance.activeScene;
+			instance.name = "Purple" + NPCPrefabs[NPCIndex].name;
+			f = instance.GetComponent<NPCFaction>();
+			f.type = NPC.Type.Team2;
 			f.advancePosition = pinkSpawnAreas[pinkSpawnIndex].position;
 			f.state = initialState;
 			_purpleCount++;

@@ -5718,17 +5718,15 @@ MonoBehaviour:
   attackRate: 2
   attackRange: 10
   targetSearch:
-    nearRange: 8
-    farRange: 17.5
-    farthestRange: 40
-    targetPlayer: 0
+    minRange: 1
+    maxRange: 15
     validTargetTags: []
-    valid_NPC_Targets: 0
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 0
+    valid_NPC_Targets: 0
     searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
   sounds:
     attack: []

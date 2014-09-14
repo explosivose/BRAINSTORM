@@ -194,20 +194,18 @@ MonoBehaviour:
   attackRate: 2
   attackRange: 20
   targetSearch:
-    nearRange: 3
-    farRange: 15
-    farthestRange: 40
-    targetPlayer: 1
+    minRange: 1
+    maxRange: 15
     validTargetTags:
     - Player
     - NPC
     - Artefact
-    valid_NPC_Targets: 1
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 4864
-    searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    valid_NPC_Targets: 16
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
   virusPrefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   projectilePrefab: {fileID: 400000, guid: 379e529e8e3fab842bd7e4c3c6f13175, type: 2}
