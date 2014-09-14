@@ -196,6 +196,7 @@ MonoBehaviour:
   targetSearch:
     minRange: 1
     maxRange: 15
+    requireLOS: 0
     validTargetTags:
     - Player
     - NPC
@@ -203,7 +204,7 @@ MonoBehaviour:
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 4864
-    valid_NPC_Targets: 16
+    valid_NPC_Targets: 24
     searchForTargetsIn: 1
     timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1

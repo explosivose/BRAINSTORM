@@ -250,23 +250,23 @@ MonoBehaviour:
   maxHealth: 100
   invulnerable: 0
   attackDamage: 5
-  attackRate: 2
+  attackRate: 1
   attackRange: 10
   targetSearch:
-    nearRange: 3
-    farRange: 15
-    farthestRange: 30
-    targetPlayer: 1
+    minRange: 1
+    maxRange: 40
+    requireLOS: 1
     validTargetTags:
     - NPC
     - Player
-    valid_NPC_Targets: 1
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 768
-    searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    valid_NPC_Targets: 25
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
+  attackReach: 2
   virusPrefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   wardrobe:
     normal: {fileID: 2100000, guid: 798da6cd2c4cc574aa13a48376360b11, type: 2}

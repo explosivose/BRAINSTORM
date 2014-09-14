@@ -242,6 +242,7 @@ MonoBehaviour:
   targetSearch:
     minRange: 1
     maxRange: 30
+    requireLOS: 0
     validTargetTags:
     - TV
     targetSearchMask:
@@ -254,6 +255,7 @@ MonoBehaviour:
   frenzyTargetSearch:
     minRange: 1
     maxRange: 15
+    requireLOS: 0
     validTargetTags:
     - NPC
     targetSearchMask:
@@ -292,7 +294,7 @@ MonoBehaviour:
   controlEnabled: 1
   defaultBehaviour:
     moveSpeed: 10
-    turnSpeed: 1.5
+    turnSpeed: 5
     separation: 10
     alignmentWeight: 1
     cohesionWeight: 2.5

@@ -4609,6 +4609,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400014, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
+      propertyPath: jumping.superJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400014, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
+      propertyPath: dashpack.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400014, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
+      propertyPath: sprint.sprinting
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
   m_RootGameObject: {fileID: 1756414524}
@@ -12457,14 +12469,14 @@ MonoBehaviour:
     sprintLength: 1
     recoveryRate: .400000006
     cooldown: .5
-    sprinting: 0
+    sprinting: 1
   jumping:
     enabled: 1
     baseHeight: 2
     extraHeight: 0
     perpAmount: .100000001
     steepPerpAmount: .25
-    superJump: 0
+    superJump: 1
     superJumpHeight: 20
   jetpack:
     enabled: 0
@@ -12474,7 +12486,7 @@ MonoBehaviour:
     rechargeRate: .800000012
     cooldown: .5
   dashpack:
-    enabled: 0
+    enabled: 1
     accel: 100
     verticalAccel: 60
     maxSpeed: 20

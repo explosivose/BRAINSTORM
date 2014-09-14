@@ -130,7 +130,7 @@ public class NPCCarrot : NPC {
 			state = State.Frenzied;
 			return;
 		}
-		
+		if (!targetIsTagValid) target = null;
 		if (!hasTarget) return;
 		
 		_boid.SetTarget2(target);
@@ -142,17 +142,13 @@ public class NPCCarrot : NPC {
 	}
 	
 	void FrenzyUpdate() {
-		if (_boid.neighbours.Count < frenzyTippingPoint) {
-			state = State.Alone;
-			return;
-		}
-		
+
 		float playerDistance = Vector3.Distance(_player.transform.position, transform.position);
 		_boid.profile.target1Weight = playerDistance * 0.125f;
-		
+		if (!targetIsTagValid) target = null;
 		if (!hasTarget) return;
 		
-		if (!targetIsValid) target = null;
+		
 		
 		foreach(Transform b in _boid.neighbours) {
 			NPCCarrot otherCarrot = b.GetComponentInParent<NPCCarrot>();
@@ -189,7 +185,7 @@ public class NPCCarrot : NPC {
 	}
 	
 	void AttackUpdate() {
-		if (!hasTarget || !targetIsValid) {
+		if (!hasTarget || !targetIsTagValid) {
 			state = State.Frenzied;
 			return;
 		}

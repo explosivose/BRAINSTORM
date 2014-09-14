@@ -35,7 +35,7 @@ public class NPCFaction : NPC {
 				break;
 			case State.Attacking:
 				_pathfinder.destination = target.position;
-				_pathfinder.stopDistance = attackRange/2f;
+				_pathfinder.stopDistance = attackRange;
 				searchForTargets = false;
 				break;
 				
@@ -94,7 +94,7 @@ public class NPCFaction : NPC {
 		_ren = GetComponentInChildren<MeshRenderer>();
 		state = State.Idle;
 		ObjectPool.CreatePool(soulPrefab);
-		SetFaction();
+		FactionInit();
 	}
 	
 	protected override void OnEnable() {
@@ -112,11 +112,10 @@ public class NPCFaction : NPC {
 			_attacking = false;
 			_hurt = false;
 			_pathfinder.moveSpeedModifier = 1f;
-			SetFaction();
 		}
 	}
 	
-	void SetFaction() {
+	public void FactionInit() {
 		if (type == Type.Team1) {
 			_wardrobe = pinkWardrobe;
 			_search.valid_NPC_Targets |= NPC.Type.Team2; // target team 2
@@ -137,6 +136,7 @@ public class NPCFaction : NPC {
 	void Update () {
 		switch(state) {
 		case State.Advancing:
+			AdvanceUpdate();
 			break;
 		case State.Attacking:
 			AttackUpdate();
@@ -150,6 +150,14 @@ public class NPCFaction : NPC {
 			break;
 		}
 	}
+	
+	void AdvanceUpdate() {
+		if (hasTarget) {
+			state = State.Attacking;
+			return;
+		}
+	}
+	
 	
 	void AttackUpdate() {
 		if (!hasTarget || !targetLOS) {
