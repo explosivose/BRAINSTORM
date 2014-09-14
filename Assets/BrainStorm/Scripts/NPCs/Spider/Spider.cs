@@ -74,13 +74,13 @@ public class Spider : NPC {
 		base.Awake();
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_initPathHeightOffset = _pathfinder.pathHeightOffset;
-		target = Player.Instance.transform;
 		_animator = transform.FindChild("Animator").gameObject;
 		_artefactSpawner = GetComponentInChildren<PrefabSpawner>();
 	}
 	
 	IEnumerator Start() {
 		state = State.idle;
+		target = Player.Instance.transform;
 		yield return new WaitForEndOfFrame();
 		state = State.stalking;
 	}

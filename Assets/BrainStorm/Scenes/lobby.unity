@@ -1553,20 +1553,20 @@ MonoBehaviour:
     fogColor: {r: .290196091, g: .286274523, b: .290196091, a: 0}
     fogDensity: .00499999989
     ambientLight: {r: .154411793, g: .142359287, b: .128298029, a: 0}
-    skybox: {fileID: 2100000, guid: 7400269f7d341bc41b1f21adeccb2a5f, type: 2}
+    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   - tag: 2
     scenePrefab: {fileID: 400000, guid: 8709fa4a266bbff4e85f833ec4d7a1f8, type: 2}
     fog: 1
     fogColor: {r: .200000003, g: .172549024, b: .141176477, a: 0}
     fogDensity: .00499999989
     ambientLight: {r: .198529422, g: .132839546, b: .0934256017, a: 0}
-    skybox: {fileID: 2100000, guid: 13fde35df00f2384598d84d32a7bacd8, type: 2}
+    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
   - tag: 3
     scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
     fog: 1
-    fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
+    fogColor: {r: 0, g: 0, b: 0, a: 0}
     fogDensity: .0299999993
-    ambientLight: {r: .156862751, g: .0705882385, b: .0901960805, a: 0}
+    ambientLight: {r: .192156866, g: .345098048, b: .376470596, a: 0}
     skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
   - tag: 4
     scenePrefab: {fileID: 400000, guid: 2d5cb6abbb05d6449b4d86a2e323c7a6, type: 2}
@@ -1589,6 +1589,14 @@ MonoBehaviour:
     fogDensity: .0299999993
     ambientLight: {r: .786764741, g: .662378728, b: .404952437, a: 0}
     skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
+  copyScene:
+    tag: 0
+    scenePrefab: {fileID: 0}
+    fog: 1
+    fogColor: {r: 0, g: 0, b: 0, a: 1}
+    fogDensity: .0299999993
+    ambientLight: {r: .193014711, g: .344878286, b: .375, a: 1}
+    skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
 --- !u!4 &570633889
 Transform:
   m_ObjectHideFlags: 0

@@ -204,6 +204,10 @@ public class NPC : MonoBehaviour {
 	protected virtual void Awake() {
 		_search = targetSearch;
 		_eyes = transform.Find("eyes");
+		tag = "NPC";
+		health = maxHealth;
+		_damage.source = this.transform;
+		_damage.damage = attackDamage;
 	}
 	
 	protected virtual void OnEnable() {

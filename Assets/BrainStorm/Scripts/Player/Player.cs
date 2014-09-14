@@ -134,6 +134,7 @@ public class Player : MonoBehaviour {
 	
 	void Damage(DamageInstance damage) {
 		_health -= damage.damage;
+		Debug.Log ("Player got " + damage.damage + " damage.");
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
 		ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 		_lastHurtTime = Time.time;
