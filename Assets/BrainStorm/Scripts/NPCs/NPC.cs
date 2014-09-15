@@ -35,6 +35,7 @@ public class NPC : MonoBehaviour {
 		public float 			minRange = 1f;
 		public float 			maxRange = 15f;
 		
+		public bool 				requireLOS = false;
 		public List<string>			validTargetTags = new List<string>();
 		public LayerMask			targetSearchMask;
 		[EnumMask]
@@ -103,6 +104,12 @@ public class NPC : MonoBehaviour {
 		get { return target != null; }
 	}
 	
+	public float targetDistance {
+		get{
+			return Vector3.Distance(target.position, transform.position);
+		}
+	}
+	
 	public TargetProximity targetProximity {
 		get {
 			if (!hasTarget) return TargetProximity.OutOfRange;
@@ -120,17 +127,14 @@ public class NPC : MonoBehaviour {
 	public bool targetLOS {
 		get {
 			if (!hasTarget) return false;
-			Vector3 seeFrom = _eyes ? _eyes.position : transform.position;
-			bool LOS = !Physics.Linecast(seeFrom, target.position, ~_search.targetSearchMask);
-			if (drawDebug &&  LOS) 	Debug.DrawLine(seeFrom, target.position, Color.cyan);
-			if (drawDebug && !LOS)	Debug.DrawLine(seeFrom, target.position, Color.grey);
-			return LOS;
+			return CanSee(target, ~_search.targetSearchMask);
 		}
 	}
 	
 	// does the target still match search criteria?
-	public bool targetIsValid {
+	public bool targetIsTagValid {
 		get {
+			if (!hasTarget) return false;
 			bool targetStillValid = false;
 			foreach(string s in _search.validTargetTags) 
 				if (s == target.tag)
@@ -301,11 +305,31 @@ public class NPC : MonoBehaviour {
 		if (target1 == null) return target2; // target2 won't be null because of previous line
 		if (target2 == null) return target1;
 		
-		// choose closest target
-		// at a later date could implement LOS priority
 		float d1 = Vector3.Distance(transform.position, target1.position);
 		float d2 = Vector3.Distance(transform.position, target2.position);
-		if (d1 < d2) return target1;
-		else return target2;
+		// return nearest target is LOS isn't important
+		if (!_search.requireLOS) {
+			if (d1 < d2) return target1;
+			else return target2;
+		}
+		
+		// LOS is important
+		
+		bool s1 = CanSee(target1, ~_search.targetSearchMask);
+		if (s1 && d1 < d2) return target1; // target1 is in sight and closest
+		bool s2 = CanSee(target2, ~_search.targetSearchMask);
+		if (s1 && !s2) return target1; // target2 isn't in sight
+		if (s2 && !s1) return target2; // target1 isn't in sight
+		if (s1 && s2 && d2 < d1) return target2; // can see both, target2 is closest
+		return null; // none of the targets can be seen
 	}
+	
+	protected bool CanSee(Transform obj, int mask = -1) {
+		Vector3 seeFrom = _eyes ? _eyes.position : transform.position;
+		bool LOS = !Physics.Linecast(seeFrom, obj.position, mask);
+		if (drawDebug &&  LOS) 	Debug.DrawLine(seeFrom, target.position, Color.cyan);
+		if (drawDebug && !LOS)	Debug.DrawLine(seeFrom, target.position, Color.grey);
+		return LOS;
+	}
+	
 }

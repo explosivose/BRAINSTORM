@@ -74,6 +74,7 @@ public class FactionManager : MonoBehaviour {
 			instance.name = "Pink" + NPCPrefabs[NPCIndex].name;
 			f = instance.GetComponent<NPCFaction>();
 			f.type = NPC.Type.Team1;
+			f.FactionInit();
 			f.advancePosition = purpleSpawnAreas[purpleSpawnIndex].position;
 			f.state = initialState;
 			_pinkCount++;
@@ -85,6 +86,7 @@ public class FactionManager : MonoBehaviour {
 			instance.name = "Purple" + NPCPrefabs[NPCIndex].name;
 			f = instance.GetComponent<NPCFaction>();
 			f.type = NPC.Type.Team2;
+			f.FactionInit();
 			f.advancePosition = pinkSpawnAreas[pinkSpawnIndex].position;
 			f.state = initialState;
 			_purpleCount++;

@@ -8,6 +8,7 @@ public class NPCVirusZombie : NPC {
 		Idle, Stalking, Attacking, Dead
 	}
 	
+	public float attackReach = 2f;
 	public Transform	virusPrefab;
 	public CharacterMaterials wardrobe = new CharacterMaterials();
 	public Boid.Profile idleProfile = new Boid.Profile();
@@ -169,7 +170,7 @@ public class NPCVirusZombie : NPC {
 		if (_attacking) return;	
 		
 		// target lost, change state.
-		if (!hasTarget || !targetIsValid) {
+		if (!hasTarget || !targetIsTagValid) {
 			target = null;
 			state = State.Idle;
 			return;
@@ -188,7 +189,7 @@ public class NPCVirusZombie : NPC {
 		}
 		
 		// close enough to attack		
-		if (targetIsInAttackRange) {
+		if (targetDistance < attackReach) {
 			// note we're already checking _attacking at the start of this method
 			StartCoroutine(AttackRoutine());
 		}

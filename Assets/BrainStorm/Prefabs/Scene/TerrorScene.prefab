@@ -1105,7 +1105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100162
 GameObject:
   m_ObjectHideFlags: 1
@@ -4146,7 +4146,7 @@ MonoBehaviour:
   idleElbow: {fileID: 400008}
   armMoveSpeed: 2.5
   attackSpeed: 7.5
-  primingTime: .5
+  primingTime: 1
   strikeTime: 1
   cooldownTime: 1.5
   eyesMaterial: {fileID: 2100000, guid: c384f49c4068f0a49b06c1f57d633b1c, type: 2}
@@ -4169,7 +4169,7 @@ MonoBehaviour:
   idleElbow: {fileID: 400076}
   armMoveSpeed: 2.5
   attackSpeed: 7.5
-  primingTime: .5
+  primingTime: 1.10000002
   strikeTime: 1
   cooldownTime: 1.5
   eyesMaterial: {fileID: 2100000, guid: c384f49c4068f0a49b06c1f57d633b1c, type: 2}
@@ -4234,15 +4234,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawDebug: 0
-  type: 0
+  type: 2
   maxHealth: 100
   invulnerable: 1
   attackDamage: 5
   attackRate: 2
-  attackRange: 10
+  attackRange: 20
   targetSearch:
     minRange: 1
     maxRange: 15
+    requireLOS: 0
     validTargetTags: []
     targetSearchMask:
       serializedVersion: 2
@@ -4315,8 +4316,8 @@ MonoBehaviour:
   prefab: {fileID: 400002, guid: 52d0edf77d19c734ab199dc1416efd76, type: 2}
   useObjectPool: 1
   spawnOnStart: 0
-  amountToSpawn: 10
-  variationOnAmount: 1
+  amountToSpawn: 1
+  variationOnAmount: 0
   position: 0
   rotation: 0
   timeBetweenInstantiations: 0
@@ -4332,7 +4333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd17db0d130739c42a893c017effd999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 400216}
+  spawnPoint: {fileID: 0}
   spawnOnEnable: 0
   spawnOnTrigger: 1
   updateOnSceneChange: 0

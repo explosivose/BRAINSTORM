@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd6f4293c6838e4c8b35080214b2dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawDebug: 0
+  drawDebug: 1
   type: 8
   maxHealth: 100
   invulnerable: 0
@@ -172,14 +172,15 @@ MonoBehaviour:
   attackRange: 2
   targetSearch:
     minRange: 1
-    maxRange: 15
+    maxRange: 20
+    requireLOS: 1
     validTargetTags:
     - NPC
     - Player
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 768
-    valid_NPC_Targets: 20
+    valid_NPC_Targets: 4
     searchForTargetsIn: 1
     timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
