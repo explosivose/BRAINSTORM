@@ -8,15 +8,11 @@ public class RocketSkates : MonoBehaviour {
 	//  behaviour is currently in the CharacterMotorC script
 	// this script is just sounds and enabling/disabling behaviour
 	
-	[System.Serializable]
-	public class AudioLibrary {
-		public float volume = 0.25f;
-		public AudioClip start;
-		public AudioClip loop;
-		public AudioClip stop;
-	}
+	private Equipment equipment;
 	
-	public AudioLibrary sounds = new AudioLibrary();
+	void Awake() {
+		equipment = GetComponent<Equipment>();
+	}
 	
 	void OnEquip() {
 		PlayerInventory.Instance.hasSprint = true;
@@ -27,18 +23,14 @@ public class RocketSkates : MonoBehaviour {
 	}
 	
 	void OnSprintStart() {
-		PlaySound(sounds.start);
+		equipment.AudioStart();
 	}
 	
 	void OnSprintStop() {
-		PlaySound(sounds.stop);
+		equipment.AudioStop();
 	}
 	
-	void PlaySound(AudioClip clip) {
-		audio.clip = clip;
-		audio.loop = false;
-		audio.volume = sounds.volume;
-		audio.Play();
+	void Update() {
+		equipment.energy = Player.Instance.motor.sprint.stamina01;
 	}
-	
 }

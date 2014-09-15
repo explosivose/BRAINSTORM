@@ -97,11 +97,10 @@ public class CharacterMotorC : MonoBehaviour {
 		//[System.NonSerialized]
 		public bool sprinting;
 		// When was the last time the sprint button was pressed?
-		[System.NonSerialized]
-		public float lastStartTime;
+		public float lastStartTime {get; set;}
 		// How much sprint time is remaining
-		[System.NonSerialized]
-		public float stamina;
+		public float stamina {get; set;}
+		public float stamina01 {get { return stamina / sprintLength; } }
 	}
 	
 	// We will contain all the jumping related variables in one helper class for clarity.
@@ -156,14 +155,12 @@ public class CharacterMotorC : MonoBehaviour {
 		// How long until we can use it again?
 		public float cooldown = 1f;
 		// is the jetpack in use right now?
-		[System.NonSerialized]
-		public bool jetpacking = false;
+		public bool jetpacking {get; set;}
 		// the time we started jetpacking
-		[System.NonSerialized]
-		public float lastStartTime = 0f;
+		public float lastStartTime {get; set;}
 		// how much time of jetpacking is remaining
-		[System.NonSerialized]
-		public float fuel;
+		public float fuel {get; set;}
+		public float fuel01 {get { return fuel/maxJetpackFuel; } }
 	}
 	
 	[System.Serializable]
@@ -188,6 +185,7 @@ public class CharacterMotorC : MonoBehaviour {
 		public float lastStartTime { get; set; }
 		// how much time of jetpacking is remaining
 		public float fuel { get; set; }
+		public float fuel01 { get {return fuel/maxDashpackFuel; } }
 		// dashpack momentum
 		public Vector3 dash { get; set; }
 	}
@@ -470,7 +468,7 @@ public class CharacterMotorC : MonoBehaviour {
 		}
 		// If we're in the air and don't have control, don't apply any velocity change at all.
 		// If we're on the ground and don't have control we do apply it - it will correspond to friction.
-		if (grounded || canControl)
+		if (grounded || dashpack.dashpacking || jetpack.jetpacking)
 			velocity += velocityChangeVector;
 		if (grounded) {
 			// When going uphill, the CharacterController will automatically move up by the needed amount.

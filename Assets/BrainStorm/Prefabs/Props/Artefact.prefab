@@ -28,6 +28,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
   - 82: {fileID: 8200000}
+  - 114: {fileID: 11400002}
   m_Layer: 12
   m_Name: Artefact
   m_TagString: Artefact
@@ -215,10 +216,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6b0319310cdd94c917854d82c14f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  artefactKind: 1
-  closestDistance: 10
-  farthestDistance: 30
-  _revealed: 1
+  closestDistance: 4
+  farthestDistance: 15
+  _revealed: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c57c53a9f01fc4b91599e5bb4c085d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

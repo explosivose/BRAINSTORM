@@ -157,27 +157,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd6f4293c6838e4c8b35080214b2dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawDebug: 0
-  type: 1
+  drawDebug: 1
+  type: 8
   maxHealth: 100
   invulnerable: 0
   attackDamage: 5
-  attackRate: 2
-  attackRange: 20
+  attackRate: 1
+  attackRange: 25
   targetSearch:
-    nearRange: 10
-    farRange: 20
-    farthestRange: 40
-    targetPlayer: 1
+    minRange: 5
+    maxRange: 40
+    requireLOS: 1
     validTargetTags:
     - Player
     - NPC
-    valid_NPC_Targets: 3
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 768
-    searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    valid_NPC_Targets: 4
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
   soulPrefab: {fileID: 400000, guid: a18855487fd031e4ea97049d8301c16d, type: 2}
   sounds:

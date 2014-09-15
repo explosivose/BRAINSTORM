@@ -39,14 +39,14 @@ public class Spider : NPC {
 				_pathfinder.destination = target.position;
 				_pathfinder.moveSpeedModifier = 1f;
 				_pathfinder.rotationSpeedModifier = 1f;
-				_pathfinder.stopDistance = _search.farRange;
+				_pathfinder.stopDistance = _search.minRange;
 				break;
 				
 			case State.attacking:
 				
 				_pathfinder.moveSpeedModifier = 3f;
 				_pathfinder.rotationSpeedModifier = 2f;
-				_pathfinder.stopDistance = _search.farRange;
+				_pathfinder.stopDistance = attackRange;
 				break;
 				
 			case State.dead:
@@ -68,17 +68,19 @@ public class Spider : NPC {
 	private NPCPathFinder _pathfinder;
 	private float _initPathHeightOffset;
 	private GameObject _animator;
+	private PrefabSpawner _artefactSpawner;
 	
 	protected override void Awake() {
 		base.Awake();
 		_pathfinder = GetComponent<NPCPathFinder>();
 		_initPathHeightOffset = _pathfinder.pathHeightOffset;
-		target = Player.Instance.transform;
 		_animator = transform.FindChild("Animator").gameObject;
+		_artefactSpawner = GetComponentInChildren<PrefabSpawner>();
 	}
 	
 	IEnumerator Start() {
 		state = State.idle;
+		target = Player.Instance.transform;
 		yield return new WaitForEndOfFrame();
 		state = State.stalking;
 	}
@@ -140,7 +142,7 @@ public class Spider : NPC {
 			return;
 		}
 
-		if (targetIsHere) {
+		if (targetIsTooClose) {
 			_pathfinder.moveSpeedModifier = 1f;
 			// we're too close, back up
 			if (target.position.y > transform.position.y) {
@@ -154,11 +156,10 @@ public class Spider : NPC {
 			_pathfinder.pathHeightOffset = _initPathHeightOffset;
 		}
 
-		if (targetIsNear) {
+		if (targetIsInAttackRange) {
 			BroadcastMessage("Attack", target.position);
 		}
-		
-		if (targetIsFar) {
+		else {
 			if (attacking) BroadcastMessage("CancelAttack");
 		}
 
@@ -189,6 +190,7 @@ public class Spider : NPC {
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
 		rigidbody.isKinematic = true;
-		BroadcastMessage("Reveal");
+		GameManager.Instance.terrorComplete = true;
+		_artefactSpawner.Spawn();
 	}
 }

@@ -8,16 +8,12 @@ public class DashJetpack : MonoBehaviour {
 	// jetpack behaviour is currently in the CharacterMotorC script
 	// this script is just sounds and enabling/disabling behaviour
 
-	[System.Serializable]
-	public class AudioLibrary {
-		public float volume;
-		public AudioClip jetpackStart;
-		public AudioClip jetpackLoop;
-		public AudioClip jetpackStop;
-	}
-	public AudioLibrary sounds = new AudioLibrary();
-
+	private Equipment equipment;
 	private bool jetpacking = false;
+	
+	void Awake() {
+		equipment = GetComponent<Equipment>();
+	}
 
 	void OnEquip() {
 		PlayerInventory.Instance.hasDashpack = true;
@@ -28,25 +24,19 @@ public class DashJetpack : MonoBehaviour {
 	}
 	
 	void OnDashpackStart() {
-		PlaySound(sounds.jetpackStart, false);
+		equipment.AudioStart();
 		jetpacking = true;
 	}
 	
 	void OnDashpackStop() {
-		PlaySound(sounds.jetpackStop, false);
+		equipment.AudioStop();
 		jetpacking = false;
 	}
 	
 	void Update() {
 		if (jetpacking && !audio.isPlaying) {
-			PlaySound(sounds.jetpackLoop, true);
+			equipment.AudioStart();
 		}
-	}
-	
-	void PlaySound(AudioClip clip, bool loop) {
-		audio.clip = clip;
-		audio.loop = loop;
-		audio.volume = sounds.volume;
-		audio.Play();
+		equipment.energy = Player.Instance.motor.dashpack.fuel01;
 	}
 }

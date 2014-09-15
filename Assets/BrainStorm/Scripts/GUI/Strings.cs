@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Strings {
 
-	public const string gameVersion = "BRAINSTORM v0.4-a";
+	public const string gameVersion = "BRAINSTORM v0.5-a";
 	
 	public const string developers = 
 		"SUPERCORE.CO.UK \n" +

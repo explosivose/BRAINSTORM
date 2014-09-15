@@ -443,7 +443,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400052}
   - 114: {fileID: 11400008}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   - 4: {fileID: 400054}
   - 23: {fileID: 2300038}
   - 102: {fileID: 10200000}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1404,6 +1404,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &10200000
 TextMesh:
   serializedVersion: 3
@@ -1442,6 +1443,11 @@ MonoBehaviour:
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: .66242981, y: -1.44835198, z: .152298003}
   holsteredRotation: {x: 90, y: -360, z: -360}
+  sounds:
+    volume: 0
+    start: {fileID: 0}
+    loop: {fileID: 0}
+    stop: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -140,7 +140,7 @@ public class NPCVirusGuard : NPC {
 			state = State.Defending;
 			return;
 		}
-		if (Vector3.Distance(transform.position, _defendTarget.position) > targetSearch.farthestRange) {
+		if (Vector3.Distance(transform.position, _defendTarget.position) > targetSearch.maxRange) {
 			state = State.Defending;
 			return;
 		}

@@ -7,12 +7,13 @@ public class Blob : MonoBehaviour {
 	public Transform projectilePrefab;
 	public float attackRate = 10f;
 	public float carrotThreshold = 0.5f;
-	
+	public float deathThreshold = 0.1f;
 	
 	private Vector3 _initialScale;
 	private float 	_scaleFactor;
 	private List<Transform> _targets = new List<Transform>();
 	private int 	_tindex = 0;
+	private int		nearbyCarrots = 0;
 	
 	// Use this for initialization
 	void Start () {
@@ -27,10 +28,16 @@ public class Blob : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		_scaleFactor = 1f - (NPCCarrot.frenzyFactor * 1f/carrotThreshold);
+		float scareFactor = (float)nearbyCarrots/(float)NPCCarrot.count;
+		_scaleFactor = 1f - (scareFactor * 1f/carrotThreshold);
 		_scaleFactor = Mathf.Clamp01(_scaleFactor);
 		Vector3 scale = _initialScale * _scaleFactor;
+		if (_scaleFactor < deathThreshold) {
+			scale = Vector3.zero;
+			GameManager.Instance.griefComplete = true;
+		}
 		transform.localScale = Vector3.Lerp(transform.localScale, scale, Time.deltaTime);
+
 	}
 	
 	IEnumerator Attack() {
@@ -50,11 +57,17 @@ public class Blob : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider col) {
-		if (!_targets.Contains(col.transform))
+		if (!_targets.Contains(col.transform)) {
 			_targets.Add(col.transform);
+			NPCCarrot carrot = col.GetComponent<NPCCarrot>();
+			if (carrot!=null) nearbyCarrots++;
+		}
+			
 	}
 	
 	void OnTriggerExit(Collider col) {
 		_targets.Remove(col.transform);
+		NPCCarrot carrot = col.GetComponent<NPCCarrot>();
+		if (carrot!=null) nearbyCarrots--;
 	}
 }

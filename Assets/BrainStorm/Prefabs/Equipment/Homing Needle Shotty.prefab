@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400004}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - 4: {fileID: 400012}
   - 23: {fileID: 2300006}
   - 102: {fileID: 10200000}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,6 +402,11 @@ MonoBehaviour:
   defaultRotation: {x: 0, y: 0, z: 0}
   holsteredPosition: {x: .561193824, y: -.970801592, z: -.107944503}
   holsteredRotation: {x: 90, y: 0, z: 0}
+  sounds:
+    volume: 0
+    start: {fileID: 0}
+    loop: {fileID: 0}
+    stop: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

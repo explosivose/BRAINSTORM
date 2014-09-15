@@ -59,7 +59,6 @@ public class Boid : MonoBehaviour {
 	
 	private static int _updateIndex = 0;
 	private static int _update2Index = 0;
-	private int _myIndex;
 	
 	// maintain a list of active boids so that _updateIndex
 	// doesn't get stuck on inactive boids in another scene
@@ -98,11 +97,11 @@ public class Boid : MonoBehaviour {
 		switch (layer) {
 		case BoidLayer.Boid:
 			gameObject.layer = LayerMask.NameToLayer("Boid");
-			_myIndex = _boidCount++;
+			_boidCount++;
 			break;
 		case BoidLayer.Boid2:
 			gameObject.layer = LayerMask.NameToLayer("Boid2");
-			_myIndex = _boid2Count++;
+			_boid2Count++;
 			break;
 		}
 		

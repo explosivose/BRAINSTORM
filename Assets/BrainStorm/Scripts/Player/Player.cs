@@ -3,6 +3,7 @@ using System.Collections;
 
 [AddComponentMenu("Player/Player")]
 [RequireComponent(typeof(CharacterMotorC))]
+[RequireComponent(typeof(ScreenFade))]
 public class Player : MonoBehaviour {
 
 	public static Player Instance;
@@ -16,23 +17,36 @@ public class Player : MonoBehaviour {
 	}
 			
 	public int maxHealth;
-	
-	public float hurtEffectDuration = 0.15f;
+	public float hurtEffectDuration = 0.1f;
 	
 	public AudioLibrary sounds = new AudioLibrary();
 	
 	public float health01 {
 		get { return (float)_health/(float)maxHealth; }
 	}
-	
-	public bool screenEffects {
-		get; set;
+	public bool screenEffects { 
+		get; set; 
+	}
+	public bool noclip { 
+		get {
+			return _noclip;	
+		}
+		set {
+			_noclip = value;
+			_motor.enabled = !value;
+		}
+	}
+	public CharacterMotorC motor {
+		get {
+			return _motor;
+		}
 	}
 	
 	private CharacterMotorC _motor;
-	
 	private int _health;
 	private bool _dead = false;
+	private bool _noclip = false;
+	private ScreenFade _fade;
 	private Color _hurtOverlay;
 	private float _lastHurtTime; 
 	
@@ -44,6 +58,7 @@ public class Player : MonoBehaviour {
 			Destroy(this);
 		}
 		_motor = GetComponent<CharacterMotorC>();
+		_fade = GetComponent<ScreenFade>();
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
 		Spawn();
 	}
@@ -51,13 +66,18 @@ public class Player : MonoBehaviour {
 	void Spawn() {
 		_health = maxHealth;
 		_dead = false;
+		screenEffects = true;
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void Update() {
+		// do not allow motor control while in noclip mode
+		if (noclip) motor.enabled = false;
+		
 		if (_dead) return;
+		
 		if (_lastHurtTime + hurtEffectDuration <= Time.time && screenEffects)
-			ScreenFade.Instance.StartFade(Color.clear, hurtEffectDuration);
+			_fade.StartFade(Color.clear, hurtEffectDuration);
 			
 		// Get the input vector from keyboard or analog stick
 		Vector3 directionVector;
@@ -79,11 +99,18 @@ public class Player : MonoBehaviour {
 			directionVector = directionVector * directionLength;
 		}
 		
-		// Apply the direction to the CharacterMotor
-		_motor.inputMoveDirection = transform.rotation * directionVector;
-		_motor.inputLookDirection = Camera.main.transform.rotation * directionVector;
-		_motor.inputJump = Input.GetButton("Jump");
-		_motor.inputSprint = Input.GetButton("Sprint");
+		if (noclip) {
+			directionVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+			directionVector *= _motor.movement.maxForwardSpeed;
+			transform.position += Camera.main.transform.rotation * directionVector * CTRL.deltaTime;
+		}
+		else {
+			// Apply the direction to the CharacterMotor
+			_motor.inputMoveDirection = transform.rotation * directionVector;
+			_motor.inputLookDirection = Camera.main.transform.rotation * directionVector;
+			_motor.inputJump = Input.GetButton("Jump");
+			_motor.inputSprint = Input.GetButton("Sprint");
+		}
 	}
 	
 	void OnJump() {
@@ -107,18 +134,19 @@ public class Player : MonoBehaviour {
 	
 	void Damage(DamageInstance damage) {
 		_health -= damage.damage;
+		Debug.Log ("Player got " + damage.damage + " damage.");
 		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-		ScreenShake.Instance.Shake(Mathf.Max(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
+		ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 		_lastHurtTime = Time.time;
 		if (screenEffects)
-			ScreenFade.Instance.StartFade(_hurtOverlay, hurtEffectDuration);
+			_fade.StartFade(_hurtOverlay, hurtEffectDuration);
 		if (_health < 0) StartCoroutine ( Death() );
 	}
 	
 	IEnumerator Death() {
 		_dead = true;
 		if (screenEffects)
-			ScreenFade.Instance.StartFade(Color.black, 1f);
+			_fade.StartFade(Color.black, 1f);
 		float vol = AudioListener.volume;
 		AudioListener.volume = 0f;
 		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);

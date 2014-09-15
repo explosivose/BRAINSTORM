@@ -5,31 +5,47 @@ using System.Collections;
 // which plays audio for collisions 
 
 [RequireComponent(typeof(Rigidbody))]
-[AddComponentMenu("Player/Equipment/Equip")]
 public class Equipment : MonoBehaviour {
-	// utility1 is operated with the Jump button
-	// utility2 is operated with the Sprint button
-	public enum Type {
-		weapon, utility1, utility2
+	
+	[System.Serializable]
+	public class AudioLibrary {
+		public float volume;
+		public AudioClip start;
+		public AudioClip loop;
+		public AudioClip stop;
 	}
-	public Type type;
+
+	public enum Type {
+		weapon, 
+		utility1, 	// utility1 is operated with the Jump button
+		utility2	// utility2 is operated with the Sprint button
+	}
+	
 	
 	public enum EquipParent {
 		player, camera
 	}
-	public EquipParent parent;
+	
 
+	public Type 			type;
+	public EquipParent 		parent;
+	public Vector3 			equippedPosition;
+	public Vector3 			defaultRotation;
+	public Vector3 			holsteredPosition;
+	public Vector3 			holsteredRotation;
+	public AudioLibrary 	sounds = new AudioLibrary();
+	
+	private bool 			_equipped;
+	private Transform 		_parent;
+	private GameObject 		_tooltip;
+	
 	public bool equipped {
 		get { return _equipped; }
 	}
-	public Vector3 equippedPosition;
-	public Vector3 defaultRotation;
-	public Vector3 holsteredPosition;
-	public Vector3 holsteredRotation;
 	
-	private bool _equipped;
-	private Transform _parent;
-	private GameObject _tooltip;
+	public float energy {
+		get; set;
+	}
 	
 	void Start() {
 		if (parent == EquipParent.camera) _parent = Camera.main.transform;
@@ -68,5 +84,24 @@ public class Equipment : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		collider.enabled = false;
 		SendMessage("OnHolster", SendMessageOptions.DontRequireReceiver);
+	}
+	
+	public void AudioStart() {
+		PlaySound(sounds.start, false);
+	}
+	
+	public void AudioLoop() {
+		PlaySound(sounds.loop, true);
+	}
+	
+	public void AudioStop() {
+		PlaySound(sounds.stop, false);
+	}
+	
+	protected void PlaySound(AudioClip clip, bool loop) {
+		audio.clip = clip;
+		audio.loop = loop;
+		audio.volume = sounds.volume;
+		audio.Play();
 	}
 }

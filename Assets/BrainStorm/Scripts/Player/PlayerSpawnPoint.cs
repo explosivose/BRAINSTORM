@@ -7,6 +7,7 @@ public class PlayerSpawnPoint : MonoBehaviour {
 	public Transform spawnPoint;
 	public bool spawnOnEnable = true;
 	public bool spawnOnTrigger = true;
+	public bool updateOnSceneChange = false;
 	
 	void Awake() {
 		if (!spawnPoint) spawnPoint = this.transform;
@@ -16,6 +17,18 @@ public class PlayerSpawnPoint : MonoBehaviour {
 		if (spawnOnEnable) {
 			Player.Instance.transform.position = spawnPoint.position;
 			Player.Instance.transform.rotation = spawnPoint.rotation;
+		}
+	}
+	
+	void OnDisable() {
+		if (updateOnSceneChange) {
+			// change spawn point to where the player is now
+			// except moved backwards a bit and facing the opposite direction
+			spawnPoint.position = Player.Instance.transform.position;
+			spawnPoint.rotation = Player.Instance.transform.rotation;
+			
+			spawnPoint.position -= spawnPoint.forward;
+			spawnPoint.rotation = Quaternion.LookRotation(-spawnPoint.forward);
 		}
 	}
 	

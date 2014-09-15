@@ -70,6 +70,9 @@ public class NPCCarrot : NPC {
 	public static float frenzyFactor {
 		get { return (float)_carrotsInFrenzy/(float)_carrotCount; }
 	}
+	public static int count {
+		get { return _carrotCount; }
+	}
 
 	private static int 	_carrotCount;
 	private static int 	_carrotsInFrenzy;
@@ -95,6 +98,7 @@ public class NPCCarrot : NPC {
 	
 	protected override void OnEnable() {
 		base.OnEnable();
+		if (GameManager.Instance.levelTeardown) return;
 		_attacking = false;
 		state = State.Alone;
 	}
@@ -126,29 +130,25 @@ public class NPCCarrot : NPC {
 			state = State.Frenzied;
 			return;
 		}
-		
+		if (!targetIsTagValid) target = null;
 		if (!hasTarget) return;
 		
 		_boid.SetTarget2(target);
 		
-		if (targetIsHere) 
+		if (targetIsTooClose) 
 			_boid.controlEnabled = false;
 		else 
 			_boid.controlEnabled = true;
 	}
 	
 	void FrenzyUpdate() {
-		if (_boid.neighbours.Count < frenzyTippingPoint) {
-			state = State.Alone;
-			return;
-		}
-		
+
 		float playerDistance = Vector3.Distance(_player.transform.position, transform.position);
 		_boid.profile.target1Weight = playerDistance * 0.125f;
-		
+		if (!targetIsTagValid) target = null;
 		if (!hasTarget) return;
 		
-		if (!targetIsValid) target = null;
+		
 		
 		foreach(Transform b in _boid.neighbours) {
 			NPCCarrot otherCarrot = b.GetComponentInParent<NPCCarrot>();
@@ -185,12 +185,12 @@ public class NPCCarrot : NPC {
 	}
 	
 	void AttackUpdate() {
-		if (!hasTarget || !targetIsValid) {
+		if (!hasTarget || !targetIsTagValid) {
 			state = State.Frenzied;
 			return;
 		}
 		_boid.SetTarget2(target);
-		if (targetIsHere) {
+		if (targetIsInAttackRange) {
 			if (!_attacking) StartCoroutine(AttackRoutine());
 		}
 	}

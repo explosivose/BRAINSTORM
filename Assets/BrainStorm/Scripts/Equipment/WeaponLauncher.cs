@@ -134,12 +134,12 @@ public class WeaponLauncher : MonoBehaviour {
 		
 		// pull back
 		if (recoil.t < recoil.amount) {
-			transform.localPosition = Vector3.Slerp(transform.localPosition,
+			transform.localPosition = Vector3.Lerp(transform.localPosition,
 			                                        recoil.recoilPosition, recoil.t * recoil.amount);
 		}
 		// and ease forward
 		else {
-			transform.localPosition = Vector3.Slerp(transform.localPosition,
+			transform.localPosition = Vector3.Lerp(transform.localPosition,
 			                                        _equip.equippedPosition, recoil.t * (1f - recoil.amount));
 		}
 

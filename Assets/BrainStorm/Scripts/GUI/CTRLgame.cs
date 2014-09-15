@@ -4,7 +4,7 @@ using System.Collections;
 public class CTRLgame : CTRLelement {
 
 	public enum Action {
-		resume, restart, quit
+		resume, restart, quit, noclip
 	}
 	public Action action;
 	
@@ -34,7 +34,9 @@ public class CTRLgame : CTRLelement {
 			#else
 			Application.Quit();
 			#endif
-			
+			break;
+		case Action.noclip:
+			Player.Instance.noclip = !Player.Instance.noclip;
 			break;
 		default:
 			break;

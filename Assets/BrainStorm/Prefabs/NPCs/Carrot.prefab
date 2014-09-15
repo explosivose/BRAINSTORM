@@ -232,40 +232,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1502985609e22a04c85be63d50ef1143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawDebug: 0
+  drawDebug: 1
   type: 1
   maxHealth: 100
-  invulnerable: 0
+  invulnerable: 1
   attackDamage: 50
   attackRate: 2
-  attackRange: 10
+  attackRange: 1
   targetSearch:
-    nearRange: 2
-    farRange: 15
-    farthestRange: 50
-    targetPlayer: 0
+    minRange: 1
+    maxRange: 30
+    requireLOS: 0
     validTargetTags:
     - TV
-    valid_NPC_Targets: 0
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 4096
-    searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    valid_NPC_Targets: 0
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
   frenzyTargetSearch:
-    nearRange: 2
-    farRange: 15
-    farthestRange: 30
-    targetPlayer: 0
+    minRange: 1
+    maxRange: 15
+    requireLOS: 0
     validTargetTags:
     - NPC
-    valid_NPC_Targets: 4
     targetSearchMask:
       serializedVersion: 2
       m_Bits: 256
-    searchForTargetsIn: 2
-    timeBetweenTargetSearches: 2
+    valid_NPC_Targets: 4
+    searchForTargetsIn: 1
+    timeBtwnTrgtSrchs: 2
     timeBtwnSrchsRandomness: 1
   frenzyTippingPoint: 5
   attackTippingPoint: 100
@@ -296,8 +294,8 @@ MonoBehaviour:
   controlEnabled: 1
   defaultBehaviour:
     moveSpeed: 10
-    turnSpeed: 2.5
-    separation: 5
+    turnSpeed: 5
+    separation: 10
     alignmentWeight: 1
     cohesionWeight: 2.5
     target1Weight: .75

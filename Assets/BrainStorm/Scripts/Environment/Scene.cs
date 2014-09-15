@@ -4,7 +4,13 @@ using System.Collections;
 [System.Serializable]
 public class Scene {
 	public enum Tag {
-		Lobby, Alone, Rage, Terror
+		Lobby, 
+		Grief, 
+		Rage, 
+		Terror,
+		Joy,
+		Calm,
+		Safety
 	}
 	
 	public string name {
