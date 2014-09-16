@@ -42,6 +42,15 @@ public class PrefabSpawner : MonoBehaviour {
 
 	}
 
+	void OnDrawGizmos() {
+		if (!GetComponent<BoxCollider>()) return;
+		Gizmos.color = Color.Lerp(Color.clear, Color.green, 0.75f);
+		Gizmos.DrawCube(
+			GetComponent<BoxCollider>().center + transform.position, 
+			GetComponent<BoxCollider>().size
+			);
+	}
+
 	// Use this for initialization
 	void OnEnable() {
 		if (spawnOnStart) Spawn();

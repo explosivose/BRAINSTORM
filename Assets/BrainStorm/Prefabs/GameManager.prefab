@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 158.574448, y: 35.4166107, z: -16.0222778}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -71,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   copyRenderSettings: 0
   winState: 0
+  playerPauseEnabled: 1
   scenes:
   - tag: 0
     scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
@@ -82,7 +83,7 @@ MonoBehaviour:
   - tag: 1
     scenePrefab: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
     fog: 1
-    fogColor: {r: .290196091, g: .286274523, b: .290196091, a: 0}
+    fogColor: {r: 0, g: .0352941193, b: .0509803928, a: 0}
     fogDensity: .00499999989
     ambientLight: {r: .154411793, g: .142359287, b: .128298029, a: 0}
     skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}

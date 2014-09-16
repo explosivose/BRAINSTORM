@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100002, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 15556410}
@@ -95,7 +95,7 @@ GUIText:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 13200000, guid: a250179845f02b44d985e76b0c45cdfd,
     type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   m_GameObject: {fileID: 15556408}
   m_Enabled: 1
   serializedVersion: 3
@@ -118,7 +118,7 @@ GUIText:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400002, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   m_GameObject: {fileID: 15556408}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: .5, y: 1, z: 0}
@@ -466,7 +466,7 @@ Prefab:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 932298005}
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: a250179845f02b44d985e76b0c45cdfd,
     type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   m_GameObject: {fileID: 932298003}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -493,6 +493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   copyRenderSettings: 0
   winState: 0
+  playerPauseEnabled: 1
   scenes:
   - tag: 0
     scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
@@ -504,7 +505,7 @@ MonoBehaviour:
   - tag: 1
     scenePrefab: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
     fog: 1
-    fogColor: {r: .290196091, g: .286274523, b: .290196091, a: 0}
+    fogColor: {r: 0, g: .0352941193, b: .0509803928, a: 0}
     fogDensity: .00499999989
     ambientLight: {r: .154411793, g: .142359287, b: .128298029, a: 0}
     skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
@@ -555,7 +556,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   m_GameObject: {fileID: 932298003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -569,7 +570,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400002, guid: a250179845f02b44d985e76b0c45cdfd,
     type: 2}
-  m_PrefabInternal: {fileID: 1885986635}
+  m_PrefabInternal: {fileID: 1987606165}
   m_GameObject: {fileID: 932298003}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -877,7 +878,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
---- !u!1001 &1885986635
+--- !u!1001 &1987606165
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2

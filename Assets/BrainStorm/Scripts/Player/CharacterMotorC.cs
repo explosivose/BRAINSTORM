@@ -470,6 +470,8 @@ public class CharacterMotorC : MonoBehaviour {
 		// If we're on the ground and don't have control we do apply it - it will correspond to friction.
 		if (grounded || dashpack.dashpacking || jetpack.jetpacking)
 			velocity += velocityChangeVector;
+		else 
+			velocity += velocityChangeVector * 0.1f;// reduced control while falling
 		if (grounded) {
 			// When going uphill, the CharacterController will automatically move up by the needed amount.
 			// Not moving it upwards manually prevent risk of lifting off from the ground.

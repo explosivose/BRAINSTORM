@@ -130,6 +130,7 @@ public class NPCVirusZombie : NPC {
 			return;
 		}
 		if (targetIsOutOfRange) {
+			target = null;
 			state = State.Idle;
 			return;
 		}

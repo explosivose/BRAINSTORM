@@ -75,6 +75,14 @@ public class BuildingMaker : MonoBehaviour {
 		StartCoroutine(Build());
 	}
 	
+	void OnDrawGizmos() {
+		Gizmos.color = Color.Lerp(Color.clear, Color.cyan, 0.75f);
+		Gizmos.DrawCube(
+			GetComponent<BoxCollider>().center + transform.position, 
+			GetComponent<BoxCollider>().size
+		);
+	}
+	
 	IEnumerator Build() {
 		
 		GroundFloor();
@@ -101,7 +109,7 @@ public class BuildingMaker : MonoBehaviour {
 	void GroundFloor() {
 		floor.spacing = Random.Range(floor.minSpacing, floor.maxSpacing);
 		floor.scale = _box.size;
-		floor.position = transform.position;
+		floor.position = transform.position + _box.center;
 		NextFloor();
 	}
 	
