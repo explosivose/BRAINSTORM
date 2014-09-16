@@ -18,36 +18,42 @@ public class GameManager : MonoBehaviour {
 	// if you press R then the current render settings are copied
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
-	public bool copyRenderSettings = false;
+	public bool 		copyRenderSettings = false;
 	[EnumMask]
-	public WinStates winState = WinStates.None;
-	public Scene[] scenes;
-	public Scene copyScene;
-	private bool _paused;
-	private bool _levelTeardown;
-	private float _sceneChangeTime = -999f;
-	private Scene _activeScene;
-	private Quaternion _camRotationBeforePause;
-	private GUIText _header;
-	private ScreenFade _fade;
+	public WinStates 	winState = WinStates.None;
+	public bool 		playerPauseEnabled = true;
+	public Scene[] 		scenes;
+	public Scene 		copyScene;
+	
+	private bool 		_paused;
+	private bool 		_levelTeardown;
+	private float 		_sceneChangeTime = -999f;
+	private Scene 		_activeScene;
+	private Quaternion 	_camRotationBeforePause;
+	private GUIText 	_header;
+	private ScreenFade 	_fade;
 	
 	public bool paused {
 		get { return _paused; }
 		set {
-			_paused = value;
-			if (_paused) {
+			
+			if (value && playerPauseEnabled) {
+				_paused = true;
+				Screen.lockCursor = false;
 				_camRotationBeforePause = Camera.main.transform.localRotation;
 				Time.timeScale = 0f;
 				AudioListener.volume = 0f;
-				Screen.lockCursor = false;
 				CTRL.Instance.ShowPauseMenu();
 			}
-
 			else {
-				Camera.main.transform.localRotation = _camRotationBeforePause;
+				_paused = false;
+				Screen.lockCursor = true;
+				Camera.main.transform.localRotation = 
+					playerPauseEnabled ? 
+					_camRotationBeforePause : 
+					Camera.main.transform.localRotation;
 				Time.timeScale = 1f;
 				AudioListener.volume = 1f;
-				Screen.lockCursor = true;
 				CTRL.Instance.HidePauseMenu();
 			}
 		}
