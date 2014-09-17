@@ -177,7 +177,7 @@ public class PlayerInventory : MonoBehaviour {
 	
 	void InspectItem() {
 		RaycastHit hit;
-		Transform cam = Camera.main.transform;
+		Transform cam = Player.LocalPlayer.mainCamera.transform;
 		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach, raycastMask)) {
 			hit.transform.SendMessage("OnInspect", SendMessageOptions.DontRequireReceiver);
 			switch(hit.transform.tag) {

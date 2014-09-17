@@ -18,7 +18,7 @@ public class Artefact : MonoBehaviour {
 	private Renderer		_renderer;
 	
 	void Start() {
-		_player = Player.Instance.transform;
+		_player = Player.LocalPlayer.transform;
 		_fade = GetComponent<ScreenFade>();
 		_particles = GetComponentInChildren<ParticleSystem>();
 		_collider = GetComponentInChildren<Collider>();

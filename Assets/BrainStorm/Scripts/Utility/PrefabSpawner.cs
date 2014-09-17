@@ -16,6 +16,7 @@ public class PrefabSpawner : MonoBehaviour {
 
 	public Transform prefab;
 	public bool useObjectPool = true;
+	public bool networkSpawn = false;
 	public bool spawnOnStart = true;
 	public float amountToSpawn = 10f;
 	public float variationOnAmount = 1f;
@@ -66,7 +67,20 @@ public class PrefabSpawner : MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 		yield return new WaitForSeconds(timeBeforeFirstSpawn);
 		for (int i = _spawned; i < _amountToSpawn; i++) {
-			Transform t = prefab.Spawn(transform.position);
+			Transform t;
+			if (networkSpawn) {
+				t = PhotonNetwork.InstantiateSceneObject(
+					prefab.name,
+					transform.position,
+					prefab.rotation,
+					0,
+					null
+				).transform;
+			}
+			else {
+				t = prefab.Spawn(transform.position);
+			}
+			
 			
 			switch(position) {
 				default:

@@ -4,7 +4,12 @@ using System.Collections;
 public class CTRLgame : CTRLelement {
 
 	public enum Action {
-		resume, restart, quit, noclip
+		resume, 
+		restart, 
+		quit, 
+		noclip, 
+		singleplayer, 
+		multiplayer
 	}
 	public Action action;
 	
@@ -26,7 +31,7 @@ public class CTRLgame : CTRLelement {
 			GameManager.Instance.paused = false;
 			break;
 		case Action.restart:
-			Application.LoadLevel(Application.loadedLevel);
+			GameManager.Instance.Restart();
 			break;
 		case Action.quit:
 			#if UNITY_EDITOR
@@ -36,7 +41,13 @@ public class CTRLgame : CTRLelement {
 			#endif
 			break;
 		case Action.noclip:
-			Player.Instance.noclip = !Player.Instance.noclip;
+			Player.LocalPlayer.noclip = !Player.LocalPlayer.noclip;
+			break;
+		case Action.singleplayer:
+			Application.LoadLevel("brainstorm");
+			break;
+		case Action.multiplayer:
+			Application.LoadLevel("multiplayer");
 			break;
 		default:
 			break;

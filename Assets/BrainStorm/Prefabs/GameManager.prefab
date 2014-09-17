@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -69,11 +70,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71aebee8d5a61a44ae84cdd7687e13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkDebug: 1
+  grabCursor: 1
+  playerPauseEnabled: 1
   copyRenderSettings: 0
   winState: 0
-  playerPauseEnabled: 1
   scenes:
   - tag: 0
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
     fog: 0
     fogColor: {r: 0, g: 0, b: 0, a: 0}
@@ -81,6 +85,7 @@ MonoBehaviour:
     ambientLight: {r: .278431386, g: .278431386, b: .278431386, a: 0}
     skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
   - tag: 1
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
     fog: 1
     fogColor: {r: 0, g: .0352941193, b: .0509803928, a: 0}
@@ -88,6 +93,7 @@ MonoBehaviour:
     ambientLight: {r: .154411793, g: .142359287, b: .128298029, a: 0}
     skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   - tag: 2
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: 8709fa4a266bbff4e85f833ec4d7a1f8, type: 2}
     fog: 1
     fogColor: {r: .200000003, g: .172549024, b: .141176477, a: 0}
@@ -95,6 +101,7 @@ MonoBehaviour:
     ambientLight: {r: .198529422, g: .132839546, b: .0934256017, a: 0}
     skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
   - tag: 3
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
     fog: 1
     fogColor: {r: 0, g: 0, b: 0, a: 0}
@@ -102,6 +109,7 @@ MonoBehaviour:
     ambientLight: {r: .192156866, g: .345098048, b: .376470596, a: 0}
     skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
   - tag: 4
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: 2d5cb6abbb05d6449b4d86a2e323c7a6, type: 2}
     fog: 0
     fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
@@ -109,6 +117,7 @@ MonoBehaviour:
     ambientLight: {r: .807843149, g: .0392156877, b: .564002514, a: 0}
     skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
   - tag: 5
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: a9d8d8c3d2596ae41bd895ad7107da0c, type: 2}
     fog: 0
     fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
@@ -116,14 +125,24 @@ MonoBehaviour:
     ambientLight: {r: .264922172, g: .514705896, b: .419333905, a: 0}
     skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
   - tag: 6
+    multiplayer: 0
     scenePrefab: {fileID: 400000, guid: 1563b8633e22dec44ab20c8d63a03d0d, type: 2}
     fog: 0
     fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
     fogDensity: .0299999993
     ambientLight: {r: .786764741, g: .662378728, b: .404952437, a: 0}
     skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
+  - tag: 7
+    multiplayer: 1
+    scenePrefab: {fileID: 400378, guid: 3084286b2e076a441a98952653957a7a, type: 2}
+    fog: 1
+    fogColor: {r: 0, g: .0352941193, b: .0509803928, a: 0}
+    fogDensity: .00499999989
+    ambientLight: {r: .152941182, g: .141176477, b: .129411772, a: 0}
+    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   copyScene:
     tag: 0
+    multiplayer: 0
     scenePrefab: {fileID: 0}
     fog: 1
     fogColor: {r: 0, g: 0, b: 0, a: 1}
@@ -141,6 +160,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c57c53a9f01fc4b91599e5bb4c085d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c8d5bcd41855344ba8533e09cede84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 100002, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
 --- !u!132 &13200000
 GUIText:
   m_ObjectHideFlags: 1

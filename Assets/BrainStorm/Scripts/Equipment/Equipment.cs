@@ -49,7 +49,7 @@ public class Equipment : MonoBehaviour {
 	
 	void Start() {
 		if (parent == EquipParent.camera) _parent = Camera.main.transform;
-		if (parent == EquipParent.player) _parent = Player.Instance.transform;
+		if (parent == EquipParent.player) _parent = Player.LocalPlayer.transform;
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}

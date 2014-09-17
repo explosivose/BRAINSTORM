@@ -37,6 +37,6 @@ public class JumpJetpack : MonoBehaviour {
 		if (jetpacking && !audio.isPlaying) {
 			equipment.AudioLoop();
 		}
-		equipment.energy = Player.Instance.motor.jetpack.fuel01;
+		equipment.energy = Player.LocalPlayer.motor.jetpack.fuel01;
 	}	
 }

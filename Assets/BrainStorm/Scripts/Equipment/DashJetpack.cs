@@ -37,6 +37,6 @@ public class DashJetpack : MonoBehaviour {
 		if (jetpacking && !audio.isPlaying) {
 			equipment.AudioStart();
 		}
-		equipment.energy = Player.Instance.motor.dashpack.fuel01;
+		equipment.energy = Player.LocalPlayer.motor.dashpack.fuel01;
 	}
 }

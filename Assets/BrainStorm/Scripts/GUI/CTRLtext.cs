@@ -43,7 +43,7 @@ public class CTRLtext : CTRLelement {
 			Transform cam = Camera.main.transform;
 			Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
 			transform.rotation = rotation;
-			float playerDistance = Vector3.Distance(Player.Instance.transform.position, transform.position);
+			float playerDistance = Vector3.Distance(Player.LocalPlayer.transform.position, transform.position);
 			float lerp = (4f-playerDistance);
 			textMesh.color = Color.Lerp(Color.clear, textColor, lerp);
 		}

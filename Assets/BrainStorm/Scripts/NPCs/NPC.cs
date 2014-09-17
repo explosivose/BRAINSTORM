@@ -191,6 +191,9 @@ public class NPC : MonoBehaviour {
 	// ---------------
 	
 	protected virtual void Awake() {
+		if (!PhotonNetwork.isMasterClient) {
+			this.enabled = false;
+		}
 		_search = targetSearch;
 		_eyes = transform.Find("eyes");
 		tag = "NPC";

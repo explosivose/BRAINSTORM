@@ -42,7 +42,7 @@ public class Spiderette : NPC {
 
 	// Use this for initialization
 	void Start () {
-		target = Player.Instance.transform;
+		target = Player.LocalPlayer.transform;
 	}
 	
 	// Update is called once per frame
@@ -54,7 +54,7 @@ public class Spiderette : NPC {
 		}
 		if (targetIsInAttackRange && canAttack) {
 			_lastAttackTime = Time.time;
-			Player.Instance.SendMessage("Damage", _damage); 
+			Player.LocalPlayer.SendMessage("Damage", _damage); 
 		}
 		
 		// if we can't be seen and we have LOS then move toward player

@@ -31,6 +31,6 @@ public class RocketSkates : MonoBehaviour {
 	}
 	
 	void Update() {
-		equipment.energy = Player.Instance.motor.sprint.stamina01;
+		equipment.energy = Player.LocalPlayer.motor.sprint.stamina01;
 	}
 }

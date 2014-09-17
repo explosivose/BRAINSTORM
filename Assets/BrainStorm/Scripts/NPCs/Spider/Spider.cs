@@ -80,7 +80,7 @@ public class Spider : NPC {
 	
 	IEnumerator Start() {
 		state = State.idle;
-		target = Player.Instance.transform;
+		target = Player.LocalPlayer.transform;
 		yield return new WaitForEndOfFrame();
 		state = State.stalking;
 	}

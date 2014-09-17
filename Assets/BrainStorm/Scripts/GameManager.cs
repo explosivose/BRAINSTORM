@@ -15,14 +15,17 @@ public class GameManager : MonoBehaviour {
 		All		= 0xFF
 	}
 	
+	public bool			networkDebug = false;
+	public bool 		grabCursor = false;
+	public bool 		playerPauseEnabled = true;
+	
 	// if you press R then the current render settings are copied
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
 	public bool 		copyRenderSettings = false;
 	[EnumMask]
 	public WinStates 	winState = WinStates.None;
-	public bool 		playerPauseEnabled = true;
-	public bool 		grabCursor = false;
+
 	public Scene[] 		scenes;
 	public Scene 		copyScene;
 	
@@ -37,25 +40,41 @@ public class GameManager : MonoBehaviour {
 	public bool paused {
 		get { return _paused; }
 		set {
+			// don't try to pause if there is no player or camera
+			if (!Player.LocalPlayer) {
+				Debug.LogWarning("Won't pause/unpause: player instance not found.");
+				return;
+			}
+			if (!Camera.main) {
+				Debug.LogWarning("Won't pause/unpause: player found, but no camera found!");
+				return;
+			}
+			
 			
 			if (value && playerPauseEnabled) {
 				_paused = true;
 				Screen.lockCursor = false;
-				_camRotationBeforePause = Camera.main.transform.localRotation;
-				Time.timeScale = 0f;
 				AudioListener.volume = 0f;
 				CTRL.Instance.ShowPauseMenu();
+				Player.LocalPlayer.motor.canControl = false;
+				_camRotationBeforePause = Camera.main.transform.localRotation;
+				if (!PhotonNetwork.inRoom)
+					Time.timeScale = 1f;
+
 			}
 			else {
 				_paused = false;
 				Screen.lockCursor = true && grabCursor;
-				Camera.main.transform.localRotation = 
-					playerPauseEnabled ? 
-					_camRotationBeforePause : 
-					Camera.main.transform.localRotation;
-				Time.timeScale = 1f;
 				AudioListener.volume = 1f;
 				CTRL.Instance.HidePauseMenu();
+				Player.LocalPlayer.motor.canControl = true;
+				Camera.main.transform.localRotation = 
+						playerPauseEnabled ? 
+							_camRotationBeforePause : 
+							Camera.main.transform.localRotation;
+				if (!PhotonNetwork.inRoom)
+					Time.timeScale = 1f;
+
 			}
 		}
 	}
@@ -150,35 +169,44 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void StartGame() {
-		if (Application.loadedLevelName == "brainstorm") {
+		if (Application.loadedLevel == 0) {
+			CTRL.Instance.ShowStartMenu();
+		}
+		else if (Application.loadedLevelName == "brainstorm") {
 			ChangeScene(Scene.Tag.Lobby);
 		}
-		paused = false;
+		else if (Application.loadedLevelName == "multiplayer") {
+			if (networkDebug) PhotonNetwork.logLevel = PhotonLogLevel.Informational;
+			PhotonNetwork.ConnectUsingSettings(Strings.gameVersion);
+		}
+		//paused = false;
 	}
 	
+	public void Restart() {
+		PhotonNetwork.Disconnect();
+		Application.LoadLevel(0);
+	}
 	
 	void Update () {
+		if (!Player.LocalPlayer) return;
 		if (!Screen.lockCursor && !paused) {
 			paused = true;
 		}
-		if (Input.GetKeyUp(KeyCode.Escape) && !paused) {
-			paused = true;
+		if (Input.GetKeyUp(KeyCode.Escape)) {
+			paused = !paused;
 		}
 		if (Application.isEditor & copyRenderSettings) {
 			CopyRenderSettings();
 		}
 	}
 	
-	void CopyRenderSettings() {
-		if (Input.GetKeyUp(KeyCode.R)) {
-			copyScene = new Scene();
-			copyScene.ambientLight = RenderSettings.ambientLight;
-			copyScene.fog = RenderSettings.fog;
-			copyScene.fogColor = RenderSettings.fogColor;
-			copyScene.fogDensity = RenderSettings.fogDensity;
-			copyScene.skybox = RenderSettings.skybox;
+	void OnGUI() {
+		if (networkDebug) {
+			GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 		}
 	}
+	
+
 	
 	public void SceneComplete() {
 		switch (_activeScene.tag) {
@@ -191,6 +219,10 @@ public class GameManager : MonoBehaviour {
 		case Scene.Tag.Terror:
 			ChangeScene(Scene.Tag.Safety);
 			break;
+		default:
+			Debug.LogError("SceneComplete() called inappropriately in " +
+				_activeScene.tag.ToString() + " scene.");
+			break;
 		}
 	}
 	
@@ -201,18 +233,35 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine( ChangeSceneRoutine(scene) );
 	}
 	
+	public void ChangeRenderSettings(Scene.Tag scene) {
+		foreach(Scene s in scenes) {
+			if (s.tag == scene) {
+				RenderSettings.ambientLight = s.ambientLight;
+				RenderSettings.fog = s.fog;
+				RenderSettings.fogColor = s.fogColor;
+				RenderSettings.fogDensity = s.fogDensity;
+				RenderSettings.skybox = s.skybox;
+				break;
+			}
+		}
+	}
+	
 	private IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
 		_fade.StartFade(Color.black, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
 		// unload active scene
-		if (_activeScene != null)
+		if (_activeScene != null) {
+			Debug.Log ("Unloading scene " + _activeScene.tag.ToString());
 			_activeScene.Unload();
+		}
+			
 		// spawn next scene
 		foreach(Scene s in scenes) {
 			if (s.tag == scene) {
 				_activeScene = s;
+				Debug.Log ("Loading scene " + _activeScene.tag.ToString());
 				_activeScene.Load();
 				RenderSettings.ambientLight = _activeScene.ambientLight;
 				RenderSettings.fog = _activeScene.fog;
@@ -228,4 +277,15 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 	}
 	
+	
+	void CopyRenderSettings() {
+		if (Input.GetKeyUp(KeyCode.R)) {
+			copyScene = new Scene();
+			copyScene.ambientLight = RenderSettings.ambientLight;
+			copyScene.fog = RenderSettings.fog;
+			copyScene.fogColor = RenderSettings.fogColor;
+			copyScene.fogDensity = RenderSettings.fogDensity;
+			copyScene.skybox = RenderSettings.skybox;
+		}
+	}
 }

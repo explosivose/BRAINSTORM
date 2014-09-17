@@ -18,7 +18,7 @@ public class GUIBarPlacement {
 	public GUIBarScript SpawnAndPlace() {
 		if (!_instance)
 			_instance = prefab.Spawn();
-		_instance.parent = Player.Instance.transform;
+		_instance.parent = Player.LocalPlayer.transform;
 		GUIBarScript bar = _instance.GetComponent<GUIBarScript>();
 		int width = bar.Background.width;
 		int height = bar.Background.height;
@@ -106,8 +106,7 @@ public class GUIController : MonoBehaviour {
 		}
 	}
 	
-	// Use this for initialization
-	void Start () {
+	public void InitializeGUI() {
 		
 		// spawn healthbar and place on bottom right
 		_healthBarInstance = healthBar.SpawnAndPlace();
@@ -120,7 +119,7 @@ public class GUIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		_healthBarInstance.Value = Player.Instance.health01;
+		_healthBarInstance.Value = Player.LocalPlayer.health01;
 		_jetpackBarInstance.Value = PlayerInventory.Instance.jumpbar;
 		_sprintBarInstance.Value = PlayerInventory.Instance.sprintbar;
 	}

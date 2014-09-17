@@ -92,7 +92,7 @@ public class WeaponLauncher : MonoBehaviour {
 		// Point at what the player is looking at
 		if (Physics.Raycast(ray, out _hit, range, raycastMask)) {
 			Quaternion rotation = Quaternion.LookRotation(_hit.point 
-			                                              - transform.position, Player.Instance.transform.up );
+			                                              - transform.position, Player.LocalPlayer.transform.up );
 			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 4f);
 			//transform.LookAt(hit.point);
 			_crosshair.position = Vector3.Lerp(_crosshair.position, _hit.point, Time.deltaTime * 8f);
@@ -166,7 +166,7 @@ public class WeaponLauncher : MonoBehaviour {
 		
 		Transform i = projectile.Spawn(_weaponNozzle.position, _weaponNozzle.rotation);
 		i.parent = GameManager.Instance.activeScene;
-		i.SendMessage("SetDamageSource", Player.Instance.transform);
+		i.SendMessage("SetDamageSource", Player.LocalPlayer.transform);
 		
 		if (_target!=null) {
 			Debug.Log (name + " hit " + _target.name);// + " with " + i.name + ".");

@@ -6,7 +6,7 @@ using System.Collections;
 [RequireComponent(typeof(ScreenFade))]
 public class Player : MonoBehaviour {
 
-	public static Player Instance;
+	public static Player LocalPlayer;
 
 	[System.Serializable]
 	public class AudioLibrary {
@@ -15,12 +15,15 @@ public class Player : MonoBehaviour {
 		public AudioClip jump;
 		public AudioClip land;
 	}
-			
+
 	public int maxHealth;
 	public float hurtEffectDuration = 0.1f;
 	
 	public AudioLibrary sounds = new AudioLibrary();
 	
+	public bool isLocalPlayer {
+		get; private set;
+	}
 	public float health01 {
 		get { return (float)_health/(float)maxHealth; }
 	}
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour {
 			return _noclip;	
 		}
 		set {
+			if (!isLocalPlayer) return;
 			_noclip = value;
 			_motor.enabled = !value;
 		}
@@ -41,8 +45,14 @@ public class Player : MonoBehaviour {
 			return _motor;
 		}
 	}
+	public GameObject mainCamera {
+		get {
+			return _mainCamera;
+		}
+	}
 	
 	private CharacterMotorC _motor;
+	private GameObject _mainCamera;
 	private int _health;
 	private bool _dead = false;
 	private bool _noclip = false;
@@ -51,26 +61,39 @@ public class Player : MonoBehaviour {
 	private float _lastHurtTime; 
 	
 	void Awake() {
-		if (Instance == null) {
-			Instance = this;
-		}
-		else {
-			Destroy(this);
-		}
 		_motor = GetComponent<CharacterMotorC>();
+		_mainCamera = transform.Find("Main Camera").gameObject;
 		_fade = GetComponent<ScreenFade>();
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
+	}
+	
+	void Start() {
 		Spawn();
 	}
 	
 	void Spawn() {
+		if (!PhotonNetwork.inRoom) SetLocalPlayer(true);
 		_health = maxHealth;
 		_dead = false;
-		screenEffects = true;
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 	}
 	
+	void SetLocalPlayer(bool value) {
+		isLocalPlayer = value;
+		screenEffects = value;
+		_mainCamera.SetActive(value);
+		_motor.enabled = value;
+		if (value) {
+			LocalPlayer = this;
+			name = "Local Player";
+			GUIController.Instance.InitializeGUI();
+		}
+	}
+	
 	void Update() {
+		
+		if(!isLocalPlayer) return;
+		
 		// do not allow motor control while in noclip mode
 		if (noclip) motor.enabled = false;
 		
@@ -102,12 +125,12 @@ public class Player : MonoBehaviour {
 		if (noclip) {
 			directionVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 			directionVector *= _motor.movement.maxForwardSpeed;
-			transform.position += Camera.main.transform.rotation * directionVector * CTRL.deltaTime;
+			transform.position += _mainCamera.transform.rotation * directionVector * CTRL.deltaTime;
 		}
 		else {
 			// Apply the direction to the CharacterMotor
 			_motor.inputMoveDirection = transform.rotation * directionVector;
-			_motor.inputLookDirection = Camera.main.transform.rotation * directionVector;
+			_motor.inputLookDirection = _mainCamera.transform.rotation * directionVector;
 			_motor.inputJump = Input.GetButton("Jump");
 			_motor.inputSprint = Input.GetButton("Sprint");
 		}
@@ -152,7 +175,10 @@ public class Player : MonoBehaviour {
 		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
 		yield return new WaitForSeconds(1.5f);
 		AudioListener.volume = vol;
-		GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
+		if (!PhotonNetwork.inRoom) {
+			GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
+		}
+		
 		Spawn();
 	}
 }

@@ -32,7 +32,7 @@ public class BlinkTarget : MonoBehaviour {
 	}
 	
 	void Start () {
-		_player = Player.Instance.transform;
+		_player = Player.LocalPlayer.transform;
 	}
 	
 	void OnEquip() {
@@ -84,7 +84,7 @@ public class BlinkTarget : MonoBehaviour {
 	
 	void StartBlink() {
 		_blinking = true;
-		Player.Instance.motor.enabled = false;
+		Player.LocalPlayer.motor.enabled = false;
 		_equipment.AudioStart();
 		_blinkTarget.Recycle();
 		_lastUseTime = Time.time;
@@ -93,7 +93,7 @@ public class BlinkTarget : MonoBehaviour {
 	void StopBlink() {
 		_blinking = false;
 		_blinkTarget = null;
-		Player.Instance.motor.enabled = true;
+		Player.LocalPlayer.motor.enabled = true;
 		_equipment.AudioStop();
 	}
 	
