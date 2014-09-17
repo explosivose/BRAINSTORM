@@ -21,6 +21,7 @@ public class PrefabSpawner : MonoBehaviour {
 	public float variationOnAmount = 1f;
 	public SpawnPosition position = SpawnPosition.Inherited;
 	public SpawnRotation rotation = SpawnRotation.Inherited;
+	public float timeBeforeFirstSpawn;
 	public float timeBetweenInstantiations;
 	public float variationOnTime = 1f;
 	
@@ -63,6 +64,7 @@ public class PrefabSpawner : MonoBehaviour {
 
 	IEnumerator SpawnRoutine() {
 		yield return new WaitForEndOfFrame();
+		yield return new WaitForSeconds(timeBeforeFirstSpawn);
 		for (int i = _spawned; i < _amountToSpawn; i++) {
 			Transform t = prefab.Spawn(transform.position);
 			

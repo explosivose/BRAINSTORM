@@ -103,7 +103,9 @@ public class BuildingMaker : MonoBehaviour {
 			(Random.value - 0.5f) * 2f * maxLeanAngle
 			);
 		transform.Rotate(rot);
-
+ 		yield return new WaitForEndOfFrame();
+ 		
+ 		SendMessage("Combine");
 	}
 	
 	void GroundFloor() {

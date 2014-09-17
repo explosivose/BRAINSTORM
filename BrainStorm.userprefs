@@ -1,8 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Environment\BuildingMaker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Utility\CombineChildrenExtended.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\Environment\BuildingMaker.cs" Line="37" Column="55" />
+      <File FileName="BrainStorm.sln" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\BuildingMaker.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\BuildingMaker.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\GUI\Strings.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\Blob.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Utility\PrefabSpawner.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\CharacterMotorC.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCCarrot.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPC.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\NPCs\NPCVirusZombie.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Utility\CombineChildrenExtended.cs" Line="55" Column="19" />
+      <File FileName="Assets\BrainStorm\Scripts\Utility\MeshCombineUtility.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

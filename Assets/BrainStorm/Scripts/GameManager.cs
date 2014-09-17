@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 	[EnumMask]
 	public WinStates 	winState = WinStates.None;
 	public bool 		playerPauseEnabled = true;
+	public bool 		grabCursor = false;
 	public Scene[] 		scenes;
 	public Scene 		copyScene;
 	
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour {
 			}
 			else {
 				_paused = false;
-				Screen.lockCursor = true;
+				Screen.lockCursor = true && grabCursor;
 				Camera.main.transform.localRotation = 
 					playerPauseEnabled ? 
 					_camRotationBeforePause : 
@@ -149,7 +150,6 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void StartGame() {
-		Screen.lockCursor = true;
 		if (Application.loadedLevelName == "brainstorm") {
 			ChangeScene(Scene.Tag.Lobby);
 		}
