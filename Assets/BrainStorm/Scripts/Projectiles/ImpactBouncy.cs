@@ -46,7 +46,7 @@ public class ImpactBouncy : MonoBehaviour {
 			transform.rotation = Quaternion.LookRotation(contact.normal);
 			col.transform.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
 			Transform i = bouncePrefab.Spawn(contact.point, Quaternion.LookRotation(contact.normal));
-			i.parent = GameManager.Instance.activeScene;
+			i.parent = GameManager.Instance.activeScene.instance;
 			i.particleSystem.time = 0f;
 			i.particleSystem.Play();
 			yield return new WaitForSeconds(i.particleSystem.duration);

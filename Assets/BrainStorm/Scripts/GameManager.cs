@@ -15,19 +15,17 @@ public class GameManager : MonoBehaviour {
 		All		= 0xFF
 	}
 	
-	public bool			networkDebug = false;
 	public bool 		grabCursor = false;
 	public bool 		playerPauseEnabled = true;
-	
+
+	[EnumMask]
+	public WinStates 	winState = WinStates.None;
+	public Scene[] 		scenes;
+	public Scene 		copyScene;
 	// if you press R then the current render settings are copied
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
 	public bool 		copyRenderSettings = false;
-	[EnumMask]
-	public WinStates 	winState = WinStates.None;
-
-	public Scene[] 		scenes;
-	public Scene 		copyScene;
 	
 	private bool 		_paused;
 	private bool 		_levelTeardown;
@@ -41,7 +39,7 @@ public class GameManager : MonoBehaviour {
 		get { return _paused; }
 		set {
 			// don't try to pause if there is no player or camera
-			if (!Player.LocalPlayer) {
+			if (!Player.localPlayer) {
 				Debug.LogWarning("Won't pause/unpause: player instance not found.");
 				return;
 			}
@@ -56,7 +54,7 @@ public class GameManager : MonoBehaviour {
 				Screen.lockCursor = false;
 				AudioListener.volume = 0f;
 				CTRL.Instance.ShowPauseMenu();
-				Player.LocalPlayer.motor.canControl = false;
+				Player.localPlayer.motor.canControl = false;
 				_camRotationBeforePause = Camera.main.transform.localRotation;
 				if (!PhotonNetwork.inRoom)
 					Time.timeScale = 1f;
@@ -67,7 +65,7 @@ public class GameManager : MonoBehaviour {
 				Screen.lockCursor = true && grabCursor;
 				AudioListener.volume = 1f;
 				CTRL.Instance.HidePauseMenu();
-				Player.LocalPlayer.motor.canControl = true;
+				Player.localPlayer.motor.canControl = true;
 				Camera.main.transform.localRotation = 
 						playerPauseEnabled ? 
 							_camRotationBeforePause : 
@@ -83,12 +81,9 @@ public class GameManager : MonoBehaviour {
 		get { return _levelTeardown; }
 	}
 	
-	public Transform activeScene {
+	public Scene activeScene {
 		get {
-			if (_activeScene != null) 
-				return _activeScene.instance;
-			else 
-				return null;
+			return _activeScene;
 		}
 	}
 	
@@ -176,7 +171,6 @@ public class GameManager : MonoBehaviour {
 			ChangeScene(Scene.Tag.Lobby);
 		}
 		else if (Application.loadedLevelName == "multiplayer") {
-			if (networkDebug) PhotonNetwork.logLevel = PhotonLogLevel.Informational;
 			PhotonNetwork.ConnectUsingSettings(Strings.gameVersion);
 		}
 		//paused = false;
@@ -188,7 +182,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (!Player.LocalPlayer) return;
+		if (!Player.localPlayer) return;
 		if (!Screen.lockCursor && !paused) {
 			paused = true;
 		}
@@ -200,13 +194,6 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	void OnGUI() {
-		if (networkDebug) {
-			GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
-		}
-	}
-	
-
 	
 	public void SceneComplete() {
 		switch (_activeScene.tag) {
@@ -233,19 +220,6 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine( ChangeSceneRoutine(scene) );
 	}
 	
-	public void ChangeRenderSettings(Scene.Tag scene) {
-		foreach(Scene s in scenes) {
-			if (s.tag == scene) {
-				RenderSettings.ambientLight = s.ambientLight;
-				RenderSettings.fog = s.fog;
-				RenderSettings.fogColor = s.fogColor;
-				RenderSettings.fogDensity = s.fogDensity;
-				RenderSettings.skybox = s.skybox;
-				break;
-			}
-		}
-	}
-	
 	private IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
 		_fade.StartFade(Color.black, 0.5f);
 		yield return new WaitForSeconds(0.5f);
@@ -257,12 +231,18 @@ public class GameManager : MonoBehaviour {
 			_activeScene.Unload();
 		}
 			
-		// spawn next scene
+		// load prefab if we're not in a multiplayer game, or if we're the master in a multiplayer game
+		bool loadPrefab = !PhotonNetwork.inRoom ||
+			(PhotonNetwork.inRoom && PhotonNetwork.isMasterClient);
+			
+		// Load scene settings
 		foreach(Scene s in scenes) {
 			if (s.tag == scene) {
 				_activeScene = s;
-				Debug.Log ("Loading scene " + _activeScene.tag.ToString());
-				_activeScene.Load();
+				if (loadPrefab) {
+					Debug.Log ("Loading scene " + _activeScene.tag.ToString());
+					_activeScene.Load();
+				}
 				RenderSettings.ambientLight = _activeScene.ambientLight;
 				RenderSettings.fog = _activeScene.fog;
 				RenderSettings.fogColor = _activeScene.fogColor;

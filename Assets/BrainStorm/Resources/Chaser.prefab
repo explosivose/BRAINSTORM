@@ -352,7 +352,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84c57c53a9f01fc4b91599e5bb4c085d, type: 3}
   m_Name: 
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68ec2fe99d1108b9d0006a298d76c639, type: 3}
   m_Name: 
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdbae38cb894ecd4b856c694c8418773, type: 3}
   m_Name: 
@@ -421,7 +421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689d706347486c94a9eb856d2973757c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayer: 0
   maxHealth: 100
   hurtEffectDuration: .150000006
   sounds:
@@ -435,7 +434,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6edeabbfdcb0a074b853775d558d0226, type: 3}
   m_Name: 

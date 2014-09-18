@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
-  - 114: {fileID: 11400002}
   - 114: {fileID: 11400004}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -70,10 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71aebee8d5a61a44ae84cdd7687e13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkDebug: 1
   grabCursor: 1
   playerPauseEnabled: 1
-  copyRenderSettings: 0
   winState: 0
   scenes:
   - tag: 0
@@ -149,6 +147,7 @@ MonoBehaviour:
     fogDensity: .0299999993
     ambientLight: {r: .193014711, g: .344878286, b: .375, a: 1}
     skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
+  copyRenderSettings: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,6 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c8d5bcd41855344ba8533e09cede84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDebug: 1
+  logLevel: 0
   playerPrefab: {fileID: 100002, guid: 8efeb2bb3728eb24c9eb01d93dee9ff3, type: 2}
 --- !u!132 &13200000
 GUIText:
@@ -188,7 +189,7 @@ GUIText:
   m_TabSize: 4
   m_Font: {fileID: 12800000, guid: 301f29708c65e074a801156478aaf6af, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 48
+  m_FontSize: 24
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2

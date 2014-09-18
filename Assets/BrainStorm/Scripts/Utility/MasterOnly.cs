@@ -5,7 +5,7 @@ public class MasterOnly : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (!PhotonNetwork.isMasterClient) {
+		if (!PhotonNetwork.isMasterClient && PhotonNetwork.inRoom) {
 			Destroy(this.gameObject);
 		}
 	}

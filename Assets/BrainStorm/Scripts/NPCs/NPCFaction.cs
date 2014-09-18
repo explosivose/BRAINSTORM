@@ -48,7 +48,7 @@ public class NPCFaction : NPC {
 				rigidbody.useGravity = true;
 				target = null;
 				Transform soul = soulPrefab.Spawn(transform.position);
-				soul.parent = GameManager.Instance.activeScene;
+				soul.parent = GameManager.Instance.activeScene.instance;
 				StartCoroutine(Death ());
 				break;
 				
@@ -184,19 +184,12 @@ public class NPCFaction : NPC {
 		}
 	}
 	
-	protected override void Damage(DamageInstance damage) {
+	protected override void Damage(int damage) {
 		if (state == State.Dead) return;
-		if (damage.source != null) {
-			NPCFaction f = damage.source.GetComponent<NPCFaction>();
-			if (f != null) {
-				if (f.type == type) return; // no friendly fire
-			}
-		}
 
 		base.Damage(damage);
 	
 		if (isDead) {
-			damage.source.SendMessage("Killed", this.transform);
 			state = State.Dead;
 		}
 		else if (!_hurt) {

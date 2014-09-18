@@ -29,7 +29,7 @@ public class ImpactExplosion : MonoBehaviour {
 			audio.Stop ();
 			// spawn explosion effect
 			Transform i = impactPrefab.Spawn(transform.position, transform.rotation);
-			i.parent = GameManager.Instance.activeScene;
+			i.parent = GameManager.Instance.activeScene.instance;
 			i.particleSystem.time = 0f;
 			i.particleSystem.Play();
 			

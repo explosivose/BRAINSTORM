@@ -15,8 +15,8 @@ public class PlayerSpawnPoint : MonoBehaviour {
 	
 	void OnEnable() {
 		if (spawnOnEnable) {
-			Player.LocalPlayer.transform.position = spawnPoint.position;
-			Player.LocalPlayer.transform.rotation = spawnPoint.rotation;
+			Player.localPlayer.transform.position = spawnPoint.position;
+			Player.localPlayer.transform.rotation = spawnPoint.rotation;
 		}
 	}
 	
@@ -24,8 +24,8 @@ public class PlayerSpawnPoint : MonoBehaviour {
 		if (updateOnSceneChange) {
 			// change spawn point to where the player is now
 			// except moved backwards a bit and facing the opposite direction
-			spawnPoint.position = Player.LocalPlayer.transform.position;
-			spawnPoint.rotation = Player.LocalPlayer.transform.rotation;
+			spawnPoint.position = Player.localPlayer.transform.position;
+			spawnPoint.rotation = Player.localPlayer.transform.rotation;
 			
 			spawnPoint.position -= spawnPoint.forward;
 			spawnPoint.rotation = Quaternion.LookRotation(-spawnPoint.forward);

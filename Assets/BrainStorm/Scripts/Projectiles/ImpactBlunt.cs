@@ -17,7 +17,7 @@ public class ImpactBlunt : MonoBehaviour {
 	
 	void OnEnable() {
 		if (GameManager.Instance.levelTeardown) return;
-		transform.parent = GameManager.Instance.activeScene;
+		transform.parent = GameManager.Instance.activeScene.instance;
 		_impact = false;
 	}
 	

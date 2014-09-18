@@ -4,10 +4,11 @@ using System.Collections;
 [AddComponentMenu("Player/Player")]
 [RequireComponent(typeof(CharacterMotorC))]
 [RequireComponent(typeof(ScreenFade))]
-public class Player : MonoBehaviour {
+public class Player : Photon.MonoBehaviour {
 
-	public static Player LocalPlayer;
-
+	public static Player localPlayer;
+	
+	
 	[System.Serializable]
 	public class AudioLibrary {
 		public float volume;
@@ -37,21 +38,22 @@ public class Player : MonoBehaviour {
 		set {
 			if (!isLocalPlayer) return;
 			_noclip = value;
-			_motor.enabled = !value;
+			motor.enabled = !value;
 		}
 	}
 	public CharacterMotorC motor {
-		get {
-			return _motor;
-		}
+		get; private set;
 	}
 	public GameObject mainCamera {
 		get {
 			return _mainCamera;
 		}
 	}
+	public PlayerInventory inventory {
+		get; private set;
+	}
 	
-	private CharacterMotorC _motor;
+	private MouseLook _mouseLook;
 	private GameObject _mainCamera;
 	private int _health;
 	private bool _dead = false;
@@ -61,7 +63,9 @@ public class Player : MonoBehaviour {
 	private float _lastHurtTime; 
 	
 	void Awake() {
-		_motor = GetComponent<CharacterMotorC>();
+		motor = GetComponent<CharacterMotorC>();
+		inventory = GetComponent<PlayerInventory>();
+		_mouseLook = GetComponent<MouseLook>();
 		_mainCamera = transform.Find("Main Camera").gameObject;
 		_fade = GetComponent<ScreenFade>();
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
@@ -80,13 +84,19 @@ public class Player : MonoBehaviour {
 	
 	void SetLocalPlayer(bool value) {
 		isLocalPlayer = value;
-		screenEffects = value;
+		
+		motor.enabled = value;
+		inventory.enabled = value;
+		_mouseLook.enabled = value;
 		_mainCamera.SetActive(value);
-		_motor.enabled = value;
+		_fade.enabled = value;
+		
 		if (value) {
-			LocalPlayer = this;
+			localPlayer = this;
 			name = "Local Player";
+			gameObject.layer = LayerMask.NameToLayer("Player");
 			GUIController.Instance.InitializeGUI();
+			ScreenShake.Instance.SetCamera(_mainCamera.transform);
 		}
 	}
 	
@@ -124,15 +134,15 @@ public class Player : MonoBehaviour {
 		
 		if (noclip) {
 			directionVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-			directionVector *= _motor.movement.maxForwardSpeed;
+			directionVector *= motor.movement.maxForwardSpeed;
 			transform.position += _mainCamera.transform.rotation * directionVector * CTRL.deltaTime;
 		}
 		else {
 			// Apply the direction to the CharacterMotor
-			_motor.inputMoveDirection = transform.rotation * directionVector;
-			_motor.inputLookDirection = _mainCamera.transform.rotation * directionVector;
-			_motor.inputJump = Input.GetButton("Jump");
-			_motor.inputSprint = Input.GetButton("Sprint");
+			motor.inputMoveDirection = transform.rotation * directionVector;
+			motor.inputLookDirection = _mainCamera.transform.rotation * directionVector;
+			motor.inputJump = Input.GetButton("Jump");
+			motor.inputSprint = Input.GetButton("Sprint");
 		}
 	}
 	
@@ -155,17 +165,24 @@ public class Player : MonoBehaviour {
 		Debug.Log ("Player killed something :O");
 	}
 	
-	void Damage(DamageInstance damage) {
-		_health -= damage.damage;
-		Debug.Log ("Player got " + damage.damage + " damage.");
-		AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-		ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
-		_lastHurtTime = Time.time;
-		if (screenEffects)
-			_fade.StartFade(_hurtOverlay, hurtEffectDuration);
-		if (_health < 0) StartCoroutine ( Death() );
+	[RPC]
+	void Damage(int damage) {
+		// something in my game has damaged this player
+		if (photonView.isMine) {
+			_health -= damage;
+			Debug.Log ("Player got " + damage + " damage.");
+			AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
+			ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage/(float)maxHealth), 0.3f);
+			_lastHurtTime = Time.time;
+			if (screenEffects)
+				_fade.StartFade(_hurtOverlay, hurtEffectDuration);
+			if (_health < 0) StartCoroutine ( Death() );
+		}
+		else {
+			photonView.RPC("Damage", photonView.owner, damage);
+		}
 	}
-	
+
 	IEnumerator Death() {
 		_dead = true;
 		if (screenEffects)

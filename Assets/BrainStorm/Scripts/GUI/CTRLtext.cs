@@ -38,12 +38,13 @@ public class CTRLtext : CTRLelement {
 	
 	protected override void Update ()
 	{
+		if (Application.isLoadingLevel) return;
 		base.Update ();
 		if (tooltip) {
 			Transform cam = Camera.main.transform;
 			Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
 			transform.rotation = rotation;
-			float playerDistance = Vector3.Distance(Player.LocalPlayer.transform.position, transform.position);
+			float playerDistance = Vector3.Distance(Player.localPlayer.transform.position, transform.position);
 			float lerp = (4f-playerDistance);
 			textMesh.color = Color.Lerp(Color.clear, textColor, lerp);
 		}

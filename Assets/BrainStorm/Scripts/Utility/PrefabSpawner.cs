@@ -15,6 +15,7 @@ public class PrefabSpawner : MonoBehaviour {
 	}
 
 	public Transform prefab;
+	public string resourcesSubpath;
 	public bool useObjectPool = true;
 	public bool networkSpawn = false;
 	public bool spawnOnStart = true;
@@ -68,9 +69,9 @@ public class PrefabSpawner : MonoBehaviour {
 		yield return new WaitForSeconds(timeBeforeFirstSpawn);
 		for (int i = _spawned; i < _amountToSpawn; i++) {
 			Transform t;
-			if (networkSpawn) {
+			if (networkSpawn && PhotonNetwork.isMasterClient) {
 				t = PhotonNetwork.InstantiateSceneObject(
-					prefab.name,
+					resourcesSubpath + prefab.name,
 					transform.position,
 					prefab.rotation,
 					0,
@@ -112,7 +113,7 @@ public class PrefabSpawner : MonoBehaviour {
 					break;
 			}
 			
-			t.parent = GameManager.Instance.activeScene;
+			t.parent = GameManager.Instance.activeScene.instance;
 			_spawned++;
 			float vary = (Random.value-0.5f) * timeBetweenInstantiations * variationOnTime;
 			float wait = timeBetweenInstantiations + vary;

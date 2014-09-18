@@ -88,12 +88,6 @@ public class Boid : MonoBehaviour {
 		_target2 = target;
 	}
 	
-	void Awake() {
-		if (!PhotonNetwork.isMasterClient) {
-			this.enabled = false;
-		}
-	}
-	
 	void Start() {
 		_parent = transform.parent;
 		if (!_parent) Debug.LogError("Boid must have a parent!");

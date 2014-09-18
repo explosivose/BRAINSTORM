@@ -5,7 +5,7 @@ using System.Collections;
 // which plays audio for collisions 
 
 [RequireComponent(typeof(Rigidbody))]
-public class Equipment : MonoBehaviour {
+public class Equipment : Photon.MonoBehaviour {
 	
 	[System.Serializable]
 	public class AudioLibrary {
@@ -49,7 +49,7 @@ public class Equipment : MonoBehaviour {
 	
 	void Start() {
 		if (parent == EquipParent.camera) _parent = Camera.main.transform;
-		if (parent == EquipParent.player) _parent = Player.LocalPlayer.transform;
+		if (parent == EquipParent.player) _parent = Player.localPlayer.transform;
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}
@@ -67,7 +67,7 @@ public class Equipment : MonoBehaviour {
 	
 	public void Drop() {
 		_equipped = false;
-		transform.parent = GameManager.Instance.activeScene;
+		transform.parent = GameManager.Instance.activeScene.instance;
 		transform.position = Camera.main.transform.position;
 		transform.position += Camera.main.transform.forward;
 		rigidbody.isKinematic = false;

@@ -85,7 +85,7 @@ public class MouseLook : MonoBehaviour {
 				return;
 		}
 		
-		Transform cam = Player.LocalPlayer.mainCamera.transform;
+		Transform cam = Player.localPlayer.mainCamera.transform;
 		Ray ray = cam.camera.ScreenPointToRay(mousePos);
 		Quaternion rotation =  Quaternion.LookRotation(ray.direction);
 		

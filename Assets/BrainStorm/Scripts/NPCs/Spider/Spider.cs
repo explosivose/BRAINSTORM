@@ -80,7 +80,7 @@ public class Spider : NPC {
 	
 	IEnumerator Start() {
 		state = State.idle;
-		target = Player.LocalPlayer.transform;
+		target = Player.localPlayer.transform;
 		yield return new WaitForEndOfFrame();
 		state = State.stalking;
 	}
@@ -173,12 +173,12 @@ public class Spider : NPC {
 		}
 	}
 	
-	protected override void Damage(DamageInstance damage) {
+	protected override void Damage(int damage) {
 		// only vulnerable while attacking
 		if (!invulnerable) {
-			if (damage.source.tag == "Player") {
+
 				if (state != State.dead) state = State.dead;;
-			}
+			
 		}
 	}
 	

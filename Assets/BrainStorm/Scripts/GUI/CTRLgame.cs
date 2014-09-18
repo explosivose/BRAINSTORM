@@ -41,7 +41,7 @@ public class CTRLgame : CTRLelement {
 			#endif
 			break;
 		case Action.noclip:
-			Player.LocalPlayer.noclip = !Player.LocalPlayer.noclip;
+			Player.localPlayer.noclip = !Player.localPlayer.noclip;
 			break;
 		case Action.singleplayer:
 			Application.LoadLevel("brainstorm");

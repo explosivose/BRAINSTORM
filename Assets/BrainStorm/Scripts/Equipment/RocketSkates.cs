@@ -15,11 +15,11 @@ public class RocketSkates : MonoBehaviour {
 	}
 	
 	void OnEquip() {
-		PlayerInventory.Instance.hasSprint = true;
+		Player.localPlayer.inventory.hasSprint = true;
 	}
 	
 	void OnDrop() {
-		PlayerInventory.Instance.hasSprint = false;
+		Player.localPlayer.inventory.hasSprint = false;
 	}
 	
 	void OnSprintStart() {
@@ -31,6 +31,6 @@ public class RocketSkates : MonoBehaviour {
 	}
 	
 	void Update() {
-		equipment.energy = Player.LocalPlayer.motor.sprint.stamina01;
+		equipment.energy = Player.localPlayer.motor.sprint.stamina01;
 	}
 }

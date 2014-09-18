@@ -5,7 +5,11 @@ public class Multiplayer : Photon.MonoBehaviour {
 
 	public static Multiplayer Instance;
 	
+	public bool showDebug;
+	public PhotonLogLevel logLevel;
 	public GameObject playerPrefab;
+	
+	private bool _master = false;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -14,6 +18,30 @@ public class Multiplayer : Photon.MonoBehaviour {
 		else {
 			Destroy(this.gameObject);
 		}
+	}
+
+	void OnGUI() {
+		if (showDebug) {
+			
+			string message = PhotonNetwork.connectionStateDetailed.ToString();
+			
+			
+			if (PhotonNetwork.inRoom) {
+				if (PhotonNetwork.isMasterClient) {
+					message += " as MasterClient";
+				}
+				else {
+					message += " as Client";
+				}
+			}
+			
+			GUILayout.Label(message);
+			
+		}
+	}
+
+	void OnConnectedToMaster() {
+		PhotonNetwork.logLevel = logLevel;
 	}
 
 	// joined photon lobby, time to join or start a game
@@ -28,11 +56,10 @@ public class Multiplayer : Photon.MonoBehaviour {
 	
 	void OnJoinedRoom() {
 		if (PhotonNetwork.isMasterClient) {
-			GameManager.Instance.ChangeScene(Scene.Tag.GriefMP);
+			_master = true;
 		}
-		else {
-			GameManager.Instance.ChangeRenderSettings(Scene.Tag.GriefMP);
-		}
+		
+		GameManager.Instance.ChangeScene(Scene.Tag.GriefMP);
 		
 		GameObject player = PhotonNetwork.Instantiate(
 			playerPrefab.name,
@@ -44,8 +71,13 @@ public class Multiplayer : Photon.MonoBehaviour {
 	}
 	
 	void OnPhotonPlayerDisconnected(PhotonPlayer player){ 
-		if (player.isMasterClient) {
-			PhotonNetwork.Disconnect();
+		// if a player left and now I'm the MaserClient, that
+		// means the master has left the game. I should leave too,
+		// because MasterClient was in charge of NPCs and things
+		// Later on, instead of leaving, I could take the reigns and
+		// re-enable my local NPC behaviours?
+		if (PhotonNetwork.isMasterClient && !_master) {
+			GameManager.Instance.Restart();
 		}
 	}
 }

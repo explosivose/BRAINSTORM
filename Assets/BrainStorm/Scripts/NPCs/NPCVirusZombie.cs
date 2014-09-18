@@ -66,11 +66,18 @@ public class NPCVirusZombie : NPC {
 	
 	protected override void Awake() {
 		base.Awake();
-		ObjectPool.CreatePool(virusPrefab);
-		_boid = GetComponentInChildren<Boid>();
-		if (!_boid) Debug.LogError("BoidController missing");
-		_ren = GetComponentInChildren<MeshRenderer>();
+		
+		Transform boid = transform.Find("BoidControl");
+		if (!boid) Debug.LogError("BoidControl missing");
+		_boid = boid.GetComponent<Boid>();
+		if (!_boid) Debug.LogError("BoidControl missing");
 		_boid.defaultBehaviour = idleProfile;
+		if (photonView.isMine) {
+			boid.gameObject.SetActive(true);
+		}
+
+		ObjectPool.CreatePool(virusPrefab);
+		_ren = GetComponentInChildren<MeshRenderer>();
 		_sf = (Random.value/2f) + 0.5f;
 		transform.localScale *= _sf;
 		audio.pitch = _sf;
@@ -94,8 +101,16 @@ public class NPCVirusZombie : NPC {
 		
 	}
 	
+	[RPC]
+	void ChangeState(int change) {
+		state = (State)change;
+	}
+	
 	// Update is called once per frame
 	void Update () {
+		// Don't think if I don't own you
+		if (!photonView.isMine) return;
+		
 		switch(state) {
 		case State.Idle:
 			IdleUpdate();
@@ -198,32 +213,47 @@ public class NPCVirusZombie : NPC {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-		target.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
-		target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		target.BroadcastMessage ("Damage", attackDamage, SendMessageOptions.DontRequireReceiver);
+		target.SendMessageUpwards("Damage", attackDamage, SendMessageOptions.DontRequireReceiver);
 		yield return new WaitForSeconds(1f/attackRate);
 		_attacking = false;
 	}
 	
-	protected override void Damage(DamageInstance damage) {
+	[RPC]
+	protected override void Damage(int damage) {
+		
 		if (state == State.Dead) return;
-		base.Damage(damage);
-		if (isDead) {
-			state = State.Dead;
+		
+		if (photonView.isMine) {
+			base.Damage(damage);
+			if (isDead) {
+				photonView.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)State.Dead);
+			}
+			else {
+				photonView.RPC("Hurt", PhotonTargets.All);
+			}
 		}
-		else if (!_hurt) {
-			StartCoroutine( Hurt() );
+		// I don't own this. Tell the owner I damaged their Virus
+		else {
+			photonView.RPC("Damage", photonView.owner, damage);
 		}
+
 	}
 	
 	protected override void Killed(Transform victim) {
 		Transform v = virusPrefab.Spawn(victim.position, victim.rotation);
-		v.parent = GameManager.Instance.activeScene;
+		v.parent = GameManager.Instance.activeScene.instance;
 		if (victim == target) {
 			state = State.Idle;
 		}
 	}
 	
-	IEnumerator Hurt() {
+	[RPC]
+	void Hurt() {
+		if (!_hurt) StartCoroutine( HurtEffect() );
+	}
+	
+	IEnumerator HurtEffect() {
 		_hurt = true;
 		_ren.material = wardrobe.hurt;
 		yield return new WaitForSeconds(0.1f);

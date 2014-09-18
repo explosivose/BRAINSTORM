@@ -93,7 +93,7 @@ public class NPCCarrot : NPC {
 	}
 	
 	void Start() {
-		_player = Player.LocalPlayer.transform;
+		_player = Player.localPlayer.transform;
 	}
 	
 	protected override void OnEnable() {

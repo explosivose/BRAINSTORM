@@ -5,8 +5,6 @@ using System.Collections;
 [AddComponentMenu("Player/Inventory")]
 public class PlayerInventory : MonoBehaviour {
 
-	public static PlayerInventory Instance;
-
 	public float playerReach = 4f;
 	public LayerMask raycastMask;
 	
@@ -79,12 +77,6 @@ public class PlayerInventory : MonoBehaviour {
 	}
 
 	void Awake() {
-		if (Instance == null) {
-			Instance = this;
-		}
-		else {
-			Destroy(this);
-		}
 		_motor = GetComponent<CharacterMotorC>();
 	}
 	
@@ -177,7 +169,7 @@ public class PlayerInventory : MonoBehaviour {
 	
 	void InspectItem() {
 		RaycastHit hit;
-		Transform cam = Player.LocalPlayer.mainCamera.transform;
+		Transform cam = Player.localPlayer.mainCamera.transform;
 		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach, raycastMask)) {
 			hit.transform.SendMessage("OnInspect", SendMessageOptions.DontRequireReceiver);
 			switch(hit.transform.tag) {
@@ -213,7 +205,7 @@ public class PlayerInventory : MonoBehaviour {
 	}
 	
 	void Drop() {
-		_carryingObject.parent = GameManager.Instance.activeScene;
+		_carryingObject.parent = GameManager.Instance.activeScene.instance;
 		_carryingObject.rigidbody.isKinematic = false;
 		_carryingObject = null;
 	}

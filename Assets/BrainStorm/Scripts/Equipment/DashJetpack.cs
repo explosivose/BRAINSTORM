@@ -16,11 +16,11 @@ public class DashJetpack : MonoBehaviour {
 	}
 
 	void OnEquip() {
-		PlayerInventory.Instance.hasDashpack = true;
+		Player.localPlayer.inventory.hasDashpack = true;
 	}
 	
 	void OnDrop() {
-		PlayerInventory.Instance.hasDashpack = false;
+		Player.localPlayer.inventory.hasDashpack = false;
 	}
 	
 	void OnDashpackStart() {
@@ -37,6 +37,6 @@ public class DashJetpack : MonoBehaviour {
 		if (jetpacking && !audio.isPlaying) {
 			equipment.AudioStart();
 		}
-		equipment.energy = Player.LocalPlayer.motor.dashpack.fuel01;
+		equipment.energy = Player.localPlayer.motor.dashpack.fuel01;
 	}
 }

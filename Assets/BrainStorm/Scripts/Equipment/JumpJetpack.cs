@@ -16,11 +16,11 @@ public class JumpJetpack : MonoBehaviour {
 	}
 	
 	void OnEquip() {
-		PlayerInventory.Instance.hasJetpack = true;
+		Player.localPlayer.inventory.hasJetpack = true;
 	}
 	
 	void OnDrop() {
-		PlayerInventory.Instance.hasJetpack = false;
+		Player.localPlayer.inventory.hasJetpack = false;
 	}
 	
 	void OnJetpackStart() {
@@ -37,6 +37,6 @@ public class JumpJetpack : MonoBehaviour {
 		if (jetpacking && !audio.isPlaying) {
 			equipment.AudioLoop();
 		}
-		equipment.energy = Player.LocalPlayer.motor.jetpack.fuel01;
+		equipment.energy = Player.localPlayer.motor.jetpack.fuel01;
 	}	
 }
