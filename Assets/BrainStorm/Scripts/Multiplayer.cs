@@ -69,7 +69,6 @@ public class Multiplayer : Photon.MonoBehaviour {
 			Quaternion.identity,
 			0
 			);
-		player.SendMessage("SetLocalPlayer", true);
 	}
 	
 	void OnPhotonPlayerDisconnected(PhotonPlayer player){ 

@@ -96,16 +96,6 @@ public class GUIController : MonoBehaviour {
 		}
 	}
 	
-	void Awake() {
-		// singleton design pattern
-		if (Instance == null) {
-			Instance = this;
-		}
-		else {
-			Destroy(this);
-		}
-	}
-	
 	public void InitializeGUI() {
 		
 		// spawn healthbar and place on bottom right

@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 		_header = transform.Find("Header").guiText;
-		_header.text = Strings.gameVersion;
+		_header.text = Strings.gameTitle + " " + Strings.gameVersion;
 		_fade = GetComponent<ScreenFade>();
 		transform.position = Vector3.zero;
 	}

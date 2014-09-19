@@ -65,7 +65,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		get { return _utility1; }
 		set {
 			_utility1 = value;
-			GUIController.Instance.jetpackBar.visible = (_utility1 != null);
+			Player.localPlayer.hud.jetpackBar.visible = (_utility1 != null);
 		}
 	}
 	
@@ -73,7 +73,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		get { return _utility2; }
 		set {
 			_utility2 = value;
-			GUIController.Instance.sprintBar.visible = (_utility2 != null);
+			Player.localPlayer.hud.sprintBar.visible = (_utility2 != null);
 		}
 	}
 
