@@ -71,7 +71,7 @@ public class PrefabSpawner : MonoBehaviour {
 
 	public void Spawn() {
 		// only spawn if we're local-only or master in a networked game
-		if ((networkSpawn && PhotonNetwork.isMasterClient && PhotonNetwork.inRoom) || !networkView) {
+		if ((networkSpawn && PhotonNetwork.isMasterClient && PhotonNetwork.inRoom) || !networkSpawn) {
 			StartCoroutine( SpawnRoutine () );
 		}
 	}

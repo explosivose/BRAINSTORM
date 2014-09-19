@@ -64,41 +64,55 @@ public class NPCVirusZombie : NPC {
 	private bool _attacking = false;
 	private float _sf;
 	
+	// variables used when !photonView.isMine
+	private Vector3 latestCorrectPos;
+	private Vector3 onUpdatePos;
+	private float fraction;
+	
 	protected override void Awake() {
 		base.Awake();
 		
-		Transform boid = transform.Find("BoidControl");
-		if (!boid) Debug.LogError("BoidControl missing");
-		_boid = boid.GetComponent<Boid>();
-		if (!_boid) Debug.LogError("BoidControl missing");
-		_boid.defaultBehaviour = idleProfile;
 		if (photonView.isMine) {
+			Transform boid = transform.Find("BoidControl");
+			if (!boid) Debug.LogError("BoidControl missing");
 			boid.gameObject.SetActive(true);
+			_boid = boid.GetComponent<Boid>();
+			if (!_boid) Debug.LogError("BoidControl missing");
+			_boid.defaultBehaviour = idleProfile;
+			ObjectPool.CreatePool(virusPrefab);
+			_sf = (Random.value/2f) + 0.5f;
+			transform.localScale *= _sf;
 		}
 
-		ObjectPool.CreatePool(virusPrefab);
 		_ren = GetComponentInChildren<MeshRenderer>();
-		_sf = (Random.value/2f) + 0.5f;
-		transform.localScale *= _sf;
 		audio.pitch = _sf;
 		audio.timeSamples = Random.Range(0, audio.clip.samples);
 	}
 	
 	void Start() {
-		_boid.SetTarget1(GameManager.Instance.transform);
-		state = State.Idle;
+		
+		if (photonView.isMine) {
+			state = State.Idle;
+		}
+		else {
+			latestCorrectPos = transform.position;
+			onUpdatePos = transform.position;
+		}
+		
 	}
 	
 	protected override void OnEnable() {
 		base.OnEnable();
 		if (state == State.Dead) return;
 		if (GameManager.Instance.levelTeardown) return;
-		_hurt = false;
+		if (photonView.isMine) {
+			
+			_boid.enabled = true;
+			_boid.target1PositionOffset = Vector3.zero;
+		}
 		_attacking = false;
+		_hurt = false;
 		audio.Play();
-		_boid.enabled = true;
-		_boid.target1PositionOffset = Vector3.zero;
-		
 	}
 	
 	[RPC]
@@ -106,10 +120,40 @@ public class NPCVirusZombie : NPC {
 		state = (State)change;
 	}
 	
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			Vector3 pos = transform.localPosition;
+			Quaternion rot = transform.localRotation;
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+		}
+		else
+		{
+			// Receive latest state information
+			Vector3 pos = Vector3.zero;
+			Quaternion rot = Quaternion.identity;
+			
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+			
+			latestCorrectPos = pos;                 // save this to move towards it in FixedUpdate()
+			onUpdatePos = transform.localPosition;  // we interpolate from here to latestCorrectPos
+			fraction = 0;                           // reset the fraction we alreay moved. see Update()
+			
+			transform.localRotation = rot;          // this sample doesn't smooth rotation
+		}
+	}
+	
 	// Update is called once per frame
 	void Update () {
-		// Don't think if I don't own you
-		if (!photonView.isMine) return;
+	
+		if (!photonView.isMine) {
+			fraction = fraction + Time.deltaTime * 9;
+			transform.localPosition = Vector3.Lerp(onUpdatePos, latestCorrectPos, fraction);    // set our pos between A and B
+			return;
+		}
 		
 		switch(state) {
 		case State.Idle:
