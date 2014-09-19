@@ -26,12 +26,12 @@ public class NPCVirusZombie : NPC {
 				_boid.profile = idleProfile;
 				// cheatsidoodle way to keep these NPCs from wandering off-scene
 				_boid.SetTarget1(GameManager.Instance.transform);
-				searchForTargets = true;
+				searchForTargets = photonView.isMine; // search for targets routine runs on owner
 				audio.pitch = _sf;
 				break;
 				
 			case State.Stalking:
-				searchForTargets = true;
+				searchForTargets = photonView.isMine;
 				_boid.profile = stalkProfile;
 				_boid.SetTarget1(target);
 				StartCoroutine(StalkRoutine());
@@ -164,13 +164,13 @@ public class NPCVirusZombie : NPC {
 	IEnumerator StalkRoutine() {
 		float time = 1f;
 		while(state == State.Stalking) {
-			_boid.target1PositionOffset = transform.up * 10f;
+			_boid.target1PositionOffset = transform.up * targetDistance;
 			yield return new WaitForSeconds(time);
-			_boid.target1PositionOffset = transform.right * 10f;
+			_boid.target1PositionOffset = transform.right * targetDistance;
 			yield return new WaitForSeconds(time);
-			_boid.target1PositionOffset = -transform.up * 10f;
+			_boid.target1PositionOffset = -transform.up * targetDistance;
 			yield return new WaitForSeconds(time);
-			_boid.target1PositionOffset = -transform.right * 10f;
+			_boid.target1PositionOffset = -transform.right * targetDistance;
 			yield return new WaitForSeconds(time);
 		}
 		_boid.target1PositionOffset = Vector3.zero;

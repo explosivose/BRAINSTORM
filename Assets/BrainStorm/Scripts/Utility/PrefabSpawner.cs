@@ -3,6 +3,14 @@ using System.Collections;
 
 public class PrefabSpawner : MonoBehaviour {
 
+	public static Vector3 randomPositionIn(Bounds bounds) {
+		return new Vector3 (
+			Random.value * bounds.size.x,
+			Random.value * bounds.size.y,
+			Random.value * bounds.size.z
+			) - bounds.extents + bounds.center;
+	}
+
 	public enum SpawnPosition {
 		Inherited,
 		RandomInColliderBounds,
@@ -30,6 +38,7 @@ public class PrefabSpawner : MonoBehaviour {
 	private float _amountToSpawn;
 	private int _spawned = 0;
 	
+
 	
 	void Start() {
 		if (useObjectPool)
@@ -61,7 +70,10 @@ public class PrefabSpawner : MonoBehaviour {
 	
 
 	public void Spawn() {
-		StartCoroutine( SpawnRoutine () );
+		// only spawn if we're local-only or master in a networked game
+		if ((networkSpawn && PhotonNetwork.isMasterClient && PhotonNetwork.inRoom) || !networkView) {
+			StartCoroutine( SpawnRoutine () );
+		}
 	}
 
 	IEnumerator SpawnRoutine() {
@@ -89,11 +101,7 @@ public class PrefabSpawner : MonoBehaviour {
 					t.position = transform.position;
 					break;
 				case SpawnPosition.RandomInColliderBounds:
-					Vector3 pos = new Vector3 (
-						Random.value * collider.bounds.size.x,
-						Random.value * collider.bounds.size.y,
-						Random.value * collider.bounds.size.z
-						) - collider.bounds.extents;
+					Vector3 pos = randomPositionIn(collider.bounds);
 					t.position = transform.position + pos;
 					break;
 				case SpawnPosition.Unchanged:

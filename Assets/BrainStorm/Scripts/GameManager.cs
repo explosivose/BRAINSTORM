@@ -252,6 +252,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		_levelTeardown = false;
+		SendMessage("OnSceneLoaded");
 		yield return new WaitForEndOfFrame();
 		_fade.StartFade(Color.clear, 0.5f);
 		yield return new WaitForSeconds(0.5f);

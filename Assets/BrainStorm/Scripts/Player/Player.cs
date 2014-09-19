@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [AddComponentMenu("Player/Player")]
 [RequireComponent(typeof(CharacterMotorC))]
@@ -7,7 +8,6 @@ using System.Collections;
 public class Player : Photon.MonoBehaviour {
 
 	public static Player localPlayer;
-	
 	
 	[System.Serializable]
 	public class AudioLibrary {
@@ -71,12 +71,16 @@ public class Player : Photon.MonoBehaviour {
 		_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
 	}
 	
+	
 	void Start() {
-		Spawn();
+		if (photonView.isMine) Spawn();
 	}
 	
 	void Spawn() {
-		if (!PhotonNetwork.inRoom) SetLocalPlayer(true);
+		if (!PhotonNetwork.inRoom) 
+			SetLocalPlayer(true);
+		else
+			transform.position = PlayerSpawn.Multiplayer.randomSpawnPosition;
 		_health = maxHealth;
 		_dead = false;
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);

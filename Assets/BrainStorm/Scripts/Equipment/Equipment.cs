@@ -54,9 +54,18 @@ public class Equipment : Photon.MonoBehaviour {
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}
 	
-	public void Equip() {
+	[RPC]
+	public void Equip(int playerPhotonViewID) {
 		_equipped = true;
-		transform.parent = _parent;
+		PhotonView playerPhotonView = PhotonView.Find(playerPhotonViewID);
+		// main camera will be disabled in hierarchy on remote players
+		//if (parent == EquipParent.camera) {
+		//	transform.parent = playerPhotonView.GetComponent<Player>().mainCamera.transform;
+		//}
+		//else {
+			transform.parent = playerPhotonView.transform;
+		//}
+		
 		transform.localPosition = equippedPosition;
 		transform.localRotation = Quaternion.Euler(defaultRotation);
 		rigidbody.isKinematic = true;

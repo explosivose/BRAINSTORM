@@ -60,13 +60,15 @@ public class Multiplayer : Photon.MonoBehaviour {
 		}
 		
 		GameManager.Instance.ChangeScene(Scene.Tag.GriefMP);
-		
+	}
+	
+	void OnSceneLoaded() {
 		GameObject player = PhotonNetwork.Instantiate(
 			playerPrefab.name,
 			Vector3.zero,
 			Quaternion.identity,
 			0
-		);
+			);
 		player.SendMessage("SetLocalPlayer", true);
 	}
 	

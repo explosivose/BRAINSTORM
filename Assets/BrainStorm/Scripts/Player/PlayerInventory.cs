@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(CharacterMotorC))]
 [AddComponentMenu("Player/Inventory")]
-public class PlayerInventory : MonoBehaviour {
+public class PlayerInventory : Photon.MonoBehaviour {
 
 	public float playerReach = 4f;
 	public LayerMask raycastMask;
@@ -11,6 +11,7 @@ public class PlayerInventory : MonoBehaviour {
 	private CharacterMotorC _motor;
 	private Transform _inspected;		// this is whatever equipable item the player is looking at
 	private Equipment _inspectedEquip; // the equipment script of the inspected transform (null if not inspecting equipment)
+	private PhotonView _inspectedView;
 	private Transform _carryingObject;
 	private Transform _equippedWeapon;
 	private Transform _holsteredWeapon;
@@ -126,7 +127,7 @@ public class PlayerInventory : MonoBehaviour {
 					case Equipment.Type.weapon:
 						if (_equippedWeapon)
 							_equippedWeapon.SendMessage("Drop");
-						_inspected.SendMessage("Equip");
+						_inspectedView.RPC("Equip", PhotonTargets.All, photonView.viewID);
 						_equippedWeapon = _inspected;
 						break;
 					// If it's a utility1 (Jump) equip it
@@ -134,7 +135,8 @@ public class PlayerInventory : MonoBehaviour {
 					case Equipment.Type.utility1:
 							if (_utility1)
 								_utility1.SendMessage("Drop");
-							_inspected.SendMessage("Equip");
+							_inspectedView.RPC("Equip", PhotonTargets.All, photonView.viewID);
+							
 							utility1 = _inspected;
 						break;
 					// If it's a utility2 (Sprint) equip it
@@ -142,7 +144,7 @@ public class PlayerInventory : MonoBehaviour {
 					case Equipment.Type.utility2:
 							if (_utility2)
 								_utility2.SendMessage("Drop");
-							_inspected.SendMessage("Equip");
+							_inspectedView.RPC("Equip", PhotonTargets.All, photonView.viewID);
 							utility2 = _inspected;
 						break;
 					}
@@ -177,11 +179,13 @@ public class PlayerInventory : MonoBehaviour {
 				Debug.DrawLine(cam.position, hit.point, Color.green);
 				_inspected = hit.transform;
 				_inspectedEquip = null;
+				_inspectedView = _inspected.GetComponent<PhotonView>();
 				break;
 			case "Equipment":
 				Debug.DrawLine(cam.position, hit.point, Color.green);
 				_inspected = hit.transform;
 				_inspectedEquip = _inspected.GetComponent<Equipment>();
+				_inspectedView = _inspected.GetComponent<PhotonView>();
 				break;
 			default:
 				Debug.DrawLine(cam.position, hit.point, Color.yellow);

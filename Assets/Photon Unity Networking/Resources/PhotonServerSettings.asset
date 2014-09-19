@@ -35,4 +35,5 @@ MonoBehaviour:
   - ChangeState
   - Damage
   - Hurt
+  - Equip
   DisableAutoOpenWizard: 0
