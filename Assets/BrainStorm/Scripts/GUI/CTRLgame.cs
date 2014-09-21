@@ -34,11 +34,7 @@ public class CTRLgame : CTRLelement {
 			GameManager.Instance.Restart();
 			break;
 		case Action.quit:
-			#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-			#else
-			Application.Quit();
-			#endif
+			GameManager.Instance.Quit();
 			break;
 		case Action.noclip:
 			Player.localPlayer.noclip = !Player.localPlayer.noclip;

@@ -36,4 +36,5 @@ MonoBehaviour:
   - Damage
   - Hurt
   - Equip
+  - SetMasterSeed
   DisableAutoOpenWizard: 0

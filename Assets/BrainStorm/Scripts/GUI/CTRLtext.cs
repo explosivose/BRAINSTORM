@@ -39,6 +39,8 @@ public class CTRLtext : CTRLelement {
 	protected override void Update ()
 	{
 		if (Application.isLoadingLevel) return;
+		if (!Camera.main) return;
+		if (!Player.localPlayer) return;
 		base.Update ();
 		if (tooltip) {
 			Transform cam = Camera.main.transform;

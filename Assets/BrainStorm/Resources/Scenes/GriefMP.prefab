@@ -1614,7 +1614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100256
 GameObject:
   m_ObjectHideFlags: 1
@@ -2470,7 +2470,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400378}
-  - 114: {fileID: 11400028}
   m_Layer: 0
   m_Name: GriefMP
   m_TagString: Untagged
@@ -7453,26 +7452,6 @@ MonoBehaviour:
   spawnOnTrigger: 1
   updateOnSceneChange: 0
   multiplayer: 0
---- !u!114 &11400028
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  subId: 0
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 400378}
-  synchronization: 3
-  onSerializeTransformOption: 0
-  onSerializeRigidBodyOption: 2
-  instantiationId: -1
 --- !u!114 &11400108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7588,7 +7567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7639,7 +7618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7690,7 +7669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7741,7 +7720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7792,7 +7771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7843,7 +7822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7894,7 +7873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7945,7 +7924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -7996,7 +7975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8047,7 +8026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8098,7 +8077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8149,7 +8128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8200,7 +8179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8251,7 +8230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8302,7 +8281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8353,7 +8332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8404,7 +8383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8455,7 +8434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8506,7 +8485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8557,7 +8536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8608,7 +8587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8659,7 +8638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8710,7 +8689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8761,7 +8740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8812,7 +8791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8863,7 +8842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8914,7 +8893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -8965,7 +8944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9016,7 +8995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9067,7 +9046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9118,7 +9097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9169,7 +9148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9220,7 +9199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9271,7 +9250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9322,7 +9301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9373,7 +9352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9424,7 +9403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9475,7 +9454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9526,7 +9505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9577,7 +9556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9628,7 +9607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9679,7 +9658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9730,7 +9709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9781,7 +9760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9832,7 +9811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9883,7 +9862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9934,7 +9913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -9985,7 +9964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -10036,7 +10015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -10087,7 +10066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -10138,7 +10117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -10189,7 +10168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -10240,7 +10219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -10291,7 +10270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:

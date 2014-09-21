@@ -10,6 +10,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 	public GameObject playerPrefab;
 	
 	private bool _master = false;
+	private bool _waitingForSeed = false;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -27,15 +28,30 @@ public class Multiplayer : Photon.MonoBehaviour {
 			
 			
 			if (PhotonNetwork.inRoom) {
+				
 				if (PhotonNetwork.isMasterClient) {
 					message += " as MasterClient";
 				}
 				else {
 					message += " as Client";
 				}
+				
+				GUILayout.Label(message);
+				
+				if (_waitingForSeed) {
+					GUILayout.Label("Waiting for seed from master...");
+				}
+				else {
+					GUILayout.Label("Seed: " + GameManager.Instance.masterSeed);
+				}
+				
+			}
+			else {
+				GUILayout.Label(message);
 			}
 			
-			GUILayout.Label(message);
+			
+
 			
 		}
 	}
@@ -54,12 +70,38 @@ public class Multiplayer : Photon.MonoBehaviour {
 		PhotonNetwork.CreateRoom(null);
 	}
 	
-	void OnJoinedRoom() {
+	IEnumerator OnJoinedRoom() {
+		
+		bool failed = false;
+		
 		if (PhotonNetwork.isMasterClient) {
 			_master = true;
 		}
+		else {
+			_waitingForSeed = true;
+			float waitStarted = Time.time;
+			while (_waitingForSeed && !failed) {
+				yield return new WaitForSeconds(0.1f);
+				if (waitStarted + 10f < Time.time) {
+					Debug.LogError("Timed out waiting for seed.");
+					failed = true;
+				}
+			}
+		}
 		
-		GameManager.Instance.ChangeScene(Scene.Tag.GriefMP);
+		_waitingForSeed = false;
+		
+		if (failed)
+			GameManager.Instance.Restart();
+		else
+			GameManager.Instance.ChangeScene(Scene.Tag.GriefMP);
+	}
+	
+	[RPC]
+	void SetMasterSeed(int seed) {
+		Debug.Log("Seed received: " + seed);
+		GameManager.Instance.masterSeed = seed;
+		_waitingForSeed = false;
 	}
 	
 	void OnSceneLoaded() {
@@ -71,7 +113,20 @@ public class Multiplayer : Photon.MonoBehaviour {
 			);
 	}
 	
-	void OnPhotonPlayerDisconnected(PhotonPlayer player){ 
+	void Restart() {
+		_master = false;
+		_waitingForSeed = false;
+	}
+	
+	void OnPhotonPlayerConnected(PhotonPlayer player) {
+		if (PhotonNetwork.isMasterClient) {
+			int seed = GameManager.Instance.masterSeed;
+			photonView.RPC ("SetMasterSeed", player, seed);
+		}
+		
+	}
+	
+	void OnPhotonPlayerDisconnected(PhotonPlayer player) { 
 		// if a player left and now I'm the MaserClient, that
 		// means the master has left the game. I should leave too,
 		// because MasterClient was in charge of NPCs and things

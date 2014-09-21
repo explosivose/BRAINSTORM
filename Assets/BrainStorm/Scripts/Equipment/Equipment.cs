@@ -48,8 +48,9 @@ public class Equipment : Photon.MonoBehaviour {
 	}
 	
 	void Start() {
-		if (parent == EquipParent.camera) _parent = Camera.main.transform;
-		if (parent == EquipParent.player) _parent = Player.localPlayer.transform;
+		// can't reliably find the main camera in Start() or Awake() anymore
+		//if (parent == EquipParent.camera) _parent = Camera.main.transform;
+		//if (parent == EquipParent.player) _parent = Player.localPlayer.transform;
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
 	}

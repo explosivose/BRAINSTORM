@@ -87,10 +87,18 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
+	public int masterSeed {
+		get; set;
+	}
+	
 	public float timeSinceSceneChange {
 		get {
 			return Time.time - _sceneChangeTime;
 		}
+	}
+	
+	public GameObject defaultCamera {
+		get; private set;
 	}
 	
 	public bool griefComplete {
@@ -138,6 +146,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+
 	void Awake() {
 		if (Instance == null) {
 			Instance = this;
@@ -146,6 +155,7 @@ public class GameManager : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 		_header = transform.Find("Header").guiText;
+		defaultCamera = transform.Find("Default Camera").gameObject;
 		_header.text = Strings.gameTitle + " " + Strings.gameVersion;
 		_fade = GetComponent<ScreenFade>();
 		transform.position = Vector3.zero;
@@ -165,6 +175,7 @@ public class GameManager : MonoBehaviour {
 	
 	void StartGame() {
 		if (Application.loadedLevel == 0) {
+			defaultCamera.SetActive(true);
 			CTRL.Instance.ShowStartMenu();
 		}
 		else if (Application.loadedLevelName == "brainstorm") {
@@ -173,12 +184,10 @@ public class GameManager : MonoBehaviour {
 		else if (Application.loadedLevelName == "multiplayer") {
 			PhotonNetwork.ConnectUsingSettings(Strings.gameVersion);
 		}
-		//paused = false;
 	}
 	
 	public void Restart() {
-		PhotonNetwork.Disconnect();
-		Application.LoadLevel(0);
+		Quit (); // figure out restart later
 	}
 	
 	void Update () {
@@ -230,19 +239,23 @@ public class GameManager : MonoBehaviour {
 			Debug.Log ("Unloading scene " + _activeScene.tag.ToString());
 			_activeScene.Unload();
 		}
-			
-		// load prefab if we're not in a multiplayer game, or if we're the master in a multiplayer game
-		bool loadPrefab = !PhotonNetwork.inRoom ||
-			(PhotonNetwork.inRoom && PhotonNetwork.isMasterClient);
-			
+		
+		// override the seed with the master seed if we're not the master
+		bool overrideSeed = 
+			(PhotonNetwork.inRoom && !PhotonNetwork.isMasterClient);
+		
 		// Load scene settings
 		foreach(Scene s in scenes) {
 			if (s.tag == scene) {
 				_activeScene = s;
-				if (loadPrefab) {
-					Debug.Log ("Loading scene " + _activeScene.tag.ToString());
+				Debug.Log ("Loading scene " + _activeScene.tag.ToString() +
+					" with seed override " + overrideSeed);
+				
+				if (overrideSeed) 
+					_activeScene.Load(masterSeed);
+				else 
 					_activeScene.Load();
-				}
+	
 				RenderSettings.ambientLight = _activeScene.ambientLight;
 				RenderSettings.fog = _activeScene.fog;
 				RenderSettings.fogColor = _activeScene.fogColor;
@@ -251,13 +264,29 @@ public class GameManager : MonoBehaviour {
 				break;
 			}
 		}
+		
+		// if we're the master, store the scene seed
+		if (PhotonNetwork.inRoom  && PhotonNetwork.isMasterClient) {
+			masterSeed = activeScene.seed;
+			Debug.Log ("Master seed set: " + masterSeed);
+		}
+		
+		
 		_levelTeardown = false;
+		defaultCamera.SetActive(false);
+		yield return new WaitForSeconds(0.2f);
 		SendMessage("OnSceneLoaded");
-		yield return new WaitForEndOfFrame();
 		_fade.StartFade(Color.clear, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 	}
 	
+	public void Quit() {
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+		#else
+		Application.Quit();
+		#endif
+	}
 	
 	void CopyRenderSettings() {
 		if (Input.GetKeyUp(KeyCode.R)) {

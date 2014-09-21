@@ -38,7 +38,25 @@ public class Scene {
 		get { return _sceneInstance; }
 	}
 	
+	public int seed {
+		get; private set;
+	}
+	
 	public void Load() {
+		seed = Random.seed;
+		LoadScene();
+		isLoaded = true;
+	}
+	
+	public void Load(int seedOverride) {
+		Random.seed = seedOverride;
+		seed = seedOverride;
+		LoadScene();
+		isLoaded = true;
+	}
+	
+	private void LoadScene() {
+		/*
 		if (multiplayer) {
 			_sceneInstance = PhotonNetwork.InstantiateSceneObject(
 				"Scenes/" + scenePrefab.name,
@@ -46,13 +64,12 @@ public class Scene {
 				Quaternion.identity,
 				0,
 				null
-			).transform;
+				).transform;
 		}
-		else {
+		else {*/
 			ObjectPool.CreatePool(scenePrefab);
 			_sceneInstance = scenePrefab.Spawn();
-		}
-		isLoaded = true;
+		//}
 	}
 	
 	public void Unload() {
