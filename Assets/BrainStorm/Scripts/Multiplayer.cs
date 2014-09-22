@@ -38,6 +38,8 @@ public class Multiplayer : Photon.MonoBehaviour {
 				
 				GUILayout.Label(message);
 				
+				GUILayout.Label("Pringles: " + PhotonNetwork.networkingPeer.RoundTripTime);
+				
 				if (_waitingForSeed) {
 					GUILayout.Label("Waiting for seed from master...");
 				}
