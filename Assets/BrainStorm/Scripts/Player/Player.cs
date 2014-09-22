@@ -68,6 +68,10 @@ public class Player : Photon.MonoBehaviour {
 	// variables used when !photonView.isMine
 	private Vector3 latestCorrectPos;
 	private Vector3 onUpdatePos;
+	private Quaternion latestCorrectRot = Quaternion.identity;
+	private Quaternion onUpdateRot = Quaternion.identity;
+	private Quaternion latestCorrectHeadRot = Quaternion.identity;
+	private Quaternion onUpdateHeadRot = Quaternion.identity;
 	private float fraction;
 	
 	void Awake() {
@@ -133,23 +137,31 @@ public class Player : Photon.MonoBehaviour {
 		{
 			Vector3 pos = transform.localPosition;
 			Quaternion rot = transform.localRotation;
+			Quaternion headRot = head.localRotation;
 			stream.Serialize(ref pos);
 			stream.Serialize(ref rot);
+			stream.Serialize(ref headRot);
 		}
 		else
 		{
 			// Receive latest state information
 			Vector3 pos = Vector3.zero;
 			Quaternion rot = Quaternion.identity;
+			Quaternion headRot = Quaternion.identity;
 			
 			stream.Serialize(ref pos);
 			stream.Serialize(ref rot);
+			stream.Serialize(ref headRot);
 			
 			latestCorrectPos = pos;                 // save this to move towards it in FixedUpdate()
 			onUpdatePos = transform.localPosition;  // we interpolate from here to latestCorrectPos
+			latestCorrectRot = rot;
+			onUpdateRot = transform.localRotation;
+			latestCorrectHeadRot = headRot;
+			onUpdateHeadRot = head.localRotation;
 			fraction = 0;                           // reset the fraction we alreay moved. see Update()
 			
-			transform.localRotation = rot;          // this sample doesn't smooth rotation
+
 		}
 	}
 	
@@ -165,6 +177,8 @@ public class Player : Photon.MonoBehaviour {
 			
 			fraction = fraction + Time.deltaTime * 9;
 			transform.localPosition = Vector3.Lerp(onUpdatePos, latestCorrectPos, fraction);    // set our pos between A and B
+			transform.localRotation = Quaternion.Lerp(onUpdateRot, latestCorrectRot, fraction);
+			head.localRotation = Quaternion.Lerp(onUpdateHeadRot, latestCorrectHeadRot, fraction);
 			return;
 			// everything else in update is performed by owner
 		}

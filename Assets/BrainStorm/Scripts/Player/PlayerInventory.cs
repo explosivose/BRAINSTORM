@@ -83,7 +83,6 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	
 	void OnSpawn() {
 		// destroy the weapon you were holding when you respawn
-		if (_equippedWeapon) _equippedWeapon.Recycle();
 		_equippedWeapon = null;
 		_holsteredWeapon = null;
 		_utility1 = null;
