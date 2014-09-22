@@ -36,7 +36,6 @@ public class Equipment : Photon.MonoBehaviour {
 	public AudioLibrary 	sounds = new AudioLibrary();
 	
 	private bool 			_equipped;
-	private Transform 		_parent;
 	private GameObject 		_tooltip;
 	
 	public bool equipped {
@@ -48,24 +47,30 @@ public class Equipment : Photon.MonoBehaviour {
 	}
 	
 	void Start() {
-		// can't reliably find the main camera in Start() or Awake() anymore
-		//if (parent == EquipParent.camera) _parent = Camera.main.transform;
-		//if (parent == EquipParent.player) _parent = Player.localPlayer.transform;
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
+		
+		// set kinematic if we're not master
+		if (PhotonNetwork.inRoom)
+			rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 	}
 	
 	[RPC]
 	public void Equip(int playerPhotonViewID) {
-		_equipped = true;
 		PhotonView playerPhotonView = PhotonView.Find(playerPhotonViewID);
-		// main camera will be disabled in hierarchy on remote players
-		//if (parent == EquipParent.camera) {
-		//	transform.parent = playerPhotonView.GetComponent<Player>().mainCamera.transform;
-		//}
-		//else {
+		
+		// equip for just us
+		if (playerPhotonView.isMine)
+			_equipped = true;
+		
+		
+		// position for all clients
+		if (parent == EquipParent.camera) {
+			transform.parent = playerPhotonView.GetComponent<Player>().head;
+		}
+		else {
 			transform.parent = playerPhotonView.transform;
-		//}
+		}
 		
 		transform.localPosition = equippedPosition;
 		transform.localRotation = Quaternion.Euler(defaultRotation);
@@ -75,20 +80,21 @@ public class Equipment : Photon.MonoBehaviour {
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
+	[RPC]
 	public void Drop() {
 		_equipped = false;
 		transform.parent = GameManager.Instance.activeScene.instance;
 		transform.position = Camera.main.transform.position;
 		transform.position += Camera.main.transform.forward;
-		rigidbody.isKinematic = false;
+		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 		collider.enabled = true;
 		if (_tooltip) _tooltip.SetActive(true);
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 	}
 	
+	[RPC]
 	public void Holster() {
 		_equipped = false;
-		transform.parent = _parent;
 		transform.localPosition = holsteredPosition;
 		transform.localRotation = Quaternion.Euler(holsteredRotation);
 		rigidbody.isKinematic = true;

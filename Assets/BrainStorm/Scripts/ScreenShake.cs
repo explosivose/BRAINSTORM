@@ -39,7 +39,7 @@ public class ScreenShake : Singleton<ScreenShake>
 	public void SetCamera(Transform newCamera)
 	{
 		_cam = newCamera;
-		_originalPosition = newCamera.position;
+		_originalPosition = newCamera.localPosition;
 	}
 	
 	void Update()

@@ -37,4 +37,6 @@ MonoBehaviour:
   - Hurt
   - Equip
   - SetMasterSeed
+  - Drop
+  - Holster
   DisableAutoOpenWizard: 0

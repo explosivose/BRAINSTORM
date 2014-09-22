@@ -102,7 +102,7 @@ public class PrefabSpawner : MonoBehaviour {
 					break;
 				case SpawnPosition.RandomInColliderBounds:
 					Vector3 pos = randomPositionIn(collider.bounds);
-					t.position = transform.position + pos;
+					t.position = pos;
 					break;
 				case SpawnPosition.Unchanged:
 					break;

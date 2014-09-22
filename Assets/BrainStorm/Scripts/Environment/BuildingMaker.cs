@@ -83,7 +83,7 @@ public class BuildingMaker : MonoBehaviour {
 	}
 	
 	void OnDrawGizmos() {
-		Gizmos.color = Color.Lerp(Color.clear, Color.cyan, 0.75f);
+		Gizmos.color = Color.Lerp(Color.clear, Color.black, 0.75f);
 		Gizmos.DrawCube(
 			GetComponent<BoxCollider>().center + transform.position, 
 			GetComponent<BoxCollider>().size

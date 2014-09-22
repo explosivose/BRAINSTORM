@@ -44,10 +44,8 @@ public class Player : Photon.MonoBehaviour {
 	public CharacterMotorC motor {
 		get; private set;
 	}
-	public GameObject mainCamera {
-		get {
-			return _mainCamera;
-		}
+	public Transform head {
+		get; private set;
 	}
 	public PlayerInventory inventory {
 		get; private set;
@@ -61,7 +59,8 @@ public class Player : Photon.MonoBehaviour {
 	private bool _dead = false;
 	private bool _noclip = false;
 	private GameObject _mainCamera;
-	private MouseLook _mouseLook;
+	private MouseLook _bodyTurn;
+	private MouseLook _headTilt;
 	private ScreenFade _fade;
 	private Color _hurtOverlay;
 	private float _lastHurtTime; 
@@ -73,12 +72,14 @@ public class Player : Photon.MonoBehaviour {
 	
 	void Awake() {
 		
-		_mainCamera = transform.Find("Main Camera").gameObject;
+		head = transform.Find("Head");
+		_mainCamera = head.Find("Main Camera").gameObject;
 		
 		if (photonView.isMine) {
 			motor = GetComponent<CharacterMotorC>();
 			inventory = GetComponent<PlayerInventory>();
-			_mouseLook = GetComponent<MouseLook>();
+			_bodyTurn = GetComponent<MouseLook>();
+			_headTilt = head.GetComponent<MouseLook>();
 			hud = GetComponentInChildren<GUIController>();
 			_fade = GetComponent<ScreenFade>();
 			_hurtOverlay = Color.Lerp(Color.red, Color.clear, 0.25f);
@@ -93,8 +94,10 @@ public class Player : Photon.MonoBehaviour {
 			
 			motor.enabled = true;
 			inventory.enabled = true;
-			_mouseLook.enabled = true;
+			_bodyTurn.enabled = true;
+			_headTilt.enabled = true;
 			_mainCamera.SetActive(true);
+			ScreenShake.Instance.SetCamera(_mainCamera.transform);
 			_fade.enabled = true;
 			screenEffects = true;
 			hud.enabled = true;
@@ -102,7 +105,6 @@ public class Player : Photon.MonoBehaviour {
 			name = "Local Player";
 			gameObject.layer = LayerMask.NameToLayer("Player");
 			hud.InitializeGUI();
-			ScreenShake.Instance.SetCamera(_mainCamera.transform);
 			Spawn();
 		}
 		else {

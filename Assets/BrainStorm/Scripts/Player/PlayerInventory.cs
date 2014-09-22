@@ -93,10 +93,18 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	void OnDeath() {
 		// drop everything
 		if(_carryingObject) Drop();
-		if(_equippedWeapon) _equippedWeapon.SendMessage("Drop");
-		if(_holsteredWeapon) _holsteredWeapon.SendMessage("Drop");
-		if(_utility1) _utility1.SendMessage("Drop");
-		if(_utility2) _utility2.SendMessage("Drop");
+		if(_equippedWeapon) 
+			_equippedWeapon.GetComponent<PhotonView>().RPC(
+				"Drop", PhotonTargets.All);
+		if(_holsteredWeapon) 
+			_holsteredWeapon.GetComponent<PhotonView>().RPC(
+				"Drop", PhotonTargets.All);
+		if(_utility1) 
+			_utility1.GetComponent<PhotonView>().RPC(
+				"Drop", PhotonTargets.All);
+		if(_utility2) 
+			_utility2.GetComponent<PhotonView>().RPC(
+				"Drop", PhotonTargets.All);
 	}
 	
 	// Update is called once per frame
@@ -126,16 +134,23 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					// and swap it with anything we have equipped now
 					case Equipment.Type.weapon:
 						if (_equippedWeapon)
-							_equippedWeapon.SendMessage("Drop");
-						_inspectedView.RPC("Equip", PhotonTargets.All, photonView.viewID);
+							_equippedWeapon.GetComponent<PhotonView>().RPC(
+								"Drop", PhotonTargets.All);
+						
+						_inspectedView.RPC(
+							"Equip", PhotonTargets.All, photonView.viewID);
+						
 						_equippedWeapon = _inspected;
 						break;
 					// If it's a utility1 (Jump) equip it
 					// and swap it with any utility1 we already have
 					case Equipment.Type.utility1:
 							if (_utility1)
-								_utility1.SendMessage("Drop");
-							_inspectedView.RPC("Equip", PhotonTargets.All, photonView.viewID);
+								_utility1.GetComponent<PhotonView>().RPC(
+									"Drop", PhotonTargets.All);
+							
+							_inspectedView.RPC(
+								"Equip", PhotonTargets.All, photonView.viewID);
 							
 							utility1 = _inspected;
 						break;
@@ -143,8 +158,11 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					// and swap it with any utility2 we already have
 					case Equipment.Type.utility2:
 							if (_utility2)
-								_utility2.SendMessage("Drop");
-							_inspectedView.RPC("Equip", PhotonTargets.All, photonView.viewID);
+								_utility2.GetComponent<PhotonView>().RPC(
+									"Drop",PhotonTargets.All);
+							
+							_inspectedView.RPC(
+								"Equip", PhotonTargets.All, photonView.viewID);
 							utility2 = _inspected;
 						break;
 					}
@@ -158,10 +176,12 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		// This block swaps between equipped and holstered weapons
 		if (Input.GetButtonDown("ChangeWeapon")) {
 			if (_equippedWeapon) {
-				_equippedWeapon.SendMessage("Holster");
+				_equippedWeapon.GetComponent<PhotonView>().RPC(
+					"Holster", PhotonTargets.All);
 			}
 			if (_holsteredWeapon) {
-				_holsteredWeapon.SendMessage("Equip");
+				_holsteredWeapon.GetComponent<PhotonView>().RPC(
+					"Equip", PhotonTargets.All, photonView.viewID);
 			}
 			Transform temp = _holsteredWeapon;
 			_holsteredWeapon = _equippedWeapon;
@@ -171,7 +191,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	
 	void InspectItem() {
 		RaycastHit hit;
-		Transform cam = Player.localPlayer.mainCamera.transform;
+		Transform cam = Camera.main.transform;
 		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach, raycastMask)) {
 			hit.transform.SendMessage("OnInspect", SendMessageOptions.DontRequireReceiver);
 			switch(hit.transform.tag) {
