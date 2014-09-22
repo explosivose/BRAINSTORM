@@ -38,6 +38,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 				
 				GUILayout.Label(message);
 				
+				// this is the time to and from the photon server (not the MasterClient)
 				GUILayout.Label("Pringles: " + PhotonNetwork.networkingPeer.RoundTripTime);
 				
 				if (_waitingForSeed) {

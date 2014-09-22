@@ -11,12 +11,16 @@ public class CTRLcontainer : MonoBehaviour {
 	private bool 		_complete  = false;
 	
 	void Awake() {
-		_targetPosition = transform.position;
-		_targetRotation = transform.rotation;
+		
+		if (Player.localPlayer) 
+			transform.parent = Player.localPlayer.transform;
+			
+		_targetPosition = transform.localPosition;
+		_targetRotation = transform.localRotation;
 		_targetScale 	= transform.localScale;
 		if (animate) {
-			transform.position += Random.onUnitSphere * 10f;
-			transform.rotation = Random.rotation;
+			transform.localPosition += Random.onUnitSphere * 10f;
+			transform.localRotation = Random.rotation;
 			transform.localScale = Vector3.zero;
 		}
 	}
@@ -31,14 +35,15 @@ public class CTRLcontainer : MonoBehaviour {
 	
 
 	void Update() {
+
 		if (animate && !_complete) {
-			transform.position = Vector3.Slerp(
-				transform.position,
+			transform.localPosition = Vector3.Slerp(
+				transform.localPosition,
 				_targetPosition,
 				CTRL.deltaTime * 4f);
 			
-			transform.rotation = Quaternion.Slerp(
-				transform.rotation,
+			transform.localRotation = Quaternion.Slerp(
+				transform.localRotation,
 				_targetRotation,
 				CTRL.deltaTime * 4f);
 				
@@ -47,13 +52,14 @@ public class CTRLcontainer : MonoBehaviour {
 				_targetScale,
 				CTRL.deltaTime * 4f);
 			
-			float distance = Vector3.Distance(transform.position, _targetPosition);
-			float angle = Quaternion.Angle(transform.rotation, _targetRotation);
+			float distance = Vector3.Distance(transform.localPosition, _targetPosition);
+			float angle = Quaternion.Angle(transform.localRotation, _targetRotation);
 			float difference = Vector3.Distance(transform.localScale, _targetScale);
 			
 			if (distance < 0.05f && angle < 1f && difference < 0.05f) 
 				_complete = true;
 		}
+
 	}
 	
 }
