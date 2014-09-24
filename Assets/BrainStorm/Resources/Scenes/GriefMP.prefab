@@ -51,6 +51,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400006}
+  - 114: {fileID: 11400006}
+  - 65: {fileID: 6500006}
+  m_Layer: 1
+  m_Name: Equipment Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &100074
 GameObject:
   m_ObjectHideFlags: 1
@@ -2505,7 +2522,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400378}
-  m_RootOrder: 13
+  m_RootOrder: 15
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -2530,6 +2547,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400378}
   m_RootOrder: 12
+--- !u!4 &400006
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -142, y: 27, z: -27}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400378}
+  m_RootOrder: 13
 --- !u!4 &400074
 Transform:
   m_ObjectHideFlags: 1
@@ -4348,8 +4377,9 @@ Transform:
   - {fileID: 400346}
   - {fileID: 400344}
   - {fileID: 400004}
-  - {fileID: 400000}
+  - {fileID: 400006}
   - {fileID: 400352}
+  - {fileID: 400000}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!12 &1200000
@@ -5933,6 +5963,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500006
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500016
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -7386,6 +7428,29 @@ MonoBehaviour:
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: 2
   variationOnTime: 1
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245ff1fec597694499e1c463f57cbbd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 400002, guid: f8bc71c5cedf3c54f947108e82e5acc9, type: 2}
+  resourcesSubpath: Equipment/
+  useObjectPool: 0
+  networkSpawn: 1
+  spawnOnStart: 1
+  amountToSpawn: 5
+  variationOnAmount: .5
+  position: 1
+  rotation: 1
+  timeBeforeFirstSpawn: 1
+  timeBetweenInstantiations: 2
+  variationOnTime: 1
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7489,12 +7554,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245ff1fec597694499e1c463f57cbbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 400002, guid: f8bc71c5cedf3c54f947108e82e5acc9, type: 2}
+  prefab: {fileID: 400002, guid: 34153bcbdef985e4a8cd96bc851b604e, type: 2}
   resourcesSubpath: Equipment/
   useObjectPool: 0
   networkSpawn: 1
   spawnOnStart: 1
-  amountToSpawn: 10
+  amountToSpawn: 5
   variationOnAmount: .5
   position: 1
   rotation: 1

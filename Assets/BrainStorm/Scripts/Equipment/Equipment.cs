@@ -89,14 +89,14 @@ public class Equipment : Photon.MonoBehaviour {
 	[RPC]
 	public void Drop() {
 		_equipped = false;
-		owner = null;
+		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 		transform.parent = GameManager.Instance.activeScene.instance;
 		transform.position = Camera.main.transform.position;
 		transform.position += Camera.main.transform.forward;
 		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 		collider.enabled = true;
 		if (_tooltip) _tooltip.SetActive(true);
-		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
+		owner = null;
 	}
 	
 	[RPC]
