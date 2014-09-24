@@ -3,6 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(CharacterMotorC))]
 [AddComponentMenu("Player/Inventory")]
+// this component is only enabled on the local player
 public class PlayerInventory : Photon.MonoBehaviour {
 
 	public float playerReach = 4f;
@@ -104,6 +105,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		if(_utility2) 
 			_utility2.GetComponent<PhotonView>().RPC(
 				"Drop", PhotonTargets.AllBufferedViaServer);
+		
 	}
 	
 	// Update is called once per frame

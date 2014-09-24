@@ -18,6 +18,7 @@ public class Player : Photon.MonoBehaviour {
 	}
 
 	public int 			maxHealth;
+	public Transform	deadBody;
 	public Material 	blinkMaterial;
 	public float 		hurtEffectDuration = 0.1f;
 	
@@ -103,7 +104,7 @@ public class Player : Photon.MonoBehaviour {
 		
 		if (photonView.isMine) {
 			
-			motor.enabled = true;
+			
 			inventory.enabled = true;
 			_bodyTurn.enabled = true;
 			_headTilt.enabled = true;
@@ -126,15 +127,24 @@ public class Player : Photon.MonoBehaviour {
 		
 	}
 	
+	[RPC]
+	void SpawnRPC() {
+		_ren.material = _originalMaterial;
+		_dead = false;
+		if (photonView.isMine) Spawn();
+	}
+	
 	void Spawn() {
 	
 		if (PhotonNetwork.inRoom)
 			transform.position = PlayerSpawn.Multiplayer.randomSpawnPosition;
-		
+
+		motor.enabled = true;
 		_health = maxHealth;
-		_dead = false;
+		AudioListener.volume = 1f;
+
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
-	
+		
 	}
 	
 
@@ -174,6 +184,8 @@ public class Player : Photon.MonoBehaviour {
 	
 	void Update() {
 		
+		if (_dead) return;
+		
 		if(!photonView.isMine) {
 			// We get 10 updates per sec. sometimes a few less or one or two more, depending on variation of lag.
 			// Due to that we want to reach the correct position in a little over 100ms. This way, we usually avoid a stop.
@@ -193,7 +205,7 @@ public class Player : Photon.MonoBehaviour {
 		// do not allow motor control while in noclip mode
 		if (noclip) motor.enabled = false;
 		
-		if (_dead) return;
+		
 		
 		// unfade hurt effects
 		if (_lastHurtTime + hurtEffectDuration <= Time.time && screenEffects)
@@ -275,26 +287,51 @@ public class Player : Photon.MonoBehaviour {
 			_lastHurtTime = Time.time;
 			if (screenEffects)
 				_fade.StartFade(_hurtOverlay, hurtEffectDuration);
-			if (_health < 0) StartCoroutine ( Death() );
+			if (_health < 0)
+				photonView.RPC("DeathRPC", PhotonTargets.All);
 		}
 		else {
 			photonView.RPC("Damage", photonView.owner, damage);
 		}
 	}
 
+	[RPC]
+	void DeathRPC() {
+		StartCoroutine(Death ());
+	}
+
 	IEnumerator Death() {
 		_dead = true;
 		if (screenEffects)
 			_fade.StartFade(Color.black, 1f);
-		float vol = AudioListener.volume;
-		AudioListener.volume = 0f;
+		
+		
+		Vector3 position = transform.position;
+		
+		//Vector3 velocity = motor.movement.velocity;
+		// nope, motor is disabled on remote clients
+		transform.position = Vector3.down * 100f;
+		yield return new WaitForEndOfFrame();
+		Transform body = deadBody.Spawn(position, transform.rotation);
+		yield return new WaitForEndOfFrame();
+		body.rigidbody.isKinematic = false;
+		//body.rigidbody.velocity = velocity;
+		
+		if (photonView.isMine) {
+			AudioListener.volume = 0f;
+			motor.enabled = false;
+		}
+
 		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
+		
 		yield return new WaitForSeconds(1.5f);
-		AudioListener.volume = vol;
+		
 		if (!PhotonNetwork.inRoom) {
 			GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
 		}
 		
-		Spawn();
+		photonView.RPC ("SpawnRPC", PhotonTargets.All);
+		
+		
 	}
 }

@@ -46,4 +46,6 @@ MonoBehaviour:
   - OnBlinkStop
   - OnJetpackStartRPC
   - OnJetpackStopRPC
+  - DeathRPC
+  - SpawnRPC
   DisableAutoOpenWizard: 0
