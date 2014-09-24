@@ -39,4 +39,5 @@ MonoBehaviour:
   - SetMasterSeed
   - Drop
   - Holster
+  - FireRPC
   DisableAutoOpenWizard: 0

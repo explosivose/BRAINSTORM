@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 1
+  followPlayer: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -86,7 +86,7 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (GameManager.Instance.paused) return;
+		if (GameManager.Instance.paused && !PhotonNetwork.inRoom) return;
 		float t = (Time.time - _startTime) / lifetime;
 		Color s = Color.Lerp(startColor, Color.clear, t);
 		Color e = Color.Lerp(endColor, Color.clear, t);

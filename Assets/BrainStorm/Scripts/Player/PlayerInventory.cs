@@ -94,16 +94,16 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		if(_carryingObject) Drop();
 		if(_equippedWeapon) 
 			_equippedWeapon.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+				"Drop", PhotonTargets.AllBufferedViaServer);
 		if(_holsteredWeapon) 
 			_holsteredWeapon.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+				"Drop", PhotonTargets.AllBufferedViaServer);
 		if(_utility1) 
 			_utility1.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+				"Drop", PhotonTargets.AllBufferedViaServer);
 		if(_utility2) 
 			_utility2.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+				"Drop", PhotonTargets.AllBufferedViaServer);
 	}
 	
 	// Update is called once per frame
@@ -134,10 +134,10 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					case Equipment.Type.weapon:
 						if (_equippedWeapon)
 							_equippedWeapon.GetComponent<PhotonView>().RPC(
-								"Drop", PhotonTargets.All);
+								"Drop", PhotonTargets.AllBufferedViaServer);
 						
 						_inspectedView.RPC(
-							"Equip", PhotonTargets.All, photonView.viewID);
+							"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
 						
 						_equippedWeapon = _inspected;
 						break;
@@ -146,10 +146,10 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					case Equipment.Type.utility1:
 							if (_utility1)
 								_utility1.GetComponent<PhotonView>().RPC(
-									"Drop", PhotonTargets.All);
+								"Drop", PhotonTargets.AllBufferedViaServer);
 							
 							_inspectedView.RPC(
-								"Equip", PhotonTargets.All, photonView.viewID);
+							"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
 							
 							utility1 = _inspected;
 						break;
@@ -158,10 +158,10 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					case Equipment.Type.utility2:
 							if (_utility2)
 								_utility2.GetComponent<PhotonView>().RPC(
-									"Drop",PhotonTargets.All);
+								"Drop",PhotonTargets.AllBufferedViaServer);
 							
 							_inspectedView.RPC(
-								"Equip", PhotonTargets.All, photonView.viewID);
+							"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
 							utility2 = _inspected;
 						break;
 					}
@@ -176,11 +176,11 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		if (Input.GetButtonDown("ChangeWeapon")) {
 			if (_equippedWeapon) {
 				_equippedWeapon.GetComponent<PhotonView>().RPC(
-					"Holster", PhotonTargets.All);
+					"Holster", PhotonTargets.AllBufferedViaServer);
 			}
 			if (_holsteredWeapon) {
 				_holsteredWeapon.GetComponent<PhotonView>().RPC(
-					"Equip", PhotonTargets.All, photonView.viewID);
+					"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
 			}
 			Transform temp = _holsteredWeapon;
 			_holsteredWeapon = _equippedWeapon;

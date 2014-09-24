@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Weapon/Launcher")]
-public class WeaponLauncher : MonoBehaviour {
+public class WeaponLauncher : Photon.MonoBehaviour {
 
 	[System.Serializable]
 	public class Deterioration {
@@ -70,7 +70,7 @@ public class WeaponLauncher : MonoBehaviour {
 		
 		// Fire the gun
 		if (Input.GetButton("Fire1") && !_firing) {
-			StartCoroutine( Fire() );
+			photonView.RPC("FireRPC", PhotonTargets.All);
 		}
 		
 		// recover rate of fire over time
@@ -150,6 +150,16 @@ public class WeaponLauncher : MonoBehaviour {
 		//										recoil.recoilRotation, recoil.t);
 	}
 	
+	[RPC]
+	void FireRPC() {
+		if (_equip.owner.isLocalPlayer) {
+			StartCoroutine(Fire ());
+		}
+		else {
+			FireProjectile();
+		}
+	}
+	
 	IEnumerator Fire() {
 		_firing = true;
 		if (deteriorate.enabled && 
@@ -158,24 +168,9 @@ public class WeaponLauncher : MonoBehaviour {
 		    rateOfFire = Mathf.Max(rateOfFire, 0.5f);
 		}
 		
-
-		
 		_lastFireTime = Time.time;
 		
-		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
-		
-		Transform i = projectile.Spawn(_weaponNozzle.position, _weaponNozzle.rotation);
-		i.parent = GameManager.Instance.activeScene.instance;
-		i.SendMessage("SetDamageSource", Player.localPlayer.transform);
-		
-		if (_target!=null) {
-			Debug.Log (name + " hit " + _target.name);// + " with " + i.name + ".");
-			if (_target.tag != "Untagged")
-				i.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
-		}
-			
-		
-		i.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
+		FireProjectile();
 		
 		float wait = 1f/rateOfFire;
 		_nextPossibleFireTime = Time.time + wait;
@@ -187,5 +182,36 @@ public class WeaponLauncher : MonoBehaviour {
 		yield return new WaitForSeconds(wait);
 		
 		_firing = false;
+	}
+	
+	void FireProjectile() {
+		// figure out where we're aiming 
+		if (!_equip.owner.isLocalPlayer) {
+			Ray ray = new Ray(_weaponNozzle.position, _weaponNozzle.forward);
+			if (Physics.Raycast(ray, out _hit, range, raycastMask)) {
+				if (_hit.collider.transform.tag != "Invulnerable") {
+					_target = _hit.transform;
+				}
+			}
+			else {
+				_hit.point = _weaponNozzle.position + _weaponNozzle.forward * range;
+			}
+		}
+		
+		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
+		
+		Transform i = projectile.Spawn(_weaponNozzle.position, _weaponNozzle.rotation);
+		i.parent = GameManager.Instance.activeScene.instance;
+		i.SendMessage("SetDamageSource", _equip.owner.transform);
+		
+		if (_target!=null) {
+			Debug.Log (name + " hit " + _target.name);// + " with " + i.name + ".");
+			if (_target.tag != "Untagged")
+				i.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
+		}
+		
+		i.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
+		
+		_target = null;
 	}
 }

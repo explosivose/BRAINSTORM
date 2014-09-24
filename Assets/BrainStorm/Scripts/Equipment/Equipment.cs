@@ -46,6 +46,10 @@ public class Equipment : Photon.MonoBehaviour {
 		get; set;
 	}
 	
+	public Player owner {
+		get; private set;
+	}
+	
 	void Start() {
 		_tooltip = transform.Find("tooltip").gameObject;
 		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
@@ -59,6 +63,8 @@ public class Equipment : Photon.MonoBehaviour {
 	public void Equip(int playerPhotonViewID) {
 		PhotonView playerPhotonView = PhotonView.Find(playerPhotonViewID);
 		
+		owner = playerPhotonView.GetComponent<Player>();
+		
 		// equip for just us
 		if (playerPhotonView.isMine)
 			_equipped = true;
@@ -66,10 +72,10 @@ public class Equipment : Photon.MonoBehaviour {
 		
 		// position for all clients
 		if (parent == EquipParent.camera) {
-			transform.parent = playerPhotonView.GetComponent<Player>().head;
+			transform.parent = owner.head;
 		}
 		else {
-			transform.parent = playerPhotonView.transform;
+			transform.parent = owner.transform;
 		}
 		
 		transform.localPosition = equippedPosition;
@@ -83,6 +89,7 @@ public class Equipment : Photon.MonoBehaviour {
 	[RPC]
 	public void Drop() {
 		_equipped = false;
+		owner = null;
 		transform.parent = GameManager.Instance.activeScene.instance;
 		transform.position = Camera.main.transform.position;
 		transform.position += Camera.main.transform.forward;
