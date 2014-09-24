@@ -36,6 +36,8 @@ public class Multiplayer : Photon.MonoBehaviour {
 					message += " as Client";
 				}
 				
+				message += " (" + PhotonNetwork.playerList.Length.ToString() + ")";
+				
 				GUILayout.Label(message);
 				
 				// this is the time to and from the photon server (not the MasterClient)
@@ -52,10 +54,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 			else {
 				GUILayout.Label(message);
 			}
-			
-			
 
-			
 		}
 	}
 

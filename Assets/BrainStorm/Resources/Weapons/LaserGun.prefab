@@ -1461,10 +1461,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 400000, guid: 5cbab15dd6817b74f91359b68b7d2abe, type: 2}
+  shots: 1
   rateOfFire: 6
+  spread:
+    enabled: 1
+    minAngle: .5
+    deterioration: 3
+    recoveryRate: 8
   deteriorate:
     enabled: 1
-    amount: 1.5
+    amount: .800000012
     cooldown: .5
     recoveryRate: 2
   recoil:

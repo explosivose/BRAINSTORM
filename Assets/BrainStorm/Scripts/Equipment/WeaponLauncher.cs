@@ -6,6 +6,15 @@ using System.Collections;
 public class WeaponLauncher : Photon.MonoBehaviour {
 
 	[System.Serializable]
+	public class Spread {
+		public bool enabled = false;
+		public float minAngle = 8f;			// angle spread
+		public float deterioration = 1f;	// amount to add/shot to spread
+		public float recoveryRate = 1f;			// amount to subtract/second to spread
+		public float angle {get; set;}
+	}
+	
+	[System.Serializable]
 	public class Deterioration {
 		public bool enabled = true;
 		public float amount = 1f;		// amount to subtract from rateOfFire
@@ -32,7 +41,9 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	}
 	
 	public Transform projectile;		// projectile prefab
+	public int shots = 1;
 	public float rateOfFire;			// how many shots in one second?	
+	public Spread spread = new Spread();
 	public Deterioration deteriorate = new Deterioration();
 	public Recoil recoil = new Recoil();
 	public Shake shake = new Shake();
@@ -60,6 +71,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		_equip = GetComponent<Equipment>();
 		_crosshair = transform.FindChild("Crosshair");
 		deteriorate.initRateOfFire = rateOfFire;
+		spread.angle = spread.minAngle;
 	}
 	
 	void Update () {
@@ -79,6 +91,11 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 			if (rateOfFire < deteriorate.initRateOfFire) {
 				rateOfFire += Time.deltaTime * deteriorate.recoveryRate;
 			}
+		}
+		
+		if (spread.enabled) {
+			spread.angle -= spread.recoveryRate * Time.deltaTime;
+			spread.angle = Mathf.Max(spread.angle, spread.minAngle);
 		}
 	}
 	
@@ -180,11 +197,15 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		
 		FireProjectile();
 		
+		if (spread.enabled) {
+			spread.angle += spread.deterioration;
+		}
+		
 		float wait = 1f/rateOfFire;
 		_nextPossibleFireTime = Time.time + wait;
 		
 		if (shake.enabled) {
-			ScreenShake.Instance.Shake(shake.amount, Mathf.Min(wait, 0.5f) );
+			ScreenShake.Instance.Shake(shake.amount, Mathf.Min(wait, 0.4f) );
 		}
 		
 		yield return new WaitForSeconds(wait);
@@ -194,31 +215,47 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	
 	void FireProjectile() {
 		// figure out where we're aiming 
-		if (!_equip.owner.isLocalPlayer) {
-			Ray ray = new Ray(_weaponNozzle.position, _weaponNozzle.forward);
+		
+		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
+		
+		float angle = 0;
+		if (spread.enabled) {
+			angle = Mathf.Deg2Rad * Mathf.Clamp(
+				90f-spread.angle,
+				Mathf.Epsilon,
+				90f-Mathf.Epsilon);
+		}
+
+			
+		float distance = Mathf.Tan(angle);
+		
+		for (int i = 0; i < shots; i++) {
+			Vector3 dir = _weaponNozzle.forward;
+			if (spread.enabled) {
+				Vector2 pointInCircle = Random.insideUnitCircle;
+				dir = new Vector3(pointInCircle.x, pointInCircle.y, distance);
+				dir = _weaponNozzle.rotation * dir;
+			}
+			Quaternion rot = Quaternion.LookRotation(dir);
+			Ray ray = new Ray(_weaponNozzle.position, dir);
 			if (Physics.Raycast(ray, out _hit, range, raycastMask)) {
 				if (_hit.collider.transform.tag != "Invulnerable") {
 					_target = _hit.transform;
 				}
 			}
 			else {
-				_hit.point = _weaponNozzle.position + _weaponNozzle.forward * range;
+				_hit.point = _weaponNozzle.position + dir * range;
 			}
+			
+			Transform p = projectile.Spawn(_weaponNozzle.position, rot);
+			p.parent = GameManager.Instance.activeScene.instance;
+			if (_target!=null) {
+				Debug.Log (name + " hit " + _target.name);// + " with " + p.name + ".");
+				if (_target.tag != "Untagged")
+					p.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
+			}
+			p.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
 		}
-		
-		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
-		
-		Transform i = projectile.Spawn(_weaponNozzle.position, _weaponNozzle.rotation);
-		i.parent = GameManager.Instance.activeScene.instance;
-		i.SendMessage("SetDamageSource", _equip.owner.transform);
-		
-		if (_target!=null) {
-			Debug.Log (name + " hit " + _target.name);// + " with " + i.name + ".");
-			if (_target.tag != "Untagged")
-				i.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
-		}
-		
-		i.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
 		
 		_target = null;
 	}
