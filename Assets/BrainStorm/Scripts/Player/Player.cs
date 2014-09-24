@@ -247,7 +247,7 @@ public class Player : Photon.MonoBehaviour {
 	
 	[RPC]
 	void Damage(int damage) {
-		// something in my game has damaged this player
+		
 		if (photonView.isMine) {
 			_health -= damage;
 			Debug.Log ("Player got " + damage + " damage.");

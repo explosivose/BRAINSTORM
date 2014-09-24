@@ -55,7 +55,7 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	void SetTarget(Transform target) {
 		_target = target;
-		_target.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
+		_target.SendMessage("Damage", _projectile.Damage.damage, SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void HitPosition(Vector3 position) {

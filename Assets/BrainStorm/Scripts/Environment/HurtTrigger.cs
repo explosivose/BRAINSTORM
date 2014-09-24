@@ -8,7 +8,7 @@ public class HurtTrigger : MonoBehaviour {
 	private DamageInstance _damage = new DamageInstance();
 
 	void Start() {
-		_damage.source = transform.parent;
+		_damage.viewId = Multiplayer.Instance.photonView.viewID;
 		_damage.damage = damageOnEnter;
 	}
 

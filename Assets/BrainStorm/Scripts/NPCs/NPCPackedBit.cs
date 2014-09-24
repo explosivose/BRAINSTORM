@@ -14,7 +14,6 @@ public class NPCPackedBit : MonoBehaviour {
 	void Awake () {
 		_faction = GetComponent<NPCFaction>();
 		_dmg.damage = damage;
-		_dmg.source = this.transform;
 	}
 	
 	void Attack() {

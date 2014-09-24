@@ -195,7 +195,7 @@ public class NPC : Photon.MonoBehaviour {
 		_eyes = transform.Find("eyes");
 		tag = "NPC";
 		health = maxHealth;
-		_damage.source = this.transform;
+		_damage.viewId = photonView.viewID;
 		_damage.damage = attackDamage;
 	}
 	
