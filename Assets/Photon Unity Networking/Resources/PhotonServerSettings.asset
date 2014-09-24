@@ -40,4 +40,10 @@ MonoBehaviour:
   - Drop
   - Holster
   - FireRPC
+  - OnStartBlink
+  - OnStopBlink
+  - OnBlinkStart
+  - OnBlinkStop
+  - OnJetpackStartRPC
+  - OnJetpackStopRPC
   DisableAutoOpenWizard: 0

@@ -1472,7 +1472,7 @@ MonoBehaviour:
     amount: .200000003
   shake:
     enabled: 1
-    amount: .100000001
+    amount: .0500000007
   range: 100
   raycastMask:
     serializedVersion: 2

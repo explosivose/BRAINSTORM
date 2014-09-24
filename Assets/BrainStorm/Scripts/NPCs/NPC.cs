@@ -106,6 +106,7 @@ public class NPC : Photon.MonoBehaviour {
 	
 	public float targetDistance {
 		get{
+			if (!hasTarget) return -1f;
 			return Vector3.Distance(target.position, transform.position);
 		}
 	}

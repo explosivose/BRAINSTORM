@@ -11,14 +11,15 @@ public class Player : Photon.MonoBehaviour {
 	
 	[System.Serializable]
 	public class AudioLibrary {
-		public float volume;
-		public AudioClip hurt;
-		public AudioClip jump;
-		public AudioClip land;
+		public float 		volume;
+		public AudioClip 	hurt;
+		public AudioClip 	jump;
+		public AudioClip 	land;
 	}
 
-	public int maxHealth;
-	public float hurtEffectDuration = 0.1f;
+	public int 			maxHealth;
+	public Material 	blinkMaterial;
+	public float 		hurtEffectDuration = 0.1f;
 	
 	public AudioLibrary sounds = new AudioLibrary();
 	
@@ -54,30 +55,36 @@ public class Player : Photon.MonoBehaviour {
 		get; private set;
 	}
 	
-	// variables used when photonView.isMine
-	private int _health;
-	private bool _dead = false;
-	private bool _noclip = false;
-	private GameObject _mainCamera;
-	private MouseLook _bodyTurn;
-	private MouseLook _headTilt;
-	private ScreenFade _fade;
-	private Color _hurtOverlay;
-	private float _lastHurtTime; 
 	
-	// variables used when !photonView.isMine
-	private Vector3 latestCorrectPos;
-	private Vector3 onUpdatePos;
-	private Quaternion latestCorrectRot = Quaternion.identity;
-	private Quaternion onUpdateRot = Quaternion.identity;
-	private Quaternion latestCorrectHeadRot = Quaternion.identity;
-	private Quaternion onUpdateHeadRot = Quaternion.identity;
-	private float fraction;
+	private int 			_health;
+	private bool 			_dead = false;
+	private bool 			_noclip = false;
+	private GameObject 		_mainCamera;
+	private MeshRenderer 	_ren;
+	private TrailRenderer	_trail;
+	private Material 		_originalMaterial;
+	private MouseLook 		_bodyTurn;
+	private MouseLook 		_headTilt;
+	private ScreenFade 		_fade;
+	private Color 			_hurtOverlay;
+	private float 			_lastHurtTime; 
+	
+	// members used for network sync
+	private Vector3 		latestCorrectPos;
+	private Vector3 		onUpdatePos;
+	private Quaternion 		latestCorrectRot = Quaternion.identity;
+	private Quaternion 		onUpdateRot = Quaternion.identity;
+	private Quaternion 		latestCorrectHeadRot = Quaternion.identity;
+	private Quaternion 		onUpdateHeadRot = Quaternion.identity;
+	private float 			fraction;
 	
 	void Awake() {
 		
 		head = transform.Find("Head");
 		_mainCamera = head.Find("Main Camera").gameObject;
+		_ren = GetComponentInChildren<MeshRenderer>();
+		_originalMaterial = _ren.material;
+		_trail = GetComponentInChildren<TrailRenderer>();
 		
 		if (photonView.isMine) {
 			motor = GetComponent<CharacterMotorC>();
@@ -232,6 +239,18 @@ public class Player : Photon.MonoBehaviour {
 	
 	void OnLand() {
 		PlaySound(sounds.land);
+	}
+	
+	[RPC]
+	public void OnBlinkStart() {
+		_ren.material = blinkMaterial;
+		_trail.time = 1f;
+	}
+	
+	[RPC]
+	public void OnBlinkStop() {
+		_ren.material = _originalMaterial;
+		_trail.time = 0f;
 	}
 	
 	void PlaySound(AudioClip clip) {
