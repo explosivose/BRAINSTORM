@@ -1477,6 +1477,7 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 4294963675
+  minXhairSize: 15
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

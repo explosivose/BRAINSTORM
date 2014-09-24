@@ -38,6 +38,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	public Shake shake = new Shake();
 	public float range;					// how long is our raycast?
 	public LayerMask raycastMask;		// which layers can we hit?
+	public float minXhairSize;
 
 	private bool _firing = false;	
 	private Equipment _equip;
@@ -88,16 +89,23 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 			y: Screen.height/2f
 			);
 		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+		Transform mainCam = Camera.main.transform;
+		Vector3 crosshairPos;
 		_target = null;
 		// Point at what the player is looking at
 		if (Physics.Raycast(ray, out _hit, range, raycastMask)) {
-			Quaternion rotation = Quaternion.LookRotation(_hit.point 
-			                                              - transform.position, Player.localPlayer.transform.up );
+			Vector3 direction = (_hit.point - transform.position).normalized;
+			Quaternion rotation = Quaternion.LookRotation(direction, Player.localPlayer.transform.up );
 			transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 4f);
-			//transform.LookAt(hit.point);
-			_crosshair.position = Vector3.Lerp(_crosshair.position, _hit.point, Time.deltaTime * 8f);
-			Debug.DrawLine(Camera.main.transform.position, _hit.point, Color.red);
-			Debug.DrawLine(transform.position, _hit.point, Color.yellow);
+			
+			crosshairPos = _hit.point;
+			if (Vector3.Distance(_weaponNozzle.position, _hit.point) > minXhairSize) {
+				crosshairPos = mainCam.position + mainCam.forward * minXhairSize;
+			}
+			
+			_crosshair.position = Vector3.Lerp(_crosshair.position, crosshairPos, Time.deltaTime * 8f);
+			Debug.DrawLine(mainCam.position, _hit.point, Color.red);
+			Debug.DrawLine(_weaponNozzle.position, _hit.point, Color.yellow);
 			/* hit.transform != hit.collider.transform
 				hit.transform is the parent transform of child colliders.
 				hit.collider.transform is the transform of the collider 
@@ -113,13 +121,13 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		}
 		// Fake a hit point if we haven't found an object to look at infront of us
 		else {
-			_crosshair.position = Camera.main.transform.position + Camera.main.transform.forward * range;
+			crosshairPos = mainCam.position + mainCam.forward * minXhairSize;
 			Quaternion rotation = Quaternion.Euler(_equip.defaultRotation);
 			transform.localRotation = Quaternion.Lerp(transform.localRotation, rotation, Time.deltaTime);
 			_hit.point = transform.position + _weaponNozzle.forward * range;
 			Debug.DrawLine(transform.position, _hit.point, Color.yellow);
 		}
-		
+		_crosshair.position = Vector3.Lerp(_crosshair.position, crosshairPos, Time.deltaTime * 8f);
 		_crosshair.rotation = transform.rotation;
 	}
 	
