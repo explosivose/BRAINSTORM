@@ -243,6 +243,8 @@ public class CharacterMotorC : MonoBehaviour {
 	public CharacterMotorSliding sliding = new CharacterMotorSliding();
 
 	private bool grounded = true;
+	private bool kickback = false;
+	private Vector3 kickbackVector = Vector3.zero;
 	
 	[System.NonSerialized]
 	Vector3 groundNormal = Vector3.zero;
@@ -257,6 +259,11 @@ public class CharacterMotorC : MonoBehaviour {
 		sprint.stamina = sprint.sprintLength;
 		jetpack.fuel = jetpack.maxJetpackFuel;
 		dashpack.fuel = dashpack.maxDashpackFuel;
+	}
+	
+	public void Kickback(Vector3 vector) {
+		kickbackVector = vector;
+		kickback = true;
 	}
 	
 	void UpdateFunction () {
@@ -302,8 +309,18 @@ public class CharacterMotorC : MonoBehaviour {
 		// Reset variables that will be set by collision function
 		movingPlatform.hitPlatform = null;
 		groundNormal = Vector3.zero;
+		
+		Vector3 kick = Vector3.zero;
+		if (kickback) {
+			kickback = false;
+			kick = kickbackVector;
+			if (!grounded) {
+				kick *= 0.125f;
+			}
+		}
+		
 		// Move our character!
-		movement.collisionFlags = controller.Move (currentMovementOffset);
+		movement.collisionFlags = controller.Move (currentMovementOffset + kick);
 		movement.lastHitPoint = movement.hitPoint;
 		lastGroundNormal = groundNormal;
 		if (movingPlatform.enabled && movingPlatform.activePlatform != movingPlatform.hitPlatform) {

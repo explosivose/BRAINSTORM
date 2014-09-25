@@ -684,6 +684,9 @@ MonoBehaviour:
   zoom:
     enabled: 1
     level: 15
+  kickback:
+    enabled: 1
+    force: 1
   range: 1000
   raycastMask:
     serializedVersion: 2

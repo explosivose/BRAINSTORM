@@ -35,6 +35,12 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	}
 	
 	[System.Serializable]
+	public class Kickback {
+		public bool enabled = false;
+		public float amount = 1f;
+	}
+	
+	[System.Serializable]
 	public class Shake {
 		public bool enabled = false;
 		public float amount = 0.1f;
@@ -56,6 +62,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	public Recoil recoil = new Recoil();
 	public Shake shake = new Shake();
 	public Zoom zoom = new Zoom();
+	public Kickback kickback = new Kickback();
 	public float range;					// how long is our raycast?
 	public LayerMask raycastMask;		// which layers can we hit?
 	public float minXhairSize;
@@ -97,15 +104,13 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		}
 		
 		// zoooomo
-		if (Input.GetButtonUp("Fire2") && zoom.enabled) {
-			if (zoom.zoomed) {
-				Camera.main.fieldOfView = zoom.originalLevel;
-				zoom.zoomed = false;
-			}
-			else {
-				Camera.main.fieldOfView = zoom.level;
-				zoom.zoomed = true;
-			}
+		if (Input.GetButton("Fire2") && zoom.enabled) {
+			Camera.main.fieldOfView = zoom.level;
+			zoom.zoomed = true;
+		}
+		else {
+			Camera.main.fieldOfView = zoom.originalLevel;
+			zoom.zoomed = false;
 		}
 		
 		// recover rate of fire over time
@@ -219,6 +224,10 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		_lastFireTime = Time.time;
 		
 		FireProjectile(seed);
+		
+		if (kickback.enabled) {
+			_equip.owner.motor.Kickback(-_weaponNozzle.forward * kickback.amount);
+		}
 		
 		if (spread.enabled) {
 			spread.angle += spread.deterioration;
