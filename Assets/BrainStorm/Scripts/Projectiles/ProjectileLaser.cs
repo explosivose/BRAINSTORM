@@ -8,6 +8,7 @@ public class ProjectileLaser : MonoBehaviour {
 
 	public float 		lifetime;
 	public bool 		moveLaserWithTransform = false;
+	public bool			calculatePoints;
 	public Color 		startColor;
 	public Color 		endColor;
 	public float 		distanceBetweenPoints;
@@ -25,6 +26,11 @@ public class ProjectileLaser : MonoBehaviour {
 	void Awake() {
 		_projectile = GetComponent<Projectile>();
 		_line = GetComponent<LineRenderer>();
+	}
+	
+	void Start() {
+		_line.SetVertexCount(2);
+		_line.SetColors(startColor, endColor);
 	}
 	
 	void OnDisable() {
@@ -61,7 +67,14 @@ public class ProjectileLaser : MonoBehaviour {
 	void HitPosition(Vector3 position) {
 		_startTime = Time.time;
 		_hit = position;
-		SetLaserPoints();
+		if (calculatePoints) {
+			SetLaserPoints();
+		}
+		else {
+			_line.SetPosition(0, transform.position);
+			_line.SetPosition(1, _hit);
+		}
+		
 	}
 	
 	void SetLaserPoints() {

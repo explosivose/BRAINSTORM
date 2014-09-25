@@ -233,7 +233,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		for (int i = 0; i < shots; i++) {
 			Vector3 dir = _weaponNozzle.forward;
 			if (spread.enabled) {
-				Random.seed = seed;
+				Random.seed = seed+i;
 				Vector2 pointInCircle = Random.insideUnitCircle;
 				dir = new Vector3(pointInCircle.x, pointInCircle.y, distance);
 				dir = _weaponNozzle.rotation * dir;
@@ -251,12 +251,14 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 			
 			Transform p = projectile.Spawn(_weaponNozzle.position, rot);
 			p.parent = GameManager.Instance.activeScene.instance;
+			/*
 			if (_target!=null) {
 				Debug.Log (name + " hit " + _target.name);// + " with " + p.name + ".");
 				if (_target.tag != "Untagged")
 					p.SendMessage("SetTarget", _target, SendMessageOptions.DontRequireReceiver);
 			}
 			p.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
+			*/
 		}
 		
 		_target = null;
