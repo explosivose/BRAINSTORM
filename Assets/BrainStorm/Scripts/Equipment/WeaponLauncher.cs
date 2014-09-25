@@ -83,7 +83,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		
 		// Fire the gun
 		if (Input.GetButton("Fire1") && !_firing) {
-			photonView.RPC("FireRPC", PhotonTargets.All);
+			photonView.RPC("FireRPC", PhotonTargets.All, Random.seed, spread.angle);
 		}
 		
 		// recover rate of fire over time
@@ -176,16 +176,17 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	void FireRPC() {
+	void FireRPC(int seed, float spreadAngle) {
 		if (_equip.owner.isLocalPlayer) {
-			StartCoroutine(Fire ());
+			StartCoroutine(Fire (seed));
 		}
 		else {
-			FireProjectile();
+			spread.angle = spreadAngle;
+			FireProjectile(seed);
 		}
 	}
 	
-	IEnumerator Fire() {
+	IEnumerator Fire(int seed) {
 		_firing = true;
 		if (deteriorate.enabled && 
 		    _lastFireTime + deteriorate.cooldown + 1f/rateOfFire > Time.time) {
@@ -195,7 +196,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		
 		_lastFireTime = Time.time;
 		
-		FireProjectile();
+		FireProjectile(seed);
 		
 		if (spread.enabled) {
 			spread.angle += spread.deterioration;
@@ -213,7 +214,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		_firing = false;
 	}
 	
-	void FireProjectile() {
+	void FireProjectile(int seed) {
 		// figure out where we're aiming 
 		
 		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
@@ -232,6 +233,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		for (int i = 0; i < shots; i++) {
 			Vector3 dir = _weaponNozzle.forward;
 			if (spread.enabled) {
+				Random.seed = seed;
 				Vector2 pointInCircle = Random.insideUnitCircle;
 				dir = new Vector3(pointInCircle.x, pointInCircle.y, distance);
 				dir = _weaponNozzle.rotation * dir;

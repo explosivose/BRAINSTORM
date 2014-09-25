@@ -100,12 +100,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2970d179dd78e1418342ac6131d11ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: .600000024
+  lifetime: 5
   moveLaserWithTransform: 0
   startColor: {r: 0, g: .751724005, b: 1, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
   distanceBetweenPoints: 2
   laserNoise: .200000003
+  autofire: 0
+  autofireMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
