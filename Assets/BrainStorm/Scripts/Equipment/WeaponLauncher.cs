@@ -40,6 +40,14 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		public float amount = 0.1f;
 	}
 	
+	[System.Serializable]
+	public class Zoom {
+		public bool enabled = false;
+		public float level = 15f;
+		public float originalLevel {get; set;}
+		public bool zoomed {get; set;}
+	}
+	
 	public Transform projectile;		// projectile prefab
 	public int shots = 1;
 	public float rateOfFire;			// how many shots in one second?	
@@ -47,6 +55,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	public Deterioration deteriorate = new Deterioration();
 	public Recoil recoil = new Recoil();
 	public Shake shake = new Shake();
+	public Zoom zoom = new Zoom();
 	public float range;					// how long is our raycast?
 	public LayerMask raycastMask;		// which layers can we hit?
 	public float minXhairSize;
@@ -72,6 +81,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		_crosshair = transform.FindChild("Crosshair");
 		deteriorate.initRateOfFire = rateOfFire;
 		spread.angle = spread.minAngle;
+		zoom.originalLevel = Camera.main.fieldOfView;
 	}
 	
 	void Update () {
@@ -84,6 +94,18 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		// Fire the gun
 		if (Input.GetButton("Fire1") && !_firing) {
 			photonView.RPC("FireRPC", PhotonTargets.All, Random.seed, spread.angle);
+		}
+		
+		// zoooomo
+		if (Input.GetButtonUp("Fire2") && zoom.enabled) {
+			if (zoom.zoomed) {
+				Camera.main.fieldOfView = zoom.originalLevel;
+				zoom.zoomed = false;
+			}
+			else {
+				Camera.main.fieldOfView = zoom.level;
+				zoom.zoomed = true;
+			}
 		}
 		
 		// recover rate of fire over time
