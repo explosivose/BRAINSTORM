@@ -24,6 +24,15 @@ public class PlayerSpawn : MonoBehaviour {
 		}
 	}
 	
+	void OnDrawGizmos() {
+		if (!GetComponent<BoxCollider>()) return;
+		Gizmos.color = Color.Lerp(Color.clear, Color.yellow, 0.75f);
+		Gizmos.DrawCube(
+			GetComponent<BoxCollider>().center + transform.position, 
+			GetComponent<BoxCollider>().size
+			);
+	}
+	
 	void Awake() {
 		if (!spawnPoint) spawnPoint = this.transform;
 		if (multiplayer) Multiplayer = this;
