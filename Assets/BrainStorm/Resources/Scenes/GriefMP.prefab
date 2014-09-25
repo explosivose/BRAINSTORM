@@ -62,7 +62,7 @@ GameObject:
   - 114: {fileID: 11400006}
   - 65: {fileID: 6500006}
   m_Layer: 1
-  m_Name: Jetpack Spawner
+  m_Name: Dashpack Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,6 +97,23 @@ GameObject:
   - 65: {fileID: 6500010}
   m_Layer: 1
   m_Name: Laser Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400012}
+  - 114: {fileID: 11400012}
+  - 65: {fileID: 6500012}
+  m_Layer: 1
+  m_Name: Jetpack Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2322,7 +2339,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400378}
-  m_RootOrder: 14
+  m_RootOrder: 15
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -2346,7 +2363,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400378}
-  m_RootOrder: 17
+  m_RootOrder: 18
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -2358,7 +2375,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400378}
-  m_RootOrder: 13
+  m_RootOrder: 14
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -2370,7 +2387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400378}
-  m_RootOrder: 15
+  m_RootOrder: 16
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -2383,6 +2400,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400378}
   m_RootOrder: 12
+--- !u!4 &400012
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400378}
+  m_RootOrder: 13
 --- !u!4 &400074
 Transform:
   m_ObjectHideFlags: 1
@@ -3922,7 +3951,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400378}
-  m_RootOrder: 16
+  m_RootOrder: 17
 --- !u!4 &400354
 Transform:
   m_ObjectHideFlags: 1
@@ -4032,6 +4061,7 @@ Transform:
   - {fileID: 400346}
   - {fileID: 400344}
   - {fileID: 400010}
+  - {fileID: 400012}
   - {fileID: 400006}
   - {fileID: 400000}
   - {fileID: 400008}
@@ -5630,8 +5660,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 450, y: 10, z: 450}
-  m_Center: {x: 0, y: 500, z: 0}
+  m_Size: {x: 37.9000015, y: 10, z: 47.5299988}
+  m_Center: {x: -157.619995, y: 295.399994, z: -21}
 --- !u!65 &6500008
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -5650,6 +5680,18 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 450, y: 10, z: 450}
+  m_Center: {x: 0, y: 500, z: 0}
+--- !u!65 &6500012
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
@@ -6964,7 +7006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245ff1fec597694499e1c463f57cbbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 400002, guid: f8bc71c5cedf3c54f947108e82e5acc9, type: 2}
+  prefab: {fileID: 400000, guid: 7efa3adbafa1e5442a1728394f62fef4, type: 2}
   resourcesSubpath: Equipment/
   useObjectPool: 0
   networkSpawn: 1
@@ -7015,6 +7057,29 @@ MonoBehaviour:
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: .5
   variationOnTime: .25
+--- !u!114 &11400012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245ff1fec597694499e1c463f57cbbd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 400002, guid: f8bc71c5cedf3c54f947108e82e5acc9, type: 2}
+  resourcesSubpath: Equipment/
+  useObjectPool: 0
+  networkSpawn: 1
+  spawnOnStart: 1
+  amountToSpawn: 20
+  variationOnAmount: .5
+  position: 1
+  rotation: 1
+  timeBeforeFirstSpawn: 1
+  timeBetweenInstantiations: 2
+  variationOnTime: 1
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1

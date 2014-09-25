@@ -561,16 +561,16 @@ MonoBehaviour:
     verticalAccel: 60
     maxVerticalSpeed: 20
     maxJetpackFuel: 1.75
-    rechargeRate: .800000012
+    rechargeRate: .600000024
     cooldown: .5
   dashpack:
     enabled: 0
     accel: 100
     verticalAccel: 60
     maxSpeed: 20
-    maxDashpackFuel: 2.5
-    rechargeRate: 1.20000005
-    cooldown: .800000012
+    maxDashpackFuel: 5
+    rechargeRate: 1
+    cooldown: 1
   movingPlatform:
     enabled: 0
     movementTransfer: 1
