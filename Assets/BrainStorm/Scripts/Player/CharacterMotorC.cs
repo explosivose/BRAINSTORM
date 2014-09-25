@@ -254,6 +254,9 @@ public class CharacterMotorC : MonoBehaviour {
 	void Awake () {
 		controller = GetComponent <CharacterController>();
 		tr = transform;
+		sprint.stamina = sprint.sprintLength;
+		jetpack.fuel = jetpack.maxJetpackFuel;
+		dashpack.fuel = dashpack.maxDashpackFuel;
 	}
 	
 	void UpdateFunction () {
