@@ -88,7 +88,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		_crosshair = transform.FindChild("Crosshair");
 		deteriorate.initRateOfFire = rateOfFire;
 		spread.angle = spread.minAngle;
-		zoom.originalLevel = Camera.main.fieldOfView;
+		zoom.originalLevel = 60f;
 	}
 	
 	void Update () {

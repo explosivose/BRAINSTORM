@@ -91,8 +91,8 @@ public class Equipment : Photon.MonoBehaviour {
 		_equipped = false;
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 		transform.parent = GameManager.Instance.activeScene.instance;
-		transform.position = Camera.main.transform.position;
-		transform.position += Camera.main.transform.forward;
+		transform.position = owner.head.position;
+		transform.position += owner.head.forward;
 		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 		collider.enabled = true;
 		if (_tooltip) _tooltip.SetActive(true);
