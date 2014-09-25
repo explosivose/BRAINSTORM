@@ -32,7 +32,6 @@ public class MouseLook : MonoBehaviour {
 
 	void Update ()
 	{
-		//if (GameManager.Instance.paused) return;
 		if (Screen.lockCursor) {
 			RotateOnAxis();
 		}
@@ -87,10 +86,21 @@ public class MouseLook : MonoBehaviour {
 		
 		Transform cam = Camera.main.transform;
 		Ray ray = cam.camera.ScreenPointToRay(mousePos);
-		Quaternion rotation =  Quaternion.LookRotation(ray.direction);
-		
-		if (GameManager.Instance.paused)
-		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime * 2f);
+
+		LayerMask mask = LayerMask.NameToLayer("UI");
+		Quaternion rotation;
+		float rotationSpeed;
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit, 100f, ~mask)) {
+			rotation = Quaternion.LookRotation(hit.collider.bounds.center - cam.position);
+			rotationSpeed = 0.8f;
+		}
+		else {
+			rotation =  Quaternion.LookRotation(ray.direction);
+			rotationSpeed = 0.4f;
+		}
+
+		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime * rotationSpeed);
 		
 		lastCall = Time.realtimeSinceStartup;
 	}
