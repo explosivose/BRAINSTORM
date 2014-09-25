@@ -574,7 +574,7 @@ Rigidbody:
   m_GameObject: {fileID: 100016}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: .5
+  m_Drag: .200000003
   m_AngularDrag: .0500000007
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 400000, guid: 75f69bf81574e2445ad3c6eb435237ba, type: 2}
-  shots: 10
+  shots: 12
   rateOfFire: 5
   spread:
     enabled: 1

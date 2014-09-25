@@ -39,7 +39,7 @@ AudioSource:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: ef981366f609a114280ac5f6b2b9ac3d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 21f8d3bfea0c52e42accde18072c75d6, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21b5ff5d42f68640a170d42dc2c5d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 8
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1
