@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400024}
-  - 65: {fileID: 6500002}
   m_Layer: 1
   m_Name: Blink Spawner
   m_TagString: Untagged
@@ -43,7 +42,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400004}
-  - 65: {fileID: 6500004}
   m_Layer: 1
   m_Name: Sniper Spawner
   m_TagString: Untagged
@@ -60,7 +58,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400006}
-  - 65: {fileID: 6500006}
   m_Layer: 1
   m_Name: Dashpack Spawner
   m_TagString: Untagged
@@ -84,7 +81,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100010
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +91,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400010}
-  - 65: {fileID: 6500010}
   m_Layer: 1
   m_Name: Laser Spawner
   m_TagString: Untagged
@@ -111,7 +107,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   - 114: {fileID: 11400012}
-  - 65: {fileID: 6500012}
   m_Layer: 1
   m_Name: Jetpack Spawner
   m_TagString: Untagged
@@ -128,7 +123,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400014}
   - 114: {fileID: 11400014}
-  - 65: {fileID: 6500014}
   m_Layer: 1
   m_Name: Frayer Spawner
   m_TagString: Untagged
@@ -2212,7 +2206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100354
 GameObject:
   m_ObjectHideFlags: 0
@@ -5656,42 +5650,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &6500002
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 450, y: 10, z: 450}
-  m_Center: {x: 0, y: 500, z: 0}
---- !u!65 &6500004
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 500, y: 10, z: 500}
-  m_Center: {x: 0, y: 1000, z: 0}
---- !u!65 &6500006
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 450, y: 10, z: 450}
-  m_Center: {x: 0, y: 295.399994, z: 0}
 --- !u!65 &6500008
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -5704,42 +5662,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 50, y: 10, z: 50}
   m_Center: {x: 0, y: 250, z: 0}
---- !u!65 &6500010
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100010}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 450, y: 10, z: 450}
-  m_Center: {x: 0, y: 500, z: 0}
---- !u!65 &6500012
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 450, y: 10, z: 450}
-  m_Center: {x: 0, y: 500, z: 0}
---- !u!65 &6500014
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100014}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 450, y: 10, z: 450}
-  m_Center: {x: 0, y: 379.5, z: 0}
 --- !u!65 &6500016
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -7032,7 +6954,7 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 20
   variationOnAmount: .5
-  position: 1
+  position: 3
   rotation: 1
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: .5
@@ -7055,7 +6977,7 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 20
   variationOnAmount: .5
-  position: 1
+  position: 3
   rotation: 1
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: 2
@@ -7094,7 +7016,7 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 20
   variationOnAmount: .5
-  position: 1
+  position: 3
   rotation: 1
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: .5
@@ -7117,7 +7039,7 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 20
   variationOnAmount: .5
-  position: 1
+  position: 3
   rotation: 1
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: 2
@@ -7140,7 +7062,7 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 20
   variationOnAmount: .5
-  position: 1
+  position: 3
   rotation: 1
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: .5
@@ -7255,7 +7177,7 @@ MonoBehaviour:
   spawnOnStart: 1
   amountToSpawn: 20
   variationOnAmount: .5
-  position: 1
+  position: 3
   rotation: 1
   timeBeforeFirstSpawn: 1
   timeBetweenInstantiations: 2

@@ -14,7 +14,8 @@ public class PrefabSpawner : MonoBehaviour {
 	public enum SpawnPosition {
 		Inherited,
 		RandomInColliderBounds,
-		Unchanged
+		Unchanged,
+		RandomMultiplayer
 	}
 	public enum SpawnRotation {
 		Inherited,
@@ -103,6 +104,9 @@ public class PrefabSpawner : MonoBehaviour {
 				case SpawnPosition.RandomInColliderBounds:
 					Vector3 pos = randomPositionIn(collider.bounds);
 					t.position = pos;
+					break;
+				case SpawnPosition.RandomMultiplayer:
+					t.position = PlayerSpawn.Multiplayer.randomSpawnPosition;
 					break;
 				case SpawnPosition.Unchanged:
 					break;
