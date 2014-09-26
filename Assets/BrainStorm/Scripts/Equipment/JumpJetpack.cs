@@ -28,6 +28,7 @@ public class JumpJetpack : Photon.MonoBehaviour {
 		if (equipment.owner) {
 			if (equipment.owner.isLocalPlayer) {
 				equipment.owner.inventory.hasJetpack = true;
+				equipment.owner.motor.jumping.extraJumpEnabled = false;
 			}
 		}
 			
@@ -37,6 +38,7 @@ public class JumpJetpack : Photon.MonoBehaviour {
 		if (equipment.owner) {
 			if (equipment.owner.isLocalPlayer) {
 				equipment.owner.inventory.hasJetpack = false;
+				equipment.owner.motor.jumping.extraJumpEnabled = true;
 			}
 		}
 	}

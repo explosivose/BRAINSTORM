@@ -112,6 +112,7 @@ public class CharacterMotorC : MonoBehaviour {
 		public bool enabled = true;
 		// How high do we jump when pressing jump and letting go immediately
 		public float baseHeight = 1.0f;
+		public bool extraJumpEnabled = true;
 		// We add extraHeight units (meters) on top when holding the button down longer while jumping
 		public float extraHeight = 4.1f;
 		// How much does the character jump out perpendicular to the surface on walkable surfaces?
@@ -518,7 +519,7 @@ public class CharacterMotorC : MonoBehaviour {
 			if (jumping.jumping && jumping.holdingJumpButton) {
 				// Calculate the duration that the extra jump force should have effect.
 				// If we're still less than that duration after the jumping time, apply the force.
-				if (Time.time < jumping.lastStartTime + jumping.extraHeight / CalculateJumpVerticalSpeed(jumping.baseHeight)) {
+				if (jumping.extraJumpEnabled && Time.time < jumping.lastStartTime + jumping.extraHeight / CalculateJumpVerticalSpeed(jumping.baseHeight)) {
 					// Negate the gravity we just applied, except we push in jumpDir rather than jump upwards.
 					velocity += jumping.jumpDir * movement.gravity * Time.deltaTime;
 				}

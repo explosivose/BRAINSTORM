@@ -507,7 +507,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6edeabbfdcb0a074b853775d558d0226, type: 3}
   m_Name: 
@@ -552,8 +552,9 @@ MonoBehaviour:
     sprinting: 0
   jumping:
     enabled: 1
-    baseHeight: 3
-    extraHeight: 7
+    baseHeight: 5
+    extraJumpEnabled: 1
+    extraHeight: 5
     perpAmount: .100000001
     steepPerpAmount: .100000001
     superJump: 0
@@ -561,9 +562,9 @@ MonoBehaviour:
   jetpack:
     enabled: 0
     verticalAccel: 60
-    maxVerticalSpeed: 20
+    maxVerticalSpeed: 25
     maxJetpackFuel: 1.75
-    rechargeRate: .600000024
+    rechargeRate: .5
     cooldown: .5
   dashpack:
     enabled: 0
@@ -571,7 +572,7 @@ MonoBehaviour:
     verticalAccel: 60
     maxSpeed: 20
     maxDashpackFuel: 5
-    rechargeRate: 1
+    rechargeRate: .800000012
     cooldown: 1
   movingPlatform:
     enabled: 0

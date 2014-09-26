@@ -1534,7 +1534,7 @@ MonoBehaviour:
     recoveryRate: 2
   recoil:
     enabled: 1
-    amount: .200000003
+    amount: .300000012
   shake:
     enabled: 1
     amount: .0500000007
