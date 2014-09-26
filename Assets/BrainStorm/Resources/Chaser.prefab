@@ -541,6 +541,7 @@ MonoBehaviour:
     maxAirAcceleration: 30
     gravity: 25
     maxFallSpeed: 100
+    airControlFactor: .400000006
   sprint:
     enabled: 0
     sprintSpeed: 60
@@ -553,7 +554,7 @@ MonoBehaviour:
     baseHeight: 3
     extraHeight: 7
     perpAmount: .100000001
-    steepPerpAmount: .25
+    steepPerpAmount: .100000001
     superJump: 0
     superJumpHeight: 20
   jetpack:

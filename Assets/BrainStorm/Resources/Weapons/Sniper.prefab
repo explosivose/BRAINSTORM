@@ -745,7 +745,7 @@ MonoBehaviour:
     level: 15
   kickback:
     enabled: 1
-    amount: 1
+    amount: 1.25
   range: 1000
   raycastMask:
     serializedVersion: 2

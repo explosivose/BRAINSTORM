@@ -64,6 +64,7 @@ public class CharacterMotorC : MonoBehaviour {
 		// The gravity for the character
 		public float gravity = 10.0f;
 		public float maxFallSpeed = 20.0f;
+		public float airControlFactor = 0.4f;
 		// For the next variables, [System.NonSerialized] tells Unity to not serialize the variable or show it in the inspector view.
 		// Very handy for organization!
 		// The last collision flags returned from controller.Move
@@ -491,7 +492,7 @@ public class CharacterMotorC : MonoBehaviour {
 		if (grounded || dashpack.dashpacking || jetpack.jetpacking)
 			velocity += velocityChangeVector;
 		else 
-			velocity += velocityChangeVector * 0.1f;// reduced control while falling
+			velocity += velocityChangeVector * movement.airControlFactor;// reduced control while falling
 		if (grounded) {
 			// When going uphill, the CharacterController will automatically move up by the needed amount.
 			// Not moving it upwards manually prevent risk of lifting off from the ground.
