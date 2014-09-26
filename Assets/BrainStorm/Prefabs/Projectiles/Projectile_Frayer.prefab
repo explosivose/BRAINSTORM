@@ -48,6 +48,7 @@ MonoBehaviour:
   endColor: {r: .996078432, g: 0, b: .968600631, a: 1}
   distanceBetweenPoints: 100
   laserNoise: 1
+  hitEffectPrefab: {fileID: 400000, guid: 0a3ebe8ab55c2b14bab762eb6c127cb0, type: 2}
   autofire: 1
   autofireMask:
     serializedVersion: 2

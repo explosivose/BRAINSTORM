@@ -96,19 +96,24 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	
 	IEnumerator OnEquip() {
 		yield return new WaitForSeconds(readyTime);
-		
-		_ready = true;
-		_crosshair.gameObject.SetActive(!zoom.enabled);
+		if (_equip.owner.isLocalPlayer) {
+			_ready = true;
+			_crosshair.gameObject.SetActive(!zoom.enabled);
+		}
 	}
 	
 	void OnDrop() {
-		_ready = false;
-		_crosshair.gameObject.SetActive(false);
+		if (_equip.owner.isLocalPlayer) {
+			_ready = false;
+			_crosshair.gameObject.SetActive(false);
+		}
 	}
 	
 	void OnHolster() {
-		_ready = false;
-		_crosshair.gameObject.SetActive(false);
+		if (_equip.owner.isLocalPlayer) {
+			_ready = false;
+			_crosshair.gameObject.SetActive(false);
+		}
 	}
 	
 	void Update () {
@@ -269,9 +274,8 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	}
 	
 	void FireProjectile(int seed) {
-		// figure out where we're aiming 
-		
-		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
+			
+		//BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
 		
 		_equip.AudioStart();
 		
@@ -283,7 +287,6 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 				90f-Mathf.Epsilon);
 		}
 
-			
 		float distance = Mathf.Tan(angle);
 		
 		for (int i = 0; i < shots; i++) {

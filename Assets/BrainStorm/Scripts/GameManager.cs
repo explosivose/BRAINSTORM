@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
 			if (value && playerPauseEnabled) {
 				_paused = true;
 				Screen.lockCursor = false;
-				AudioListener.volume = 0f;
+				//AudioListener.volume = 0f;
 				CTRL.Instance.ShowPauseMenu();
 				Player.localPlayer.motor.canControl = false;
 				_camRotationBeforePause = Camera.main.transform.localRotation;
@@ -171,6 +171,10 @@ public class GameManager : MonoBehaviour {
 	// Application.LoadLevel(Application.loadedLevel);
 	void OnLevelWasLoaded() {
 		StartGame();
+	}
+	
+	void OnApplicationFocus(bool focus) {
+
 	}
 	
 	void StartGame() {

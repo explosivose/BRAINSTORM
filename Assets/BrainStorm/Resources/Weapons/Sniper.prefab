@@ -610,7 +610,7 @@ AudioSource:
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 5
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -707,7 +707,7 @@ MonoBehaviour:
   holsteredRotation: {x: 62.53936, y: -88.2564774, z: -1.98718297}
   sounds:
     volume: 1
-    start: {fileID: 8300000, guid: d20dffa30572a02418bb4b6340c6e7e1, type: 3}
+    start: {fileID: 8300000, guid: 63e5039896ac54648b82d2dfb38ef1cd, type: 3}
     loop: {fileID: 0}
     stop: {fileID: 0}
 --- !u!114 &11400004

@@ -47,7 +47,7 @@ AudioSource:
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 2
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   endColor: {r: 1, g: 0, b: 0, a: 1}
   distanceBetweenPoints: 2
   laserNoise: .200000003
+  hitEffectPrefab: {fileID: 400000, guid: cafad00a9a23afa478e93f60c9a802a6, type: 2}
   autofire: 1
   autofireMask:
     serializedVersion: 2

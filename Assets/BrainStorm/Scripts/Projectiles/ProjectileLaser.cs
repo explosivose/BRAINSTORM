@@ -13,12 +13,15 @@ public class ProjectileLaser : MonoBehaviour {
 	public Color 		endColor;
 	public float 		distanceBetweenPoints;
 	public float 		laserNoise;
+	public Transform	hitEffectPrefab;
 	public bool 		autofire; 			// fire laser in transform.forward
 	public LayerMask 	autofireMask;		// raycast mask for autofire
 	
 	private Projectile 		_projectile;
 	private Transform 		_target;
 	private Vector3 		_hit;
+	private float 			_distance;
+	private Vector3 		_startPoint;
 	private float 			_startTime;
 	private LineRenderer 	_line;
 	private List<Vector3>  	_positions = new List<Vector3>();
@@ -26,6 +29,7 @@ public class ProjectileLaser : MonoBehaviour {
 	void Awake() {
 		_projectile = GetComponent<Projectile>();
 		_line = GetComponent<LineRenderer>();
+		hitEffectPrefab.CreatePool();
 	}
 	
 	void Start() {
@@ -53,6 +57,9 @@ public class ProjectileLaser : MonoBehaviour {
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, autofireMask)) {
 			SetTarget(hit.transform);
 			HitPosition(hit.point);
+			if (hitEffectPrefab) {
+				hitEffectPrefab.Spawn(hit.point, Quaternion.LookRotation(hit.normal));
+			}
 		}
 		else {
 			HitPosition(transform.forward * 100);
@@ -74,11 +81,12 @@ public class ProjectileLaser : MonoBehaviour {
 			_line.SetPosition(0, transform.position);
 			_line.SetPosition(1, _hit);
 		}
+		_startPoint = transform.position;
 	}
 	
 	void SetLaserPoints() {
-		float distance = Vector3.Distance(transform.position, _hit);
-		int laserVertices = Mathf.FloorToInt(distance/distanceBetweenPoints);
+		_distance = Vector3.Distance(transform.position, _hit);
+		int laserVertices = Mathf.FloorToInt(_distance/distanceBetweenPoints);
 		if (laserVertices < 2) laserVertices = 2;
 		_line.SetVertexCount(laserVertices);
 		_line.SetColors(startColor, endColor);
@@ -107,7 +115,7 @@ public class ProjectileLaser : MonoBehaviour {
 		// we move our transform too
 		// because the audio fizz for nearmisses
 		if (audio) {
-			audio.volume = t * 50f;
+			audio.volume = Vector3.Distance(transform.position, _startPoint)/_distance;
 			transform.position = Vector3.Lerp(
 				transform.position,
 				_hit,
