@@ -74,7 +74,6 @@ public class ProjectileLaser : MonoBehaviour {
 			_line.SetPosition(0, transform.position);
 			_line.SetPosition(1, _hit);
 		}
-		
 	}
 	
 	void SetLaserPoints() {
@@ -105,22 +104,29 @@ public class ProjectileLaser : MonoBehaviour {
 		Color e = Color.Lerp(endColor, Color.clear, t);
 		_line.SetColors(s, e);
 		
+		// we move our transform too
+		// because the audio fizz for nearmisses
+		if (audio) {
+			audio.volume = t * 50f;
+			transform.position = Vector3.Lerp(
+				transform.position,
+				_hit,
+				Time.deltaTime * 15f);
+			if (Vector3.Distance(transform.position, _hit) < 0.1f) {
+				audio.Stop ();
+			}
+		}
+
+		
 		if (moveLaserWithTransform) {
 			SetLaserPoints();
 		}
 		
 		if (t > 1) {
-			// also wait for audio if there is audio
-			if (audio) {
-				if (!audio.isPlaying) {
-					_positions.Clear();
-					transform.Recycle();
-				}
-			}
-			else {
-				_positions.Clear();
-				transform.Recycle();
-			}
+			if (audio)
+				audio.volume = 0f;
+			_positions.Clear();
+			transform.Recycle();
 		} 
 	}
 }
