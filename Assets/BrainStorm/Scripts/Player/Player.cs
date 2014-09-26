@@ -18,6 +18,7 @@ public class Player : Photon.MonoBehaviour {
 	}
 
 	public int 			maxHealth;
+	public float 		fov;
 	public Transform	deadBody;
 	public Material 	blinkMaterial;
 	public float 		hurtEffectDuration = 0.1f;
@@ -142,7 +143,7 @@ public class Player : Photon.MonoBehaviour {
 		motor.enabled = true;
 		_health = maxHealth;
 		AudioListener.volume = 1f;
-
+		Camera.main.fieldOfView = fov;
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		
 	}
