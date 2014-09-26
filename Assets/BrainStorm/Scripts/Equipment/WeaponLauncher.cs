@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Equipment))]
+[RequireComponent(typeof(AudioSource))]
 [AddComponentMenu("Player/Weapon/Launcher")]
 public class WeaponLauncher : Photon.MonoBehaviour {
 
@@ -249,6 +250,8 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		// figure out where we're aiming 
 		
 		BroadcastMessage("FireEffect", SendMessageOptions.DontRequireReceiver);
+		
+		_equip.AudioStart();
 		
 		float angle = 0;
 		if (spread.enabled) {
