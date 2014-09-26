@@ -56,8 +56,8 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	}
 	
 	public Transform projectile;		// projectile prefab
-	public int shots = 1;
-	public float rateOfFire;			// how many shots in one second?	
+	public int shots = 1;				// how many shots in one fire?
+	public float rateOfFire;			// how many fires in one second?	
 	public Spread spread = new Spread();
 	public Deterioration deteriorate = new Deterioration();
 	public Recoil recoil = new Recoil();
@@ -66,9 +66,11 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	public Kickback kickback = new Kickback();
 	public float range;					// how long is our raycast?
 	public LayerMask raycastMask;		// which layers can we hit?
-	public float minXhairSize;
+	public float minXhairSize;			// controls size of crosshair on screen
+	public float readyTime;				// how much wait time after equiping?
 
-	private bool _firing = false;	
+	private bool _firing = false;
+	private bool _ready = false;
 	private Equipment _equip;
 	private Transform _crosshair;
 	private Transform _weaponNozzle;	// launch from this position
@@ -92,11 +94,29 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		zoom.originalLevel = 60f;
 	}
 	
+	IEnumerator OnEquip() {
+		yield return new WaitForSeconds(readyTime);
+		
+		_ready = true;
+		_crosshair.gameObject.SetActive(true);
+	}
+	
+	void OnDrop() {
+		_ready = false;
+		_crosshair.gameObject.SetActive(false);
+	}
+	
+	void OnHolster() {
+		_ready = false;
+		_crosshair.gameObject.SetActive(false);
+	}
+	
 	void Update () {
-		_crosshair.gameObject.SetActive(_equip.equipped);
+
 		if (!_equip.equipped) return;
 		if (GameManager.Instance.paused) return;
 		AimWeapon();
+		if (!_ready) return;
 		if (recoil.enabled) WeaponRecoil();
 		
 		// Fire the gun

@@ -734,6 +734,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 12561
   minXhairSize: 15
+  readyTime: .600000024
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
