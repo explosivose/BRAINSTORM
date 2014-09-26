@@ -98,7 +98,7 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		yield return new WaitForSeconds(readyTime);
 		
 		_ready = true;
-		_crosshair.gameObject.SetActive(true);
+		_crosshair.gameObject.SetActive(!zoom.enabled);
 	}
 	
 	void OnDrop() {
@@ -127,10 +127,12 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 		// zoooomo
 		if (Input.GetButton("Fire2") && zoom.enabled) {
 			Camera.main.fieldOfView = zoom.level;
+			_crosshair.gameObject.SetActive(true);
 			zoom.zoomed = true;
 		}
-		else {
+		else if (zoom.enabled) {
 			Camera.main.fieldOfView = zoom.originalLevel;
+			_crosshair.gameObject.SetActive(false);
 			zoom.zoomed = false;
 		}
 		

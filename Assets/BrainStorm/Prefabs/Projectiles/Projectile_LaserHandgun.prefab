@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2970d179dd78e1418342ac6131d11ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 5
+  lifetime: 3
   moveLaserWithTransform: 0
   calculatePoints: 1
   startColor: {r: 0, g: .751724005, b: 1, a: 1}
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21b5ff5d42f68640a170d42dc2c5d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
+  damage: 10
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

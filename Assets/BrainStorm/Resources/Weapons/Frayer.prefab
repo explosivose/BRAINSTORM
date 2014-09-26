@@ -733,7 +733,7 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 12561
-  minXhairSize: 15
+  minXhairSize: 7.5
   readyTime: .600000024
 --- !u!114 &11400004
 MonoBehaviour:
