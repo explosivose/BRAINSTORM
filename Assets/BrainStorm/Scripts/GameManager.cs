@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour {
 		_header.text = Strings.gameTitle + " " + Strings.gameVersion;
 		_fade = GetComponent<ScreenFade>();
 		transform.position = Vector3.zero;
+		Options.Load();
 	}
 	
 	

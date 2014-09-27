@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class Player : Photon.MonoBehaviour {
 
 	public static Player localPlayer;
-	
 	[System.Serializable]
 	public class AudioLibrary {
 		public float 		volume;

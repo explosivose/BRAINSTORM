@@ -39,7 +39,7 @@ public class CTRLelement : MonoBehaviour {
 		}
 		set {
 			Vector3 localpos = transform.localPosition;
-			localpos.x = -(float)value/100f;
+			localpos.x = (float)value/100f;
 			transform.localPosition = localpos;
 		}
 	}
@@ -89,10 +89,12 @@ public class CTRLelement : MonoBehaviour {
 	
 	protected virtual void OnMouseDown() {
 		transform.localPosition = _initialPosition + Vector3.forward * 0.1f;
+		MouseLook.freeze = true;
 	}
 	
 	protected virtual void OnMouseUp() {
 		transform.localPosition = _initialPosition;
+		MouseLook.freeze = false;
 	}
 	
 	protected virtual void OnMouseUpAsButton() {

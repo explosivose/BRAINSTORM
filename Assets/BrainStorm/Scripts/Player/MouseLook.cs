@@ -17,10 +17,11 @@ using System.Collections;
 [AddComponentMenu("Player/Mouse Look")]
 public class MouseLook : MonoBehaviour {
 	
+	public static bool freeze;
+	public static float sensitivity = 10f;
+	
 	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 	public RotationAxes axes = RotationAxes.MouseXAndY;
-	public float sensitivityX = 15F;
-	public float sensitivityY = 15F;
 
 	public float minimumX = -360F;
 	public float maximumX = 360F;
@@ -41,23 +42,24 @@ public class MouseLook : MonoBehaviour {
 	}
 	
 	void RotateOnAxis() {
+		if (freeze) return;
 		float fovFactor = Camera.main.fieldOfView / Player.localPlayer.fov;
 		if (axes == RotationAxes.MouseXAndY)
 		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX * fovFactor;
+			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity * fovFactor;
 			
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY * fovFactor;
+			rotationY += Input.GetAxis("Mouse Y") * sensitivity * fovFactor;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 		}
 		else if (axes == RotationAxes.MouseX)
 		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX * fovFactor, 0);
+			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * fovFactor, 0);
 		}
 		else
 		{
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY * fovFactor;
+			rotationY += Input.GetAxis("Mouse Y") * sensitivity * fovFactor;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
@@ -79,7 +81,8 @@ public class MouseLook : MonoBehaviour {
 		if (mousePos.x < 0 ||
 		 	mousePos.x > Screen.width ||
 			mousePos.y < 0 ||
-			mousePos.y > Screen.height) 
+			mousePos.y > Screen.height ||
+			freeze) 
 		{
 				lastCall = Time.realtimeSinceStartup;
 				return;

@@ -96,9 +96,11 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	
 	IEnumerator OnEquip() {
 		yield return new WaitForSeconds(readyTime);
-		if (_equip.owner.isLocalPlayer) {
-			_ready = true;
-			_crosshair.gameObject.SetActive(!zoom.enabled);
+		if (_equip.owner) {
+			if (_equip.owner.isLocalPlayer) {
+				_ready = true;
+				_crosshair.gameObject.SetActive(!zoom.enabled);
+			}
 		}
 	}
 	
