@@ -100,12 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2970d179dd78e1418342ac6131d11ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 3
+  lifetime: .5
+  dealDamage: 1
   moveLaserWithTransform: 0
   calculatePoints: 1
-  startColor: {r: 0, g: .751724005, b: 1, a: 1}
-  endColor: {r: 1, g: 0, b: 0, a: 1}
-  distanceBetweenPoints: 2
+  startColor: {r: 0, g: .996078432, b: .954861224, a: 1}
+  endColor: {r: .97647059, g: .992156863, b: 0, a: 1}
+  distanceBetweenPoints: 8
   laserNoise: .200000003
   hitEffectPrefab: {fileID: 400000, guid: cafad00a9a23afa478e93f60c9a802a6, type: 2}
   autofire: 1

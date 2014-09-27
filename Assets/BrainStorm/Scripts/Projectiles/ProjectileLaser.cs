@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class ProjectileLaser : MonoBehaviour {
 
 	public float 		lifetime;
+	public bool 		dealDamage = true;
 	public bool 		moveLaserWithTransform = false;
 	public bool			calculatePoints;
 	public Color 		startColor;
@@ -51,7 +52,7 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	IEnumerator Autofire() {
 		// wait for position to update before autofiring
-		yield return new WaitForFixedUpdate();
+		yield return new WaitForEndOfFrame();
 		RaycastHit hit;
 		Ray ray = new Ray(transform.position, transform.forward);
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, autofireMask)) {
@@ -62,13 +63,14 @@ public class ProjectileLaser : MonoBehaviour {
 			}
 		}
 		else {
-			HitPosition(transform.forward * 100);
+			HitPosition(transform.position + transform.forward * 100);
 		}
 	}
 	
 	void SetTarget(Transform target) {
 		_target = target;
-		_target.SendMessage("Damage", _projectile.Damage.damage, SendMessageOptions.DontRequireReceiver);
+		if (dealDamage)
+			_target.SendMessage("Damage", _projectile.Damage.damage, SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void HitPosition(Vector3 position) {
@@ -125,6 +127,7 @@ public class ProjectileLaser : MonoBehaviour {
 			}
 		}
 
+		Debug.DrawLine(_startPoint, _hit, Color.red);
 		
 		if (moveLaserWithTransform) {
 			SetLaserPoints();

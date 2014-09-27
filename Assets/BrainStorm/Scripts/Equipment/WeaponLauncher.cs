@@ -319,7 +319,6 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 			p.SendMessage("HitPosition", _hit.point, SendMessageOptions.DontRequireReceiver);
 			*/
 		}
-		
 		_target = null;
 	}
 }

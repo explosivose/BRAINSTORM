@@ -1534,16 +1534,16 @@ MonoBehaviour:
     recoveryRate: 2
   recoil:
     enabled: 1
-    amount: .300000012
+    amount: .5
   shake:
     enabled: 1
-    amount: .0500000007
+    amount: .0250000004
   zoom:
     enabled: 0
     level: 15
   kickback:
-    enabled: 0
-    amount: 1
+    enabled: 1
+    amount: .100000001
   range: 100
   raycastMask:
     serializedVersion: 2
