@@ -102,9 +102,9 @@ public class Player : Photon.MonoBehaviour {
 	
 	void Start() {
 		
+		name = photonView.owner.name;
+		
 		if (photonView.isMine) {
-			
-			
 			inventory.enabled = true;
 			_bodyTurn.enabled = true;
 			_headTilt.enabled = true;
@@ -114,7 +114,7 @@ public class Player : Photon.MonoBehaviour {
 			screenEffects = true;
 			hud.enabled = true;
 			localPlayer = this;
-			name = "Local Player";
+			name = photonView.owner.name;
 			gameObject.layer = LayerMask.NameToLayer("Player");
 			hud.InitializeGUI();
 			Spawn();
@@ -123,6 +123,8 @@ public class Player : Photon.MonoBehaviour {
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			latestCorrectPos = transform.position;
 			onUpdatePos = transform.position;
+			transform.Find("Name").gameObject.SetActive(true);
+			
 		}
 		
 	}

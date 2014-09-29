@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour {
 			if (value && playerPauseEnabled) {
 				_paused = true;
 				Screen.lockCursor = false;
-				//AudioListener.volume = 0f;
 				CTRL.Instance.ShowPauseMenu();
 				Player.localPlayer.motor.canControl = false;
 				_camRotationBeforePause = Camera.main.transform.localRotation;
@@ -63,7 +62,6 @@ public class GameManager : MonoBehaviour {
 			else {
 				_paused = false;
 				Screen.lockCursor = true && grabCursor;
-				AudioListener.volume = 1f;
 				CTRL.Instance.HidePauseMenu();
 				Player.localPlayer.motor.canControl = true;
 				Camera.main.transform.localRotation = 

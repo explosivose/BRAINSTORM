@@ -10,7 +10,7 @@ public class CTRLtext : CTRLelement {
 	public bool tooltip = false;
 
 	public enum Source {
-		None, Name, ParentName, Developers, Assets
+		None, Name, ParentName, Developers, Assets, PhotonPlayerName
 	}
 	public Source source;
 
@@ -29,6 +29,9 @@ public class CTRLtext : CTRLelement {
 			break;
 		case Source.ParentName:
 			text = Strings.OmitCloneSuffix(transform.parent.name);
+			break;
+		case Source.PhotonPlayerName:
+			text = PhotonNetwork.player.name;
 			break;
 		case Source.None:
 		default:
