@@ -125,6 +125,14 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
+      propertyPath: scenes.Array.data[7].skybox
+      value: 
+      objectReference: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
+    - target: {fileID: 11400000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
+      propertyPath: copyRenderSettings
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a250179845f02b44d985e76b0c45cdfd, type: 2}
   m_RootGameObject: {fileID: 1908183940}
@@ -1747,20 +1755,20 @@ MonoBehaviour:
     multiplayer: 1
     scenePrefab: {fileID: 400378, guid: 3084286b2e076a441a98952653957a7a, type: 2}
     fog: 1
-    fogColor: {r: 0, g: .0352941193, b: .0509803928, a: 0}
-    fogDensity: .00499999989
-    ambientLight: {r: .152941182, g: .141176477, b: .129411772, a: 0}
-    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
+    fogColor: {r: .411764711, g: .792156875, b: .580392182, a: 0}
+    fogDensity: .00400000019
+    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
   copyScene:
     tag: 0
     multiplayer: 0
     scenePrefab: {fileID: 0}
     fog: 1
-    fogColor: {r: 0, g: 0, b: 0, a: 1}
-    fogDensity: .0299999993
-    ambientLight: {r: .193014711, g: .344878286, b: .375, a: 1}
-    skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
-  copyRenderSettings: 0
+    fogColor: {r: .414576113, g: .79411763, b: .584921539, a: 0}
+    fogDensity: .00400000019
+    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
+  copyRenderSettings: 1
 --- !u!114 &1908183945
 MonoBehaviour:
   m_ObjectHideFlags: 0
