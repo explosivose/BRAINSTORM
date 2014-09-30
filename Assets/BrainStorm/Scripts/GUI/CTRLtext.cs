@@ -17,6 +17,7 @@ public class CTRLtext : CTRLelement {
 	protected override void OnEnable ()
 	{
 		base.OnEnable ();
+		textMesh.color = Color.clear;
 		switch(source) {
 		case Source.Assets:
 			text = Strings.assets;
@@ -31,7 +32,7 @@ public class CTRLtext : CTRLelement {
 			text = Strings.OmitCloneSuffix(transform.parent.name);
 			break;
 		case Source.PhotonPlayerName:
-			text = PhotonNetwork.player.name;
+			text = GetComponentInParent<PhotonView>().owner.name;
 			break;
 		case Source.None:
 		default:
@@ -46,12 +47,18 @@ public class CTRLtext : CTRLelement {
 		if (!Player.localPlayer) return;
 		base.Update ();
 		if (tooltip) {
-			Transform cam = Camera.main.transform;
-			Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
-			transform.rotation = rotation;
 			float playerDistance = Vector3.Distance(Player.localPlayer.transform.position, transform.position);
 			float lerp = (4f-playerDistance);
-			textMesh.color = Color.Lerp(Color.clear, textColor, lerp);
+			if (lerp > 0) {
+				Transform cam = Camera.main.transform;
+				Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
+				transform.rotation = rotation;
+				textMesh.color = Color.Lerp(Color.clear, textColor, lerp);
+				if (source == Source.PhotonPlayerName) {
+					text = GetComponentInParent<PhotonView>().owner.name;
+				}
+			}
+
 		}
 	}
 	

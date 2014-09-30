@@ -143,7 +143,7 @@ public class Player : Photon.MonoBehaviour {
 
 		motor.enabled = true;
 		_health = maxHealth;
-		AudioListener.volume = 1f;
+		AudioListener.volume = PlayerPrefs.GetFloat(Options.keyVolume);
 		Camera.main.fieldOfView = fov;
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		
