@@ -88,7 +88,7 @@ public class CTRLelement : MonoBehaviour {
 	}
 	
 	protected virtual void OnMouseDown() {
-		transform.localPosition = _initialPosition + Vector3.forward * 0.1f;
+		transform.localPosition = _initialPosition - Vector3.forward * 0.1f;
 		MouseLook.freeze = true;
 	}
 	

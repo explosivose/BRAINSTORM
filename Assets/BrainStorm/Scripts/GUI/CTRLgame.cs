@@ -9,7 +9,8 @@ public class CTRLgame : CTRLelement {
 		quit, 
 		noclip, 
 		singleplayer, 
-		multiplayer
+		multiplayer,
+		resetOptions
 	}
 	public Action action;
 	
@@ -44,6 +45,9 @@ public class CTRLgame : CTRLelement {
 			break;
 		case Action.multiplayer:
 			Application.LoadLevel("multiplayer");
+			break;
+		case Action.resetOptions:
+			Options.Reset();
 			break;
 		default:
 			break;

@@ -92,16 +92,24 @@ public class MouseLook : MonoBehaviour {
 		Ray ray = cam.camera.ScreenPointToRay(mousePos);
 
 		LayerMask mask = LayerMask.NameToLayer("UI");
-		Quaternion rotation;
+		Quaternion rotation = cam.rotation;
 		float rotationSpeed;
+		RaycastHit[] hits;
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, 100f, ~mask)) {
+		hits = Physics.RaycastAll(ray, 100f, ~mask);
+		if (hits.Length > 0) {
+			hit = hits[0];
+			foreach(RaycastHit h in hits) {
+				float d1 = Vector3.Distance(hit.point, cam.position);
+				float d2 = Vector3.Distance(h.point, cam.position);
+				if (d2 > d1) hit = h;
+			}
+			rotationSpeed = 1.2f;
 			rotation = Quaternion.LookRotation(hit.collider.bounds.center - cam.position);
-			rotationSpeed = 0.8f;
 		}
 		else {
 			rotation =  Quaternion.LookRotation(ray.direction);
-			rotationSpeed = 0.4f;
+			rotationSpeed = 0.1f;
 		}
 
 		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime * rotationSpeed);

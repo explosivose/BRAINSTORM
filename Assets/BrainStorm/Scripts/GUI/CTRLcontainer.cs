@@ -26,11 +26,12 @@ public class CTRLcontainer : MonoBehaviour {
 	}
 	
 	void OnEnable() {
-
+		CTRL.level++;
 	}
 	
 	void OnDisable(){
 		_complete = false;
+		CTRL.level--;
 	}
 	
 

@@ -18,7 +18,10 @@ public class CTRLtextfield : CTRLelement {
 	}
 	
 	void Update() {
-		if (!fillin) return;
+		if (!fillin) {
+			text = PhotonNetwork.playerName;
+			return;
+		}
 		MouseLook.freeze = true;
 		if (Input.GetKey(KeyCode.Escape)) {
 			fillin = false;

@@ -115,9 +115,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   - 212: {fileID: 21200006}
+  - 65: {fileID: 6500006}
   m_Layer: 5
   m_Name: CTRLbackground
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,7 +233,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.55999994, y: 1.91999996, z: -3.51999998}
+  m_LocalPosition: {x: .626648307, y: .230715752, z: -3.75692749}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400012}
@@ -337,6 +338,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.55999994, y: 1.27999997, z: 0}
   m_Center: {x: 1.27999997, y: -.639999986, z: 0}
+--- !u!65 &6500006
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.11999989, y: 5.11999989, z: 0}
+  m_Center: {x: 2.55999994, y: -2.55999994, z: 0}
 --- !u!102 &10200000
 TextMesh:
   serializedVersion: 3
