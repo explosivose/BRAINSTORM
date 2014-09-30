@@ -95,7 +95,7 @@ public class NPCVirusFlying : MonoBehaviour {
 		fireLocation += transform.right * 1.5f * Mathf.Cos(t);
 		Quaternion fireRotation = Quaternion.LookRotation(fireLocation - transform.position);
 		Transform i = virus.projectilePrefab.Spawn(fireLocation, fireRotation);
-		i.parent = GameManager.Instance.activeScene;
+		i.parent = GameManager.Instance.activeScene.instance;
 		i.SendMessage("SetTarget", _target);
 		i.SendMessage("SetDamageSource", this.transform);
 	}
@@ -125,7 +125,6 @@ public class NPCVirusFlying : MonoBehaviour {
 	}
 	
 	public void Damage(DamageInstance damage) {
-		if (damage.source == this.transform) return;
 		stats.health -= damage.damage;
 		if (stats.health < 0) {
 			Death();

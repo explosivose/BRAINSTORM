@@ -26,12 +26,12 @@ public class NPCVirusZombie : NPC {
 				_boid.profile = idleProfile;
 				// cheatsidoodle way to keep these NPCs from wandering off-scene
 				_boid.SetTarget1(GameManager.Instance.transform);
-				searchForTargets = true;
+				searchForTargets = photonView.isMine; // search for targets routine runs on owner
 				audio.pitch = _sf;
 				break;
 				
 			case State.Stalking:
-				searchForTargets = true;
+				searchForTargets = photonView.isMine;
 				_boid.profile = stalkProfile;
 				_boid.SetTarget1(target);
 				StartCoroutine(StalkRoutine());
@@ -64,38 +64,97 @@ public class NPCVirusZombie : NPC {
 	private bool _attacking = false;
 	private float _sf;
 	
+	// variables used when !photonView.isMine
+	private Vector3 latestCorrectPos;
+	private Vector3 onUpdatePos;
+	private float fraction;
+	
 	protected override void Awake() {
 		base.Awake();
-		ObjectPool.CreatePool(virusPrefab);
-		_boid = GetComponentInChildren<Boid>();
-		if (!_boid) Debug.LogError("BoidController missing");
+		
+		if (photonView.isMine) {
+			Transform boid = transform.Find("BoidControl");
+			if (!boid) Debug.LogError("BoidControl missing");
+			boid.gameObject.SetActive(true);
+			_boid = boid.GetComponent<Boid>();
+			if (!_boid) Debug.LogError("BoidControl missing");
+			_boid.defaultBehaviour = idleProfile;
+			ObjectPool.CreatePool(virusPrefab);
+			_sf = (Random.value/2f) + 0.5f;
+			transform.localScale *= _sf;
+		}
+
 		_ren = GetComponentInChildren<MeshRenderer>();
-		_boid.defaultBehaviour = idleProfile;
-		_sf = (Random.value/2f) + 0.5f;
-		transform.localScale *= _sf;
 		audio.pitch = _sf;
 		audio.timeSamples = Random.Range(0, audio.clip.samples);
 	}
 	
 	void Start() {
-		_boid.SetTarget1(GameManager.Instance.transform);
-		state = State.Idle;
+		
+		if (photonView.isMine) {
+			state = State.Idle;
+		}
+		else {
+			latestCorrectPos = transform.position;
+			onUpdatePos = transform.position;
+		}
+		
 	}
 	
 	protected override void OnEnable() {
 		base.OnEnable();
 		if (state == State.Dead) return;
 		if (GameManager.Instance.levelTeardown) return;
-		_hurt = false;
+		if (photonView.isMine) {
+			
+			_boid.enabled = true;
+			_boid.target1PositionOffset = Vector3.zero;
+		}
 		_attacking = false;
+		_hurt = false;
 		audio.Play();
-		_boid.enabled = true;
-		_boid.target1PositionOffset = Vector3.zero;
-		
+	}
+	
+	[RPC]
+	void ChangeState(int change) {
+		state = (State)change;
+	}
+	
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			Vector3 pos = transform.localPosition;
+			Quaternion rot = transform.localRotation;
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+		}
+		else
+		{
+			// Receive latest state information
+			Vector3 pos = Vector3.zero;
+			Quaternion rot = Quaternion.identity;
+			
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+			
+			latestCorrectPos = pos;                 // save this to move towards it in FixedUpdate()
+			onUpdatePos = transform.localPosition;  // we interpolate from here to latestCorrectPos
+			fraction = 0;                           // reset the fraction we alreay moved. see Update()
+			
+			transform.localRotation = rot;          // this sample doesn't smooth rotation
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+	
+		if (!photonView.isMine) {
+			fraction = fraction + Time.deltaTime * 9;
+			transform.localPosition = Vector3.Lerp(onUpdatePos, latestCorrectPos, fraction);    // set our pos between A and B
+			return;
+		}
+		
 		switch(state) {
 		case State.Idle:
 			IdleUpdate();
@@ -130,6 +189,7 @@ public class NPCVirusZombie : NPC {
 			return;
 		}
 		if (targetIsOutOfRange) {
+			target = null;
 			state = State.Idle;
 			return;
 		}
@@ -148,13 +208,13 @@ public class NPCVirusZombie : NPC {
 	IEnumerator StalkRoutine() {
 		float time = 1f;
 		while(state == State.Stalking) {
-			_boid.target1PositionOffset = transform.up * 10f;
+			_boid.target1PositionOffset = transform.up * targetDistance;
 			yield return new WaitForSeconds(time);
-			_boid.target1PositionOffset = transform.right * 10f;
+			_boid.target1PositionOffset = transform.right * targetDistance;
 			yield return new WaitForSeconds(time);
-			_boid.target1PositionOffset = -transform.up * 10f;
+			_boid.target1PositionOffset = -transform.up * targetDistance;
 			yield return new WaitForSeconds(time);
-			_boid.target1PositionOffset = -transform.right * 10f;
+			_boid.target1PositionOffset = -transform.right * targetDistance;
 			yield return new WaitForSeconds(time);
 		}
 		_boid.target1PositionOffset = Vector3.zero;
@@ -197,32 +257,47 @@ public class NPCVirusZombie : NPC {
 	
 	IEnumerator AttackRoutine() {
 		_attacking = true;
-		target.BroadcastMessage ("Damage", _damage, SendMessageOptions.DontRequireReceiver);
-		target.SendMessageUpwards("Damage", _damage, SendMessageOptions.DontRequireReceiver);
+		target.BroadcastMessage ("Damage", attackDamage, SendMessageOptions.DontRequireReceiver);
+		target.SendMessageUpwards("Damage", attackDamage, SendMessageOptions.DontRequireReceiver);
 		yield return new WaitForSeconds(1f/attackRate);
 		_attacking = false;
 	}
 	
-	protected override void Damage(DamageInstance damage) {
+	[RPC]
+	protected override void Damage(int damage) {
+		
 		if (state == State.Dead) return;
-		base.Damage(damage);
-		if (isDead) {
-			state = State.Dead;
+		
+		if (photonView.isMine) {
+			base.Damage(damage);
+			if (isDead) {
+				photonView.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)State.Dead);
+			}
+			else {
+				photonView.RPC("Hurt", PhotonTargets.All);
+			}
 		}
-		else if (!_hurt) {
-			StartCoroutine( Hurt() );
+		// I don't own this. Tell the owner I damaged their Virus
+		else {
+			photonView.RPC("Damage", photonView.owner, damage);
 		}
+
 	}
 	
 	protected override void Killed(Transform victim) {
 		Transform v = virusPrefab.Spawn(victim.position, victim.rotation);
-		v.parent = GameManager.Instance.activeScene;
+		v.parent = GameManager.Instance.activeScene.instance;
 		if (victim == target) {
 			state = State.Idle;
 		}
 	}
 	
-	IEnumerator Hurt() {
+	[RPC]
+	void Hurt() {
+		if (!_hurt) StartCoroutine( HurtEffect() );
+	}
+	
+	IEnumerator HurtEffect() {
 		_hurt = true;
 		_ren.material = wardrobe.hurt;
 		yield return new WaitForSeconds(0.1f);

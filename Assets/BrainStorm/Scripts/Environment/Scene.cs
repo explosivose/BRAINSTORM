@@ -10,7 +10,8 @@ public class Scene {
 		Terror,
 		Joy,
 		Calm,
-		Safety
+		Safety,
+		GriefMP
 	}
 	
 	public string name {
@@ -19,6 +20,7 @@ public class Scene {
 		}
 	}
 	public Tag 			tag;
+	public bool			multiplayer;
 	public Transform 	scenePrefab;
 	public bool 		fog;
 	public Color 		fogColor;
@@ -36,10 +38,38 @@ public class Scene {
 		get { return _sceneInstance; }
 	}
 	
+	public int seed {
+		get; private set;
+	}
+	
 	public void Load() {
-		ObjectPool.CreatePool(scenePrefab);
-		_sceneInstance = scenePrefab.Spawn();
+		seed = Random.seed;
+		LoadScene();
 		isLoaded = true;
+	}
+	
+	public void Load(int seedOverride) {
+		Random.seed = seedOverride;
+		seed = seedOverride;
+		LoadScene();
+		isLoaded = true;
+	}
+	
+	private void LoadScene() {
+		/*
+		if (multiplayer) {
+			_sceneInstance = PhotonNetwork.InstantiateSceneObject(
+				"Scenes/" + scenePrefab.name,
+				Vector3.zero,
+				Quaternion.identity,
+				0,
+				null
+				).transform;
+		}
+		else {*/
+			ObjectPool.CreatePool(scenePrefab);
+			_sceneInstance = scenePrefab.Spawn();
+		//}
 	}
 	
 	public void Unload() {

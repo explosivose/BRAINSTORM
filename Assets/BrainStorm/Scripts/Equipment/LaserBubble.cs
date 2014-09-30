@@ -48,12 +48,12 @@ public class LaserBubble : MonoBehaviour {
 		_renderer = GetComponentInChildren<MeshRenderer>();
 		_initColor = _renderer.material.GetColor("_TintColor");
 		_damage.damage = damage;
-		_damage.source = this.transform;
 		transform.localScale = Vector3.one;
 	}
 	
 	void OnEquip() {
 		audio.Play();
+		_damage.viewId = _equipment.owner.photonView.viewID;
 	}
 	
 	void OnDrop() {

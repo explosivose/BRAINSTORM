@@ -160,8 +160,11 @@ public class Boid : MonoBehaviour {
 	
 	void FixedUpdate() {
 		if (!controlEnabled) return;
-		Quaternion rotation = Quaternion.LookRotation(_boidDir);
-		_parent.rotation = Quaternion.Lerp(_parent.rotation, rotation, profile.turnSpeed * Time.deltaTime);
+		
+		if (_boidDir != Vector3.zero) {
+			Quaternion rotation = Quaternion.LookRotation(_boidDir);
+			_parent.rotation = Quaternion.Lerp(_parent.rotation, rotation, profile.turnSpeed * Time.deltaTime);
+		}
 		
 		float force = _rb.drag * _rb.mass * profile.moveSpeed;
 		_rb.AddForce(_parent.forward * force);

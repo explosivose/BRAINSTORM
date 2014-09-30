@@ -17,10 +17,11 @@ using System.Collections;
 [AddComponentMenu("Player/Mouse Look")]
 public class MouseLook : MonoBehaviour {
 	
+	public static bool freeze;
+	public static float sensitivity = 10f;
+	
 	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 	public RotationAxes axes = RotationAxes.MouseXAndY;
-	public float sensitivityX = 15F;
-	public float sensitivityY = 15F;
 
 	public float minimumX = -360F;
 	public float maximumX = 360F;
@@ -32,7 +33,6 @@ public class MouseLook : MonoBehaviour {
 
 	void Update ()
 	{
-		//if (GameManager.Instance.paused) return;
 		if (Screen.lockCursor) {
 			RotateOnAxis();
 		}
@@ -42,22 +42,24 @@ public class MouseLook : MonoBehaviour {
 	}
 	
 	void RotateOnAxis() {
+		if (freeze) return;
+		float fovFactor = Camera.main.fieldOfView / Player.localPlayer.fov;
 		if (axes == RotationAxes.MouseXAndY)
 		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity * fovFactor;
 			
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY += Input.GetAxis("Mouse Y") * sensitivity * fovFactor;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 		}
 		else if (axes == RotationAxes.MouseX)
 		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity * fovFactor, 0);
 		}
 		else
 		{
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY += Input.GetAxis("Mouse Y") * sensitivity * fovFactor;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
@@ -79,17 +81,38 @@ public class MouseLook : MonoBehaviour {
 		if (mousePos.x < 0 ||
 		 	mousePos.x > Screen.width ||
 			mousePos.y < 0 ||
-			mousePos.y > Screen.height) 
+			mousePos.y > Screen.height ||
+			freeze) 
 		{
 				lastCall = Time.realtimeSinceStartup;
 				return;
 		}
 		
-		Ray ray = Camera.main.ScreenPointToRay(mousePos);
-		Quaternion rotation =  Quaternion.LookRotation(ray.direction);
 		Transform cam = Camera.main.transform;
-		if (GameManager.Instance.paused)
-		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime * 2f);
+		Ray ray = cam.camera.ScreenPointToRay(mousePos);
+
+		LayerMask mask = LayerMask.NameToLayer("UI");
+		Quaternion rotation = cam.rotation;
+		float rotationSpeed;
+		RaycastHit[] hits;
+		RaycastHit hit;
+		hits = Physics.RaycastAll(ray, 100f, ~mask);
+		if (hits.Length > 0) {
+			hit = hits[0];
+			foreach(RaycastHit h in hits) {
+				float d1 = Vector3.Distance(hit.point, cam.position);
+				float d2 = Vector3.Distance(h.point, cam.position);
+				if (d2 > d1) hit = h;
+			}
+			rotationSpeed = 1.2f;
+			rotation = Quaternion.LookRotation(hit.collider.bounds.center - cam.position);
+		}
+		else {
+			rotation =  Quaternion.LookRotation(ray.direction);
+			rotationSpeed = 0.1f;
+		}
+
+		cam.rotation = Quaternion.Lerp(cam.rotation, rotation, deltaTime * rotationSpeed);
 		
 		lastCall = Time.realtimeSinceStartup;
 	}

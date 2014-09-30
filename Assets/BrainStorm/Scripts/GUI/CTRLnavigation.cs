@@ -50,7 +50,9 @@ public class CTRLnavigation : CTRLelement {
 		// hide other branches first
 		transform.parent.BroadcastMessage("HideMenu", SendMessageOptions.DontRequireReceiver);
 		Transform cam = Camera.main.transform;
-		Vector3 position = cam.position + (cam.forward + cam.right) * 5f;
+		Quaternion offsetRotation = Quaternion.AngleAxis(45f * CTRL.level, cam.up);
+		Vector3 position = cam.position;
+		position += (offsetRotation * CTRL.zeroDirection) * 7f;
 		Quaternion rotation = Quaternion.LookRotation(position - Camera.main.transform.position);
 		menuInstance = menuPrefab.Spawn(position, rotation);
 	}

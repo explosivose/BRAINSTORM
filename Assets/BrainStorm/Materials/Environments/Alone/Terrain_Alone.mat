@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain_Alone
-  m_Shader: {fileID: 4800000, guid: 054a31a99d11e49d110086ba44295342, type: 3}
+  m_Shader: {fileID: 6, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -30,14 +30,26 @@ Material:
     m_Floats:
       data:
         first:
+          name: _Shininess
+        second: .699999988
+      data:
+        first:
           name: _Outline
         second: .00799999945
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .227483258, g: .18847318, b: .308823526, a: 1}
+        second: {r: .094117634, g: .544070363, b: .607843161, a: 1}
+      data:
+        first:
+          name: _Emission
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _OutlineColor
-        second: {r: .203990042, g: .206487864, b: .566176474, a: 1}
+        second: {r: .0941176489, g: .541176498, b: .603921592, a: 1}

@@ -22,8 +22,11 @@ public class ScreenShake : Singleton<ScreenShake>
 	
 	void init()
 	{
+		if (!Camera.main) {
+			Debug.LogError("ScreenShake could not find main camera.");
+			return;
+		}
 		_cam = Camera.main.transform;
-		if (!_cam) Debug.LogError("could not find main camera");
 		_originalPosition = _cam.localPosition;
 	}
 	
@@ -36,7 +39,7 @@ public class ScreenShake : Singleton<ScreenShake>
 	public void SetCamera(Transform newCamera)
 	{
 		_cam = newCamera;
-		_originalPosition = newCamera.position;
+		_originalPosition = newCamera.localPosition;
 	}
 	
 	void Update()

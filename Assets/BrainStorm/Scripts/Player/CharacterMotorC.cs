@@ -64,6 +64,7 @@ public class CharacterMotorC : MonoBehaviour {
 		// The gravity for the character
 		public float gravity = 10.0f;
 		public float maxFallSpeed = 20.0f;
+		public float airControlFactor = 0.4f;
 		// For the next variables, [System.NonSerialized] tells Unity to not serialize the variable or show it in the inspector view.
 		// Very handy for organization!
 		// The last collision flags returned from controller.Move
@@ -111,6 +112,7 @@ public class CharacterMotorC : MonoBehaviour {
 		public bool enabled = true;
 		// How high do we jump when pressing jump and letting go immediately
 		public float baseHeight = 1.0f;
+		public bool extraJumpEnabled = true;
 		// We add extraHeight units (meters) on top when holding the button down longer while jumping
 		public float extraHeight = 4.1f;
 		// How much does the character jump out perpendicular to the surface on walkable surfaces?
@@ -243,6 +245,8 @@ public class CharacterMotorC : MonoBehaviour {
 	public CharacterMotorSliding sliding = new CharacterMotorSliding();
 
 	private bool grounded = true;
+	private bool kickback = false;
+	private Vector3 kickbackVector = Vector3.zero;
 	
 	[System.NonSerialized]
 	Vector3 groundNormal = Vector3.zero;
@@ -254,6 +258,14 @@ public class CharacterMotorC : MonoBehaviour {
 	void Awake () {
 		controller = GetComponent <CharacterController>();
 		tr = transform;
+		sprint.stamina = sprint.sprintLength;
+		jetpack.fuel = jetpack.maxJetpackFuel;
+		dashpack.fuel = dashpack.maxDashpackFuel;
+	}
+	
+	public void Kickback(Vector3 vector) {
+		kickbackVector = vector;
+		kickback = true;
 	}
 	
 	void UpdateFunction () {
@@ -299,8 +311,18 @@ public class CharacterMotorC : MonoBehaviour {
 		// Reset variables that will be set by collision function
 		movingPlatform.hitPlatform = null;
 		groundNormal = Vector3.zero;
+		
+		Vector3 kick = Vector3.zero;
+		if (kickback) {
+			kickback = false;
+			kick = kickbackVector;
+			if (!grounded) {
+				kick *= 0.125f;
+			}
+		}
+		
 		// Move our character!
-		movement.collisionFlags = controller.Move (currentMovementOffset);
+		movement.collisionFlags = controller.Move (currentMovementOffset + kick);
 		movement.lastHitPoint = movement.hitPoint;
 		lastGroundNormal = groundNormal;
 		if (movingPlatform.enabled && movingPlatform.activePlatform != movingPlatform.hitPlatform) {
@@ -470,6 +492,8 @@ public class CharacterMotorC : MonoBehaviour {
 		// If we're on the ground and don't have control we do apply it - it will correspond to friction.
 		if (grounded || dashpack.dashpacking || jetpack.jetpacking)
 			velocity += velocityChangeVector;
+		else 
+			velocity += velocityChangeVector * movement.airControlFactor;// reduced control while falling
 		if (grounded) {
 			// When going uphill, the CharacterController will automatically move up by the needed amount.
 			// Not moving it upwards manually prevent risk of lifting off from the ground.
@@ -495,7 +519,7 @@ public class CharacterMotorC : MonoBehaviour {
 			if (jumping.jumping && jumping.holdingJumpButton) {
 				// Calculate the duration that the extra jump force should have effect.
 				// If we're still less than that duration after the jumping time, apply the force.
-				if (Time.time < jumping.lastStartTime + jumping.extraHeight / CalculateJumpVerticalSpeed(jumping.baseHeight)) {
+				if (jumping.extraJumpEnabled && Time.time < jumping.lastStartTime + jumping.extraHeight / CalculateJumpVerticalSpeed(jumping.baseHeight)) {
 					// Negate the gravity we just applied, except we push in jumpDir rather than jump upwards.
 					velocity += jumping.jumpDir * movement.gravity * Time.deltaTime;
 				}

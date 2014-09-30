@@ -15,40 +15,62 @@ public class GameManager : MonoBehaviour {
 		All		= 0xFF
 	}
 	
+	public bool 		grabCursor = false;
+	public bool 		playerPauseEnabled = true;
+
+	[EnumMask]
+	public WinStates 	winState = WinStates.None;
+	public Scene[] 		scenes;
+	public Scene 		copyScene;
 	// if you press R then the current render settings are copied
 	// to the current scene in scenes[] to be saved manually
 	// by the game designer
-	public bool copyRenderSettings = false;
-	[EnumMask]
-	public WinStates winState = WinStates.None;
-	public Scene[] scenes;
-	public Scene copyScene;
-	private bool _paused;
-	private bool _levelTeardown;
-	private float _sceneChangeTime = -999f;
-	private Scene _activeScene;
-	private Quaternion _camRotationBeforePause;
-	private GUIText _header;
-	private ScreenFade _fade;
+	public bool 		copyRenderSettings = false;
+	
+	private bool 		_paused;
+	private bool 		_levelTeardown;
+	private float 		_sceneChangeTime = -999f;
+	private Scene 		_activeScene;
+	private Quaternion 	_camRotationBeforePause;
+	private GUIText 	_header;
+	private ScreenFade 	_fade;
 	
 	public bool paused {
 		get { return _paused; }
 		set {
-			_paused = value;
-			if (_paused) {
-				_camRotationBeforePause = Camera.main.transform.localRotation;
-				Time.timeScale = 0f;
-				AudioListener.volume = 0f;
+			// don't try to pause if there is no player or camera
+			if (!Player.localPlayer) {
+				Debug.LogWarning("Won't pause/unpause: player instance not found.");
+				return;
+			}
+			if (!Camera.main) {
+				Debug.LogWarning("Won't pause/unpause: player found, but no camera found!");
+				return;
+			}
+			
+			
+			if (value && playerPauseEnabled) {
+				_paused = true;
 				Screen.lockCursor = false;
 				CTRL.Instance.ShowPauseMenu();
-			}
+				Player.localPlayer.motor.canControl = false;
+				_camRotationBeforePause = Camera.main.transform.localRotation;
+				if (!PhotonNetwork.inRoom)
+					Time.timeScale = 1f;
 
+			}
 			else {
-				Camera.main.transform.localRotation = _camRotationBeforePause;
-				Time.timeScale = 1f;
-				AudioListener.volume = 1f;
-				Screen.lockCursor = true;
+				_paused = false;
+				Screen.lockCursor = true && grabCursor;
 				CTRL.Instance.HidePauseMenu();
+				Player.localPlayer.motor.canControl = true;
+				Camera.main.transform.localRotation = 
+						playerPauseEnabled ? 
+							_camRotationBeforePause : 
+							Camera.main.transform.localRotation;
+				if (!PhotonNetwork.inRoom)
+					Time.timeScale = 1f;
+
 			}
 		}
 	}
@@ -57,19 +79,24 @@ public class GameManager : MonoBehaviour {
 		get { return _levelTeardown; }
 	}
 	
-	public Transform activeScene {
+	public Scene activeScene {
 		get {
-			if (_activeScene != null) 
-				return _activeScene.instance;
-			else 
-				return null;
+			return _activeScene;
 		}
+	}
+	
+	public int masterSeed {
+		get; set;
 	}
 	
 	public float timeSinceSceneChange {
 		get {
 			return Time.time - _sceneChangeTime;
 		}
+	}
+	
+	public GameObject defaultCamera {
+		get; private set;
 	}
 	
 	public bool griefComplete {
@@ -117,6 +144,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+
 	void Awake() {
 		if (Instance == null) {
 			Instance = this;
@@ -125,9 +153,11 @@ public class GameManager : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 		_header = transform.Find("Header").guiText;
-		_header.text = Strings.gameVersion;
+		defaultCamera = transform.Find("Default Camera").gameObject;
+		_header.text = Strings.gameTitle + " " + Strings.gameVersion;
 		_fade = GetComponent<ScreenFade>();
 		transform.position = Vector3.zero;
+		Options.Load();
 	}
 	
 	
@@ -142,37 +172,40 @@ public class GameManager : MonoBehaviour {
 		StartGame();
 	}
 	
-	void StartGame() {
-		Screen.lockCursor = true;
-		if (Application.loadedLevelName == "brainstorm") {
-			ChangeScene(Scene.Tag.Lobby);
-		}
-		paused = false;
+	void OnApplicationFocus(bool focus) {
+
 	}
 	
+	void StartGame() {
+		if (Application.loadedLevel == 0) {
+			defaultCamera.SetActive(true);
+			CTRL.Instance.ShowStartMenu();
+		}
+		else if (Application.loadedLevelName == "brainstorm") {
+			ChangeScene(Scene.Tag.Lobby);
+		}
+		else if (Application.loadedLevelName == "multiplayer") {
+			PhotonNetwork.ConnectUsingSettings(Strings.gameVersion);
+		}
+	}
+	
+	public void Restart() {
+		Quit (); // figure out restart later
+	}
 	
 	void Update () {
+		if (!Player.localPlayer) return;
 		if (!Screen.lockCursor && !paused) {
 			paused = true;
 		}
-		if (Input.GetKeyUp(KeyCode.Escape) && !paused) {
-			paused = true;
+		if (Input.GetKeyUp(KeyCode.Escape)) {
+			paused = !paused;
 		}
 		if (Application.isEditor & copyRenderSettings) {
 			CopyRenderSettings();
 		}
 	}
 	
-	void CopyRenderSettings() {
-		if (Input.GetKeyUp(KeyCode.R)) {
-			copyScene = new Scene();
-			copyScene.ambientLight = RenderSettings.ambientLight;
-			copyScene.fog = RenderSettings.fog;
-			copyScene.fogColor = RenderSettings.fogColor;
-			copyScene.fogDensity = RenderSettings.fogDensity;
-			copyScene.skybox = RenderSettings.skybox;
-		}
-	}
 	
 	public void SceneComplete() {
 		switch (_activeScene.tag) {
@@ -184,6 +217,10 @@ public class GameManager : MonoBehaviour {
 			break;
 		case Scene.Tag.Terror:
 			ChangeScene(Scene.Tag.Safety);
+			break;
+		default:
+			Debug.LogError("SceneComplete() called inappropriately in " +
+				_activeScene.tag.ToString() + " scene.");
 			break;
 		}
 	}
@@ -201,13 +238,27 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
 		// unload active scene
-		if (_activeScene != null)
+		if (_activeScene != null) {
+			Debug.Log ("Unloading scene " + _activeScene.tag.ToString());
 			_activeScene.Unload();
-		// spawn next scene
+		}
+		
+		// override the seed with the master seed if we're not the master
+		bool overrideSeed = 
+			(PhotonNetwork.inRoom && !PhotonNetwork.isMasterClient);
+		
+		// Load scene settings
 		foreach(Scene s in scenes) {
 			if (s.tag == scene) {
 				_activeScene = s;
-				_activeScene.Load();
+				Debug.Log ("Loading scene " + _activeScene.tag.ToString() +
+					" with seed override " + overrideSeed);
+				
+				if (overrideSeed) 
+					_activeScene.Load(masterSeed);
+				else 
+					_activeScene.Load();
+	
 				RenderSettings.ambientLight = _activeScene.ambientLight;
 				RenderSettings.fog = _activeScene.fog;
 				RenderSettings.fogColor = _activeScene.fogColor;
@@ -216,10 +267,38 @@ public class GameManager : MonoBehaviour {
 				break;
 			}
 		}
+		
+		// if we're the master, store the scene seed
+		if (PhotonNetwork.inRoom  && PhotonNetwork.isMasterClient) {
+			masterSeed = activeScene.seed;
+			Debug.Log ("Master seed set: " + masterSeed);
+		}
+		
+		
 		_levelTeardown = false;
-		yield return new WaitForEndOfFrame();
+		defaultCamera.SetActive(false);
+		yield return new WaitForSeconds(0.2f);
+		SendMessage("OnSceneLoaded");
 		_fade.StartFade(Color.clear, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 	}
 	
+	public void Quit() {
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+		#else
+		Application.Quit();
+		#endif
+	}
+	
+	void CopyRenderSettings() {
+		if (Input.GetKeyUp(KeyCode.R)) {
+			copyScene = new Scene();
+			copyScene.ambientLight = RenderSettings.ambientLight;
+			copyScene.fog = RenderSettings.fog;
+			copyScene.fogColor = RenderSettings.fogColor;
+			copyScene.fogDensity = RenderSettings.fogDensity;
+			copyScene.skybox = RenderSettings.skybox;
+		}
+	}
 }
