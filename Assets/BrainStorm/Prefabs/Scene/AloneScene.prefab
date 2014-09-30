@@ -10926,11 +10926,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400002
@@ -10946,11 +10948,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400004
@@ -10966,11 +10970,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400006
@@ -11046,11 +11052,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400016
@@ -11155,11 +11163,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 52d0edf77d19c734ab199dc1416efd76, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 1
   variationOnAmount: 1
   position: 0
   rotation: 6
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 0
   variationOnTime: 1
 --- !u!114 &11400030
@@ -11188,7 +11198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11202,8 +11212,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11222,11 +11232,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 52d0edf77d19c734ab199dc1416efd76, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 1
   variationOnAmount: 1
   position: 0
   rotation: 0
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: .5
   variationOnTime: 1
 --- !u!114 &11400036
@@ -11442,7 +11454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11456,8 +11468,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11474,7 +11486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11488,8 +11500,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11506,7 +11518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11520,8 +11532,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11625,7 +11637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11639,8 +11651,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11882,7 +11894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11896,8 +11908,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11959,7 +11971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -11973,8 +11985,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -11991,7 +12003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12005,8 +12017,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12023,7 +12035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12037,8 +12049,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12055,7 +12067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12069,8 +12081,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12087,7 +12099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12101,8 +12113,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12119,7 +12131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12133,8 +12145,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12151,7 +12163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12165,8 +12177,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12183,7 +12195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12197,8 +12209,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12215,7 +12227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12229,8 +12241,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12247,7 +12259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12261,8 +12273,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12279,7 +12291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12293,8 +12305,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12311,7 +12323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12325,8 +12337,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12343,7 +12355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12357,8 +12369,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12375,7 +12387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12389,8 +12401,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12407,7 +12419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12421,8 +12433,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12439,7 +12451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12453,8 +12465,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12471,7 +12483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12485,8 +12497,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12503,7 +12515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12517,8 +12529,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12535,7 +12547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12549,8 +12561,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12567,7 +12579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12581,8 +12593,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12599,7 +12611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12613,8 +12625,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12631,7 +12643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12645,8 +12657,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12663,7 +12675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12677,8 +12689,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12695,7 +12707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12709,8 +12721,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12727,7 +12739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12741,8 +12753,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12759,7 +12771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12773,8 +12785,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12791,7 +12803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12805,8 +12817,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12823,7 +12835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12837,8 +12849,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12855,7 +12867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12869,8 +12881,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12887,7 +12899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12901,8 +12913,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12919,7 +12931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12933,8 +12945,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12951,7 +12963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12965,8 +12977,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -12983,7 +12995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -12997,8 +13009,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13015,7 +13027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13029,8 +13041,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13047,7 +13059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13061,8 +13073,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13079,7 +13091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13093,8 +13105,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13111,7 +13123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13125,8 +13137,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13143,7 +13155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13157,8 +13169,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13175,7 +13187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13189,8 +13201,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13207,7 +13219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13221,8 +13233,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13239,7 +13251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13253,8 +13265,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13271,7 +13283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13285,8 +13297,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13303,7 +13315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13317,8 +13329,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13335,7 +13347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13349,8 +13361,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13367,7 +13379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13381,8 +13393,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13399,7 +13411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13413,8 +13425,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13431,7 +13443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13445,8 +13457,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13463,7 +13475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBuildingHeight: 100
+  maxBuildingHeight: 200
   minBuildingHeight: 30
   maxLeanAngle: 6
   floor:
@@ -13477,8 +13489,8 @@ MonoBehaviour:
     openness: .600000024
     maxSpacing: 8
     minSpacing: 5
-    maxScale: {x: 75, y: 1, z: 75}
-    minScale: {x: 10, y: .5, z: 10}
+    maxScale: {x: 100, y: 1, z: 100}
+    minScale: {x: 20, y: .5, z: 20}
   column:
     prefabs:
     - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
@@ -13497,11 +13509,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400208
@@ -13517,11 +13531,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400210
@@ -13537,11 +13553,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400212
@@ -13557,11 +13575,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400214
@@ -13577,11 +13597,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400216
@@ -13597,11 +13619,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400218
@@ -13617,11 +13641,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400220
@@ -13637,11 +13663,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400222
@@ -13657,11 +13685,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 400002, guid: 62269b575271e88449305b46c54eed24, type: 2}
   useObjectPool: 1
+  networkSpawn: 0
   spawnOnStart: 1
   amountToSpawn: 8
   variationOnAmount: 1
   position: 1
   rotation: 1
+  timeBeforeFirstSpawn: 0
   timeBetweenInstantiations: 2
   variationOnTime: 1
 --- !u!114 &11400224
@@ -13675,9 +13705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13694,9 +13724,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13713,9 +13743,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13732,9 +13762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13751,9 +13781,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13770,9 +13800,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13789,9 +13819,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13808,9 +13838,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13827,9 +13857,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13846,9 +13876,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13865,9 +13895,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13884,9 +13914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13903,9 +13933,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13922,9 +13952,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13941,9 +13971,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13960,9 +13990,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13979,9 +14009,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -13998,9 +14028,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14017,9 +14047,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14036,9 +14066,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14055,9 +14085,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14074,9 +14104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14093,9 +14123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14112,9 +14142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14131,9 +14161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14150,9 +14180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14169,9 +14199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14188,9 +14218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14207,9 +14237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14226,9 +14256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14245,9 +14275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14264,9 +14294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14283,9 +14313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14302,9 +14332,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14321,9 +14351,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14340,9 +14370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14359,9 +14389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14378,9 +14408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14397,9 +14427,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14416,9 +14446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14435,9 +14465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14454,9 +14484,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14473,9 +14503,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14492,9 +14522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14511,9 +14541,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14530,9 +14560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14549,9 +14579,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14568,9 +14598,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14587,9 +14617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14606,9 +14636,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14625,9 +14655,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14644,9 +14674,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14663,9 +14693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1
@@ -14682,9 +14712,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameToWait: 5
+  frameToWait: 0
   generateTriangleStrips: 1
-  combineOnStart: 1
+  combineOnStart: 0
   destroyAfterOptimized: 1
   castShadow: 1
   receiveShadow: 1

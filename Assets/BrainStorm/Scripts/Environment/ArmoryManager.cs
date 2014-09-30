@@ -28,7 +28,7 @@ public class ArmoryManager : MonoBehaviour {
 		yield return new WaitForSeconds(1f);
 		for (int i = _weaponsSpawned; i < weaponPrefabs.Length; i++) {
 			Transform w = weaponPrefabs[i].Spawn(transform.position - transform.right * (i+1) * 3);
-			w.parent = GameManager.Instance.activeScene;
+			w.parent = GameManager.Instance.activeScene.instance;
 			_weaponsSpawned++;
 			yield return new WaitForSeconds(0.3f);
 		}
@@ -38,7 +38,7 @@ public class ArmoryManager : MonoBehaviour {
 		yield return new WaitForSeconds(1f);
 		for (int i = _equipmentSpawned; i < equipmentPrefabs.Length; i++) {
 			Transform e = equipmentPrefabs[i].Spawn(transform.position + transform.right * (i+1) * 3);
-			e.parent = GameManager.Instance.activeScene;
+			e.parent = GameManager.Instance.activeScene.instance;
 			_equipmentSpawned++;
 			yield return new WaitForSeconds(0.3f);
 		}

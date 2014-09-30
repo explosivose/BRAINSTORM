@@ -21,7 +21,7 @@ public class BoidFlockSpawner : MonoBehaviour {
 				) - collider.bounds.extents;
 			
 			GameObject b = Instantiate(prefab, transform.position + position, Random.rotation) as GameObject;
-			b.transform.parent = GameManager.Instance.activeScene;
+			b.transform.parent = GameManager.Instance.activeScene.instance;
 			if (setTarget)
 				b.SendMessage("SetTarget2", target.transform);
 		}

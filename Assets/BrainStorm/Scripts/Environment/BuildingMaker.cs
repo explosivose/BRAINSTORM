@@ -72,28 +72,38 @@ public class BuildingMaker : MonoBehaviour {
 	
 	void Start() {
 		_box = GetComponent<BoxCollider>();
-		StartCoroutine(Build());
+		
+		if (PhotonNetwork.inRoom) {
+			Random.seed = GameManager.Instance.activeScene.seed;
+			Random.seed += Mathf.RoundToInt(transform.position.magnitude);
+		}
+		
+		BuildImmediate();
+		//StartCoroutine(BuildRoutine());
 	}
 	
 	void OnDrawGizmos() {
-		Gizmos.color = Color.Lerp(Color.clear, Color.cyan, 0.75f);
+		Gizmos.color = Color.Lerp(Color.clear, Color.black, 0.75f);
 		Gizmos.DrawCube(
 			GetComponent<BoxCollider>().center + transform.position, 
 			GetComponent<BoxCollider>().size
 		);
 	}
 	
-	IEnumerator Build() {
-		
+	// running this routine in separate machines results in different buildings
+	// even with the same seed set in Start()
+	IEnumerator BuildRoutine() {
+		Debug.Log (Random.seed);
 		GroundFloor();
-		
+		Debug.Log (Random.seed);
 		float height = Random.Range(minBuildingHeight, maxBuildingHeight);
-		
+		Debug.Log (Random.seed);
 		while (floor.position.y - transform.position.y < height) {
 			NextFloor();
 			float roll = Random.value;
 			if (roll < floor.variation) GenerateFloorData();
 			yield return new WaitForSeconds(0.1f);
+			Debug.Log (Random.seed);
 		}
 		
 		// lean
@@ -106,6 +116,29 @@ public class BuildingMaker : MonoBehaviour {
  		yield return new WaitForEndOfFrame();
  		
  		SendMessage("Combine");
+	}
+	
+	void BuildImmediate() {
+		
+		GroundFloor();
+		
+		float height = Random.Range(minBuildingHeight, maxBuildingHeight);
+		
+		while (floor.position.y - transform.position.y < height) {
+			NextFloor();
+			float roll = Random.value;
+			if (roll < floor.variation) GenerateFloorData();
+		}
+		
+		// lean
+		Vector3 rot = new Vector3(
+			(Random.value - 0.5f) * 2f * maxLeanAngle,
+			0f,
+			(Random.value - 0.5f) * 2f * maxLeanAngle
+			);
+		transform.Rotate(rot);
+		
+		SendMessage("Combine");
 	}
 	
 	void GroundFloor() {

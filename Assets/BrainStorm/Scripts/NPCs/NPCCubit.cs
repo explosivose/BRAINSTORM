@@ -36,7 +36,7 @@ public class NPCCubit : MonoBehaviour {
 		Vector3 fireDirection = _faction.target.position - transform.position;
 		Quaternion fireRotation = Quaternion.LookRotation(fireDirection);
 		Transform i = rocketPrefab.Spawn(fireLocation, fireRotation);
-		i.parent = GameManager.Instance.activeScene;
+		i.parent = GameManager.Instance.activeScene.instance;
 		i.SendMessage("SetDamageSource", this.transform);
 	}
 

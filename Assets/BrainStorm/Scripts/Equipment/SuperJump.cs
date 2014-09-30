@@ -8,10 +8,10 @@ public class SuperJump : MonoBehaviour {
 	// this script is just sounds and enabling/disabling behaviour
 	
 	void OnEquip() {
-		PlayerInventory.Instance.hasSuperJump = true;
+		Player.localPlayer.inventory.hasSuperJump = true;
 	}
 	
 	void OnDrop() {
-		PlayerInventory.Instance.hasSuperJump = false;
+		Player.localPlayer.inventory.hasSuperJump = false;
 	}
 }

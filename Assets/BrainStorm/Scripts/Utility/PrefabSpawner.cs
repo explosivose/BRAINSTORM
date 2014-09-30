@@ -3,10 +3,19 @@ using System.Collections;
 
 public class PrefabSpawner : MonoBehaviour {
 
+	public static Vector3 randomPositionIn(Bounds bounds) {
+		return new Vector3 (
+			Random.value * bounds.size.x,
+			Random.value * bounds.size.y,
+			Random.value * bounds.size.z
+			) - bounds.extents + bounds.center;
+	}
+
 	public enum SpawnPosition {
 		Inherited,
 		RandomInColliderBounds,
-		Unchanged
+		Unchanged,
+		RandomMultiplayer
 	}
 	public enum SpawnRotation {
 		Inherited,
@@ -15,7 +24,9 @@ public class PrefabSpawner : MonoBehaviour {
 	}
 
 	public Transform prefab;
+	public string resourcesSubpath;
 	public bool useObjectPool = true;
+	public bool networkSpawn = false;
 	public bool spawnOnStart = true;
 	public float amountToSpawn = 10f;
 	public float variationOnAmount = 1f;
@@ -28,6 +39,7 @@ public class PrefabSpawner : MonoBehaviour {
 	private float _amountToSpawn;
 	private int _spawned = 0;
 	
+
 	
 	void Start() {
 		if (useObjectPool)
@@ -45,7 +57,7 @@ public class PrefabSpawner : MonoBehaviour {
 
 	void OnDrawGizmos() {
 		if (!GetComponent<BoxCollider>()) return;
-		Gizmos.color = Color.Lerp(Color.clear, Color.green, 0.75f);
+		Gizmos.color = Color.Lerp(Color.clear, Color.green, 0.6f);
 		Gizmos.DrawCube(
 			GetComponent<BoxCollider>().center + transform.position, 
 			GetComponent<BoxCollider>().size
@@ -59,14 +71,30 @@ public class PrefabSpawner : MonoBehaviour {
 	
 
 	public void Spawn() {
-		StartCoroutine( SpawnRoutine () );
+		// only spawn if we're local-only or master in a networked game
+		if ((networkSpawn && PhotonNetwork.isMasterClient && PhotonNetwork.inRoom) || !networkSpawn) {
+			StartCoroutine( SpawnRoutine () );
+		}
 	}
 
 	IEnumerator SpawnRoutine() {
 		yield return new WaitForEndOfFrame();
 		yield return new WaitForSeconds(timeBeforeFirstSpawn);
 		for (int i = _spawned; i < _amountToSpawn; i++) {
-			Transform t = prefab.Spawn(transform.position);
+			Transform t;
+			if (networkSpawn && PhotonNetwork.isMasterClient) {
+				t = PhotonNetwork.InstantiateSceneObject(
+					resourcesSubpath + prefab.name,
+					transform.position,
+					prefab.rotation,
+					0,
+					null
+				).transform;
+			}
+			else {
+				t = prefab.Spawn(transform.position);
+			}
+			
 			
 			switch(position) {
 				default:
@@ -74,12 +102,11 @@ public class PrefabSpawner : MonoBehaviour {
 					t.position = transform.position;
 					break;
 				case SpawnPosition.RandomInColliderBounds:
-					Vector3 pos = new Vector3 (
-						Random.value * collider.bounds.size.x,
-						Random.value * collider.bounds.size.y,
-						Random.value * collider.bounds.size.z
-						) - collider.bounds.extents;
-					t.position = transform.position + pos;
+					Vector3 pos = randomPositionIn(collider.bounds);
+					t.position = pos;
+					break;
+				case SpawnPosition.RandomMultiplayer:
+					t.position = PlayerSpawn.Multiplayer.randomSpawnPosition;
 					break;
 				case SpawnPosition.Unchanged:
 					break;
@@ -98,7 +125,7 @@ public class PrefabSpawner : MonoBehaviour {
 					break;
 			}
 			
-			t.parent = GameManager.Instance.activeScene;
+			t.parent = GameManager.Instance.activeScene.instance;
 			_spawned++;
 			float vary = (Random.value-0.5f) * timeBetweenInstantiations * variationOnTime;
 			float wait = timeBetweenInstantiations + vary;

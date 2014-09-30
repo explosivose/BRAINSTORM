@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Strings {
 
-	public const string gameVersion = "BRAINSTORM v0.5-dev";
+	public const string gameTitle = "brainstorm";
+
+	public const string gameVersion = "v0.5dev-online-protoype";
 	
 	public const string developers = 
 		"SUPERCORE.CO.UK \n" +
@@ -13,6 +15,7 @@ public class Strings {
 	
 	public const string assets = 
 		"Unity3D \n" +
+		"Photon Unity Networking \n" +
 		"AstarPathfindingProject \n" +
 		"GradientGUIBars \n" +
 		"ObjectPool \n" +

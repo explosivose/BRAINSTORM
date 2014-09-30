@@ -5,7 +5,7 @@ using System.Collections;
 // which plays audio for collisions 
 
 [RequireComponent(typeof(Rigidbody))]
-public class Equipment : MonoBehaviour {
+public class Equipment : Photon.MonoBehaviour {
 	
 	[System.Serializable]
 	public class AudioLibrary {
@@ -36,7 +36,6 @@ public class Equipment : MonoBehaviour {
 	public AudioLibrary 	sounds = new AudioLibrary();
 	
 	private bool 			_equipped;
-	private Transform 		_parent;
 	private GameObject 		_tooltip;
 	
 	public bool equipped {
@@ -47,16 +46,38 @@ public class Equipment : MonoBehaviour {
 		get; set;
 	}
 	
-	void Start() {
-		if (parent == EquipParent.camera) _parent = Camera.main.transform;
-		if (parent == EquipParent.player) _parent = Player.Instance.transform;
-		_tooltip = transform.Find("tooltip").gameObject;
-		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
+	public Player owner {
+		get; private set;
 	}
 	
-	public void Equip() {
-		_equipped = true;
-		transform.parent = _parent;
+	void Start() {
+		_tooltip = transform.Find("tooltip").gameObject;
+		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
+		
+		// set kinematic if we're not master
+		if (PhotonNetwork.inRoom)
+			rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
+	}
+	
+	[RPC]
+	public void Equip(int playerPhotonViewID) {
+		PhotonView playerPhotonView = PhotonView.Find(playerPhotonViewID);
+		
+		owner = playerPhotonView.GetComponent<Player>();
+		
+		// equip for just us
+		if (playerPhotonView.isMine)
+			_equipped = true;
+		
+		
+		// position for all clients
+		if (parent == EquipParent.camera) {
+			transform.parent = owner.head;
+		}
+		else {
+			transform.parent = owner.transform;
+		}
+		
 		transform.localPosition = equippedPosition;
 		transform.localRotation = Quaternion.Euler(defaultRotation);
 		rigidbody.isKinematic = true;
@@ -65,20 +86,22 @@ public class Equipment : MonoBehaviour {
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
+	[RPC]
 	public void Drop() {
 		_equipped = false;
-		transform.parent = GameManager.Instance.activeScene;
-		transform.position = Camera.main.transform.position;
-		transform.position += Camera.main.transform.forward;
-		rigidbody.isKinematic = false;
+		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
+		transform.parent = GameManager.Instance.activeScene.instance;
+		transform.position = owner.head.position;
+		transform.position += owner.head.forward;
+		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 		collider.enabled = true;
 		if (_tooltip) _tooltip.SetActive(true);
-		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
+		owner = null;
 	}
 	
+	[RPC]
 	public void Holster() {
 		_equipped = false;
-		transform.parent = _parent;
 		transform.localPosition = holsteredPosition;
 		transform.localRotation = Quaternion.Euler(holsteredRotation);
 		rigidbody.isKinematic = true;

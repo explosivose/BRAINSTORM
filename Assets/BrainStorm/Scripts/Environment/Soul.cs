@@ -5,13 +5,9 @@ using System.Collections;
 [RequireComponent(typeof(TrailRenderer))]
 public class Soul : MonoBehaviour {
 	
-	public float spireAttraction = 1f;
-
-	private Transform spireTop;
 	private TrailRenderer trail;
 
 	void Start () {
-		spireTop = Spire.Instance.top;
 		trail = GetComponent<TrailRenderer>();
 	}
 	
@@ -32,13 +28,7 @@ public class Soul : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		float distance = Vector3.Distance(spireTop.position, transform.position);
-		if (distance < 10f) transform.Recycle();
-		Vector3 direction = (spireTop.position - transform.position).normalized;
-		float magnitude = (rigidbody.drag * rigidbody.mass * spireAttraction)
-						/ (distance * distance);
-		Vector3 force = direction * magnitude;
 		Vector3 negativeGravity = -Physics.gravity;
-		rigidbody.AddForce(force + negativeGravity);
+		rigidbody.AddForce(negativeGravity);
 	}
 }

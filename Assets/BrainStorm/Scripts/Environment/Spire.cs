@@ -33,7 +33,7 @@ public class Spire : MonoBehaviour {
 	void Start() {
 		StartCoroutine( SpawnVirus() );
 		artefact = artefactPrefab.Spawn(center.position, Random.rotation);
-		artefact.parent = GameManager.Instance.activeScene;
+		artefact.parent = GameManager.Instance.activeScene.instance;
 		artefact.rigidbody.constraints = RigidbodyConstraints.FreezePosition;
 		artefact.rigidbody.angularVelocity = Random.onUnitSphere;
 		artefact.localScale = Vector3.one * 0.1f;
@@ -43,7 +43,7 @@ public class Spire : MonoBehaviour {
 		for (int i = 0; i < virusCount; i++) {
 			int prefabIndex = Random.Range(0, virusPrefabs.Length);
 			Transform v = virusPrefabs[prefabIndex].Spawn(center.position);
-			v.parent = GameManager.Instance.activeScene;
+			v.parent = GameManager.Instance.activeScene.instance;
 			v.SendMessage("Defend", center.transform);
 			yield return new WaitForSeconds(0.5f);
 		}

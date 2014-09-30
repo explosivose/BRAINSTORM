@@ -155,7 +155,7 @@ public class NPCVirusGuard : NPC {
 		StartCoroutine( AttackEffect() );
 		Vector3 fireLocation = transform.position + (target.position - transform.position).normalized * 1.5f;
 		Transform i = projectilePrefab.Spawn(fireLocation);
-		i.parent = GameManager.Instance.activeScene;
+		i.parent = GameManager.Instance.activeScene.instance;
 		i.SendMessage("SetTarget", target);
 		i.SendMessage("HitPosition", target.position);
 		i.SendMessage("SetDamageSource", this.transform);
@@ -177,13 +177,13 @@ public class NPCVirusGuard : NPC {
 		fireLocation += transform.right * 1.5f * Mathf.Cos(t);
 		Quaternion fireRotation = Quaternion.LookRotation(fireLocation - transform.position);
 		Transform i = projectilePrefab.Spawn(fireLocation, fireRotation);
-		i.parent = GameManager.Instance.activeScene;
+		i.parent = GameManager.Instance.activeScene.instance;
 		i.SendMessage("SetTarget", _attackTarget);
 		i.SendMessage("SetDamageSource", this.transform);
 	}
 	*/
 	
-	protected override void Damage(DamageInstance damage) {
+	protected override void Damage(int damage) {
 		if (state == State.Dead) return;
 		base.Damage(damage);
 		if (isDead) {
@@ -196,7 +196,7 @@ public class NPCVirusGuard : NPC {
 	
 	protected override void Killed(Transform victim) {
 		Transform v = virusPrefab.Spawn(victim.position, victim.rotation);
-		v.parent = GameManager.Instance.activeScene;
+		v.parent = GameManager.Instance.activeScene.instance;
 		if (victim == target) {
 			state = State.Idle;
 		}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : Photon.MonoBehaviour {
 	
 
 	public int damage;
@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour {
 		get {
 			DamageInstance me = new DamageInstance();
 			me.damage = damage;
-			me.source = _source;
+			me.viewId = 0;
 			return me;
 		}
 	}

@@ -39,15 +39,15 @@ AudioSource:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: ef981366f609a114280ac5f6b2b9ac3d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1a85eb7cd9790834fb34802395fdf4f6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 2
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -100,12 +100,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2970d179dd78e1418342ac6131d11ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: .600000024
+  lifetime: .5
+  dealDamage: 1
   moveLaserWithTransform: 0
-  startColor: {r: 0, g: .751724005, b: 1, a: 1}
-  endColor: {r: 1, g: 0, b: 0, a: 1}
-  distanceBetweenPoints: 2
+  calculatePoints: 1
+  startColor: {r: 0, g: .996078432, b: .954861224, a: 1}
+  endColor: {r: .97647059, g: .992156863, b: 0, a: 1}
+  distanceBetweenPoints: 8
   laserNoise: .200000003
+  hitEffectPrefab: {fileID: 400000, guid: cafad00a9a23afa478e93f60c9a802a6, type: 2}
+  autofire: 1
+  autofireMask:
+    serializedVersion: 2
+    m_Bits: 12545
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -117,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21b5ff5d42f68640a170d42dc2c5d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
+  damage: 10
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

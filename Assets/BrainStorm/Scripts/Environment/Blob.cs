@@ -47,7 +47,7 @@ public class Blob : MonoBehaviour {
 				_tindex++;
 				if (_tindex >= _targets.Count) _tindex = 0; 
 				Transform i = projectilePrefab.Spawn(transform.position);
-				i.parent = GameManager.Instance.activeScene;
+				i.parent = GameManager.Instance.activeScene.instance;
 				i.SendMessage("SetTarget", _targets[_tindex]);
 				i.SendMessage("HitPosition", _targets[_tindex].position);
 				i.SendMessage("SetDamageSource", this.transform);

@@ -31,16 +31,22 @@ public class BlinkTarget : MonoBehaviour {
 		_equipment = GetComponent<Equipment>();
 	}
 	
-	void Start () {
-		_player = Player.Instance.transform;
-	}
-	
 	void OnEquip() {
-		PlayerInventory.Instance.hasBlink = true;
+		if (_equipment.owner) {
+			if (_equipment.owner.isLocalPlayer) {
+				_player = _equipment.owner.transform;
+				_equipment.owner.inventory.hasBlink = true;
+			}
+		}
 	}
 	
 	void OnDrop() {
-		PlayerInventory.Instance.hasBlink = false;
+		if (_equipment.owner) {
+			if (_equipment.owner.isLocalPlayer) {
+				_equipment.owner.inventory.hasBlink = false;
+			}
+		}
+			
 		if (_blinkTarget) _blinkTarget.Recycle();
 		_blinkTarget = null;
 	}
@@ -84,7 +90,8 @@ public class BlinkTarget : MonoBehaviour {
 	
 	void StartBlink() {
 		_blinking = true;
-		Player.Instance.motor.enabled = false;
+		_equipment.owner.motor.enabled = false;
+		_equipment.owner.photonView.RPC ("OnBlinkStart", PhotonTargets.All);
 		_equipment.AudioStart();
 		_blinkTarget.Recycle();
 		_lastUseTime = Time.time;
@@ -93,7 +100,8 @@ public class BlinkTarget : MonoBehaviour {
 	void StopBlink() {
 		_blinking = false;
 		_blinkTarget = null;
-		Player.Instance.motor.enabled = true;
+		_equipment.owner.motor.enabled = true;
+		_equipment.owner.photonView.RPC("OnBlinkStop", PhotonTargets.All);
 		_equipment.AudioStop();
 	}
 	

@@ -13,7 +13,15 @@ public class CTRL : MonoBehaviour {
 	}
 	private static float lastCallTime;
 	
+	public static int level {get; set;}
+	public static Vector3 zeroDirection = Vector3.forward;
+	
+	public Font font;
+	
+	public Transform startPrefab;
 	public Transform pausePrefab;
+	
+	private Transform startInstance;
 	private Transform pauseInstance;
 
 	void Awake() {
@@ -30,9 +38,26 @@ public class CTRL : MonoBehaviour {
 		lastCallTime = Time.realtimeSinceStartup;
 	}
 
-	public void ShowPauseMenu() {
+	public void ShowStartMenu() {
+		HideStartMenu();
+		zeroDirection = Camera.main.transform.forward;
 		Vector3 position = Camera.main.transform.position + Camera.main.transform.forward * 5f;
 		Quaternion rotation = Quaternion.LookRotation(position - Camera.main.transform.position);
+		startInstance = startPrefab.Spawn(position, rotation);
+	}
+	
+	public void HideStartMenu() {
+		if (startInstance)
+			startInstance.Recycle();
+	}
+
+	public void ShowPauseMenu() {
+		if (startInstance) return;
+		HidePauseMenu();
+		Transform mainCam = Camera.main.transform;
+		zeroDirection = mainCam.forward;
+		Vector3 position = mainCam.position + mainCam.forward * 7f;
+		Quaternion rotation = Quaternion.LookRotation(position - mainCam.position);
 		pauseInstance = pausePrefab.Spawn(position, rotation);
 	}
 	

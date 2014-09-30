@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [AddComponentMenu("Character/NPC")]
-public class NPC : MonoBehaviour {
+public class NPC : Photon.MonoBehaviour {
 
 	[System.Flags]
 	public enum Type {
@@ -106,6 +106,7 @@ public class NPC : MonoBehaviour {
 	
 	public float targetDistance {
 		get{
+			if (!hasTarget) return -1f;
 			return Vector3.Distance(target.position, transform.position);
 		}
 	}
@@ -195,7 +196,7 @@ public class NPC : MonoBehaviour {
 		_eyes = transform.Find("eyes");
 		tag = "NPC";
 		health = maxHealth;
-		_damage.source = this.transform;
+		_damage.viewId = photonView.viewID;
 		_damage.damage = attackDamage;
 	}
 	
@@ -226,15 +227,12 @@ public class NPC : MonoBehaviour {
 	
 	
 	// NPC has received damage!
-	protected virtual void Damage(DamageInstance damage) {
+	protected virtual void Damage(int damage) {
 		if (invulnerable) return;
 		if (health <= 0) return;
-		if (damage.source == this.transform) return;
-		
-		health -= damage.damage;
+		health -= damage;
 		if (health <= 0) {
 			health = 0;
-			damage.source.BroadcastMessage("Killed", this.transform);
 		}
 	}
 	

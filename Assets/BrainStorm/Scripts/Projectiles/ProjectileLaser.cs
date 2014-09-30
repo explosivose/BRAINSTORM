@@ -7,17 +7,22 @@ using System.Collections.Generic;
 public class ProjectileLaser : MonoBehaviour {
 
 	public float 		lifetime;
+	public bool 		dealDamage = true;
 	public bool 		moveLaserWithTransform = false;
+	public bool			calculatePoints;
 	public Color 		startColor;
 	public Color 		endColor;
 	public float 		distanceBetweenPoints;
 	public float 		laserNoise;
+	public Transform	hitEffectPrefab;
 	public bool 		autofire; 			// fire laser in transform.forward
 	public LayerMask 	autofireMask;		// raycast mask for autofire
 	
 	private Projectile 		_projectile;
 	private Transform 		_target;
 	private Vector3 		_hit;
+	private float 			_distance;
+	private Vector3 		_startPoint;
 	private float 			_startTime;
 	private LineRenderer 	_line;
 	private List<Vector3>  	_positions = new List<Vector3>();
@@ -25,6 +30,12 @@ public class ProjectileLaser : MonoBehaviour {
 	void Awake() {
 		_projectile = GetComponent<Projectile>();
 		_line = GetComponent<LineRenderer>();
+		hitEffectPrefab.CreatePool();
+	}
+	
+	void Start() {
+		_line.SetVertexCount(2);
+		_line.SetColors(startColor, endColor);
 	}
 	
 	void OnDisable() {
@@ -41,32 +52,43 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	IEnumerator Autofire() {
 		// wait for position to update before autofiring
-		yield return new WaitForFixedUpdate();
+		yield return new WaitForEndOfFrame();
 		RaycastHit hit;
 		Ray ray = new Ray(transform.position, transform.forward);
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, autofireMask)) {
 			SetTarget(hit.transform);
 			HitPosition(hit.point);
+			if (hitEffectPrefab) {
+				hitEffectPrefab.Spawn(hit.point, Quaternion.LookRotation(hit.normal));
+			}
 		}
 		else {
-			HitPosition(transform.forward * 100);
+			HitPosition(transform.position + transform.forward * 100);
 		}
 	}
 	
 	void SetTarget(Transform target) {
 		_target = target;
-		_target.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
+		if (dealDamage)
+			_target.SendMessage("Damage", _projectile.Damage.damage, SendMessageOptions.DontRequireReceiver);
 	}
 	
 	void HitPosition(Vector3 position) {
 		_startTime = Time.time;
 		_hit = position;
-		SetLaserPoints();
+		if (calculatePoints) {
+			SetLaserPoints();
+		}
+		else {
+			_line.SetPosition(0, transform.position);
+			_line.SetPosition(1, _hit);
+		}
+		_startPoint = transform.position;
 	}
 	
 	void SetLaserPoints() {
-		float distance = Vector3.Distance(transform.position, _hit);
-		int laserVertices = Mathf.FloorToInt(distance/distanceBetweenPoints);
+		_distance = Vector3.Distance(transform.position, _hit);
+		int laserVertices = Mathf.FloorToInt(_distance/distanceBetweenPoints);
 		if (laserVertices < 2) laserVertices = 2;
 		_line.SetVertexCount(laserVertices);
 		_line.SetColors(startColor, endColor);
@@ -86,28 +108,36 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (GameManager.Instance.paused) return;
+		if (GameManager.Instance.paused && !PhotonNetwork.inRoom) return;
 		float t = (Time.time - _startTime) / lifetime;
 		Color s = Color.Lerp(startColor, Color.clear, t);
 		Color e = Color.Lerp(endColor, Color.clear, t);
 		_line.SetColors(s, e);
+		
+		// we move our transform too
+		// because the audio fizz for nearmisses
+		if (audio) {
+			audio.volume = Vector3.Distance(transform.position, _startPoint)/_distance;
+			transform.position = Vector3.Lerp(
+				transform.position,
+				_hit,
+				Time.deltaTime * 15f);
+			if (Vector3.Distance(transform.position, _hit) < 0.1f) {
+				audio.Stop ();
+			}
+		}
+
+		Debug.DrawLine(_startPoint, _hit, Color.red);
 		
 		if (moveLaserWithTransform) {
 			SetLaserPoints();
 		}
 		
 		if (t > 1) {
-			// also wait for audio if there is audio
-			if (audio) {
-				if (!audio.isPlaying) {
-					_positions.Clear();
-					transform.Recycle();
-				}
-			}
-			else {
-				_positions.Clear();
-				transform.Recycle();
-			}
+			if (audio)
+				audio.volume = 0f;
+			_positions.Clear();
+			transform.Recycle();
 		} 
 	}
 }
