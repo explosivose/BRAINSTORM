@@ -62,7 +62,7 @@ public class DashJetpack : Photon.MonoBehaviour {
 	
 	void Update() {
 		if (jetpacking && !audio.isPlaying) {
-			equipment.AudioStart();
+			equipment.AudioLoop();
 		}
 		if (equipment.equipped)
 			equipment.energy = equipment.owner.motor.dashpack.fuel01;

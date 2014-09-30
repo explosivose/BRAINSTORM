@@ -492,7 +492,7 @@ MonoBehaviour:
   holsteredPosition: {x: 0, y: 0, z: 0}
   holsteredRotation: {x: 0, y: 0, z: 0}
   sounds:
-    volume: 0
+    volume: .25
     start: {fileID: 8300000, guid: 7fa41d731c3b2ae429aae01a37ec75fe, type: 3}
     loop: {fileID: 8300000, guid: 45bd47cccc8ca1948835e963f9dced5f, type: 3}
     stop: {fileID: 8300000, guid: 1024ab24af0910d41bcbc67033410a11, type: 3}

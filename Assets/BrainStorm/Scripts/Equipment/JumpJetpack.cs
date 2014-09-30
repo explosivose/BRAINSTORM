@@ -66,9 +66,6 @@ public class JumpJetpack : Photon.MonoBehaviour {
 	}
 	
 	void Update() {
-		if (jetpacking && !audio.isPlaying) {
-			equipment.AudioLoop();
-		}
 		if (equipment.equipped) {
 			equipment.energy = equipment.owner.motor.jetpack.fuel01;
 			if (jetpacking) {

@@ -672,11 +672,11 @@ MonoBehaviour:
     superJumpHeight: 20
   jetpack:
     enabled: 0
-    verticalAccel: 60
-    maxVerticalSpeed: 25
-    maxJetpackFuel: 1.75
-    rechargeRate: .5
-    cooldown: .5
+    verticalAccel: 80
+    maxVerticalSpeed: 30
+    maxJetpackFuel: 1
+    rechargeRate: .300000012
+    cooldown: .400000006
   dashpack:
     enabled: 0
     accel: 100
