@@ -34,9 +34,12 @@ public class Equipment : Photon.MonoBehaviour {
 	public Vector3 			holsteredPosition;
 	public Vector3 			holsteredRotation;
 	public AudioLibrary 	sounds = new AudioLibrary();
+	public Material			defaultMaterial;
+	public Material			blinkMaterial;
 	
 	private bool 			_equipped;
 	private GameObject 		_tooltip;
+	private GameObject		_graphic;
 	
 	public bool equipped {
 		get { return _equipped; }
@@ -50,9 +53,18 @@ public class Equipment : Photon.MonoBehaviour {
 		get; private set;
 	}
 	
+	public bool blink {
+		set {
+			Material m = value ? blinkMaterial : defaultMaterial;
+			foreach(Transform child in _graphic.transform) {
+				child.renderer.material = m;
+			}
+		}
+	}
+	
 	void Start() {
 		_tooltip = transform.Find("tooltip").gameObject;
-		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
+		_graphic = transform.Find("Graphic").gameObject;
 		
 		// set kinematic if we're not master
 		if (PhotonNetwork.inRoom)

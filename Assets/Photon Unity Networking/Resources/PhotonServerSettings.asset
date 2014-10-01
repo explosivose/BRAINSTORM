@@ -50,4 +50,8 @@ MonoBehaviour:
   - SpawnRPC
   - OnDashpackStartRPC
   - OnDashpackStopRPC
+  - StartBlinkRPC
+  - StopBlinkRPC
+  - OnBlinkStartRPC
+  - OnBlinkStopRPC
   DisableAutoOpenWizard: 0

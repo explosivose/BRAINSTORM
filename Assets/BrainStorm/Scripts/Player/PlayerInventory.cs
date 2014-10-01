@@ -108,6 +108,29 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		
 	}
 	
+	void OnBlinkStart() {
+		// set equipment materials
+		if (_equippedWeapon)
+		_equippedWeapon.GetComponent<Equipment>().blink = true;
+		if (_holsteredWeapon)
+		_holsteredWeapon.GetComponent<Equipment>().blink = true;
+		if (_utility1)
+		_utility1.GetComponent<Equipment>().blink = true;
+		if (_utility2)
+		_utility2.GetComponent<Equipment>().blink = true;
+	}
+	
+	void OnBlinkStop() {
+		if (_equippedWeapon)
+		_equippedWeapon.GetComponent<Equipment>().blink = false;
+		if (_holsteredWeapon)
+		_holsteredWeapon.GetComponent<Equipment>().blink = false;
+		if (_utility1)
+		_utility1.GetComponent<Equipment>().blink = false;
+		if (_utility2)
+		_utility2.GetComponent<Equipment>().blink = false;
+	}
+	
 	// Update is called once per frame
 	void Update () {
 		

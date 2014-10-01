@@ -256,15 +256,17 @@ public class Player : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	public void OnBlinkStart() {
+	public void OnBlinkStartRPC() {
 		_ren.material = blinkMaterial;
 		_trail.time = 1f;
+		SendMessage("OnBlinkStart");
 	}
 	
 	[RPC]
-	public void OnBlinkStop() {
+	public void OnBlinkStopRPC() {
 		_ren.material = _originalMaterial;
 		_trail.time = 0f;
+		SendMessage("OnBlinkStop");
 	}
 	
 	void PlaySound(AudioClip clip) {

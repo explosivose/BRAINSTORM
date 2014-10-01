@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   m_Layer: 0
-  m_Name: rifle
+  m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,7 +337,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.90708351, z: 0}
+  m_LocalPosition: {x: -22.6118832, y: 8.42714691, z: 61.7730484}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400022}
@@ -710,6 +710,8 @@ MonoBehaviour:
     start: {fileID: 8300000, guid: 63e5039896ac54648b82d2dfb38ef1cd, type: 3}
     loop: {fileID: 0}
     stop: {fileID: 0}
+  defaultMaterial: {fileID: 2100000, guid: 9319b77f81efb0f46be22293a62c0148, type: 2}
+  blinkMaterial: {fileID: 2100000, guid: cde7423fff15a3d48856be17c6274d7c, type: 2}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
