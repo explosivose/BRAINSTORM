@@ -3,7 +3,9 @@ using System.Collections;
 
 public class CTRLtextfield : CTRLelement {
 
-	private bool fillin;
+	private bool fillin	 = false;
+	private bool newName = false;
+	
 	
 	protected override void OnEnable ()
 	{
@@ -15,6 +17,7 @@ public class CTRLtextfield : CTRLelement {
 	{
 		base.OnMouseUpAsButton ();
 		fillin = true;
+		newName = false;
 	}
 	
 	void Update() {
@@ -27,6 +30,9 @@ public class CTRLtextfield : CTRLelement {
 			fillin = false;
 			MouseLook.freeze = false;
 		}
+		if (Input.GetKey(KeyCode.Delete)) {
+			text = "";
+		}
 		foreach(char c in Input.inputString) {
 			if (c == '\b') {
 				if (text.Length != 0) {
@@ -36,11 +42,16 @@ public class CTRLtextfield : CTRLelement {
 			else {
 				if (c == '\n' || c == '\r') {
 					fillin = false;
+					newName = false;
 					MouseLook.freeze = false;
 					PhotonNetwork.playerName = text;
 					Options.Save();
 				}
 				else {
+					if (!newName) {
+						text = "";
+						newName = true;
+					}
 					text += c;
 				}
 			}

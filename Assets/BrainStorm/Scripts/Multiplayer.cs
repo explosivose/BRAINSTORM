@@ -26,14 +26,12 @@ public class Multiplayer : Photon.MonoBehaviour {
 			
 			string message = PhotonNetwork.connectionStateDetailed.ToString();
 			
+			message += " as " + PhotonNetwork.playerName;
 			
 			if (PhotonNetwork.inRoom) {
-				
+
 				if (PhotonNetwork.isMasterClient) {
-					message += " as MasterClient";
-				}
-				else {
-					message += " as Client";
+					message += " (master)";
 				}
 				
 				message += " (" + PhotonNetwork.playerList.Length.ToString() + ")";
