@@ -626,9 +626,9 @@ MonoBehaviour:
   canControl: 1
   useFixedUpdate: 1
   movement:
-    maxForwardSpeed: 12.5
-    maxSidewaysSpeed: 10
-    maxBackwardsSpeed: 8
+    maxForwardSpeed: 16
+    maxSidewaysSpeed: 13
+    maxBackwardsSpeed: 10
     slopeSpeedMultiplier:
       serializedVersion: 2
       m_Curve:
@@ -650,10 +650,10 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
     maxGroundAcceleration: 30
-    maxAirAcceleration: 30
-    gravity: 25
+    maxAirAcceleration: 60
+    gravity: 40
     maxFallSpeed: 100
-    airControlFactor: .400000006
+    airControlFactor: 1
   sprint:
     enabled: 0
     sprintSpeed: 60
@@ -743,7 +743,7 @@ CharacterController:
   m_Height: 2
   m_Radius: .5
   m_SlopeLimit: 45
-  m_StepOffset: .400000006
+  m_StepOffset: .5
   m_SkinWidth: .0500000007
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
