@@ -63,7 +63,7 @@ public class ProjectileLaser : MonoBehaviour {
 			}
 		}
 		else {
-			HitPosition(transform.position + transform.forward * 100);
+			HitPosition(transform.position + transform.forward * 10000);
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class ProjectileLaser : MonoBehaviour {
 	void Update () {
 		if (GameManager.Instance.paused && !PhotonNetwork.inRoom) return;
 		float t = (Time.time - _startTime) / lifetime;
-		Color s = Color.Lerp(startColor, Color.clear, t);
+		Color s = Color.Lerp(startColor, Color.clear, t*2f);
 		Color e = Color.Lerp(endColor, Color.clear, t);
 		_line.SetColors(s, e);
 		
@@ -121,7 +121,7 @@ public class ProjectileLaser : MonoBehaviour {
 			transform.position = Vector3.Lerp(
 				transform.position,
 				_hit,
-				Time.deltaTime * 15f);
+				Time.deltaTime * 10f);
 			if (Vector3.Distance(transform.position, _hit) < 0.1f) {
 				audio.Stop ();
 			}
