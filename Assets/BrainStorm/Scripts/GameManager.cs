@@ -134,15 +134,16 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void StartGame() {
+		PhotonNetwork.Disconnect();
 		PhotonNetwork.offlineMode = true;
 		if (Application.loadedLevel == 0) {
 			defaultCamera.SetActive(true);
-			defaultCamera.camera.backgroundColor = Color.black;
+			defaultCamera.camera.backgroundColor = Color.white;
 			CTRL.Instance.ShowSplash();
 		}
 		else if (Application.loadedLevel == 1) {
 			defaultCamera.SetActive(true);
-			defaultCamera.camera.backgroundColor = Color.grey;
+			defaultCamera.camera.backgroundColor = Color.black;
 			CTRL.Instance.ShowStartMenu();
 			Multiplayer.Instance.enabled = true;
 		}
