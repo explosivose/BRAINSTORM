@@ -52,7 +52,12 @@ public class Multiplayer : Photon.MonoBehaviour {
 			else {
 				GUILayout.Label(message);
 			}
-
+			if (Input.GetKey(KeyCode.Tab)) {
+				foreach (PhotonPlayer player in PhotonNetwork.playerList)
+				{
+					GUILayout.Label(player.ToString());
+				}
+			}
 		}
 	}
 
