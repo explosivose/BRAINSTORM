@@ -62,7 +62,8 @@ public class CTRLelement : MonoBehaviour {
 		_initialPosition = transform.localPosition;
 		textMesh = transform.Find("text").GetComponent<TextMesh>();
 		if (!textMesh) Debug.LogError("Required child object with TextMesh is missing.");
-		textMesh.font = CTRL.Instance.font;
+		if (CTRL.Instance)
+			textMesh.font = CTRL.Instance.font;
 	}
 	
 	

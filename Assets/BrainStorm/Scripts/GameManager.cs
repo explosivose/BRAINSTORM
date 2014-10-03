@@ -99,50 +99,6 @@ public class GameManager : MonoBehaviour {
 		get; private set;
 	}
 	
-	public bool griefComplete {
-		get {
-			return (
-				(winState & WinStates.Grief) == WinStates.Grief &&
-				winState != WinStates.None
-			);
-		}
-		set {
-			if (value) 
-				winState |= WinStates.Grief;
-			else 
-				winState &= ~WinStates.Grief;
-		}
-	}
-	
-	public bool rageComplete {
-		get {
-			return (
-				(winState & WinStates.Rage) == WinStates.Rage &&
-				winState != WinStates.None
-			);
-		}
-		set {
-			if (value) 
-				winState |= WinStates.Rage;
-			else 
-				winState &= ~WinStates.Rage;
-		}
-	}
-	
-	public bool terrorComplete {
-		get {
-			return  (
-				(winState & WinStates.Terror) == WinStates.Terror &&
-				winState != WinStates.None
-			);
-		}
-		set {
-			if (value)
-				winState |= WinStates.Terror;
-			else
-				winState &= ~WinStates.Terror;
-		}
-	}
 
 
 	void Awake() {
@@ -163,6 +119,7 @@ public class GameManager : MonoBehaviour {
 	
 	void Start () {
 		DontDestroyOnLoad(this);
+		_activeScene = new Scene();
 		StartGame();
 	}
 	
@@ -177,12 +134,17 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void StartGame() {
+		PhotonNetwork.offlineMode = true;
 		if (Application.loadedLevel == 0) {
 			defaultCamera.SetActive(true);
-			CTRL.Instance.ShowStartMenu();
+			defaultCamera.camera.backgroundColor = Color.black;
+			CTRL.Instance.ShowSplash();
 		}
-		else if (Application.loadedLevelName == "brainstorm") {
-			ChangeScene(Scene.Tag.Lobby);
+		else if (Application.loadedLevel == 1) {
+			defaultCamera.SetActive(true);
+			defaultCamera.camera.backgroundColor = Color.grey;
+			CTRL.Instance.ShowStartMenu();
+			Multiplayer.Instance.enabled = true;
 		}
 		else if (Application.loadedLevelName == "multiplayer") {
 			PhotonNetwork.ConnectUsingSettings(Strings.gameVersion);
@@ -190,7 +152,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void Restart() {
-		Quit (); // figure out restart later
+		Application.LoadLevel(1);
 	}
 	
 	void Update () {

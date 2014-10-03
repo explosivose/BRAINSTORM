@@ -190,7 +190,7 @@ public class Spider : NPC {
 		yield return new WaitForSeconds(2f);
 		_animator.SetActive(false);
 		rigidbody.isKinematic = true;
-		GameManager.Instance.terrorComplete = true;
+//		GameManager.Instance.terrorComplete = true;
 		_artefactSpawner.Spawn();
 	}
 }

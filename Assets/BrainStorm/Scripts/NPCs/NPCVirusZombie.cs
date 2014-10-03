@@ -71,7 +71,9 @@ public class NPCVirusZombie : NPC {
 	protected override void Awake() {
 		base.Awake();
 		
-		if (photonView.isMine) {
+		if (!PhotonNetwork.inRoom) photonView.enabled = false;
+		
+		if (photonView.isMine || !PhotonNetwork.inRoom) {
 			Transform boid = transform.Find("BoidControl");
 			if (!boid) Debug.LogError("BoidControl missing");
 			boid.gameObject.SetActive(true);

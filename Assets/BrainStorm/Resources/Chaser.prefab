@@ -663,25 +663,25 @@ MonoBehaviour:
     sprinting: 0
   jumping:
     enabled: 1
-    baseHeight: 5
+    baseHeight: 3
     extraJumpEnabled: 1
-    extraHeight: 5
+    extraHeight: 3
     perpAmount: .100000001
     steepPerpAmount: .100000001
     superJump: 0
     superJumpHeight: 20
   jetpack:
     enabled: 0
-    verticalAccel: 80
-    maxVerticalSpeed: 30
-    maxJetpackFuel: 1
-    rechargeRate: .300000012
-    cooldown: .400000006
+    verticalAccel: 100
+    maxVerticalSpeed: 35
+    maxJetpackFuel: 1.5
+    rechargeRate: .400000006
+    cooldown: .5
   dashpack:
     enabled: 0
     accel: 100
     verticalAccel: 60
-    maxSpeed: 20
+    maxSpeed: 25
     maxDashpackFuel: 5
     rechargeRate: .800000012
     cooldown: 1
