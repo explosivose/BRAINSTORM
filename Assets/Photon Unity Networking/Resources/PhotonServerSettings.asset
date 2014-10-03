@@ -54,4 +54,6 @@ MonoBehaviour:
   - StopBlinkRPC
   - OnBlinkStartRPC
   - OnBlinkStopRPC
+  - DamageRPC
+  - Death
   DisableAutoOpenWizard: 0
