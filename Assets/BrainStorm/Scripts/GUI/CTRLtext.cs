@@ -8,11 +8,15 @@ public class CTRLtext : CTRLelement {
 	// instantiate via equipment component 
 	// this ensures that all tooltips are le same
 	public bool tooltip = false;
+	public float tooltipTime = 0.5f;
 
 	public enum Source {
 		None, Name, ParentName, Developers, Assets, PhotonPlayerName
 	}
 	public Source source;
+
+	private bool inspected = false;
+	private float inspectTime = 0f;
 
 	protected override void OnEnable ()
 	{
@@ -40,6 +44,19 @@ public class CTRLtext : CTRLelement {
 		}
 	}
 	
+	void OnInspectStart() {
+		if (tooltip && !inspected) {
+			inspectTime = Time.time;
+			inspected = true;
+		}
+	}
+	
+	void OnInspectStop() {
+		if (tooltip) {
+			inspected = false;
+		}
+	}
+	
 	protected override void Update ()
 	{
 		if (Application.isLoadingLevel) return;
@@ -47,18 +64,34 @@ public class CTRLtext : CTRLelement {
 		if (!Player.localPlayer) return;
 		base.Update ();
 		if (tooltip) {
-			float playerDistance = Vector3.Distance(Player.localPlayer.transform.position, transform.position);
-			float lerp = (4f-playerDistance);
-			if (lerp > 0) {
-				Transform cam = Camera.main.transform;
-				Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
-				transform.rotation = rotation;
-				textMesh.color = Color.Lerp(Color.clear, textColor, lerp);
+			if (inspected && inspectTime + tooltipTime < Time.time) {
+				// ensure player name is up to date
 				if (source == Source.PhotonPlayerName) {
 					text = GetComponentInParent<PhotonView>().owner.name;
 				}
+				// rotate text to face camera
+				Transform cam = Camera.main.transform;
+				Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
+				transform.rotation = Quaternion.Lerp(
+					transform.rotation, 
+					rotation, 
+					Time.deltaTime * 4f
+				);
+				// fade in text
+				textMesh.color = Color.Lerp(
+					textMesh.color,
+					textColor,
+					Time.deltaTime * 6f
+				);
 			}
-
+			else {
+				// fade out text
+				textMesh.color = Color.Lerp(
+					textMesh.color,
+					Color.clear,
+					Time.deltaTime * 4f
+				);
+			}
 		}
 	}
 	

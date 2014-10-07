@@ -136,9 +136,15 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		
 		InspectItem();
 		
+		
+		bool canInteract = false;
+		if (_inspected) {
+			canInteract = Vector3.Distance(_inspected.position, transform.position) < playerReach;
+		}
+		
 		// This block handles what to do when you press the Interact button
 		// Player presses the interact button (probably E on keyboard)
-		if (Input.GetButtonDown("Interact")) {
+		if (Input.GetButtonDown("Interact") && canInteract) {
 			// Drop if we're carrying something;
 			if (_carryingObject) {
 				Drop();
@@ -216,15 +222,14 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	void InspectItem() {
 		RaycastHit hit;
 		Transform cam = Camera.main.transform;
-		if (Physics.Raycast(cam.position, cam.forward, out hit, playerReach, raycastMask)) {
-			hit.transform.SendMessage("OnInspect", SendMessageOptions.DontRequireReceiver);
-			switch(hit.transform.tag) {
-			case "TV":
-				Debug.DrawLine(cam.position, hit.point, Color.green);
+		if (Physics.Raycast(cam.position, cam.forward, out hit, 100f, raycastMask)) {
+			if (_inspected != hit.transform) {
+				if (_inspected)
+					_inspected.BroadcastMessage("OnInspectStop", SendMessageOptions.DontRequireReceiver);
 				_inspected = hit.transform;
-				_inspectedEquip = null;
-				_inspectedView = _inspected.GetComponent<PhotonView>();
-				break;
+				_inspected.BroadcastMessage("OnInspectStart", SendMessageOptions.DontRequireReceiver);
+			}
+			switch(hit.transform.tag) {
 			case "Equipment":
 				Debug.DrawLine(cam.position, hit.point, Color.green);
 				_inspected = hit.transform;
@@ -233,15 +238,17 @@ public class PlayerInventory : Photon.MonoBehaviour {
 				break;
 			default:
 				Debug.DrawLine(cam.position, hit.point, Color.yellow);
-				_inspected = null;
 				_inspectedEquip = null;
 				break;
 			}
 		}
 		else {
+			if (_inspected) {
+				_inspected.BroadcastMessage("OnInspectStop", SendMessageOptions.DontRequireReceiver);
+			}
 			_inspected = null;
+			_inspectedView = null;
 			_inspectedEquip = null;
-			Debug.DrawRay(cam.position, cam.forward * playerReach, Color.red);
 		}
 	}
 

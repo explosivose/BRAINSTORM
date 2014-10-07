@@ -525,6 +525,7 @@ MonoBehaviour:
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   tooltip: 1
+  tooltipTime: 0
   source: 2
 --- !u!114 &11400006
 MonoBehaviour:

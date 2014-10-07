@@ -102,7 +102,7 @@ public class Equipment : Photon.MonoBehaviour {
 	public void Drop() {
 		_equipped = false;
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
-		transform.parent = GameManager.Instance.activeScene.instance;
+		transform.parent = null;
 		transform.position = owner.head.position;
 		transform.position += owner.head.forward;
 		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
