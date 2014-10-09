@@ -20,28 +20,28 @@ public class CTRLtext : CTRLelement {
 
 	protected override void OnEnable ()
 	{
-		base.OnEnable ();
 		textMesh.color = Color.clear;
 		switch(source) {
 		case Source.Assets:
-			text = Strings.assets;
+			finalText = Strings.assets;
 			break;
 		case Source.Developers:
-			text = Strings.developers;
+			finalText = Strings.developers;
 			break;
 		case Source.Name:
-			text = Strings.OmitCloneSuffix(transform.name);
+			finalText = Strings.OmitCloneSuffix(transform.name);
 			break;
 		case Source.ParentName:
-			text = Strings.OmitCloneSuffix(transform.parent.name);
+			finalText = Strings.OmitCloneSuffix(transform.parent.name);
 			break;
 		case Source.PhotonPlayerName:
-			text = GetComponentInParent<PhotonView>().owner.name;
+			finalText = GetComponentInParent<PhotonView>().owner.name;
 			break;
 		case Source.None:
 		default:
 			break;
 		}
+		base.OnEnable ();
 	}
 	
 	void OnInspectStart() {
@@ -67,7 +67,10 @@ public class CTRLtext : CTRLelement {
 			if (inspected && inspectTime + tooltipTime < Time.time) {
 				// ensure player name is up to date
 				if (source == Source.PhotonPlayerName) {
-					text = GetComponentInParent<PhotonView>().owner.name;
+					finalText = GetComponentInParent<PhotonView>().owner.name;
+				}
+				if (!_typing && text != finalText && typeEffect) {
+					StartCoroutine( TypeText() );
 				}
 				// rotate text to face camera
 				Transform cam = Camera.main.transform;
@@ -85,6 +88,7 @@ public class CTRLtext : CTRLelement {
 				);
 			}
 			else {
+				if (typeEffect) text = new string('#', text.Length);
 				// fade out text
 				textMesh.color = Color.Lerp(
 					textMesh.color,

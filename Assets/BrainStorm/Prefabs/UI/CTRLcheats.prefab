@@ -310,6 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da7c4614d2c6144481744bac7d8d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: level
+  typeEffect: 1
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
@@ -337,6 +339,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc10c697ab860741afa86f221f34c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: noclip
+  typeEffect: 1
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 3

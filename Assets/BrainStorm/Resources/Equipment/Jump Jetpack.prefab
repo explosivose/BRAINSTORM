@@ -598,6 +598,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a66b3ae6ab05d94f906f78f82b86fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 1
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   tooltip: 1

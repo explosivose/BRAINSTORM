@@ -9,8 +9,8 @@ public class CTRLtextfield : CTRLelement {
 	
 	protected override void OnEnable ()
 	{
+		finalText = PhotonNetwork.playerName;
 		base.OnEnable ();
-		text = PhotonNetwork.playerName;
 	}
 	
 	protected override void OnMouseUpAsButton ()
