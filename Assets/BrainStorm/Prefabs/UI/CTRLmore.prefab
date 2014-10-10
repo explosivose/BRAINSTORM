@@ -426,6 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: cheats
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
@@ -443,6 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: options
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
@@ -470,6 +472,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 1
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -483,6 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: credits
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0

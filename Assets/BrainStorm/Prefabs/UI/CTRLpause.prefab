@@ -425,7 +425,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: more...
   typeEffect: 1
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  overrideTextColor: 0
+  textColor: {r: 0, g: .727941155, b: .00502024312, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
   menuPrefab: {fileID: 400014, guid: e6d47f8952e784c43900b0a14b4fa43b, type: 2}
@@ -442,7 +443,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: resume
   typeEffect: 1
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  overrideTextColor: 0
+  textColor: {r: 0, g: .727941155, b: .00502024312, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
 --- !u!114 &11400006
@@ -458,7 +460,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: quit
   typeEffect: 1
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  overrideTextColor: 0
+  textColor: {r: 0, g: .727941155, b: .00502024312, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 1
 --- !u!114 &11400008
@@ -472,7 +475,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7dc11ce0bcdfa41a34caaa883c2e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animate: 1
+  animate: 0
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

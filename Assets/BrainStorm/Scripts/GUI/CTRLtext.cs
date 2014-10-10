@@ -64,7 +64,7 @@ public class CTRLtext : CTRLelement {
 		if (!Player.localPlayer) return;
 		base.Update ();
 		if (tooltip) {
-			if (inspected && inspectTime + tooltipTime < Time.time) {
+			if (inspected && inspectTime + tooltipTime < Time.time && !GameManager.Instance.paused) {
 				// ensure player name is up to date
 				if (source == Source.PhotonPlayerName) {
 					finalText = GetComponentInParent<PhotonView>().owner.name;
@@ -75,11 +75,7 @@ public class CTRLtext : CTRLelement {
 				// rotate text to face camera
 				Transform cam = Camera.main.transform;
 				Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
-				transform.rotation = Quaternion.Lerp(
-					transform.rotation, 
-					rotation, 
-					Time.deltaTime * 4f
-				);
+				transform.rotation = rotation;
 				// fade in text
 				textMesh.color = Color.Lerp(
 					textMesh.color,

@@ -994,6 +994,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 1
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1007,6 +1010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: 
   typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 1
@@ -1025,6 +1029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: mouse
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &11400010
@@ -1040,6 +1045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: 
   typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
@@ -1058,6 +1064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: 
   typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &11400014
@@ -1073,6 +1080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: 
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &11400016
@@ -1088,6 +1096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: volume
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &11400018
@@ -1103,6 +1112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: reset
   typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 6
@@ -1119,6 +1129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalText: 
   typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!212 &21200000

@@ -17,6 +17,8 @@ public class CTRL : MonoBehaviour {
 	public static Vector3 zeroDirection = Vector3.forward;
 	
 	public Font font;
+	public Color fontColor;
+	public Color fontHoverColor;
 	
 	public Transform splashPrefab;
 	public Transform startPrefab;

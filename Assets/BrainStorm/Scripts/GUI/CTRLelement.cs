@@ -6,6 +6,7 @@ public class CTRLelement : MonoBehaviour {
 
 	public string finalText;
 	public bool typeEffect;
+	public bool overrideTextColor;
 	public Color textColor = Color.white;
 	public Color textHoverColor = Color.cyan;
 
@@ -65,14 +66,19 @@ public class CTRLelement : MonoBehaviour {
 		_initialPosition = transform.localPosition;
 		textMesh = transform.Find("text").GetComponent<TextMesh>();
 		if (!textMesh) Debug.LogError("Required child object with TextMesh is missing.");
-		if (CTRL.Instance)
+		if (CTRL.Instance) {
 			textMesh.font = CTRL.Instance.font;
+			if (!overrideTextColor) {
+				textColor = CTRL.Instance.fontColor;
+				textHoverColor = CTRL.Instance.fontHoverColor;
+			}
+		}
 	}
 	
 	
 	
 	protected virtual void OnEnable() {
-		textMesh.color = textColor;
+		textMesh.color = textColor;	
 		if (typeEffect) StartCoroutine( TypeText() );
 		else text = finalText;
 	}

@@ -921,6 +921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 6
@@ -935,6 +938,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 5
@@ -949,6 +955,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 4
@@ -963,6 +972,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 3
@@ -977,6 +989,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 2
@@ -991,6 +1006,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 1
@@ -1006,6 +1024,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 1
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1017,6 +1038,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 0
