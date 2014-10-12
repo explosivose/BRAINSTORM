@@ -56,4 +56,15 @@ MonoBehaviour:
   - OnBlinkStopRPC
   - DamageRPC
   - Death
+  - OnCloakStartRPC
+  - OnCloakStopRPC
+  - OnSprintStartRPC
+  - OnSprintStopRPC
+  - 
+  - 
+  - DropWeaponRPC
+  - EquipWeaponRPC
+  - DropRPC
+  - EquipRPC
+  - HolsterRPC
   DisableAutoOpenWizard: 0

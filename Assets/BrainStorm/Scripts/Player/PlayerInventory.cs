@@ -14,16 +14,16 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	private Equipment _inspectedEquip; // the equipment script of the inspected transform (null if not inspecting equipment)
 	private PhotonView _inspectedView;
 	private Transform _carryingObject;
-	private Transform _equippedWeapon;
-	private Transform _holsteredWeapon;
+	public Transform equippedWeapon;
+	public Transform holsteredWeapon;
 	private Transform _utility1;		// utility equipment operated with Jump button
 	private Transform _utility2;		// utility equipment operated with Sprint button
 	
 			
 	public float jumpbar {
 		get {
-			if (_utility1)
-				return _utility1.GetComponent<Equipment>().energy;
+			if (utility1)
+				return utility1.GetComponent<Equipment>().energy;
 			else 
 				return 0f;
 		}
@@ -31,8 +31,8 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	
 	public float sprintbar {
 		get {
-			if (_utility2)
-				return _utility2.GetComponent<Equipment>().energy;
+			if (utility2)
+				return utility2.GetComponent<Equipment>().energy;
 			else
 				return 0f;
 		}
@@ -62,7 +62,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		get; set;
 	}
 
-	private Transform utility1 {
+	public Transform utility1 {
 		get { return _utility1; }
 		set {
 			_utility1 = value;
@@ -70,7 +70,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		}
 	}
 	
-	private Transform utility2 {
+	public Transform utility2 {
 		get { return _utility2; }
 		set {
 			_utility2 = value;
@@ -84,58 +84,77 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	
 	void OnSpawn() {
 		// destroy the weapon you were holding when you respawn
-		_equippedWeapon = null;
-		_holsteredWeapon = null;
-		_utility1 = null;
-		_utility2 = null;
+		equippedWeapon = null;
+		holsteredWeapon = null;
+		utility1 = null;
+		utility2 = null;
 	}
 	
 	void OnDeath() {
 		// drop everything
 		if(_carryingObject) Drop();
-		if(_equippedWeapon) 
-			_equippedWeapon.GetComponent<PhotonView>().RPC(
+		if(equippedWeapon) 
+			equippedWeapon.GetComponent<PhotonView>().RPC(
 				"Drop", PhotonTargets.All);
-		if(_holsteredWeapon) 
-			_holsteredWeapon.GetComponent<PhotonView>().RPC(
+		if(holsteredWeapon) 
+			holsteredWeapon.GetComponent<PhotonView>().RPC(
 				"Drop", PhotonTargets.All);
-		if(_utility1) 
-			_utility1.GetComponent<PhotonView>().RPC(
+		if(utility1) 
+			utility1.GetComponent<PhotonView>().RPC(
 				"Drop", PhotonTargets.All);
-		if(_utility2) 
-			_utility2.GetComponent<PhotonView>().RPC(
+		if(utility2) 
+			utility2.GetComponent<PhotonView>().RPC(
 				"Drop", PhotonTargets.All);
 		
 	}
 	
 	void OnBlinkStart() {
-		// set equipment materials
-		if (_equippedWeapon)
-		_equippedWeapon.GetComponent<Equipment>().blink = true;
-		if (_holsteredWeapon)
-		_holsteredWeapon.GetComponent<Equipment>().blink = true;
-		if (_utility1)
-		_utility1.GetComponent<Equipment>().blink = true;
-		if (_utility2)
-		_utility2.GetComponent<Equipment>().blink = true;
+		MaterialOverride(Player.localPlayer.blinkMaterial);
 	}
 	
 	void OnBlinkStop() {
-		if (_equippedWeapon)
-		_equippedWeapon.GetComponent<Equipment>().blink = false;
-		if (_holsteredWeapon)
-		_holsteredWeapon.GetComponent<Equipment>().blink = false;
-		if (_utility1)
-		_utility1.GetComponent<Equipment>().blink = false;
-		if (_utility2)
-		_utility2.GetComponent<Equipment>().blink = false;
+		MaterialOverride(null);
+	}
+	
+	void OnCloakStart() {
+		MaterialOverride(Player.localPlayer.cloakMaterial);
+	}
+	
+	void OnCloakStop() {
+		MaterialOverride(null);
+	}
+	
+	void MaterialOverride(Material material) {
+		bool enable = material != null;
+		
+		
+		// set equipment materials
+		if (equippedWeapon) {
+			equippedWeapon.GetComponent<Equipment>().overrideMaterial = material;
+			equippedWeapon.GetComponent<Equipment>().materialOverride = enable;
+		}
+		
+		if (holsteredWeapon) {
+			holsteredWeapon.GetComponent<Equipment>().overrideMaterial = material;
+			holsteredWeapon.GetComponent<Equipment>().materialOverride = enable;
+		}
+		
+		if (utility1) {
+			utility1.GetComponent<Equipment>().overrideMaterial = material;
+			utility1.GetComponent<Equipment>().materialOverride = enable;
+		}
+		
+		if (utility2) {
+			utility2.GetComponent<Equipment>().overrideMaterial = material;
+			utility2.GetComponent<Equipment>().materialOverride = enable;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (!photonView.isMine) return;
 		
 		InspectItem();
-		
 		
 		bool canInteract = false;
 		if (_inspected) {
@@ -159,43 +178,7 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					break;
 				// If we're inspecting an peice of equipment, determine the type
 				case "Equipment":
-					switch (_inspectedEquip.type) {
-					// If it's a weapon, equip it immediately, 
-					// and swap it with anything we have equipped now
-					case Equipment.Type.weapon:
-						if (_equippedWeapon)
-							_equippedWeapon.GetComponent<PhotonView>().RPC(
-								"Drop", PhotonTargets.AllBufferedViaServer);
-						
-						_inspectedView.RPC(
-							"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
-						
-						_equippedWeapon = _inspected;
-						break;
-					// If it's a utility1 (Jump) equip it
-					// and swap it with any utility1 we already have
-					case Equipment.Type.utility1:
-							if (_utility1)
-								_utility1.GetComponent<PhotonView>().RPC(
-								"Drop", PhotonTargets.AllBufferedViaServer);
-							
-							_inspectedView.RPC(
-							"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
-							
-							utility1 = _inspected;
-						break;
-					// If it's a utility2 (Sprint) equip it
-					// and swap it with any utility2 we already have
-					case Equipment.Type.utility2:
-							if (_utility2)
-								_utility2.GetComponent<PhotonView>().RPC(
-								"Drop",PhotonTargets.AllBufferedViaServer);
-							
-							_inspectedView.RPC(
-							"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
-							utility2 = _inspected;
-						break;
-					}
+					InteractWithEquipment();
 					break;
 				default:
 					break;
@@ -205,20 +188,16 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		
 		// This block swaps between equipped and holstered weapons
 		if (Input.GetButtonDown("ChangeWeapon")) {
-			if (_equippedWeapon) {
-				_equippedWeapon.GetComponent<PhotonView>().RPC(
-					"Holster", PhotonTargets.AllBufferedViaServer);
-			}
-			if (_holsteredWeapon) {
-				_holsteredWeapon.GetComponent<PhotonView>().RPC(
-					"Equip", PhotonTargets.AllBufferedViaServer, photonView.viewID);
-			}
-			Transform temp = _holsteredWeapon;
-			_holsteredWeapon = _equippedWeapon;
-			_equippedWeapon = temp;
+			photonView.RPC (
+				"HolsterRPC", 
+				PhotonTargets.AllBufferedViaServer, 
+				photonView.viewID
+				);
 		}
 	}
+
 	
+	// this is called on the local player to detect what they're looking at
 	void InspectItem() {
 		RaycastHit hit;
 		Transform cam = Camera.main.transform;
@@ -252,6 +231,124 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		}
 	}
 
+	// this is called on the local player when they attempt
+	// to interact with an equipment object
+	void InteractWithEquipment() {
+		
+		// 1. if we already have an equipment of this type then drop it
+		// 2. equip this inspected object
+		
+		// DROP if we already have an equipment of the same type
+		switch (_inspectedEquip.type) {
+		case Equipment.Type.weapon:
+			if (equippedWeapon) {
+				photonView.RPC(
+					"DropRPC",
+					PhotonTargets.AllBufferedViaServer,
+					photonView.viewID,
+					equippedWeapon.GetComponent<PhotonView>().viewID,
+					Equipment.Type.weapon
+					);
+			}
+			break;
+		case Equipment.Type.utility1:
+			if (utility1) {
+				photonView.RPC(
+					"DropRPC",
+					PhotonTargets.AllBufferedViaServer,
+					photonView.viewID,
+					utility1.GetComponent<PhotonView>().viewID,
+					Equipment.Type.utility1
+					);
+			}
+			break;
+		case Equipment.Type.utility2:
+			if (utility2) {
+				photonView.RPC(
+					"DropRPC",
+					PhotonTargets.AllBufferedViaServer,
+					photonView.viewID,
+					utility2.GetComponent<PhotonView>().viewID,
+					Equipment.Type.utility2
+					);
+			}
+			break;
+		}
+		
+		// then EQUIP the inspected equipment
+		photonView.RPC (
+			"EquipRPC", 
+			PhotonTargets.AllBufferedViaServer,
+			photonView.viewID,
+			_inspectedView.viewID,
+			_inspectedEquip.type
+		);
+	}
+
+	
+	[RPC]
+	void EquipRPC(int playerID, int equipmentID, int equipmentType) {
+		PhotonView equipmentPV = PhotonView.Find(equipmentID);
+		Equipment equipment = equipmentPV.GetComponent<Equipment>();
+		// attach equipment to the player
+		equipment.Equip(playerID);
+		// cache equipment transform for changing materials and stuff later on
+		Equipment.Type type = (Equipment.Type)equipmentType;
+		switch (type) {
+		case Equipment.Type.weapon:
+			equippedWeapon = equipment.transform;
+			break;
+		case Equipment.Type.utility1:
+			utility1 = equipment.transform;
+			break;
+		case Equipment.Type.utility2:
+			utility2 = equipment.transform;
+			break;
+		default:
+			Debug.LogError("Invalid equipment type enumeration received!");
+			break;
+		}
+	}
+	
+	[RPC]
+	void DropRPC(int playerID, int equipmentID, int equipmentType) {
+		PhotonView equipmentPV = PhotonView.Find (equipmentID);
+		Equipment equipment = equipmentPV.GetComponent<Equipment>();
+		// return this equipment to the world (master client control via rigidbody)
+		equipment.Drop();
+		// uncache the transform so we don't go changing its material anymore
+		Equipment.Type type = (Equipment.Type)equipmentType;
+		switch (type) {
+		case Equipment.Type.weapon:
+			equippedWeapon = null;
+			break;
+		case Equipment.Type.utility1:
+			utility1 = null;
+			break;
+		case Equipment.Type.utility2:
+			utility2 = null;
+			break;
+		default:
+			Debug.LogError("Invalid equipment type enumeration received!");
+			break;
+		}
+	}
+	
+	[RPC]
+	void HolsterRPC(int playerID) {
+		Equipment equipment;
+		if (equippedWeapon) {
+			equipment = equippedWeapon.GetComponent<Equipment>();
+			equipment.Holster();
+		}
+		if (holsteredWeapon) {
+			equipment = holsteredWeapon.GetComponent<Equipment>(); 
+			equipment.Equip(playerID);
+		}
+		Transform temp = holsteredWeapon;
+		holsteredWeapon = equippedWeapon;
+		equippedWeapon = temp;
+	}
 	
 	void Carry(Transform obj) {
 		_carryingObject = obj;

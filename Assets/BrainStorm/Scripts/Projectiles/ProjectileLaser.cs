@@ -127,7 +127,7 @@ public class ProjectileLaser : MonoBehaviour {
 			}
 		}
 
-		Debug.DrawLine(_startPoint, _hit, Color.red);
+		//Debug.DrawLine(_startPoint, _hit, Color.red);
 		
 		if (moveLaserWithTransform) {
 			SetLaserPoints();

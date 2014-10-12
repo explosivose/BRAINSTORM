@@ -35,7 +35,7 @@ public class Equipment : Photon.MonoBehaviour {
 	public Vector3 			holsteredRotation;
 	public AudioLibrary 	sounds = new AudioLibrary();
 	public Material			defaultMaterial;
-	public Material			blinkMaterial;
+	
 	
 	private bool 			_equipped;
 	private GameObject 		_tooltip;
@@ -53,9 +53,11 @@ public class Equipment : Photon.MonoBehaviour {
 		get; private set;
 	}
 	
-	public bool blink {
+	public Material	overrideMaterial {get;set;}
+	
+	public bool materialOverride {
 		set {
-			Material m = value ? blinkMaterial : defaultMaterial;
+			Material m = value ? overrideMaterial : defaultMaterial;
 			foreach(Transform child in _graphic.transform) {
 				child.renderer.material = m;
 			}
@@ -70,17 +72,15 @@ public class Equipment : Photon.MonoBehaviour {
 		if (PhotonNetwork.inRoom)
 			rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 	}
-	
-	[RPC]
-	public void Equip(int playerPhotonViewID) {
-		PhotonView playerPhotonView = PhotonView.Find(playerPhotonViewID);
+
+	public void Equip(int ownerViewID) {
 		
-		owner = playerPhotonView.GetComponent<Player>();
+		PhotonView ownerView = PhotonView.Find(ownerViewID);
+		owner = ownerView.GetComponent<Player>();
 		
 		// equip for just us
-		if (playerPhotonView.isMine)
+		if (ownerView.isMine)
 			_equipped = true;
-		
 		
 		// position for all clients
 		if (parent == EquipParent.camera) {
@@ -98,20 +98,22 @@ public class Equipment : Photon.MonoBehaviour {
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
-	[RPC]
 	public void Drop() {
 		_equipped = false;
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
 		transform.parent = null;
-		transform.position = owner.head.position;
-		transform.position += owner.head.forward;
-		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
+		if (PhotonNetwork.isMasterClient) {
+			// position is sync'd to other clients via photonview
+			transform.position = owner.head.position;
+			transform.position += owner.head.forward;
+			rigidbody.isKinematic = false;
+		}
 		collider.enabled = true;
 		if (_tooltip) _tooltip.SetActive(true);
 		owner = null;
 	}
 	
-	[RPC]
+
 	public void Holster() {
 		_equipped = false;
 		transform.localPosition = holsteredPosition;

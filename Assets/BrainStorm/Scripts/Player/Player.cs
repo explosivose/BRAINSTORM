@@ -20,6 +20,7 @@ public class Player : Photon.MonoBehaviour {
 	public float 		fov;
 	public Transform	deadBody;
 	public Material 	blinkMaterial;
+	public Material		cloakMaterial;
 	public float 		hurtEffectDuration = 0.1f;
 	
 	public AudioLibrary sounds = new AudioLibrary();
@@ -269,6 +270,17 @@ public class Player : Photon.MonoBehaviour {
 		SendMessage("OnBlinkStop");
 	}
 	
+	[RPC]
+	public void OnCloakStartRPC() {
+		_ren.material = cloakMaterial;
+		SendMessage("OnCloakStart");
+	}
+	
+	[RPC]
+	public void OnCloakStopRPC() {
+		_ren.material = _originalMaterial;
+		SendMessage("OnCloakStop");
+	}
 	void PlaySound(AudioClip clip) {
 		audio.clip = clip;
 		audio.loop = false;
