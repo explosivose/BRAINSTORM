@@ -27,6 +27,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 212: {fileID: 21200000}
   - 65: {fileID: 6500004}
+  - 95: {fileID: 9500000}
   m_Layer: 5
   m_Name: CTRLbackground
   m_TagString: Player
@@ -257,6 +258,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.11999989, y: 5.11999989, z: 0}
   m_Center: {x: 2.55999994, y: -2.55999994, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48f246b50fc673749bcd9a8557a12527, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &10200000
 TextMesh:
   serializedVersion: 3
