@@ -104,8 +104,8 @@ public class Equipment : Photon.MonoBehaviour {
 		transform.parent = null;
 		if (PhotonNetwork.isMasterClient) {
 			// position is sync'd to other clients via photonview
-			transform.position = owner.head.position;
-			transform.position += owner.head.forward;
+			//transform.position = owner.head.position;
+			//transform.position += owner.head.forward;
 			rigidbody.isKinematic = false;
 		}
 		collider.enabled = true;
