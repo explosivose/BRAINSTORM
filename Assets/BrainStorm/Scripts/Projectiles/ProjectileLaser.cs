@@ -69,8 +69,13 @@ public class ProjectileLaser : MonoBehaviour {
 	
 	void SetTarget(Transform target) {
 		_target = target;
-		if (dealDamage)
+		if (dealDamage) {
 			_target.SendMessage("Damage", _projectile.Damage.damage, SendMessageOptions.DontRequireReceiver);
+			if (_target.gameObject.layer == LayerMask.NameToLayer("Character")) {
+				Player.localPlayer.HitNotice();
+			}
+		}
+			
 	}
 	
 	void HitPosition(Vector3 position) {
@@ -110,7 +115,7 @@ public class ProjectileLaser : MonoBehaviour {
 	void Update () {
 		if (GameManager.Instance.paused && !PhotonNetwork.inRoom) return;
 		float t = (Time.time - _startTime) / lifetime;
-		Color s = Color.Lerp(startColor, Color.clear, t*2f);
+		Color s = Color.Lerp(startColor, Color.clear, t*4f);
 		Color e = Color.Lerp(endColor, Color.clear, t);
 		_line.SetColors(s, e);
 		

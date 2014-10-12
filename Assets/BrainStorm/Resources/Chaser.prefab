@@ -600,6 +600,7 @@ MonoBehaviour:
     hurt: {fileID: 8300000, guid: 4f7a361246832144b986d8e1442457df, type: 3}
     jump: {fileID: 8300000, guid: 5852b254b031971499297b107cfc38db, type: 3}
     land: {fileID: 8300000, guid: 1b2a1186013f22243894e53749097a2e, type: 3}
+    hitNotice: {fileID: 8300000, guid: fb2433cfa6e1a5a4190a5cb67e6967a3, type: 3}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -618,6 +619,7 @@ MonoBehaviour:
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   tooltip: 1
   tooltipTime: .5
+  lifetime: 0
   source: 5
 --- !u!114 &11400014
 MonoBehaviour:

@@ -3,13 +3,9 @@ using System.Collections;
 
 public class CTRLtext : CTRLelement {
 
-	// latenight thought about these tooltips:
-	// make a tooltip prefab and reference it in equipment component
-	// instantiate via equipment component 
-	// this ensures that all tooltips are le same
 	public bool tooltip = false;
 	public float tooltipTime = 0.5f;
-
+	public float lifetime;
 	public enum Source {
 		None, Name, ParentName, Developers, Assets, PhotonPlayerName
 	}
@@ -42,6 +38,7 @@ public class CTRLtext : CTRLelement {
 			break;
 		}
 		base.OnEnable ();
+		if (lifetime > 0) StartCoroutine(Expiry());
 	}
 	
 	void OnInspectStart() {
@@ -55,6 +52,11 @@ public class CTRLtext : CTRLelement {
 		if (tooltip) {
 			inspected = false;
 		}
+	}
+	
+	IEnumerator Expiry() {
+		yield return new WaitForSeconds(lifetime);
+		transform.Recycle();
 	}
 	
 	protected override void Update ()

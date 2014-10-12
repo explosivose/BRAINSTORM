@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 3
   dealDamage: 1
+  hitNotice: {fileID: 400000, guid: cf3add8f3dde3ce428273d1daa619ba1, type: 2}
   moveLaserWithTransform: 0
   calculatePoints: 0
   startColor: {r: 1, g: 0, b: 0, a: 1}
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 3
   dealDamage: 1
+  hitNotice: {fileID: 0}
   moveLaserWithTransform: 0
   calculatePoints: 1
   startColor: {r: 0, g: .498039216, b: .992156863, a: .494117647}

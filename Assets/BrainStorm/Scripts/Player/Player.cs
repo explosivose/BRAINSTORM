@@ -14,6 +14,7 @@ public class Player : Photon.MonoBehaviour {
 		public AudioClip 	hurt;
 		public AudioClip 	jump;
 		public AudioClip 	land;
+		public AudioClip	hitNotice;
 	}
 
 	public int 			maxHealth;
@@ -61,6 +62,7 @@ public class Player : Photon.MonoBehaviour {
 	private int 			_health;
 	private bool 			_dead = false;
 	private bool 			_noclip = false;
+	private bool			_hitNoticePlaying = false;
 	private GameObject 		_mainCamera;
 	private MeshRenderer 	_ren;
 	private TrailRenderer	_trail;
@@ -290,6 +292,18 @@ public class Player : Photon.MonoBehaviour {
 	
 	public void Killed(Transform victim) {
 		Debug.Log ("Player killed something :O");
+	}
+	
+	public void HitNotice() {
+		if (!_hitNoticePlaying) StartCoroutine( HitNoticeRoutine() );
+	}
+	
+	IEnumerator HitNoticeRoutine() {
+		_hitNoticePlaying = true;
+		yield return new WaitForSeconds(0.05f);
+		AudioSource.PlayClipAtPoint(sounds.hitNotice, transform.position);
+		yield return new WaitForSeconds(0.1f);
+		_hitNoticePlaying = false;
 	}
 	
 	[RPC]
