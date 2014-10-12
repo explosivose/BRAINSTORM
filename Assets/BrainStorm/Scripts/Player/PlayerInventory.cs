@@ -94,18 +94,39 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		// drop everything
 		if(_carryingObject) Drop();
 		if(equippedWeapon) 
-			equippedWeapon.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+			photonView.RPC(
+				"DropRPC",
+				PhotonTargets.AllBufferedViaServer,
+				photonView.viewID,
+				equippedWeapon.GetComponent<PhotonView>().viewID,
+				Equipment.Type.weapon
+				);
 		if(holsteredWeapon) 
-			holsteredWeapon.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+			photonView.RPC(
+				"DropRPC",
+				PhotonTargets.AllBufferedViaServer,
+				photonView.viewID,
+				holsteredWeapon.GetComponent<PhotonView>().viewID,
+				Equipment.Type.weapon
+				);
 		if(utility1) 
-			utility1.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+			photonView.RPC(
+				"DropRPC",
+				PhotonTargets.AllBufferedViaServer,
+				photonView.viewID,
+				utility1.GetComponent<PhotonView>().viewID,
+				Equipment.Type.utility1
+				);
 		if(utility2) 
-			utility2.GetComponent<PhotonView>().RPC(
-				"Drop", PhotonTargets.All);
+			photonView.RPC(
+				"DropRPC",
+				PhotonTargets.AllBufferedViaServer,
+				photonView.viewID,
+				utility2.GetComponent<PhotonView>().viewID,
+				Equipment.Type.utility2
+				);
 		
+
 	}
 	
 	void OnBlinkStart() {

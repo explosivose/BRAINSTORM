@@ -5,7 +5,7 @@ public class Strings {
 
 	public const string gameTitle = "chasers";
 
-	public const string gameVersion = "v0.6dev";
+	public const string gameVersion = "v0.7rc";
 	
 	public const string developers = 
 		"SUPERCORE.CO.UK \n" +

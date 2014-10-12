@@ -327,13 +327,19 @@ public class Player : Photon.MonoBehaviour {
 
 	[RPC]
 	void DeathRPC() {
-		StartCoroutine(Death ());
+		if (!_dead) StartCoroutine(Death ());
 	}
 
 	IEnumerator Death() {
 		_dead = true;
+		
+		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
+		
+		yield return new WaitForSeconds(0.1f);
+		
 		if (screenEffects)
 			_fade.StartFade(Color.black, 1f);
+		
 		
 		
 		Vector3 position = transform.position;
@@ -352,7 +358,7 @@ public class Player : Photon.MonoBehaviour {
 			motor.enabled = false;
 		}
 
-		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
+		
 		
 		yield return new WaitForSeconds(1.5f);
 		
