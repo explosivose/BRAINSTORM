@@ -109,6 +109,7 @@ public class Equipment : Photon.MonoBehaviour {
 			rigidbody.isKinematic = false;
 		}
 		collider.enabled = true;
+		materialOverride = false;
 		if (_tooltip) _tooltip.SetActive(true);
 		owner = null;
 	}

@@ -322,9 +322,9 @@ MonoBehaviour:
   holsteredRotation: {x: 0, y: 0, z: 0}
   sounds:
     volume: .25
-    start: {fileID: 8300000, guid: 0ce480379bc3ff44e963eaef14f4b30a, type: 3}
+    start: {fileID: 8300000, guid: 011c0edfba95699428c9fd0193d7c0f4, type: 3}
     loop: {fileID: 0}
-    stop: {fileID: 8300000, guid: 1dd28b449484e4c4c95bff57e1a51720, type: 3}
+    stop: {fileID: 8300000, guid: 85cad9b8380b061478906224e67114d4, type: 3}
   defaultMaterial: {fileID: 2100000, guid: 9319b77f81efb0f46be22293a62c0148, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -337,11 +337,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2ce00a819c2284299bcb4f5ca52eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeMaterial: {fileID: 2100000, guid: 68205a06024ac014abde627152248e4e, type: 2}
+  cloakEffect: {fileID: 400000, guid: ff8dfb19f84fd3a47b2b9430ccb17fad, type: 2}
   motorBehaviour:
     enabled: 1
-    sprintSpeed: 40
-    sprintLength: 2
+    sprintSpeed: 25
+    sprintAccel: 60
+    sprintLength: 4
     recoveryRate: 1
     cooldown: .5
     sprinting: 0

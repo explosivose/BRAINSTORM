@@ -576,6 +576,8 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 4294966783
+  equippedWeapon: {fileID: 0}
+  holsteredWeapon: {fileID: 0}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -661,7 +663,8 @@ MonoBehaviour:
     airControlFactor: 1
   sprint:
     enabled: 0
-    sprintSpeed: 60
+    sprintSpeed: 40
+    sprintAccel: 100
     sprintLength: 1
     recoveryRate: .400000006
     cooldown: .5

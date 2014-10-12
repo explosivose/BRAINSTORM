@@ -88,6 +88,8 @@ public class CharacterMotorC : MonoBehaviour {
 		public bool enabled = true;
 		// Top speed for sprinting
 		public float sprintSpeed = 20f;
+		// Acceleration
+		public float sprintAccel = 60f;
 		// How long can we sprint for
 		public float sprintLength = 4f;
 		// How quickly do we recover?
@@ -446,7 +448,7 @@ public class CharacterMotorC : MonoBehaviour {
 			}
 			if (sprint.sprinting) {
 				if (sprint.stamina > 0f && inputSprint) {
-					sprint.stamina -= Time.deltaTime;
+					sprint.stamina -= Time.deltaTime * movement.velocity.magnitude * 0.125f;
 					// sprint is applied in MaxSpeedInDirection()
 				}
 				else { // sprint button release or ran out of stamina
@@ -699,7 +701,10 @@ public class CharacterMotorC : MonoBehaviour {
 	float GetMaxAcceleration (bool grounded) {
 		// Maximum acceleration on ground and in air
 		if (grounded)
-			return movement.maxGroundAcceleration;
+			if (sprint.enabled && sprint.sprinting)
+				return sprint.sprintAccel;
+			else
+				return movement.maxGroundAcceleration;
 		else
 			return movement.maxAirAcceleration;
 	}
@@ -736,8 +741,8 @@ public class CharacterMotorC : MonoBehaviour {
 		get {
 			if (!sprint.enabled) return false;
 			return sprint.lastStartTime + sprint.cooldown < Time.time
-				&& sprint.stamina > sprint.recoveryRate
-				&& grounded;
+				&& sprint.stamina > sprint.recoveryRate;
+				//&& grounded;
 		}
 	}
 	
