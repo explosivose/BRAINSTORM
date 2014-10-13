@@ -9,15 +9,17 @@ public class PlayerInventory : Photon.MonoBehaviour {
 	public float playerReach = 4f;
 	public LayerMask raycastMask;
 	
+	public Transform 		equippedWeapon;
+	public Transform 		holsteredWeapon;
+	
 	private CharacterMotorC _motor;
-	private Transform _inspected;		// this is whatever equipable item the player is looking at
-	private Equipment _inspectedEquip; // the equipment script of the inspected transform (null if not inspecting equipment)
-	private PhotonView _inspectedView;
-	private Transform _carryingObject;
-	public Transform equippedWeapon;
-	public Transform holsteredWeapon;
-	private Transform _utility1;		// utility equipment operated with Jump button
-	private Transform _utility2;		// utility equipment operated with Sprint button
+	private Transform 		_inspected;		// this is whatever equipable item the player is looking at
+	private Equipment 		_inspectedEquip; // the equipment script of the inspected transform (null if not inspecting equipment)
+	private PhotonView 		_inspectedView;
+	private bool			_canInteract;
+	private Transform 		_carryingObject;
+	private Transform 		_utility1;		// utility equipment operated with Jump button
+	private Transform 		_utility2;		// utility equipment operated with Sprint button
 	
 			
 	public float jumpbar {
@@ -175,14 +177,22 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		
 		InspectItem();
 		
-		bool canInteract = false;
+		bool highlight = false;
 		if (_inspected) {
-			canInteract = Vector3.Distance(_inspected.position, transform.position) < playerReach;
+			highlight = Vector3.Distance(_inspected.position, transform.position) < playerReach;
+			if (highlight && !_canInteract) {
+				_canInteract = true;
+				_inspected.BroadcastMessage("OnHighlightStart", SendMessageOptions.DontRequireReceiver);
+			}
+			else if (!highlight && _canInteract) {
+				_canInteract = false;
+				_inspected.BroadcastMessage("OnHighlightStop", SendMessageOptions.DontRequireReceiver);
+			}
 		}
 		
 		// This block handles what to do when you press the Interact button
 		// Player presses the interact button (probably E on keyboard)
-		if (Input.GetButtonDown("Interact") && canInteract) {
+		if (Input.GetButtonDown("Interact") && _canInteract) {
 			// Drop if we're carrying something;
 			if (_carryingObject) {
 				Drop();
@@ -230,7 +240,9 @@ public class PlayerInventory : Photon.MonoBehaviour {
 			}
 			switch(hit.transform.tag) {
 			case "Equipment":
-				Debug.DrawLine(cam.position, hit.point, Color.green);
+				Color c = Color.yellow;
+				if (_canInteract) c = Color.green;
+				Debug.DrawLine(cam.position, hit.point, c);
 				_inspected = hit.transform;
 				_inspectedEquip = _inspected.GetComponent<Equipment>();
 				_inspectedView = _inspected.GetComponent<PhotonView>();
