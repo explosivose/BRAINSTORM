@@ -343,8 +343,8 @@ MonoBehaviour:
     sprintSpeed: 25
     sprintAccel: 60
     sprintLength: 4
-    recoveryRate: 1
-    cooldown: .5
+    recoveryRate: 2
+    cooldown: 1
     sprinting: 0
 --- !u!114 &11400004
 MonoBehaviour:
@@ -384,6 +384,7 @@ MonoBehaviour:
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   tooltip: 1
   tooltipTime: 0
+  lifetime: 0
   source: 2
 --- !u!1001 &100100000
 Prefab:

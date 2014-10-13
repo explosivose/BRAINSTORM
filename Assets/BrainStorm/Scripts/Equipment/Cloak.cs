@@ -15,6 +15,7 @@ public class Cloak : Photon.MonoBehaviour {
 	
 	void Awake() {
 		equipment = GetComponent<Equipment>();
+		motorBehaviour.stamina = motorBehaviour.sprintLength;
 		cloakEffect.CreatePool();
 	}
 	
@@ -31,6 +32,9 @@ public class Cloak : Photon.MonoBehaviour {
 				equipment.owner.motor.sprint = new CharacterMotorC.CharacterMotorSprint();
 				equipment.owner.motor.sprint.enabled = false;
 			}
+		}
+		if (effectInstance) {
+			StartCoroutine(KillEffect(effectInstance));
 		}
 	}
 	

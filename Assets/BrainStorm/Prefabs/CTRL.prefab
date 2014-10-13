@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   font: {fileID: 12800000, guid: 301f29708c65e074a801156478aaf6af, type: 3}
   fontColor: {r: 0, g: .838235259, b: .0404666029, a: .843137264}
-  fontHoverColor: {r: .632352948, g: 1, b: .665314376, a: .768627465}
+  fontHoverColor: {r: 1, g: .806896567, b: 0, a: .768627465}
   splashPrefab: {fileID: 400004, guid: f67926532d11d9446afe960b36b61e03, type: 2}
   startPrefab: {fileID: 400018, guid: c54e9bfc16090904e96a4cf24956ecf7, type: 2}
   pausePrefab: {fileID: 400014, guid: a366793ead5d5784daf9547800d8e027, type: 2}

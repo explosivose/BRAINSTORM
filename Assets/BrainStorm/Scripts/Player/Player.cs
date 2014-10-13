@@ -89,10 +89,11 @@ public class Player : Photon.MonoBehaviour {
 		_ren = GetComponentInChildren<MeshRenderer>();
 		_originalMaterial = _ren.material;
 		_trail = GetComponentInChildren<TrailRenderer>();
+		inventory = GetComponent<PlayerInventory>();
 		
 		if (photonView.isMine) {
 			motor = GetComponent<CharacterMotorC>();
-			inventory = GetComponent<PlayerInventory>();
+			
 			_bodyTurn = GetComponent<MouseLook>();
 			_headTilt = head.GetComponent<MouseLook>();
 			hud = GetComponentInChildren<GUIController>();
@@ -259,27 +260,42 @@ public class Player : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	public void OnBlinkStartRPC() {
+	void EquipRPC(int equipmentID, int equipmentType) {
+		inventory.Equip(equipmentID, equipmentType);
+	}
+	
+	[RPC]
+	void DropRPC(int equipmentID, int equipmentType) {
+		inventory.Drop(equipmentID, equipmentType);
+	}
+	
+	[RPC]
+	void HolsterRPC() {
+		inventory.Holster();
+	}
+	
+	[RPC]
+	void OnBlinkStartRPC() {
 		_ren.material = blinkMaterial;
 		_trail.time = 1f;
 		SendMessage("OnBlinkStart");
 	}
 	
 	[RPC]
-	public void OnBlinkStopRPC() {
+	void OnBlinkStopRPC() {
 		_ren.material = _originalMaterial;
 		_trail.time = 0f;
 		SendMessage("OnBlinkStop");
 	}
 	
 	[RPC]
-	public void OnCloakStartRPC() {
+	void OnCloakStartRPC() {
 		_ren.material = cloakMaterial;
 		SendMessage("OnCloakStart");
 	}
 	
 	[RPC]
-	public void OnCloakStopRPC() {
+	void OnCloakStopRPC() {
 		_ren.material = _originalMaterial;
 		SendMessage("OnCloakStop");
 	}
@@ -301,7 +317,9 @@ public class Player : Photon.MonoBehaviour {
 	IEnumerator HitNoticeRoutine() {
 		_hitNoticePlaying = true;
 		yield return new WaitForSeconds(0.05f);
-		AudioSource.PlayClipAtPoint(sounds.hitNotice, transform.position);
+		// disabled until damage ownership implemented
+		// hitnotice() incorrectly called otherwise
+		//AudioSource.PlayClipAtPoint(sounds.hitNotice, transform.position);
 		yield return new WaitForSeconds(0.1f);
 		_hitNoticePlaying = false;
 	}
@@ -327,14 +345,21 @@ public class Player : Photon.MonoBehaviour {
 
 	[RPC]
 	void DeathRPC() {
-		StartCoroutine(Death ());
+		if (!_dead) StartCoroutine(Death ());
 	}
 
 	IEnumerator Death() {
 		_dead = true;
-		if (screenEffects)
-			_fade.StartFade(Color.black, 1f);
 		
+		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
+		
+		if (photonView.isMine) {
+			AudioListener.volume = 0f;
+			motor.enabled = false;
+			_fade.StartFade(Color.black, 1f);
+		}
+		
+		yield return new WaitForSeconds(0.1f);
 		
 		Vector3 position = transform.position;
 		
@@ -346,20 +371,9 @@ public class Player : Photon.MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 		body.rigidbody.isKinematic = false;
 		//body.rigidbody.velocity = velocity;
-		
-		if (photonView.isMine) {
-			AudioListener.volume = 0f;
-			motor.enabled = false;
-		}
 
-		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
-		
 		yield return new WaitForSeconds(1.5f);
-		
-		if (!PhotonNetwork.inRoom) {
-			GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
-		}
-		
+
 		photonView.RPC ("SpawnRPC", PhotonTargets.All);
 		
 		

@@ -13,10 +13,13 @@ public class CTRLtext : CTRLelement {
 
 	private bool inspected = false;
 	private float inspectTime = 0f;
-
+	private Color displayColor;
+	
 	protected override void OnEnable ()
 	{
 		textMesh.color = Color.clear;
+		displayColor = overrideTextColor ? textColor : CTRL.Instance.fontColor;
+		OnInspectStop();
 		switch(source) {
 		case Source.Assets:
 			finalText = Strings.assets;
@@ -51,7 +54,16 @@ public class CTRLtext : CTRLelement {
 	void OnInspectStop() {
 		if (tooltip) {
 			inspected = false;
+			OnHighlightStop();
 		}
+	}
+	
+	void OnHighlightStart() {
+		displayColor = overrideTextColor ? textHoverColor : CTRL.Instance.fontHoverColor;
+	}
+	
+	void OnHighlightStop() {
+		displayColor = overrideTextColor ? textColor : CTRL.Instance.fontColor;
 	}
 	
 	IEnumerator Expiry() {
@@ -81,7 +93,7 @@ public class CTRLtext : CTRLelement {
 				// fade in text
 				textMesh.color = Color.Lerp(
 					textMesh.color,
-					textColor,
+					displayColor,
 					Time.deltaTime * 6f
 				);
 			}

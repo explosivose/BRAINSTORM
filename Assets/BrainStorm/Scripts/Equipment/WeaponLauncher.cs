@@ -105,17 +105,13 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 	}
 	
 	void OnDrop() {
-		if (_equip.owner.isLocalPlayer) {
-			_ready = false;
-			_crosshair.gameObject.SetActive(false);
-		}
+		_ready = false;
+		_crosshair.gameObject.SetActive(false);
 	}
 	
 	void OnHolster() {
-		if (_equip.owner.isLocalPlayer) {
-			_ready = false;
-			_crosshair.gameObject.SetActive(false);
-		}
+		_ready = false;
+		_crosshair.gameObject.SetActive(false);
 	}
 	
 	void Update () {
