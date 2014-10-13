@@ -32,6 +32,9 @@ public class Cloak : Photon.MonoBehaviour {
 				equipment.owner.motor.sprint.enabled = false;
 			}
 		}
+		if (effectInstance) {
+			StartCoroutine(KillEffect(effectInstance));
+		}
 	}
 	
 	void OnSprintStop() {
