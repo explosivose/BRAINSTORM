@@ -317,7 +317,9 @@ public class Player : Photon.MonoBehaviour {
 	IEnumerator HitNoticeRoutine() {
 		_hitNoticePlaying = true;
 		yield return new WaitForSeconds(0.05f);
-		AudioSource.PlayClipAtPoint(sounds.hitNotice, transform.position);
+		// disabled until damage ownership implemented
+		// hitnotice() incorrectly called otherwise
+		//AudioSource.PlayClipAtPoint(sounds.hitNotice, transform.position);
 		yield return new WaitForSeconds(0.1f);
 		_hitNoticePlaying = false;
 	}
