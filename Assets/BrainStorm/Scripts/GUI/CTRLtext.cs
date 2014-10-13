@@ -3,41 +3,72 @@ using System.Collections;
 
 public class CTRLtext : CTRLelement {
 
-	// latenight thought about these tooltips:
-	// make a tooltip prefab and reference it in equipment component
-	// instantiate via equipment component 
-	// this ensures that all tooltips are le same
 	public bool tooltip = false;
-
+	public float tooltipTime = 0.5f;
+	public float lifetime;
 	public enum Source {
 		None, Name, ParentName, Developers, Assets, PhotonPlayerName
 	}
 	public Source source;
 
+	private bool inspected = false;
+	private float inspectTime = 0f;
+	private Color displayColor;
+	
 	protected override void OnEnable ()
 	{
-		base.OnEnable ();
 		textMesh.color = Color.clear;
+		displayColor = overrideTextColor ? textColor : CTRL.Instance.fontColor;
+		OnInspectStop();
 		switch(source) {
 		case Source.Assets:
-			text = Strings.assets;
+			finalText = Strings.assets;
 			break;
 		case Source.Developers:
-			text = Strings.developers;
+			finalText = Strings.developers;
 			break;
 		case Source.Name:
-			text = Strings.OmitCloneSuffix(transform.name);
+			finalText = Strings.OmitCloneSuffix(transform.name);
 			break;
 		case Source.ParentName:
-			text = Strings.OmitCloneSuffix(transform.parent.name);
+			finalText = Strings.OmitCloneSuffix(transform.parent.name);
 			break;
 		case Source.PhotonPlayerName:
-			text = GetComponentInParent<PhotonView>().owner.name;
+			finalText = GetComponentInParent<PhotonView>().owner.name;
 			break;
 		case Source.None:
 		default:
 			break;
 		}
+		base.OnEnable ();
+		if (lifetime > 0) StartCoroutine(Expiry());
+	}
+	
+	void OnInspectStart() {
+		if (tooltip && !inspected) {
+			inspectTime = Time.time;
+			inspected = true;
+		}
+	}
+	
+	void OnInspectStop() {
+		if (tooltip) {
+			inspected = false;
+			OnHighlightStop();
+		}
+	}
+	
+	void OnHighlightStart() {
+		displayColor = overrideTextColor ? textHoverColor : CTRL.Instance.fontHoverColor;
+	}
+	
+	void OnHighlightStop() {
+		displayColor = overrideTextColor ? textColor : CTRL.Instance.fontColor;
+	}
+	
+	IEnumerator Expiry() {
+		yield return new WaitForSeconds(lifetime);
+		transform.Recycle();
 	}
 	
 	protected override void Update ()
@@ -47,18 +78,34 @@ public class CTRLtext : CTRLelement {
 		if (!Player.localPlayer) return;
 		base.Update ();
 		if (tooltip) {
-			float playerDistance = Vector3.Distance(Player.localPlayer.transform.position, transform.position);
-			float lerp = (4f-playerDistance);
-			if (lerp > 0) {
+			if (inspected && inspectTime + tooltipTime < Time.time && !GameManager.Instance.paused) {
+				// ensure player name is up to date
+				if (source == Source.PhotonPlayerName) {
+					finalText = GetComponentInParent<PhotonView>().owner.name;
+				}
+				if (!_typing && text != finalText && typeEffect) {
+					StartCoroutine( TypeText() );
+				}
+				// rotate text to face camera
 				Transform cam = Camera.main.transform;
 				Quaternion rotation = Quaternion.LookRotation(transform.position - cam.position);
 				transform.rotation = rotation;
-				textMesh.color = Color.Lerp(Color.clear, textColor, lerp);
-				if (source == Source.PhotonPlayerName) {
-					text = GetComponentInParent<PhotonView>().owner.name;
-				}
+				// fade in text
+				textMesh.color = Color.Lerp(
+					textMesh.color,
+					displayColor,
+					Time.deltaTime * 6f
+				);
 			}
-
+			else {
+				if (typeEffect) text = new string('#', text.Length);
+				// fade out text
+				textMesh.color = Color.Lerp(
+					textMesh.color,
+					Color.clear,
+					Time.deltaTime * 4f
+				);
+			}
 		}
 	}
 	

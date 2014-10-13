@@ -3,9 +3,11 @@ using System.Collections;
 
 [RequireComponent(typeof(Equipment))]
 [AddComponentMenu("Player/Equipment/Blink")]
-public class BlinkTarget : MonoBehaviour {
+public class BlinkTarget : Photon.MonoBehaviour {
 
 	public Transform 	blinkTargetPrefab;
+	public Transform	blinkStartEffect;
+	public Transform	blinkStopEffect;
 	public float 		blinkSpeed;
 	public float 		maxRange;				// how long is our raycast?
 	public float 		rechargeTime;			// how long to get from 0 to maxRange?
@@ -28,6 +30,8 @@ public class BlinkTarget : MonoBehaviour {
 	
 	void Awake() {
 		blinkTargetPrefab.CreatePool();
+		blinkStartEffect.CreatePool();
+		blinkStopEffect.CreatePool();
 		_equipment = GetComponent<Equipment>();
 	}
 	
@@ -72,7 +76,7 @@ public class BlinkTarget : MonoBehaviour {
 		
 		
 		
-		if (Input.GetButtonDown("Sprint")) {
+		if (Input.GetButtonDown("Sprint") && canBlink) {
 			if (!_blinkTarget)
 				_blinkTarget = blinkTargetPrefab.Spawn();
 		}
@@ -81,7 +85,7 @@ public class BlinkTarget : MonoBehaviour {
 			PositionTarget();
 		}
 		
-		if (Input.GetButtonUp("Sprint") && canBlink ) {
+		if (Input.GetButtonUp("Sprint") && _blinkTarget ) {
 			StartBlink();
 		}
 
@@ -91,18 +95,29 @@ public class BlinkTarget : MonoBehaviour {
 	void StartBlink() {
 		_blinking = true;
 		_equipment.owner.motor.enabled = false;
-		_equipment.owner.photonView.RPC ("OnBlinkStart", PhotonTargets.All);
-		_equipment.AudioStart();
+		photonView.RPC("StartBlinkRPC", PhotonTargets.All);
+		_equipment.owner.photonView.RPC ("OnBlinkStartRPC", PhotonTargets.All);
 		_blinkTarget.Recycle();
 		_lastUseTime = Time.time;
 	}
 	
+	[RPC]
+	void StartBlinkRPC() {
+		blinkStartEffect.Spawn(transform.position);
+	}
+
 	void StopBlink() {
 		_blinking = false;
 		_blinkTarget = null;
+		_equipment.owner.motor.movement.velocity = Vector3.zero;
 		_equipment.owner.motor.enabled = true;
-		_equipment.owner.photonView.RPC("OnBlinkStop", PhotonTargets.All);
-		_equipment.AudioStop();
+		photonView.RPC ("StopBlinkRPC", PhotonTargets.All);
+		_equipment.owner.photonView.RPC("OnBlinkStopRPC", PhotonTargets.All);
+	}
+	
+	[RPC]
+	void StopBlinkRPC() {
+		blinkStopEffect.Spawn(transform.position);
 	}
 	
 	void Blink() {

@@ -80,6 +80,7 @@ GameObject:
   - 4: {fileID: 400012}
   - 212: {fileID: 21200006}
   - 65: {fileID: 6500006}
+  - 95: {fileID: 9500000}
   m_Layer: 5
   m_Name: CTRLbackground
   m_TagString: Player
@@ -207,7 +208,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.319999993, y: 1.27999997, z: -4.48000002}
+  m_LocalPosition: {x: -24.7033672, y: 27.6222725, z: 198.473312}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400012}
@@ -349,6 +350,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.55999994, y: 1.27999997, z: 0}
   m_Center: {x: 1.27999997, y: -.639999986, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48f246b50fc673749bcd9a8557a12527, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &10200000
 TextMesh:
   serializedVersion: 3
@@ -423,7 +439,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da7c4614d2c6144481744bac7d8d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  finalText: more...
+  typeEffect: 1
+  overrideTextColor: 0
+  textColor: {r: 0, g: .727941155, b: .00502024312, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
   menuPrefab: {fileID: 400014, guid: e6d47f8952e784c43900b0a14b4fa43b, type: 2}
@@ -438,7 +457,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc10c697ab860741afa86f221f34c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  finalText: resume
+  typeEffect: 1
+  overrideTextColor: 0
+  textColor: {r: 0, g: .727941155, b: .00502024312, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
 --- !u!114 &11400006
@@ -452,9 +474,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc10c697ab860741afa86f221f34c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  finalText: quit
+  typeEffect: 1
+  overrideTextColor: 0
+  textColor: {r: 0, g: .727941155, b: .00502024312, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
-  action: 2
+  action: 1
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,7 +491,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7dc11ce0bcdfa41a34caaa883c2e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animate: 1
+  animate: 0
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

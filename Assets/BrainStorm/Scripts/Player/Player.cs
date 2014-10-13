@@ -14,12 +14,14 @@ public class Player : Photon.MonoBehaviour {
 		public AudioClip 	hurt;
 		public AudioClip 	jump;
 		public AudioClip 	land;
+		public AudioClip	hitNotice;
 	}
 
 	public int 			maxHealth;
 	public float 		fov;
 	public Transform	deadBody;
 	public Material 	blinkMaterial;
+	public Material		cloakMaterial;
 	public float 		hurtEffectDuration = 0.1f;
 	
 	public AudioLibrary sounds = new AudioLibrary();
@@ -60,6 +62,7 @@ public class Player : Photon.MonoBehaviour {
 	private int 			_health;
 	private bool 			_dead = false;
 	private bool 			_noclip = false;
+	private bool			_hitNoticePlaying = false;
 	private GameObject 		_mainCamera;
 	private MeshRenderer 	_ren;
 	private TrailRenderer	_trail;
@@ -86,10 +89,11 @@ public class Player : Photon.MonoBehaviour {
 		_ren = GetComponentInChildren<MeshRenderer>();
 		_originalMaterial = _ren.material;
 		_trail = GetComponentInChildren<TrailRenderer>();
+		inventory = GetComponent<PlayerInventory>();
 		
 		if (photonView.isMine) {
 			motor = GetComponent<CharacterMotorC>();
-			inventory = GetComponent<PlayerInventory>();
+			
 			_bodyTurn = GetComponent<MouseLook>();
 			_headTilt = head.GetComponent<MouseLook>();
 			hud = GetComponentInChildren<GUIController>();
@@ -256,17 +260,45 @@ public class Player : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	public void OnBlinkStart() {
-		_ren.material = blinkMaterial;
-		_trail.time = 1f;
+	void EquipRPC(int equipmentID, int equipmentType) {
+		inventory.Equip(equipmentID, equipmentType);
 	}
 	
 	[RPC]
-	public void OnBlinkStop() {
-		_ren.material = _originalMaterial;
-		_trail.time = 0f;
+	void DropRPC(int equipmentID, int equipmentType) {
+		inventory.Drop(equipmentID, equipmentType);
 	}
 	
+	[RPC]
+	void HolsterRPC() {
+		inventory.Holster();
+	}
+	
+	[RPC]
+	void OnBlinkStartRPC() {
+		_ren.material = blinkMaterial;
+		_trail.time = 1f;
+		SendMessage("OnBlinkStart");
+	}
+	
+	[RPC]
+	void OnBlinkStopRPC() {
+		_ren.material = _originalMaterial;
+		_trail.time = 0f;
+		SendMessage("OnBlinkStop");
+	}
+	
+	[RPC]
+	void OnCloakStartRPC() {
+		_ren.material = cloakMaterial;
+		SendMessage("OnCloakStart");
+	}
+	
+	[RPC]
+	void OnCloakStopRPC() {
+		_ren.material = _originalMaterial;
+		SendMessage("OnCloakStop");
+	}
 	void PlaySound(AudioClip clip) {
 		audio.clip = clip;
 		audio.loop = false;
@@ -276,6 +308,20 @@ public class Player : Photon.MonoBehaviour {
 	
 	public void Killed(Transform victim) {
 		Debug.Log ("Player killed something :O");
+	}
+	
+	public void HitNotice() {
+		if (!_hitNoticePlaying) StartCoroutine( HitNoticeRoutine() );
+	}
+	
+	IEnumerator HitNoticeRoutine() {
+		_hitNoticePlaying = true;
+		yield return new WaitForSeconds(0.05f);
+		// disabled until damage ownership implemented
+		// hitnotice() incorrectly called otherwise
+		//AudioSource.PlayClipAtPoint(sounds.hitNotice, transform.position);
+		yield return new WaitForSeconds(0.1f);
+		_hitNoticePlaying = false;
 	}
 	
 	[RPC]
@@ -299,14 +345,21 @@ public class Player : Photon.MonoBehaviour {
 
 	[RPC]
 	void DeathRPC() {
-		StartCoroutine(Death ());
+		if (!_dead) StartCoroutine(Death ());
 	}
 
 	IEnumerator Death() {
 		_dead = true;
-		if (screenEffects)
-			_fade.StartFade(Color.black, 1f);
 		
+		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
+		
+		if (photonView.isMine) {
+			AudioListener.volume = 0f;
+			motor.enabled = false;
+			_fade.StartFade(Color.black, 1f);
+		}
+		
+		yield return new WaitForSeconds(0.1f);
 		
 		Vector3 position = transform.position;
 		
@@ -318,20 +371,9 @@ public class Player : Photon.MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 		body.rigidbody.isKinematic = false;
 		//body.rigidbody.velocity = velocity;
-		
-		if (photonView.isMine) {
-			AudioListener.volume = 0f;
-			motor.enabled = false;
-		}
 
-		SendMessage("OnDeath", SendMessageOptions.DontRequireReceiver);
-		
 		yield return new WaitForSeconds(1.5f);
-		
-		if (!PhotonNetwork.inRoom) {
-			GameManager.Instance.ChangeScene( Scene.Tag.Lobby );
-		}
-		
+
 		photonView.RPC ("SpawnRPC", PhotonTargets.All);
 		
 		

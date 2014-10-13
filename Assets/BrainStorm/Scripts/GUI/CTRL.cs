@@ -17,10 +17,14 @@ public class CTRL : MonoBehaviour {
 	public static Vector3 zeroDirection = Vector3.forward;
 	
 	public Font font;
+	public Color fontColor;
+	public Color fontHoverColor;
 	
+	public Transform splashPrefab;
 	public Transform startPrefab;
 	public Transform pausePrefab;
-	
+
+	private Transform splashInstance;	
 	private Transform startInstance;
 	private Transform pauseInstance;
 
@@ -36,6 +40,25 @@ public class CTRL : MonoBehaviour {
 	void Update() {
 		deltaTime = Time.realtimeSinceStartup - lastCallTime;
 		lastCallTime = Time.realtimeSinceStartup;
+	}
+
+	public void ShowSplash() {
+		Transform mainCam = Camera.main.transform;
+		zeroDirection = mainCam.forward;
+		Vector3 pos = mainCam.position + mainCam.forward * 15f;
+		Quaternion rot = Quaternion.LookRotation(pos - mainCam.position);
+		splashInstance = splashPrefab.Spawn(pos, rot);
+		StartCoroutine(SplashEnd());
+	}
+	
+	IEnumerator SplashEnd() {
+		yield return new WaitForSeconds(2f);
+		GameManager.Instance.Restart();
+	}
+	
+	public void HideSplash() {
+		if (splashInstance) 
+			splashInstance.Recycle();
 	}
 
 	public void ShowStartMenu() {

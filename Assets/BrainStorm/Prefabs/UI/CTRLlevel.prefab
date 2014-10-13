@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
   - 65: {fileID: 6500016}
+  - 95: {fileID: 9500002}
   m_Layer: 5
   m_Name: CTRLbackground
   m_TagString: Player
@@ -253,6 +254,7 @@ GameObject:
   - 4: {fileID: 400028}
   - 212: {fileID: 21200014}
   - 65: {fileID: 6500014}
+  - 95: {fileID: 9500000}
   m_Layer: 5
   m_Name: CTRLbackground
   m_TagString: Player
@@ -763,6 +765,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.11999989, y: 5.11999989, z: 0}
   m_Center: {x: 2.55999994, y: -2.55999994, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100028}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48f246b50fc673749bcd9a8557a12527, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &9500002
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48f246b50fc673749bcd9a8557a12527, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &10200000
 TextMesh:
   serializedVersion: 3
@@ -921,6 +953,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 6
@@ -935,6 +970,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 5
@@ -949,6 +987,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 4
@@ -963,6 +1004,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 3
@@ -977,6 +1021,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 2
@@ -991,6 +1038,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 1
@@ -1006,6 +1056,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 1
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1017,6 +1070,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f9619e7c51eb64fa1ee63c414113a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 0
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   level: 0

@@ -4,6 +4,9 @@ using System.Collections;
 
 public class CTRLelement : MonoBehaviour {
 
+	public string finalText;
+	public bool typeEffect;
+	public bool overrideTextColor;
 	public Color textColor = Color.white;
 	public Color textHoverColor = Color.cyan;
 
@@ -52,9 +55,10 @@ public class CTRLelement : MonoBehaviour {
 			textMesh.text = value;
 		}
 	}
-	
+
 	private BoxCollider _boxCollider;
 	private Vector3 _initialPosition;
+	protected bool _typing;
 	protected TextMesh textMesh { get; private set; }
 	
 	protected virtual void Awake () {
@@ -62,13 +66,21 @@ public class CTRLelement : MonoBehaviour {
 		_initialPosition = transform.localPosition;
 		textMesh = transform.Find("text").GetComponent<TextMesh>();
 		if (!textMesh) Debug.LogError("Required child object with TextMesh is missing.");
-		textMesh.font = CTRL.Instance.font;
+		if (CTRL.Instance) {
+			textMesh.font = CTRL.Instance.font;
+			if (!overrideTextColor) {
+				textColor = CTRL.Instance.fontColor;
+				textHoverColor = CTRL.Instance.fontHoverColor;
+			}
+		}
 	}
 	
 	
 	
 	protected virtual void OnEnable() {
-		textMesh.color = textColor;
+		textMesh.color = textColor;	
+		if (typeEffect) StartCoroutine( TypeText() );
+		else text = finalText;
 	}
 	
 	protected virtual void Update() {
@@ -104,5 +116,16 @@ public class CTRLelement : MonoBehaviour {
 	public void SetPosition(int Top, int Left) {
 		top = Top;
 		left = Left;
+	}
+	
+	protected IEnumerator TypeText() {
+		int _typeIndex = 0;
+		text = "";
+		_typing = true;
+		while(_typing && _typeIndex < finalText.Length) {
+			text += finalText[_typeIndex++];
+			yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
+		}
+		_typing = false;
 	}
 }

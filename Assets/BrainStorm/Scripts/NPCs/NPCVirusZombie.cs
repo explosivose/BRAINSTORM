@@ -9,7 +9,6 @@ public class NPCVirusZombie : NPC {
 	}
 	
 	public float attackReach = 2f;
-	public Transform	virusPrefab;
 	public CharacterMaterials wardrobe = new CharacterMaterials();
 	public Boid.Profile idleProfile = new Boid.Profile();
 	public Boid.Profile stalkProfile = new Boid.Profile();
@@ -46,12 +45,12 @@ public class NPCVirusZombie : NPC {
 				
 			case State.Dead:
 				searchForTargets = false;
-				_boid.enabled = false;
+				_boid.gameObject.SetActive(false);
 				_ren.material = wardrobe.dead;
 				tag = "Untagged";
 				rigidbody.useGravity = true;
 				target = null;
-				StartCoroutine(Death ());
+				StartCoroutine(DeathRoutine ());
 				break;
 			}
 		}
@@ -72,16 +71,18 @@ public class NPCVirusZombie : NPC {
 	protected override void Awake() {
 		base.Awake();
 		
-		if (photonView.isMine) {
+		if (!PhotonNetwork.inRoom) photonView.enabled = false;
+		
+		if (photonView.isMine || !PhotonNetwork.inRoom) {
 			Transform boid = transform.Find("BoidControl");
 			if (!boid) Debug.LogError("BoidControl missing");
 			boid.gameObject.SetActive(true);
 			_boid = boid.GetComponent<Boid>();
 			if (!_boid) Debug.LogError("BoidControl missing");
 			_boid.defaultBehaviour = idleProfile;
-			ObjectPool.CreatePool(virusPrefab);
 			_sf = (Random.value/2f) + 0.5f;
 			transform.localScale *= _sf;
+			rigidbody.isKinematic = false;
 		}
 
 		_ren = GetComponentInChildren<MeshRenderer>();
@@ -271,26 +272,24 @@ public class NPCVirusZombie : NPC {
 		if (photonView.isMine) {
 			base.Damage(damage);
 			if (isDead) {
-				photonView.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)State.Dead);
+				state = State.Dead;
 			}
 			else {
 				photonView.RPC("Hurt", PhotonTargets.All);
 			}
 		}
-		// I don't own this. Tell the owner I damaged their Virus
 		else {
-			photonView.RPC("Damage", photonView.owner, damage);
+			if (photonView.isSceneView) {
+				photonView.RPC("Damage", PhotonNetwork.masterClient, damage);
+			}
+			else {
+				photonView.RPC ("Damage", photonView.owner, damage);
+			}
 		}
-
+		
 	}
 	
-	protected override void Killed(Transform victim) {
-		Transform v = virusPrefab.Spawn(victim.position, victim.rotation);
-		v.parent = GameManager.Instance.activeScene.instance;
-		if (victim == target) {
-			state = State.Idle;
-		}
-	}
+
 	
 	[RPC]
 	void Hurt() {
@@ -307,12 +306,21 @@ public class NPCVirusZombie : NPC {
 		yield return new WaitForSeconds(0.1f);
 		_hurt = false;
 	}
+
 	
-	IEnumerator Death() {
-		audio.pitch = _sf * 0.5f;
+	IEnumerator DeathRoutine() {
+		photonView.RPC ("Death", PhotonTargets.AllBuffered);
 		yield return new WaitForSeconds(2f);
-		audio.Stop();
+		
 		//transform.Recycle();
 		//spawn corpse and recycle
+	}
+	
+	
+	[RPC]
+	void Death() {
+		health = 0;
+		_ren.material = wardrobe.dead;
+		audio.Stop();
 	}
 }

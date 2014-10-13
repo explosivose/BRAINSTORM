@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400006}
+  - 114: {fileID: 11400010}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -88,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9.92000008}
+  m_LocalPosition: {x: 0, y: 0, z: -19.8400002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -102,7 +103,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .522058845, g: .522058845, b: .522058845, a: .0196078438}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -245,7 +246,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55c8d5bcd41855344ba8533e09cede84, type: 3}
   m_Name: 
@@ -289,6 +290,26 @@ MonoBehaviour:
   maximumX: 360
   minimumY: -60
   maximumY: 60
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 043bd8ce63fde7c41a9ee103809fa981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GuiRect:
+    serializedVersion: 2
+    x: 132
+    y: 0
+    width: 250
+    height: 250
+  IsVisible: 1
+  AlignBottom: 1
+  messages: []
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

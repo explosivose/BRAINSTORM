@@ -19,35 +19,38 @@ MonoBehaviour:
   AppID: ce7fdd09-2534-45f3-9258-ed93dab8fe9c
   PingCloudServersOnAwake: 0
   RpcList:
+  - ChangeState
   - Chat
+  - Damage
+  - Death
+  - DeathRPC
   - DestroyRpc
+  - DropRPC
+  - EquipRPC
+  - FireRPC
+  - HolsterRPC
+  - Hurt
   - InstantiateRpc
   - Marco
   - OnAwakeRPC
+  - OnBlinkStartRPC
+  - OnBlinkStopRPC
+  - OnCloakStartRPC
+  - OnCloakStopRPC
+  - OnDashpackStartRPC
+  - OnDashpackStopRPC
+  - OnJetpackStartRPC
+  - OnJetpackStopRPC
   - PickupItemInit
   - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupTimes
-  - SetPosition
-  - TaggedPlayer
-  - ChangeState
-  - Damage
-  - Hurt
-  - Equip
   - SetMasterSeed
-  - Drop
-  - Holster
-  - FireRPC
-  - OnStartBlink
-  - OnStopBlink
-  - OnBlinkStart
-  - OnBlinkStop
-  - OnJetpackStartRPC
-  - OnJetpackStopRPC
-  - DeathRPC
+  - SetPosition
   - SpawnRPC
-  - OnDashpackStartRPC
-  - OnDashpackStopRPC
+  - StartBlinkRPC
+  - StopBlinkRPC
+  - TaggedPlayer
   DisableAutoOpenWizard: 0

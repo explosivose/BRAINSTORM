@@ -15,15 +15,15 @@ public class Door : MonoBehaviour {
 	void OnEnable() {
 		switch (_sceneTrigger.changeTo) {
 		case Scene.Tag.Rage:
-			if (GameManager.Instance.rageComplete)
+			//if (GameManager.Instance.rageComplete)
 				_sceneTrigger.changeTo = Scene.Tag.Calm;
 			break;
 		case Scene.Tag.Grief:
-			if (GameManager.Instance.griefComplete)
+			//if (GameManager.Instance.griefComplete)
 				_sceneTrigger.changeTo = Scene.Tag.Joy;
 			break;
 		case Scene.Tag.Terror:
-			if (GameManager.Instance.terrorComplete)
+			//if (GameManager.Instance.terrorComplete)
 				_sceneTrigger.changeTo = Scene.Tag.Safety;
 			break;
 		}

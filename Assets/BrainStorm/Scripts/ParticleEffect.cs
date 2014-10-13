@@ -12,7 +12,7 @@ public class ParticleEffect : MonoBehaviour {
 	IEnumerator Lifetime() {
 		float lifetime = Mathf.Max(
 			audio.clip.length,
-			particleSystem.duration);
+			particleSystem.startLifetime + particleSystem.duration);
 		yield return new WaitForSeconds(lifetime + 0.1f);
 		transform.Recycle();
 	}

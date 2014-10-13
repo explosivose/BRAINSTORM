@@ -116,6 +116,7 @@ GameObject:
   - 4: {fileID: 400012}
   - 212: {fileID: 21200006}
   - 65: {fileID: 6500006}
+  - 95: {fileID: 9500000}
   m_Layer: 5
   m_Name: CTRLbackground
   m_TagString: Player
@@ -350,6 +351,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.11999989, y: 5.11999989, z: 0}
   m_Center: {x: 2.55999994, y: -2.55999994, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48f246b50fc673749bcd9a8557a12527, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &10200000
 TextMesh:
   serializedVersion: 3
@@ -424,6 +440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da7c4614d2c6144481744bac7d8d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: cheats
+  typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
@@ -439,6 +458,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da7c4614d2c6144481744bac7d8d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: options
+  typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0
@@ -466,6 +488,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 1
+  moveSpeed: 4
+  rotateSpeed: 4
+  scaleSpeed: 4
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -477,6 +502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da7c4614d2c6144481744bac7d8d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: credits
+  typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   action: 0

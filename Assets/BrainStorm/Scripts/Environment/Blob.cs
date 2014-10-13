@@ -34,7 +34,6 @@ public class Blob : MonoBehaviour {
 		Vector3 scale = _initialScale * _scaleFactor;
 		if (_scaleFactor < deathThreshold) {
 			scale = Vector3.zero;
-			GameManager.Instance.griefComplete = true;
 		}
 		transform.localScale = Vector3.Lerp(transform.localScale, scale, Time.deltaTime);
 

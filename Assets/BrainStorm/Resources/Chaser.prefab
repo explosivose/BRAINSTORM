@@ -136,7 +136,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400014}
   - 114: {fileID: 11400012}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.2237692, y: 25.832449, z: 69.2936783}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdbae38cb894ecd4b856c694c8418773, type: 3}
   m_Name: 
@@ -576,6 +576,8 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 4294966783
+  equippedWeapon: {fileID: 0}
+  holsteredWeapon: {fileID: 0}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -591,12 +593,14 @@ MonoBehaviour:
   fov: 60
   deadBody: {fileID: 400002, guid: ae60903f48ada5e45bad8caa48d828bd, type: 2}
   blinkMaterial: {fileID: 2100000, guid: cde7423fff15a3d48856be17c6274d7c, type: 2}
+  cloakMaterial: {fileID: 2100000, guid: 68205a06024ac014abde627152248e4e, type: 2}
   hurtEffectDuration: .150000006
   sounds:
     volume: .25
     hurt: {fileID: 8300000, guid: 4f7a361246832144b986d8e1442457df, type: 3}
     jump: {fileID: 8300000, guid: 5852b254b031971499297b107cfc38db, type: 3}
     land: {fileID: 8300000, guid: 1b2a1186013f22243894e53749097a2e, type: 3}
+    hitNotice: {fileID: 8300000, guid: fb2433cfa6e1a5a4190a5cb67e6967a3, type: 3}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -608,9 +612,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a66b3ae6ab05d94f906f78f82b86fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 1
+  overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   tooltip: 1
+  tooltipTime: .5
+  lifetime: 0
   source: 5
 --- !u!114 &11400014
 MonoBehaviour:
@@ -626,9 +635,9 @@ MonoBehaviour:
   canControl: 1
   useFixedUpdate: 1
   movement:
-    maxForwardSpeed: 12.5
-    maxSidewaysSpeed: 10
-    maxBackwardsSpeed: 8
+    maxForwardSpeed: 16
+    maxSidewaysSpeed: 13
+    maxBackwardsSpeed: 10
     slopeSpeedMultiplier:
       serializedVersion: 2
       m_Curve:
@@ -650,38 +659,39 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
     maxGroundAcceleration: 30
-    maxAirAcceleration: 30
-    gravity: 25
+    maxAirAcceleration: 60
+    gravity: 40
     maxFallSpeed: 100
-    airControlFactor: .400000006
+    airControlFactor: 1
   sprint:
     enabled: 0
-    sprintSpeed: 60
+    sprintSpeed: 40
+    sprintAccel: 100
     sprintLength: 1
     recoveryRate: .400000006
     cooldown: .5
     sprinting: 0
   jumping:
     enabled: 1
-    baseHeight: 5
+    baseHeight: 3
     extraJumpEnabled: 1
-    extraHeight: 5
+    extraHeight: 3
     perpAmount: .100000001
     steepPerpAmount: .100000001
     superJump: 0
     superJumpHeight: 20
   jetpack:
     enabled: 0
-    verticalAccel: 80
-    maxVerticalSpeed: 30
-    maxJetpackFuel: 1
-    rechargeRate: .300000012
-    cooldown: .400000006
+    verticalAccel: 100
+    maxVerticalSpeed: 35
+    maxJetpackFuel: 1.5
+    rechargeRate: .400000006
+    cooldown: .5
   dashpack:
     enabled: 0
     accel: 100
     verticalAccel: 60
-    maxSpeed: 20
+    maxSpeed: 25
     maxDashpackFuel: 5
     rechargeRate: .800000012
     cooldown: 1
@@ -743,7 +753,7 @@ CharacterController:
   m_Height: 2
   m_Radius: .5
   m_SlopeLimit: 45
-  m_StepOffset: .400000006
+  m_StepOffset: .5
   m_SkinWidth: .0500000007
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}

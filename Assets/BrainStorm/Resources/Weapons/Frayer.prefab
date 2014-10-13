@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400014}
   m_Layer: 0
-  m_Name: shotgun
+  m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,7 +312,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -10.041481, y: 7.97610092, z: 68.1993256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400014}
@@ -757,6 +757,8 @@ MonoBehaviour:
     start: {fileID: 8300000, guid: 21f8d3bfea0c52e42accde18072c75d6, type: 3}
     loop: {fileID: 0}
     stop: {fileID: 0}
+  defaultMaterial: {fileID: 2100000, guid: 9319b77f81efb0f46be22293a62c0148, type: 2}
+  blinkMaterial: {fileID: 2100000, guid: cde7423fff15a3d48856be17c6274d7c, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -768,9 +770,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a66b3ae6ab05d94f906f78f82b86fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalText: 
+  typeEffect: 1
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
   tooltip: 1
+  tooltipTime: 0
   source: 2
 --- !u!1001 &100100000
 Prefab:

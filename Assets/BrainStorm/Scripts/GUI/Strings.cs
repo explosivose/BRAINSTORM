@@ -5,7 +5,7 @@ public class Strings {
 
 	public const string gameTitle = "chasers";
 
-	public const string gameVersion = "v0.6a";
+	public const string gameVersion = "v0.7a";
 	
 	public const string developers = 
 		"SUPERCORE.CO.UK \n" +
@@ -17,6 +17,7 @@ public class Strings {
 		"Unity3D \n" +
 		"Photon Unity Networking \n" +
 		"AstarPathfindingProject \n" +
+		"ProCore \n" +
 		"GradientGUIBars \n" +
 		"ObjectPool \n" +
 		"sky5X \n";

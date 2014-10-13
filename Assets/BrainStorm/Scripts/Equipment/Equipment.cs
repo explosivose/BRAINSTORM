@@ -34,9 +34,12 @@ public class Equipment : Photon.MonoBehaviour {
 	public Vector3 			holsteredPosition;
 	public Vector3 			holsteredRotation;
 	public AudioLibrary 	sounds = new AudioLibrary();
+	public Material			defaultMaterial;
+	
 	
 	private bool 			_equipped;
 	private GameObject 		_tooltip;
+	private GameObject		_graphic;
 	
 	public bool equipped {
 		get { return _equipped; }
@@ -50,25 +53,34 @@ public class Equipment : Photon.MonoBehaviour {
 		get; private set;
 	}
 	
+	public Material	overrideMaterial {get;set;}
+	
+	public bool materialOverride {
+		set {
+			Material m = value ? overrideMaterial : defaultMaterial;
+			foreach(Transform child in _graphic.transform) {
+				child.renderer.material = m;
+			}
+		}
+	}
+	
 	void Start() {
 		_tooltip = transform.Find("tooltip").gameObject;
-		if (!_tooltip) Debug.LogWarning("Equipment is missing a tooltip.");
+		_graphic = transform.Find("Graphic").gameObject;
 		
 		// set kinematic if we're not master
 		if (PhotonNetwork.inRoom)
 			rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
 	}
-	
-	[RPC]
-	public void Equip(int playerPhotonViewID) {
-		PhotonView playerPhotonView = PhotonView.Find(playerPhotonViewID);
+
+	public void Equip(int ownerViewID) {
 		
-		owner = playerPhotonView.GetComponent<Player>();
+		PhotonView ownerView = PhotonView.Find(ownerViewID);
+		owner = ownerView.GetComponent<Player>();
 		
 		// equip for just us
-		if (playerPhotonView.isMine)
+		if (ownerView.isMine)
 			_equipped = true;
-		
 		
 		// position for all clients
 		if (parent == EquipParent.camera) {
@@ -86,20 +98,23 @@ public class Equipment : Photon.MonoBehaviour {
 		SendMessage("OnEquip", SendMessageOptions.DontRequireReceiver);
 	}
 	
-	[RPC]
 	public void Drop() {
 		_equipped = false;
 		SendMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
-		transform.parent = GameManager.Instance.activeScene.instance;
-		transform.position = owner.head.position;
-		transform.position += owner.head.forward;
-		rigidbody.isKinematic = !PhotonNetwork.isMasterClient;
+		transform.parent = null;
+		if (PhotonNetwork.isMasterClient) {
+			// position is sync'd to other clients via photonview
+			//transform.position = owner.head.position;
+			//transform.position += owner.head.forward;
+			rigidbody.isKinematic = false;
+		}
 		collider.enabled = true;
+		materialOverride = false;
 		if (_tooltip) _tooltip.SetActive(true);
 		owner = null;
 	}
 	
-	[RPC]
+
 	public void Holster() {
 		_equipped = false;
 		transform.localPosition = holsteredPosition;

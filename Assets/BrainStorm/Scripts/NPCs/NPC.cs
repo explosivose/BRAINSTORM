@@ -81,7 +81,7 @@ public class NPC : Photon.MonoBehaviour {
 	
 	public int health {
 		get;
-		private set;
+		set;
 	}
 	
 	public bool isDead {
