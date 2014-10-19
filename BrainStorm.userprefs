@@ -1,12 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Equipment\Equipment.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\nav_experiment\Assets\nav_experiment\navbot.cs">
     <Files>
-      <File FileName="Assets\BrainStorm\Scripts\Player\PlayerInventory.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Equipment\WeaponLauncher.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\Equipment\Equipment.cs" Line="80" Column="3" />
-      <File FileName="Assets\BrainStorm\Scripts\Player\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\BrainStorm\Scripts\GUI\Strings.cs" Line="1" Column="1" />
+      <File FileName="..\..\nav_experiment\Assets\nav_experiment\navbot.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

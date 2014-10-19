@@ -260,13 +260,13 @@ public class Player : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	void EquipRPC(int equipmentID, int equipmentType) {
-		inventory.Equip(equipmentID, equipmentType);
+	void EquipRPC(int equipmentID, int equipmentSlot) {
+		inventory.Equip(equipmentID, equipmentSlot);
 	}
 	
 	[RPC]
-	void DropRPC(int equipmentID, int equipmentType) {
-		inventory.Drop(equipmentID, equipmentType);
+	void DropRPC(int equipmentID, int equipmentSlot) {
+		inventory.Drop(equipmentID, equipmentSlot);
 	}
 	
 	[RPC]
