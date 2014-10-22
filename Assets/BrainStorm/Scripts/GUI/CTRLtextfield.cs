@@ -20,7 +20,7 @@ public class CTRLtextfield : CTRLelement {
 		newName = false;
 	}
 	
-	void Update() {
+	protected override void Update() {
 		if (!fillin) {
 			text = PhotonNetwork.playerName;
 			return;

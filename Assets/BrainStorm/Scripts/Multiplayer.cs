@@ -99,7 +99,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 		if (failed)
 			GameManager.Instance.Restart();
 		else
-			GameManager.Instance.ChangeScene(Scene.Tag.GriefMP);
+			GameManager.Instance.ChangeScene(Scene.Tag.RageDesert);
 	}
 	
 	[RPC]

@@ -5,21 +5,10 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;	
-	
-	[System.Flags]
-	public enum WinStates {
-		None 	= 0x00,
-		Grief 	= 0x01,
-		Rage	= 0x02,
-		Terror 	= 0x04,
-		All		= 0xFF
-	}
-	
+		
 	public bool 		grabCursor = false;
 	public bool 		playerPauseEnabled = true;
 
-	[EnumMask]
-	public WinStates 	winState = WinStates.None;
 	public Scene[] 		scenes;
 	public Scene 		copyScene;
 	// if you press R then the current render settings are copied
@@ -136,12 +125,12 @@ public class GameManager : MonoBehaviour {
 	void StartGame() {
 		PhotonNetwork.Disconnect();
 		PhotonNetwork.offlineMode = true;
-		if (Application.loadedLevel == 0) {
+		if (Application.loadedLevelName == "0splash") {
 			defaultCamera.SetActive(true);
 			defaultCamera.camera.backgroundColor = Color.white;
 			CTRL.Instance.ShowSplash();
 		}
-		else if (Application.loadedLevel == 1) {
+		else if (Application.loadedLevelName == "1menu") {
 			defaultCamera.SetActive(true);
 			defaultCamera.camera.backgroundColor = Color.black;
 			CTRL.Instance.ShowStartMenu();
@@ -169,25 +158,6 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	
-	public void SceneComplete() {
-		switch (_activeScene.tag) {
-		case Scene.Tag.Grief:
-			ChangeScene(Scene.Tag.Joy);
-			break;
-		case Scene.Tag.Rage:
-			ChangeScene(Scene.Tag.Calm);
-			break;
-		case Scene.Tag.Terror:
-			ChangeScene(Scene.Tag.Safety);
-			break;
-		default:
-			Debug.LogError("SceneComplete() called inappropriately in " +
-				_activeScene.tag.ToString() + " scene.");
-			break;
-		}
-	}
-	
 	public void ChangeScene(Scene.Tag scene) {
 		if (timeSinceSceneChange < 1f) return;
 		paused = false;
@@ -201,7 +171,7 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
 		// unload active scene
-		if (_activeScene != null) {
+		if (_activeScene.instance != null) {
 			Debug.Log ("Unloading scene " + _activeScene.tag.ToString());
 			_activeScene.Unload();
 		}

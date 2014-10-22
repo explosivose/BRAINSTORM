@@ -1,8 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\nav_experiment\Assets\nav_experiment\navbot.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BrainStorm\Scripts\Player\PlayerSpawn.cs">
     <Files>
-      <File FileName="..\..\nav_experiment\Assets\nav_experiment\navbot.cs" Line="1" Column="1" />
+      <File FileName="Assets\BrainStorm\Scripts\Utility\PrefabSpawner.cs" Line="114" Column="16" />
+      <File FileName="Assets\BrainStorm\Scripts\Player\PlayerSpawn.cs" Line="63" Column="16" />
+      <File FileName="Assets\BrainStorm\Scripts\Projectiles\ProjectileLaser.cs" Line="26" Column="30" />
+      <File FileName="Assets\BrainStorm\Scripts\Environment\SpawnLocation.cs" Line="8" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

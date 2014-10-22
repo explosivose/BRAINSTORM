@@ -59,7 +59,7 @@ public class CTRLsliderhandle : CTRLelement {
 		Options.Save();
 	}
 	
-	void Update() {
+	protected override void Update() {
 		parent.text = value.ToString("F2");
 		if (slide) {
 			float move = startPos - Input.mousePosition.x;
