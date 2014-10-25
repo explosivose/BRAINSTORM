@@ -61,9 +61,6 @@ public class PrefabSpawner : MonoBehaviour {
 		if (useObjectPool)
 			foreach(Transform p in prefabs)
 				p.CreatePool();
-		
-	
-
 		OnEnable();
 	}
 
@@ -78,10 +75,10 @@ public class PrefabSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void OnEnable() {
+		_spawned = 0;
 		if (spawnOnStart) Spawn();
 	}
 	
-
 	public void Spawn() {
 		if (amountToSpawn < Mathf.Infinity && amountToSpawn > 0f) {
 			float vary = (Random.value-0.5f) * amountToSpawn * variationOnAmount;
@@ -174,7 +171,7 @@ public class PrefabSpawner : MonoBehaviour {
 		case SpawnRotation.Unchanged:
 			break;
 		}
-		//t.parent = GameManager.Instance.transform;
+		t.parent = GameManager.Instance.activeScene.entities;
 		_spawned++;
 		
 	}

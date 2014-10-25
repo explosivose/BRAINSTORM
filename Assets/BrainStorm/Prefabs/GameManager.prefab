@@ -159,7 +159,7 @@ MonoBehaviour:
     fog: 1
     fogColor: {r: .411764711, g: .792156875, b: .580392182, a: 0}
     fogDensity: .00400000019
-    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    ambientLight: {r: .375, g: .116379306, b: 0, a: 0}
     skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   - tag: 1
     scenePrefab: {fileID: 400378, guid: eca931ead962d134d919b49c78461f34, type: 2}

@@ -8,7 +8,7 @@ public class CTRLlevel : CTRLelement {
 	protected override void Awake ()
 	{
 		 base.Awake();
-		 text = level.ToString();
+		 finalText = level.ToString();
 	}
 	
 	protected override void OnMouseUpAsButton ()

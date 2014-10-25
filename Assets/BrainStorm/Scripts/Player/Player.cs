@@ -368,6 +368,7 @@ public class Player : Photon.MonoBehaviour {
 		transform.position = Vector3.down * 100f;
 		yield return new WaitForEndOfFrame();
 		Transform body = deadBody.Spawn(position, transform.rotation);
+		body.parent = GameManager.Instance.activeScene.entities;
 		yield return new WaitForEndOfFrame();
 		body.rigidbody.isKinematic = false;
 		//body.rigidbody.velocity = velocity;

@@ -10,7 +10,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 	public GameObject playerPrefab;
 	
 	private bool _master = false;
-	private bool _waitingForSeed = false;
+	private bool _waitingForLevel = false;
 	
 	void Awake() {
 		if (Instance == null) {
@@ -41,7 +41,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 				// this is the time to and from the photon server (not the MasterClient)
 				GUILayout.Label("Pringles: " + PhotonNetwork.networkingPeer.RoundTripTime);
 				
-				if (_waitingForSeed) {
+				if (_waitingForLevel) {
 					GUILayout.Label("Waiting for seed from master...");
 				}
 				else {
@@ -81,35 +81,41 @@ public class Multiplayer : Photon.MonoBehaviour {
 		
 		if (PhotonNetwork.isMasterClient) {
 			_master = true;
+			GameManager.Instance.ChangeToRandomScene();
 		}
 		else {
-			_waitingForSeed = true;
+			_waitingForLevel = true;
 			float waitStarted = Time.time;
-			while (_waitingForSeed && !failed) {
+			while (_waitingForLevel && !failed) {
 				yield return new WaitForSeconds(0.1f);
 				if (waitStarted + 10f < Time.time) {
-					Debug.LogError("Timed out waiting for seed.");
+					Debug.LogError("Timed out waiting for master level.");
 					failed = true;
 				}
 			}
 		}
 		
-		_waitingForSeed = false;
+		_waitingForLevel = false;
 		
 		if (failed)
 			GameManager.Instance.Restart();
-		else
-			GameManager.Instance.ChangeScene(Scene.Tag.RageDesert);
 	}
 	
 	[RPC]
-	void SetMasterSeed(int seed) {
-		Debug.Log("Seed received: " + seed);
+	void ChangeLevel(int sceneTag, int seed) {
+		Scene.Tag tag = (Scene.Tag)sceneTag;
+		Debug.Log("Change Level: " + tag.ToString() + " (" + seed + ")");
 		GameManager.Instance.masterSeed = seed;
-		_waitingForSeed = false;
+		GameManager.Instance.ChangeScene(tag);
+		_waitingForLevel = false;
 	}
 	
 	void OnSceneLoaded() {
+		if (PhotonNetwork.isMasterClient) {
+			int seed = GameManager.Instance.masterSeed;
+			int tag = (int)GameManager.Instance.activeScene.tag;
+			photonView.RPC ("ChangeLevel", PhotonTargets.Others, tag, seed);
+		}
 		GameObject player = PhotonNetwork.Instantiate(
 			playerPrefab.name,
 			Vector3.zero,
@@ -120,15 +126,15 @@ public class Multiplayer : Photon.MonoBehaviour {
 	
 	void Restart() {
 		_master = false;
-		_waitingForSeed = false;
+		_waitingForLevel = false;
 	}
 	
 	void OnPhotonPlayerConnected(PhotonPlayer player) {
 		if (PhotonNetwork.isMasterClient) {
 			int seed = GameManager.Instance.masterSeed;
-			photonView.RPC ("SetMasterSeed", player, seed);
+			int tag = (int)GameManager.Instance.activeScene.tag;
+			photonView.RPC("ChangeLevel", player, tag, seed);
 		}
-		
 	}
 	
 	void OnPhotonPlayerDisconnected(PhotonPlayer player) { 

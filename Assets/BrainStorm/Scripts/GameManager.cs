@@ -165,13 +165,25 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine( ChangeSceneRoutine(scene) );
 	}
 	
+	public void ChangeToRandomScene() {
+		float roll = Random.value;
+		Scene.Tag scene = Scene.Tag.GriefCity;
+		if (roll < 0.5f) {
+			scene = Scene.Tag.RageDesert;
+		}
+		ChangeScene(scene);
+	}
+	
 	private IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
 		_fade.StartFade(Color.black, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
+		
+		PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player.ID);
+		
 		// unload active scene
-		if (_activeScene.instance != null) {
+		if (_activeScene.isLoaded) {
 			Debug.Log ("Unloading scene " + _activeScene.tag.ToString());
 			_activeScene.Unload();
 		}
@@ -191,12 +203,16 @@ public class GameManager : MonoBehaviour {
 					_activeScene.Load(masterSeed);
 				else 
 					_activeScene.Load();
-	
+					
 				RenderSettings.ambientLight = _activeScene.ambientLight;
 				RenderSettings.fog = _activeScene.fog;
 				RenderSettings.fogColor = _activeScene.fogColor;
 				RenderSettings.fogDensity = _activeScene.fogDensity;
 				RenderSettings.skybox = _activeScene.skybox;
+				
+				yield return new WaitForSeconds(0.5f);
+				
+				_activeScene.StartSpawners();
 				break;
 			}
 		}
