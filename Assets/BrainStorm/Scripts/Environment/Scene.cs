@@ -81,8 +81,10 @@ public class Scene {
 	}
 	
 	public void Unload() {
-		for(int i = 0; i < entities.childCount; i++) {
-			entities.GetChild(i).Recycle();
+		if (entities) {
+			for(int i = 0; i < entities.childCount; i++) {
+				entities.GetChild(i).Recycle();
+			}
 		}
 		if (_sceneInstance) _sceneInstance.Recycle();
 		isLoaded = false;

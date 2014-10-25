@@ -55,7 +55,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 			if (Input.GetKey(KeyCode.Tab)) {
 				foreach (PhotonPlayer player in PhotonNetwork.playerList)
 				{
-					GUILayout.Label(player.ToString());
+					GUILayout.Label(player.ToString() + " " + player.GetBounty().ToString() + " " + player.GetEarnings().ToString());
 				}
 			}
 		}

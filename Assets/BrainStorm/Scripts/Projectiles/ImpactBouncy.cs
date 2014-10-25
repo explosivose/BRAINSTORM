@@ -33,7 +33,7 @@ public class ImpactBouncy : MonoBehaviour {
 			rigidbody.velocity = Vector3.zero;
 			rigidbody.angularVelocity = Vector3.zero;
 			rigidbody.isKinematic = true;
-			col.transform.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
+			col.transform.SendMessage("Damage", _projectile.damage, SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
 			yield return new WaitForSeconds(10f);
 			i.Recycle();
 			transform.Recycle();
@@ -44,7 +44,7 @@ public class ImpactBouncy : MonoBehaviour {
 			if (addVelocityOnBounce)
 				rigidbody.AddForce(contact.normal * col.relativeVelocity.magnitude, ForceMode.VelocityChange);
 			transform.rotation = Quaternion.LookRotation(contact.normal);
-			col.transform.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
+			col.transform.SendMessage("Damage", _projectile.damage, SendMessageOptions.DontRequireReceiver);
 			Transform i = bouncePrefab.Spawn(contact.point, Quaternion.LookRotation(contact.normal));
 			i.parent = GameManager.Instance.activeScene.instance;
 			i.particleSystem.time = 0f;

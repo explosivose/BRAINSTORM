@@ -70,8 +70,8 @@ public class Cloak : Photon.MonoBehaviour {
 		if (equipment.equipped) {
 			equipment.energy = equipment.owner.motor.sprint.stamina01;
 			
-			bool sprint = equipment.owner.motor.inputSprint &&
-							equipment.owner.motor.canSprint;
+			//bool sprint = equipment.owner.motor.inputSprint &&
+			//					equipment.owner.motor.canSprint;
 			
 			if (equipment.owner.motor.sprint.sprinting && !cloaked) {
 				photonView.RPC ("OnCloakStartRPC", PhotonTargets.All);

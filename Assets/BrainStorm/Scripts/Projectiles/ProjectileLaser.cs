@@ -46,7 +46,7 @@ public class ProjectileLaser : MonoBehaviour {
 	void OnEnable() {
 		if (GameManager.Instance.levelTeardown) return;
 		if (autofire) {
-			StartCoroutine( Autofire() );
+			//StartCoroutine( Autofire() );
 		}
 	}
 	
@@ -67,10 +67,15 @@ public class ProjectileLaser : MonoBehaviour {
 		}
 	}
 	
+	void SetOwner(int viewId) {
+		_projectile.damage.viewId = viewId;
+		if (autofire) StartCoroutine( Autofire() );
+	}
+	
 	void SetTarget(Transform target) {
 		_target = target;
 		if (dealDamage) {
-			_target.SendMessage("Damage", _projectile.Damage.damage, SendMessageOptions.DontRequireReceiver);
+			_target.SendMessage("Damage", _projectile.damage, SendMessageOptions.DontRequireReceiver);
 			if (_target.gameObject.layer == LayerMask.NameToLayer("Character")) {
 				Player.localPlayer.HitNotice();
 			}

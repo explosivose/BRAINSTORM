@@ -307,7 +307,9 @@ public class WeaponLauncher : Photon.MonoBehaviour {
 			}
 			
 			Transform p = projectile.Spawn(_weaponNozzle.position, rot);
-			p.parent = GameManager.Instance.activeScene.instance;
+			p.SendMessage("SetOwner", _equip.owner.photonView.viewID);
+			p.parent = GameManager.Instance.activeScene.entities;
+			
 			/*
 			if (_target!=null) {
 				Debug.Log (name + " hit " + _target.name);// + " with " + p.name + ".");

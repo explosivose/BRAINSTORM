@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [AddComponentMenu("Player/Player")]
 [RequireComponent(typeof(CharacterMotorC))]
 [RequireComponent(typeof(ScreenFade))]
-public class Player : Photon.MonoBehaviour {
+public class Player : Photon.MonoBehaviour, IDamagable {
 
 	public static Player localPlayer;
 	[System.Serializable]
@@ -121,6 +121,7 @@ public class Player : Photon.MonoBehaviour {
 			name = photonView.owner.name;
 			gameObject.layer = LayerMask.NameToLayer("Player");
 			hud.InitializeGUI();
+			photonView.owner.SetEarnings(0);
 			Spawn();
 		}
 		else {
@@ -149,6 +150,7 @@ public class Player : Photon.MonoBehaviour {
 		_health = maxHealth;
 		AudioListener.volume = PlayerPrefs.GetFloat(Options.keyVolume);
 		Camera.main.fieldOfView = fov;
+		photonView.owner.SetBounty(BountyExtensions.minimumBounty);
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		
 	}
@@ -324,25 +326,40 @@ public class Player : Photon.MonoBehaviour {
 		_hitNoticePlaying = false;
 	}
 	
-	[RPC]
-	void Damage(int damage) {
-		
+	public void Damage(DamageInstance damage) {
 		if (photonView.isMine) {
-			_health -= damage;
-			Debug.Log ("Player got " + damage + " damage.");
+			_health -= damage.damage;
+			Debug.Log ("Player got " + damage.damage + " damage.");
 			AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-			ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage/(float)maxHealth), 0.3f);
+			ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 			_lastHurtTime = Time.time;
 			if (screenEffects)
 				_fade.StartFade(_hurtOverlay, hurtEffectDuration);
-			if (_health < 0)
+			if (_health < 0) {
+				PhotonPlayer killer = PhotonView.Find(damage.viewId).owner;
+				Debug.Log(killer.name);
+				PayBounty(killer);
 				photonView.RPC("DeathRPC", PhotonTargets.All);
+			}
+				
 		}
 		else {
-			photonView.RPC("Damage", photonView.owner, damage);
+			photonView.RPC("DamageRPC", photonView.owner, damage.damage, damage.viewId);
 		}
 	}
-
+	
+	[RPC]
+	void DamageRPC(int damage, int viewId) {
+		DamageInstance dmg = new DamageInstance(damage, viewId);
+		Damage(dmg);
+	}
+	
+	void PayBounty(PhotonPlayer killer) {
+		int myBounty = photonView.owner.GetBounty();
+		killer.AddEarnings(myBounty);
+		killer.AddBounty(BountyExtensions.bountyIncrease);
+	}
+	
 	[RPC]
 	void DeathRPC() {
 		if (!_dead) StartCoroutine(Death ());
