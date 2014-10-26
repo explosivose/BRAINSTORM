@@ -6,7 +6,8 @@ public class CTRLscoreboard : CTRLelement {
 	public enum Column {
 		PlayerName,
 		Bounty,
-		Earnings
+		Earnings,
+		CashPool
 	}
 
 	public Column column;
@@ -26,6 +27,9 @@ public class CTRLscoreboard : CTRLelement {
 		case Column.Earnings:
 			foreach(PhotonPlayer player in PhotonNetwork.playerList)
 				finalText += player.GetEarnings().ToString() + "\n";
+			break;
+		case Column.CashPool:
+			finalText = BountyExtensions.GetCashPool().ToString();
 			break;
 		}
 		base.OnEnable ();

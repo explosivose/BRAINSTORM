@@ -54,4 +54,5 @@ MonoBehaviour:
   - StartBlinkRPC
   - StopBlinkRPC
   - TaggedPlayer
+  - RoundOverRPC
   DisableAutoOpenWizard: 0

@@ -327,6 +327,7 @@ public class Player : Photon.MonoBehaviour, IDamagable {
 	}
 	
 	public void Damage(DamageInstance damage) {
+		if (_dead) return;
 		PhotonView attackerView = PhotonView.Find(damage.viewId);
 		PhotonPlayer attackerPP = attackerView.owner;
 		Player attackerPlayer = attackerView.GetComponent<Player>();
@@ -344,7 +345,6 @@ public class Player : Photon.MonoBehaviour, IDamagable {
 			if (screenEffects)
 				_fade.StartFade(_hurtOverlay, hurtEffectDuration);
 			if (_health < 0) {
-				
 				Debug.Log(attackerPP.name + " killed " + PhotonNetwork.player.name);
 				PayBounty(attackerPP);
 				photonView.RPC("DeathRPC", PhotonTargets.All);

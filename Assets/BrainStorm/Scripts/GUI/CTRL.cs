@@ -95,7 +95,7 @@ public class CTRL : MonoBehaviour {
 		HideScoreboard();
 		Transform mainCam = Camera.main.transform;
 		zeroDirection = mainCam.forward;
-		Vector3 position = mainCam.position + mainCam.forward * 7f;
+		Vector3 position = mainCam.position + mainCam.forward * 6f;
 		Quaternion rotation = Quaternion.LookRotation(position - mainCam.position);
 		scoreboardInstance = scoreboardPrefab.Spawn(position, rotation);
 	}

@@ -1099,6 +1099,7 @@ MonoBehaviour:
   overrideTextColor: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textHoverColor: {r: 0, g: 1, b: 1, a: 1}
+  maxCharacters: 15
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1

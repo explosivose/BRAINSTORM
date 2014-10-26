@@ -88,7 +88,9 @@ public class GameManager : MonoBehaviour {
 		get; private set;
 	}
 	
-
+	public bool roundOver {
+		get; private set;
+	}
 
 	void Awake() {
 		if (Instance == null) {
@@ -228,6 +230,7 @@ public class GameManager : MonoBehaviour {
 		// if we're the master, store the scene seed
 		if (PhotonNetwork.inRoom  && PhotonNetwork.isMasterClient) {
 			masterSeed = activeScene.seed;
+			BountyExtensions.SetCashPool(1000);
 			Debug.Log ("Master seed set: " + masterSeed);
 		}
 		
@@ -238,6 +241,22 @@ public class GameManager : MonoBehaviour {
 		SendMessage("OnSceneLoaded");
 		_fade.StartFade(Color.clear, 0.5f);
 		yield return new WaitForSeconds(0.5f);
+	}
+	
+	[RPC]
+	void RoundOverRPC() {
+		roundOver = true;
+		Player.localPlayer.motor.canControl = false;
+		MouseLook.freeze = true;
+		CTRL.Instance.ShowScoreboard();
+		if (PhotonNetwork.isMasterClient) {
+			StartCoroutine(EndOfRound());
+		}
+	}
+	
+	IEnumerator EndOfRound() {
+		yield return new WaitForSeconds(15f);
+		ChangeToRandomScene();
 	}
 	
 	public void Quit() {

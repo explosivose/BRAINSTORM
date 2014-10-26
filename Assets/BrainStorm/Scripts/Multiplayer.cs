@@ -82,6 +82,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 		if (PhotonNetwork.isMasterClient) {
 			_master = true;
 			GameManager.Instance.ChangeToRandomScene();
+			
 		}
 		else {
 			_waitingForLevel = true;
@@ -145,6 +146,16 @@ public class Multiplayer : Photon.MonoBehaviour {
 		// re-enable my local NPC behaviours?
 		if (PhotonNetwork.isMasterClient && !_master) {
 			GameManager.Instance.Restart();
+		}
+	}
+	
+	void OnPhotonCustomRoomPropertiesChanged(ExitGames.Client.Photon.Hashtable propertiesThatChanged) {
+		if (PhotonNetwork.isMasterClient) {
+			if (propertiesThatChanged.ContainsKey(BountyExtensions.cashPoolKey)) {
+				if (BountyExtensions.emptyCashPool) {
+					photonView.RPC ("RoundOverRPC", PhotonTargets.All);
+				}
+			}
 		}
 	}
 }
