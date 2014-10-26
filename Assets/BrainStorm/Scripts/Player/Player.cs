@@ -327,18 +327,26 @@ public class Player : Photon.MonoBehaviour, IDamagable {
 	}
 	
 	public void Damage(DamageInstance damage) {
+		PhotonView attackerView = PhotonView.Find(damage.viewId);
+		PhotonPlayer attackerPP = attackerView.owner;
+		Player attackerPlayer = attackerView.GetComponent<Player>();
+		attackerPlayer.HitNotice();
+		
+		Debug.Log(attackerPP.name + " hit " + PhotonNetwork.player.name +
+				" for " + damage.damage);
+		
 		if (photonView.isMine) {
 			_health -= damage.damage;
-			Debug.Log ("Player got " + damage.damage + " damage.");
+			
 			AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
 			ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 			_lastHurtTime = Time.time;
 			if (screenEffects)
 				_fade.StartFade(_hurtOverlay, hurtEffectDuration);
 			if (_health < 0) {
-				PhotonPlayer killer = PhotonView.Find(damage.viewId).owner;
-				Debug.Log(killer.name);
-				PayBounty(killer);
+				
+				Debug.Log(attackerPP.name + " killed " + PhotonNetwork.player.name);
+				PayBounty(attackerPP);
 				photonView.RPC("DeathRPC", PhotonTargets.All);
 			}
 				

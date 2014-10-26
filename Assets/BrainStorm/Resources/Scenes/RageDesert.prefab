@@ -587,7 +587,7 @@ MonoBehaviour:
   useObjectPool: 0
   networkSpawn: 0
   spawnOnStart: 0
-  amountToSpawn: 25
+  amountToSpawn: 50
   variationOnAmount: .25
   position: 4
   rotation: 3

@@ -112,7 +112,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 	
 	void OnSceneLoaded() {
 		if (PhotonNetwork.isMasterClient) {
-			int seed = GameManager.Instance.masterSeed;
+			int seed = GameManager.Instance.activeScene.seed;
 			int tag = (int)GameManager.Instance.activeScene.tag;
 			photonView.RPC ("ChangeLevel", PhotonTargets.Others, tag, seed);
 		}
@@ -131,7 +131,7 @@ public class Multiplayer : Photon.MonoBehaviour {
 	
 	void OnPhotonPlayerConnected(PhotonPlayer player) {
 		if (PhotonNetwork.isMasterClient) {
-			int seed = GameManager.Instance.masterSeed;
+			int seed = GameManager.Instance.activeScene.seed;
 			int tag = (int)GameManager.Instance.activeScene.tag;
 			photonView.RPC("ChangeLevel", player, tag, seed);
 		}

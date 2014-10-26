@@ -23,10 +23,12 @@ public class CTRL : MonoBehaviour {
 	public Transform splashPrefab;
 	public Transform startPrefab;
 	public Transform pausePrefab;
+	public Transform scoreboardPrefab;
 
 	private Transform splashInstance;	
 	private Transform startInstance;
 	private Transform pauseInstance;
+	private Transform scoreboardInstance;
 
 	void Awake() {
 		if (Instance == null) {
@@ -87,5 +89,19 @@ public class CTRL : MonoBehaviour {
 	public void HidePauseMenu() {
 		if (pauseInstance)
 			pauseInstance.Recycle();
+	}
+	
+	public void ShowScoreboard() {
+		HideScoreboard();
+		Transform mainCam = Camera.main.transform;
+		zeroDirection = mainCam.forward;
+		Vector3 position = mainCam.position + mainCam.forward * 7f;
+		Quaternion rotation = Quaternion.LookRotation(position - mainCam.position);
+		scoreboardInstance = scoreboardPrefab.Spawn(position, rotation);
+	}
+	
+	public void HideScoreboard() {
+		if (scoreboardInstance) 
+			scoreboardInstance.Recycle();
 	}
 }

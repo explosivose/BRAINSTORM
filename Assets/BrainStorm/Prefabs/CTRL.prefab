@@ -45,6 +45,7 @@ MonoBehaviour:
   splashPrefab: {fileID: 400004, guid: f67926532d11d9446afe960b36b61e03, type: 2}
   startPrefab: {fileID: 400018, guid: c54e9bfc16090904e96a4cf24956ecf7, type: 2}
   pausePrefab: {fileID: 400014, guid: a366793ead5d5784daf9547800d8e027, type: 2}
+  scoreboardPrefab: {fileID: 400000, guid: 5a43328b33423f54aaa152f3c1d95279, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

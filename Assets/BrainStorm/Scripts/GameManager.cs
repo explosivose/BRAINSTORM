@@ -156,6 +156,14 @@ public class GameManager : MonoBehaviour {
 		if (Application.isEditor & copyRenderSettings) {
 			CopyRenderSettings();
 		}
+		if (PhotonNetwork.inRoom) {
+			if (Input.GetKeyDown(KeyCode.Tab)) {
+				CTRL.Instance.ShowScoreboard();
+			}
+			if (Input.GetKeyUp(KeyCode.Tab)) {
+				CTRL.Instance.HideScoreboard();
+			}
+		}
 	}
 	
 	public void ChangeScene(Scene.Tag scene) {
