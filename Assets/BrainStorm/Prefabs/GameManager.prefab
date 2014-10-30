@@ -157,9 +157,9 @@ MonoBehaviour:
   - tag: 0
     scenePrefab: {fileID: 400378, guid: 6fa53df9a15088a4d98df683233d9856, type: 2}
     fog: 1
-    fogColor: {r: .411764711, g: .792156875, b: .580392182, a: 0}
+    fogColor: {r: .294117659, g: .00784313772, b: 0, a: 0}
     fogDensity: .00400000019
-    ambientLight: {r: .375, g: .116379306, b: 0, a: 0}
+    ambientLight: {r: .0313725509, g: .0941176489, b: .509803951, a: 0}
     skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   - tag: 1
     scenePrefab: {fileID: 400378, guid: eca931ead962d134d919b49c78461f34, type: 2}
@@ -172,10 +172,10 @@ MonoBehaviour:
     tag: 0
     scenePrefab: {fileID: 0}
     fog: 1
-    fogColor: {r: .0509803928, g: .4627451, b: .321568638, a: 0}
-    fogDensity: .00200000009
-    ambientLight: {r: .911764681, g: .308391005, b: .308391005, a: 0}
-    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
+    fogColor: {r: .294117659, g: .00784313772, b: 0, a: 0}
+    fogDensity: .00400000019
+    ambientLight: {r: .0302768163, g: .0937536806, b: .514705896, a: 0}
+    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   copyRenderSettings: 1
 --- !u!114 &11400002
 MonoBehaviour:
