@@ -29,7 +29,7 @@ public class ImpactBlunt : MonoBehaviour {
 			Transform i = impactPrefab.Spawn(col.contacts[0].point, rotation);
 			i.parent = col.transform;
 			if(destroyOnImpact) transform.Recycle();
-			col.transform.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
+			col.transform.SendMessage("Damage", _projectile.damage, SendMessageOptions.DontRequireReceiver); // damage info on Projectile component
 			yield return new WaitForSeconds(10f);
 			i.Recycle();
 		}

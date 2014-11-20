@@ -5,21 +5,10 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;	
-	
-	[System.Flags]
-	public enum WinStates {
-		None 	= 0x00,
-		Grief 	= 0x01,
-		Rage	= 0x02,
-		Terror 	= 0x04,
-		All		= 0xFF
-	}
-	
+		
 	public bool 		grabCursor = false;
 	public bool 		playerPauseEnabled = true;
 
-	[EnumMask]
-	public WinStates 	winState = WinStates.None;
 	public Scene[] 		scenes;
 	public Scene 		copyScene;
 	// if you press R then the current render settings are copied
@@ -99,7 +88,9 @@ public class GameManager : MonoBehaviour {
 		get; private set;
 	}
 	
-
+	public bool roundOver {
+		get; private set;
+	}
 
 	void Awake() {
 		if (Instance == null) {
@@ -136,12 +127,12 @@ public class GameManager : MonoBehaviour {
 	void StartGame() {
 		PhotonNetwork.Disconnect();
 		PhotonNetwork.offlineMode = true;
-		if (Application.loadedLevel == 0) {
+		if (Application.loadedLevelName == "0splash") {
 			defaultCamera.SetActive(true);
 			defaultCamera.camera.backgroundColor = Color.white;
 			CTRL.Instance.ShowSplash();
 		}
-		else if (Application.loadedLevel == 1) {
+		else if (Application.loadedLevelName == "1menu") {
 			defaultCamera.SetActive(true);
 			defaultCamera.camera.backgroundColor = Color.black;
 			CTRL.Instance.ShowStartMenu();
@@ -167,24 +158,13 @@ public class GameManager : MonoBehaviour {
 		if (Application.isEditor & copyRenderSettings) {
 			CopyRenderSettings();
 		}
-	}
-	
-	
-	public void SceneComplete() {
-		switch (_activeScene.tag) {
-		case Scene.Tag.Grief:
-			ChangeScene(Scene.Tag.Joy);
-			break;
-		case Scene.Tag.Rage:
-			ChangeScene(Scene.Tag.Calm);
-			break;
-		case Scene.Tag.Terror:
-			ChangeScene(Scene.Tag.Safety);
-			break;
-		default:
-			Debug.LogError("SceneComplete() called inappropriately in " +
-				_activeScene.tag.ToString() + " scene.");
-			break;
+		if (PhotonNetwork.inRoom) {
+			if (Input.GetKeyDown(KeyCode.Tab)) {
+				CTRL.Instance.ShowScoreboard();
+			}
+			if (Input.GetKeyUp(KeyCode.Tab)) {
+				CTRL.Instance.HideScoreboard();
+			}
 		}
 	}
 	
@@ -195,13 +175,25 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine( ChangeSceneRoutine(scene) );
 	}
 	
+	public void ChangeToRandomScene() {
+		float roll = Random.value;
+		Scene.Tag scene = Scene.Tag.GriefCity;
+		if (roll < 0.5f) {
+			scene = Scene.Tag.RageDesert;
+		}
+		ChangeScene(scene);
+	}
+	
 	private IEnumerator ChangeSceneRoutine( Scene.Tag scene ) {
 		_fade.StartFade(Color.black, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 		yield return new WaitForEndOfFrame();
 		_levelTeardown = true;
+		
+		PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player.ID);
+		
 		// unload active scene
-		if (_activeScene != null) {
+		if (_activeScene.isLoaded) {
 			Debug.Log ("Unloading scene " + _activeScene.tag.ToString());
 			_activeScene.Unload();
 		}
@@ -221,12 +213,16 @@ public class GameManager : MonoBehaviour {
 					_activeScene.Load(masterSeed);
 				else 
 					_activeScene.Load();
-	
+					
 				RenderSettings.ambientLight = _activeScene.ambientLight;
 				RenderSettings.fog = _activeScene.fog;
 				RenderSettings.fogColor = _activeScene.fogColor;
 				RenderSettings.fogDensity = _activeScene.fogDensity;
 				RenderSettings.skybox = _activeScene.skybox;
+				
+				yield return new WaitForSeconds(0.5f);
+				
+				_activeScene.StartSpawners();
 				break;
 			}
 		}
@@ -234,6 +230,7 @@ public class GameManager : MonoBehaviour {
 		// if we're the master, store the scene seed
 		if (PhotonNetwork.inRoom  && PhotonNetwork.isMasterClient) {
 			masterSeed = activeScene.seed;
+			BountyExtensions.SetCashPool(1000);
 			Debug.Log ("Master seed set: " + masterSeed);
 		}
 		
@@ -244,6 +241,22 @@ public class GameManager : MonoBehaviour {
 		SendMessage("OnSceneLoaded");
 		_fade.StartFade(Color.clear, 0.5f);
 		yield return new WaitForSeconds(0.5f);
+	}
+	
+	[RPC]
+	void RoundOverRPC() {
+		roundOver = true;
+		Player.localPlayer.motor.canControl = false;
+		MouseLook.freeze = true;
+		CTRL.Instance.ShowScoreboard();
+		if (PhotonNetwork.isMasterClient) {
+			StartCoroutine(EndOfRound());
+		}
+	}
+	
+	IEnumerator EndOfRound() {
+		yield return new WaitForSeconds(15f);
+		ChangeToRandomScene();
 	}
 	
 	public void Quit() {

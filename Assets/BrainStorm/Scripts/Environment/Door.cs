@@ -13,7 +13,7 @@ public class Door : MonoBehaviour {
 	}
 	
 	void OnEnable() {
-		switch (_sceneTrigger.changeTo) {
+		/*switch (_sceneTrigger.changeTo) {
 		case Scene.Tag.Rage:
 			//if (GameManager.Instance.rageComplete)
 				_sceneTrigger.changeTo = Scene.Tag.Calm;
@@ -26,6 +26,6 @@ public class Door : MonoBehaviour {
 			//if (GameManager.Instance.terrorComplete)
 				_sceneTrigger.changeTo = Scene.Tag.Safety;
 			break;
-		}
+		}*/
 	}
 }

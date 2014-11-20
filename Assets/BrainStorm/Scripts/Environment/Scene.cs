@@ -4,14 +4,8 @@ using System.Collections;
 [System.Serializable]
 public class Scene {
 	public enum Tag {
-		Lobby, 
-		Grief, 
-		Rage, 
-		Terror,
-		Joy,
-		Calm,
-		Safety,
-		GriefMP
+		GriefCity,
+		RageDesert
 	}
 	
 	public string name {
@@ -20,7 +14,6 @@ public class Scene {
 		}
 	}
 	public Tag 			tag;
-	public bool			multiplayer;
 	public Transform 	scenePrefab;
 	public bool 		fog;
 	public Color 		fogColor;
@@ -35,7 +28,17 @@ public class Scene {
 	}
 	
 	public Transform instance {
-		get { return _sceneInstance; }
+		get {
+			 if (!_sceneInstance) 
+			 	return GameManager.Instance.transform;
+			 
+			 return _sceneInstance;
+		}
+	}
+	
+	// all children of entities are local objects to be destroyed on scene change
+	public Transform entities {
+		get; private set;		
 	}
 	
 	public int seed {
@@ -56,23 +59,33 @@ public class Scene {
 	}
 	
 	private void LoadScene() {
-		/*
-		if (multiplayer) {
-			_sceneInstance = PhotonNetwork.InstantiateSceneObject(
-				"Scenes/" + scenePrefab.name,
-				Vector3.zero,
-				Quaternion.identity,
-				0,
-				null
-				).transform;
+		ObjectPool.CreatePool(scenePrefab);
+		_sceneInstance = scenePrefab.Spawn();
+		entities = _sceneInstance.Find ("Entities");
+		if (!entities) Debug.LogError("Entities object not found in scene.");
+		TerrainGenerator.Instance.Generate();
+		Random.seed = seed;
+		Transform t = _sceneInstance.Find ("Building Spawner");
+		if (t) {
+			Debug.Log ("Creating buildings...");
+			t.GetComponent<PrefabSpawner>().Spawn();
 		}
-		else {*/
-			ObjectPool.CreatePool(scenePrefab);
-			_sceneInstance = scenePrefab.Spawn();
-		//}
+	}
+	
+	public void StartSpawners() {
+		Transform t = _sceneInstance.Find("Spawn Location Spawner");
+		if (t) {
+			Debug.Log ("Spawning spawers...");
+			t.GetComponent<PrefabSpawner>().Spawn();
+		}	
 	}
 	
 	public void Unload() {
+		if (entities) {
+			for(int i = 0; i < entities.childCount; i++) {
+				entities.GetChild(i).Recycle();
+			}
+		}
 		if (_sceneInstance) _sceneInstance.Recycle();
 		isLoaded = false;
 	}

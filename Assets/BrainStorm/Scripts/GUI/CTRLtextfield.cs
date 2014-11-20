@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CTRLtextfield : CTRLelement {
 
+	public int maxCharacters;
+	
 	private bool fillin	 = false;
 	private bool newName = false;
 	
@@ -20,7 +22,7 @@ public class CTRLtextfield : CTRLelement {
 		newName = false;
 	}
 	
-	void Update() {
+	protected override void Update() {
 		if (!fillin) {
 			text = PhotonNetwork.playerName;
 			return;
@@ -33,6 +35,7 @@ public class CTRLtextfield : CTRLelement {
 		if (Input.GetKey(KeyCode.Delete)) {
 			text = "";
 		}
+		
 		foreach(char c in Input.inputString) {
 			if (c == '\b') {
 				if (text.Length != 0) {
@@ -47,7 +50,7 @@ public class CTRLtextfield : CTRLelement {
 					PhotonNetwork.playerName = text;
 					Options.Save();
 				}
-				else {
+				else if(text.Length < maxCharacters){
 					if (!newName) {
 						text = "";
 						newName = true;

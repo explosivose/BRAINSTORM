@@ -19,9 +19,11 @@ MonoBehaviour:
   AppID: ce7fdd09-2534-45f3-9258-ed93dab8fe9c
   PingCloudServersOnAwake: 0
   RpcList:
+  - ChangeLevel
   - ChangeState
   - Chat
   - Damage
+  - DamageRPC
   - Death
   - DeathRPC
   - DestroyRpc
@@ -47,10 +49,10 @@ MonoBehaviour:
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupTimes
-  - SetMasterSeed
   - SetPosition
   - SpawnRPC
   - StartBlinkRPC
   - StopBlinkRPC
   - TaggedPlayer
+  - RoundOverRPC
   DisableAutoOpenWizard: 0

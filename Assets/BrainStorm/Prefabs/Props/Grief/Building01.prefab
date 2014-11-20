@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400002}
+  - 65: {fileID: 6500000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: Building01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 108, y: 5.39999962, z: 15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!65 &6500000
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 39.7999992, y: 1, z: 40.0999985}
+  m_Center: {x: 0, y: -10, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d9edcfbcb02284991fd16bde8a0e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameToWait: 0
+  generateTriangleStrips: 1
+  combineOnStart: 0
+  destroyAfterOptimized: 1
+  castShadow: 1
+  receiveShadow: 1
+  keepLayer: 1
+  addMeshCollider: 1
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2a4fe4135ed0845aae2f9df9f51de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBuildingHeight: 200
+  minBuildingHeight: 30
+  maxLeanAngle: 6
+  floor:
+    prefabs:
+    - {fileID: 400000, guid: 0f6a9629bae031247a0c2923e1ae5bf2, type: 2}
+    - {fileID: 400000, guid: a3e9415d84a7eef4f83014c68426867f, type: 2}
+    - {fileID: 400000, guid: c228475e8e13fd44a8ec00d34c69f597, type: 2}
+    - {fileID: 400004, guid: 987e2461a7f89384180d2f61e6cf2828, type: 2}
+    - {fileID: 400004, guid: 86dbf9216ead9064992fb63404355b18, type: 2}
+    variation: .150000006
+    openness: .600000024
+    maxSpacing: 8
+    minSpacing: 5
+    maxScale: {x: 75, y: 1, z: 75}
+    minScale: {x: 10, y: .5, z: 10}
+  column:
+    prefabs:
+    - {fileID: 400000, guid: 8242a7a9d11656c4db616bbbed8938c3, type: 2}
+    maxScale: {x: 0, y: 0, z: 0}
+    minScale: {x: 0, y: 0, z: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1

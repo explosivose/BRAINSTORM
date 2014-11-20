@@ -212,33 +212,33 @@ public class BuildingMaker : MonoBehaviour {
 		
 		// 1st column
 		location = new Vector3(
-			floor.position.x + floor.scale.x/2f,
+			floor.position.x + floor.scale.x/4f,
 			floor.position.y - floor.spacing/2f,
-			floor.position.z + floor.scale.z/2f
+			floor.position.z + floor.scale.z/4f
 		);
 		SpawnColumn(location);
 		
 		// 2nd column
 		location = new Vector3(
-			floor.position.x - floor.scale.x/2f,
+			floor.position.x - floor.scale.x/4f,
 			floor.position.y - floor.spacing/2f,
-			floor.position.z + floor.scale.z/2f
+			floor.position.z + floor.scale.z/4f
 		);
 		SpawnColumn(location);
 		
 		// 3rd column
 		location = new Vector3(
-			floor.position.x - floor.scale.x/2f,
+			floor.position.x - floor.scale.x/4f,
 			floor.position.y - floor.spacing/2f,
-			floor.position.z - floor.scale.z/2f
+			floor.position.z - floor.scale.z/4f
 		);
 		SpawnColumn(location);
 		
 		// 4th column
 		location = new Vector3(
-			floor.position.x + floor.scale.x/2f,
+			floor.position.x + floor.scale.x/4f,
 			floor.position.y - floor.spacing/2f,
-			floor.position.z - floor.scale.z/2f
+			floor.position.z - floor.scale.z/4f
 		);
 		SpawnColumn(location);
 	}

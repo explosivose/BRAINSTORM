@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [AddComponentMenu("Player/Player")]
 [RequireComponent(typeof(CharacterMotorC))]
 [RequireComponent(typeof(ScreenFade))]
-public class Player : Photon.MonoBehaviour {
+public class Player : Photon.MonoBehaviour, IDamagable {
 
 	public static Player localPlayer;
 	[System.Serializable]
@@ -121,6 +121,7 @@ public class Player : Photon.MonoBehaviour {
 			name = photonView.owner.name;
 			gameObject.layer = LayerMask.NameToLayer("Player");
 			hud.InitializeGUI();
+			photonView.owner.SetEarnings(0);
 			Spawn();
 		}
 		else {
@@ -149,6 +150,7 @@ public class Player : Photon.MonoBehaviour {
 		_health = maxHealth;
 		AudioListener.volume = PlayerPrefs.GetFloat(Options.keyVolume);
 		Camera.main.fieldOfView = fov;
+		photonView.owner.SetBounty(BountyExtensions.minimumBounty);
 		SendMessage("OnSpawn", SendMessageOptions.DontRequireReceiver);
 		
 	}
@@ -260,13 +262,13 @@ public class Player : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	void EquipRPC(int equipmentID, int equipmentType) {
-		inventory.Equip(equipmentID, equipmentType);
+	void EquipRPC(int equipmentID, int equipmentSlot) {
+		inventory.Equip(equipmentID, equipmentSlot);
 	}
 	
 	[RPC]
-	void DropRPC(int equipmentID, int equipmentType) {
-		inventory.Drop(equipmentID, equipmentType);
+	void DropRPC(int equipmentID, int equipmentSlot) {
+		inventory.Drop(equipmentID, equipmentSlot);
 	}
 	
 	[RPC]
@@ -324,25 +326,48 @@ public class Player : Photon.MonoBehaviour {
 		_hitNoticePlaying = false;
 	}
 	
-	[RPC]
-	void Damage(int damage) {
+	public void Damage(DamageInstance damage) {
+		if (_dead) return;
+		PhotonView attackerView = PhotonView.Find(damage.viewId);
+		PhotonPlayer attackerPP = attackerView.owner;
+		Player attackerPlayer = attackerView.GetComponent<Player>();
+		attackerPlayer.HitNotice();
+		
+		Debug.Log(attackerPP.name + " hit " + PhotonNetwork.player.name +
+				" for " + damage.damage);
 		
 		if (photonView.isMine) {
-			_health -= damage;
-			Debug.Log ("Player got " + damage + " damage.");
+			_health -= damage.damage;
+			
 			AudioSource.PlayClipAtPoint(sounds.hurt, transform.position);
-			ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage/(float)maxHealth), 0.3f);
+			ScreenShake.Instance.Shake(Mathf.Min(0.5f,(float)damage.damage/(float)maxHealth), 0.3f);
 			_lastHurtTime = Time.time;
 			if (screenEffects)
 				_fade.StartFade(_hurtOverlay, hurtEffectDuration);
-			if (_health < 0)
+			if (_health < 0) {
+				Debug.Log(attackerPP.name + " killed " + PhotonNetwork.player.name);
+				PayBounty(attackerPP);
 				photonView.RPC("DeathRPC", PhotonTargets.All);
+			}
+				
 		}
 		else {
-			photonView.RPC("Damage", photonView.owner, damage);
+			photonView.RPC("DamageRPC", photonView.owner, damage.damage, damage.viewId);
 		}
 	}
-
+	
+	[RPC]
+	void DamageRPC(int damage, int viewId) {
+		DamageInstance dmg = new DamageInstance(damage, viewId);
+		Damage(dmg);
+	}
+	
+	void PayBounty(PhotonPlayer killer) {
+		int myBounty = photonView.owner.GetBounty();
+		killer.AddEarnings(myBounty);
+		killer.AddBounty(BountyExtensions.bountyIncrease);
+	}
+	
 	[RPC]
 	void DeathRPC() {
 		if (!_dead) StartCoroutine(Death ());
@@ -368,6 +393,7 @@ public class Player : Photon.MonoBehaviour {
 		transform.position = Vector3.down * 100f;
 		yield return new WaitForEndOfFrame();
 		Transform body = deadBody.Spawn(position, transform.rotation);
+		body.parent = GameManager.Instance.activeScene.entities;
 		yield return new WaitForEndOfFrame();
 		body.rigidbody.isKinematic = false;
 		//body.rigidbody.velocity = velocity;

@@ -6,6 +6,14 @@ using System.Collections;
 // this component is only enabled on the local player
 public class PlayerInventory : Photon.MonoBehaviour {
 
+
+	public enum Slot {
+		equippedWeapon,
+		holsteredWeapon,
+		utility1,
+		utility2
+	}
+
 	public float playerReach = 4f;
 	public LayerMask raycastMask;
 	
@@ -102,28 +110,28 @@ public class PlayerInventory : Photon.MonoBehaviour {
 				"DropRPC",
 				PhotonTargets.AllBuffered,
 				equippedWeapon.GetComponent<PhotonView>().viewID,
-				(int)Equipment.Type.weapon
+				(int)Slot.equippedWeapon
 				);
 		if(holsteredWeapon) 
 			photonView.RPC(
 				"DropRPC",
 				PhotonTargets.AllBuffered,
 				holsteredWeapon.GetComponent<PhotonView>().viewID,
-				(int)Equipment.Type.weapon
+				(int)Slot.holsteredWeapon
 				);
 		if(utility1) 
 			photonView.RPC(
 				"DropRPC",
 				PhotonTargets.AllBuffered,
 				utility1.GetComponent<PhotonView>().viewID,
-				(int)Equipment.Type.utility1
+				(int)Slot.utility1
 				);
 		if(utility2) 
 			photonView.RPC(
 				"DropRPC",
 				PhotonTargets.AllBuffered,
 				utility2.GetComponent<PhotonView>().viewID,
-				(int)Equipment.Type.utility2
+				(int)Slot.utility2
 				);
 		
 
@@ -224,6 +232,30 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					);
 			}
 		}
+		
+		if (Input.GetButtonDown("DropWeapon")) {
+			if (equippedWeapon) {
+				photonView.RPC (
+					"DropRPC", PhotonTargets.AllBuffered,
+					equippedWeapon.GetComponent<PhotonView>().viewID,
+					(int)Slot.equippedWeapon
+					);
+			}
+			else if (utility1) {
+				photonView.RPC(
+					"DropRPC", PhotonTargets.AllBuffered, 
+					utility1.GetComponent<PhotonView>().viewID,
+					(int)Slot.utility1
+					);
+			}
+			else if (utility2) {
+				photonView.RPC(
+					"DropRPC", PhotonTargets.AllBuffered, 
+					utility2.GetComponent<PhotonView>().viewID,
+					(int)Slot.utility2
+					);
+			}
+		}
 	}
 
 	
@@ -278,56 +310,71 @@ public class PlayerInventory : Photon.MonoBehaviour {
 					"DropRPC",
 					PhotonTargets.AllBufferedViaServer,
 					equippedWeapon.GetComponent<PhotonView>().viewID,
-					(int)Equipment.Type.weapon
+					(int)Slot.equippedWeapon
 					);
 			}
+			photonView.RPC (
+				"EquipRPC", 
+				PhotonTargets.AllBufferedViaServer,
+				_inspectedView.viewID,
+				(int)Slot.equippedWeapon
+				);
 			break;
+			
 		case Equipment.Type.utility1:
 			if (utility1) {
 				photonView.RPC(
 					"DropRPC",
 					PhotonTargets.AllBufferedViaServer,
 					utility1.GetComponent<PhotonView>().viewID,
-					(int)Equipment.Type.utility1
+					(int)Slot.utility1
 					);
 			}
+			photonView.RPC (
+				"EquipRPC", 
+				PhotonTargets.AllBufferedViaServer,
+				_inspectedView.viewID,
+				(int)Slot.utility1
+				);
 			break;
+			
 		case Equipment.Type.utility2:
 			if (utility2) {
 				photonView.RPC(
 					"DropRPC",
 					PhotonTargets.AllBufferedViaServer,
 					utility2.GetComponent<PhotonView>().viewID,
-					(int)Equipment.Type.utility2
+					(int)Slot.utility2
 					);
 			}
+			photonView.RPC (
+				"EquipRPC", 
+				PhotonTargets.AllBufferedViaServer,
+				_inspectedView.viewID,
+				(int)Slot.utility2
+				);
 			break;
 		}
-		
-		// then EQUIP the inspected equipment
-		photonView.RPC (
-			"EquipRPC", 
-			PhotonTargets.AllBufferedViaServer,
-			_inspectedView.viewID,
-			_inspectedEquip.type
-		);
 	}
 
-	public void Equip(int equipmentID, int equipmentType) {
+	public void Equip(int equipmentID, int equipmentSlot) {
 		PhotonView equipmentPV = PhotonView.Find(equipmentID);
 		Equipment equipment = equipmentPV.GetComponent<Equipment>();
 		// attach equipment to the player
 		equipment.Equip(photonView.viewID);
 		// cache equipment transform for changing materials and stuff later on
-		Equipment.Type type = (Equipment.Type)equipmentType;
-		switch (type) {
-		case Equipment.Type.weapon:
+		Slot slot = (Slot)equipmentSlot;
+		switch (slot) {
+		case Slot.equippedWeapon:
 			equippedWeapon = equipment.transform;
 			break;
-		case Equipment.Type.utility1:
+		case Slot.holsteredWeapon:
+			holsteredWeapon = equipment.transform;
+			break;
+		case Slot.utility1:
 			utility1 = equipment.transform;
 			break;
-		case Equipment.Type.utility2:
+		case Slot.utility2:
 			utility2 = equipment.transform;
 			break;
 		default:
@@ -336,21 +383,24 @@ public class PlayerInventory : Photon.MonoBehaviour {
 		}
 	}
 
-	public void Drop(int equipmentID, int equipmentType) {
+	public void Drop(int equipmentID, int equipmentSlot) {
 		PhotonView equipmentPV = PhotonView.Find (equipmentID);
 		Equipment equipment = equipmentPV.GetComponent<Equipment>();
 		// return this equipment to the world (master client control via rigidbody)
 		equipment.Drop();
 		// uncache the transform so we don't go changing its material anymore
-		Equipment.Type type = (Equipment.Type)equipmentType;
-		switch (type) {
-		case Equipment.Type.weapon:
+		Slot slot = (Slot)equipmentSlot;
+		switch (slot) {
+		case Slot.equippedWeapon:
 			equippedWeapon = null;
 			break;
-		case Equipment.Type.utility1:
+		case Slot.holsteredWeapon:
+			holsteredWeapon = null;
+			break;
+		case Slot.utility1:
 			utility1 = null;
 			break;
-		case Equipment.Type.utility2:
+		case Slot.utility2:
 			utility2 = null;
 			break;
 		default:

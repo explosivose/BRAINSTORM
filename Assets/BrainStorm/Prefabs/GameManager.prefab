@@ -153,81 +153,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabCursor: 1
   playerPauseEnabled: 1
-  winState: 0
   scenes:
   - tag: 0
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: 8228ec53bc518534cbade34e6fbe9470, type: 2}
-    fog: 0
-    fogColor: {r: 0, g: 0, b: 0, a: 0}
-    fogDensity: 0
-    ambientLight: {r: .278431386, g: .278431386, b: .278431386, a: 0}
-    skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
-  - tag: 1
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: 879ab28c33f664247b99306f779dbc35, type: 2}
+    scenePrefab: {fileID: 400378, guid: 6fa53df9a15088a4d98df683233d9856, type: 2}
     fog: 1
-    fogColor: {r: 0, g: .0352941193, b: .0509803928, a: 0}
-    fogDensity: .00499999989
-    ambientLight: {r: .154411793, g: .142359287, b: .128298029, a: 0}
-    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
-  - tag: 2
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: 8709fa4a266bbff4e85f833ec4d7a1f8, type: 2}
-    fog: 1
-    fogColor: {r: .200000003, g: .172549024, b: .141176477, a: 0}
-    fogDensity: .00499999989
-    ambientLight: {r: .198529422, g: .132839546, b: .0934256017, a: 0}
-    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
-  - tag: 3
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: 0faa732d087cd3b44a143f3c55a752c2, type: 2}
-    fog: 1
-    fogColor: {r: 0, g: 0, b: 0, a: 0}
-    fogDensity: .0299999993
-    ambientLight: {r: .192156866, g: .345098048, b: .376470596, a: 0}
-    skybox: {fileID: 2100000, guid: d07d2172e76d3fa429e80a14d2ae3616, type: 2}
-  - tag: 4
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: 2d5cb6abbb05d6449b4d86a2e323c7a6, type: 2}
-    fog: 0
-    fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
-    fogDensity: .0299999993
-    ambientLight: {r: .807843149, g: .0392156877, b: .564002514, a: 0}
-    skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
-  - tag: 5
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: a9d8d8c3d2596ae41bd895ad7107da0c, type: 2}
-    fog: 0
-    fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
-    fogDensity: .0299999993
-    ambientLight: {r: .264922172, g: .514705896, b: .419333905, a: 0}
-    skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
-  - tag: 6
-    multiplayer: 0
-    scenePrefab: {fileID: 400000, guid: 1563b8633e22dec44ab20c8d63a03d0d, type: 2}
-    fog: 0
-    fogColor: {r: 0, g: .0196078438, b: .0627451017, a: 0}
-    fogDensity: .0299999993
-    ambientLight: {r: .786764741, g: .662378728, b: .404952437, a: 0}
-    skybox: {fileID: 2100000, guid: 93d43b027dc267444af7412b8e607dbd, type: 2}
-  - tag: 7
-    multiplayer: 1
-    scenePrefab: {fileID: 400378, guid: 3084286b2e076a441a98952653957a7a, type: 2}
-    fog: 1
-    fogColor: {r: .411764711, g: .792156875, b: .580392182, a: 0}
+    fogColor: {r: .294117659, g: .00784313772, b: 0, a: 0}
     fogDensity: .00400000019
-    ambientLight: {r: 0, g: 0, b: 0, a: 0}
+    ambientLight: {r: .0313725509, g: .0941176489, b: .509803951, a: 0}
+    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
+  - tag: 1
+    scenePrefab: {fileID: 400378, guid: eca931ead962d134d919b49c78461f34, type: 2}
+    fog: 1
+    fogColor: {r: .0509803928, g: .458823532, b: .321568638, a: 0}
+    fogDensity: .00200000009
+    ambientLight: {r: .566176474, g: .472119987, b: .30390355, a: 0}
     skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
   copyScene:
     tag: 0
-    multiplayer: 0
     scenePrefab: {fileID: 0}
     fog: 1
-    fogColor: {r: .414576113, g: .79411763, b: .584921539, a: 0}
+    fogColor: {r: .294117659, g: .00784313772, b: 0, a: 0}
     fogDensity: .00400000019
-    ambientLight: {r: 0, g: 0, b: 0, a: 0}
-    skybox: {fileID: 2100000, guid: 143f3531b8cbfcf478ad2d761e77476a, type: 2}
+    ambientLight: {r: .0302768163, g: .0937536806, b: .514705896, a: 0}
+    skybox: {fileID: 2100000, guid: 267c8f40b7757aa4a9f9e7f97abf2a1d, type: 2}
   copyRenderSettings: 1
 --- !u!114 &11400002
 MonoBehaviour:

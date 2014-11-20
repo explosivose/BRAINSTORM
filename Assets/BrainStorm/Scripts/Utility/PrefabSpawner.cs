@@ -11,27 +11,43 @@ public class PrefabSpawner : MonoBehaviour {
 			) - bounds.extents + bounds.center;
 	}
 
+	public static Vector3 randomPositionOnGround(Bounds bounds, out Vector3 normal) {
+		Vector3 pos = randomPositionIn(bounds);
+		normal = Vector3.up;
+		RaycastHit hit;
+		if (Physics.Raycast(pos, Vector3.down, out hit, 1000f)) {
+			pos.y = hit.point.y + 2f;
+			normal = hit.normal;
+		}
+		return pos;
+	}
+
 	public enum SpawnPosition {
 		Inherited,
 		RandomInColliderBounds,
 		Unchanged,
-		RandomMultiplayer
+		RandomSpawnLocation,
+		RandomOnGround
 	}
 	public enum SpawnRotation {
 		Inherited,
 		Randomly,
-		Unchanged
+		Unchanged,
+		GroundNormal
 	}
 
-	public Transform prefab;
+	public Transform[] prefabs;
 	public string resourcesSubpath;
 	public bool useObjectPool = true;
 	public bool networkSpawn = false;
 	public bool spawnOnStart = true;
+	
 	public float amountToSpawn = 10f;
 	public float variationOnAmount = 1f;
 	public SpawnPosition position = SpawnPosition.Inherited;
 	public SpawnRotation rotation = SpawnRotation.Inherited;
+	public bool noWaits = false;
+	public bool useMasterSeed = false;
 	public float timeBeforeFirstSpawn;
 	public float timeBetweenInstantiations;
 	public float variationOnTime = 1f;
@@ -43,16 +59,9 @@ public class PrefabSpawner : MonoBehaviour {
 	
 	void Start() {
 		if (useObjectPool)
-			ObjectPool.CreatePool(prefab);
-	
-		if (amountToSpawn < Mathf.Infinity && amountToSpawn > 0f) {
-			float vary = (Random.value-0.5f) * amountToSpawn * variationOnAmount;
-			_amountToSpawn = Mathf.RoundToInt(amountToSpawn + vary);
-		}
-		else {
-			_amountToSpawn = amountToSpawn;
-		}
-
+			foreach(Transform p in prefabs)
+				p.CreatePool();
+		OnEnable();
 	}
 
 	void OnDrawGizmos() {
@@ -66,70 +75,104 @@ public class PrefabSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void OnEnable() {
+		_spawned = 0;
 		if (spawnOnStart) Spawn();
 	}
 	
-
 	public void Spawn() {
+		if (amountToSpawn < Mathf.Infinity && amountToSpawn > 0f) {
+			float vary = (Random.value-0.5f) * amountToSpawn * variationOnAmount;
+			_amountToSpawn = Mathf.RoundToInt(amountToSpawn + vary);
+		}
+		else {
+			_amountToSpawn = amountToSpawn;
+		}
+		
 		// only spawn if we're local-only or master in a networked game
 		if ((networkSpawn && PhotonNetwork.isMasterClient && PhotonNetwork.inRoom) || !networkSpawn) {
-			StartCoroutine( SpawnRoutine () );
+			if (noWaits) {
+				Random.seed = GameManager.Instance.activeScene.seed;
+				SpawnImmediately();
+			} 
+			else {
+				StartCoroutine( SpawnRoutine () );
+			}
+			
 		}
 	}
 
+	void SpawnImmediately() {
+		for (int i = _spawned; i < _amountToSpawn; i++) {
+			SpawnOne();
+		}
+	}
+	
 	IEnumerator SpawnRoutine() {
 		yield return new WaitForEndOfFrame();
 		yield return new WaitForSeconds(timeBeforeFirstSpawn);
 		for (int i = _spawned; i < _amountToSpawn; i++) {
-			Transform t;
-			if (networkSpawn && PhotonNetwork.isMasterClient) {
-				t = PhotonNetwork.InstantiateSceneObject(
-					resourcesSubpath + prefab.name,
-					transform.position,
-					prefab.rotation,
-					0,
-					null
-				).transform;
-			}
-			else {
-				t = prefab.Spawn(transform.position);
-			}
-			
-			
-			switch(position) {
-				default:
-				case SpawnPosition.Inherited:
-					t.position = transform.position;
-					break;
-				case SpawnPosition.RandomInColliderBounds:
-					Vector3 pos = randomPositionIn(collider.bounds);
-					t.position = pos;
-					break;
-				case SpawnPosition.RandomMultiplayer:
-					t.position = PlayerSpawn.Multiplayer.randomSpawnPosition;
-					break;
-				case SpawnPosition.Unchanged:
-					break;
-			
-			}
-			
-			switch(rotation) {
-				default:
-				case SpawnRotation.Inherited:
-					t.rotation = transform.rotation;
-					break;
-				case SpawnRotation.Randomly:
-					t.rotation = Random.rotation;
-					break;
-				case SpawnRotation.Unchanged:
-					break;
-			}
-			
-			t.parent = GameManager.Instance.activeScene.instance;
-			_spawned++;
+			SpawnOne();
 			float vary = (Random.value-0.5f) * timeBetweenInstantiations * variationOnTime;
 			float wait = timeBetweenInstantiations + vary;
 			yield return new WaitForSeconds(wait);
 		}
+	}
+	
+	void SpawnOne() {
+		
+		Transform t;
+		int index = Random.Range(0, prefabs.Length);
+		if (networkSpawn && PhotonNetwork.isMasterClient) {
+			t = PhotonNetwork.InstantiateSceneObject(
+				resourcesSubpath + prefabs[index].name,
+				transform.position,
+				prefabs[index].rotation,
+				0,
+				null
+				).transform;
+		}
+		else {
+			t = prefabs[index].Spawn(transform.position);
+		}
+		
+		Vector3 normal = Vector3.up;
+		
+		switch(position) {
+		default:
+		case SpawnPosition.Inherited:
+			t.position = transform.position;
+			break;
+		case SpawnPosition.RandomInColliderBounds:
+			Vector3 pos = randomPositionIn(collider.bounds);
+			t.position = pos;
+			break;
+		case SpawnPosition.RandomSpawnLocation:
+			t.position = SpawnLocation.randomLocation;
+			break;
+		case SpawnPosition.RandomOnGround:
+			t.position = randomPositionOnGround(collider.bounds, out normal);
+			break;
+		case SpawnPosition.Unchanged:
+			break;
+			
+		}
+		
+		switch(rotation) {
+		default:
+		case SpawnRotation.Inherited:
+			t.rotation = transform.rotation;
+			break;
+		case SpawnRotation.Randomly:
+			t.rotation = Random.rotation;
+			break;
+		case SpawnRotation.GroundNormal:
+			t.rotation = Quaternion.LookRotation(t.forward, normal);
+			break;
+		case SpawnRotation.Unchanged:
+			break;
+		}
+		t.parent = GameManager.Instance.activeScene.entities;
+		_spawned++;
+		
 	}
 }

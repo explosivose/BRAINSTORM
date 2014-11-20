@@ -43,7 +43,7 @@ public class ImpactExplosion : MonoBehaviour {
 					
 				}
 				*/
-				c.SendMessage("Damage", _projectile.Damage, SendMessageOptions.DontRequireReceiver);
+				c.SendMessage("Damage", _projectile.damage, SendMessageOptions.DontRequireReceiver);
 				Debug.DrawLine(c.transform.position, transform.position, Color.yellow, 1f);
 				
 			}

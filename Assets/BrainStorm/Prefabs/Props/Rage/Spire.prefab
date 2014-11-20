@@ -585,7 +585,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400068}
-  - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
   m_Layer: 0
   m_Name: Spire
@@ -2008,23 +2007,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8.42000008, y: 3.92000008, z: 1}
   m_Center: {x: 0, y: 7.1500001, z: -4.21999979}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93ba026f11c3ec646b4c587989fe46fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virusCount: 10
-  virusPrefabs:
-  - {fileID: 400002, guid: 9c0287a6df3696e4cbbdeb89516734de, type: 2}
-  spawnPoints:
-  - {fileID: 400068}
-  calm: {fileID: 2100000, guid: 57624f4443ee5614da9f65a9f8f49de8, type: 2}
 --- !u!193 &19300000
 Tree:
   m_ObjectHideFlags: 1

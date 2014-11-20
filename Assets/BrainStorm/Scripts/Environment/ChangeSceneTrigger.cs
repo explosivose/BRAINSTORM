@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ChangeSceneTrigger : MonoBehaviour {
 
-	public Scene.Tag changeTo = Scene.Tag.Lobby;
+	public Scene.Tag changeTo;
 	
 	void OnTriggerEnter(Collider col) {
 		if (col.tag == "Player") {
